@@ -1,0 +1,11 @@
+/* LOGIN PAGE */
+
+/*logo*/
+.login-logo, 
+.register-logo {
+    margin-bottom: 0px;
+}
+
+.login-page {
+    background: #1b1b1b;
+}
