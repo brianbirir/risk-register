@@ -1,3 +1,17 @@
+/* SIDEBAR */
+.main-sidebar {
+    background-color: #1b1b1b;
+}
+
+.sidebar-menu li > a {
+    color: #f1c40f;
+}
+
+.user-panel > .info > p {
+    color: #f1c40f;
+}
+
+
 /* LOGIN PAGE */
 
 /*logo*/

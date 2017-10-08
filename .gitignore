@@ -31,3 +31,6 @@ user_guide_src/cilexer/pycilexer.egg-info/*
 /tests/results/
 
 assets/vendor
+
+.vagrant/
+*.log

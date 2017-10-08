@@ -1,29 +1,33 @@
 <!DOCTYPE html>
-
 <html>
+
     <!-- Head -->
-    <?php
-        $this->load->view('partials/head');
-    ?>
+    <?php $this->load->view('partials/head'); ?>
 
-    <body>
+    <!-- Body Section -->
+    <body id="dasboard-body" class="sidebar-mini">
 
-        <div class="ui container">
-            <!-- Navigation -->
-            <?php $this->load->view('partials/front_nav'); ?>
+        <div class="wrapper">
+            <!-- header -->
+            <?php $this->load->view('partials/header'); ?>
 
-            <?php echo $body; ?>
+              <!-- dashboard side bar -->
+              <?php $this->load->view('partials/sidebar'); ?>
 
-            <!-- login modal -->
-            <?php $this->load->view('partials/login_modal'); ?>
-
-            <div class="row">
-      	    	<div class="col-md-12 col-lg-12 col-xs-12 col-sm-12">
-      	     		<!-- Footer -->
-      	    		<?php $this->load->view('partials/footer'); ?>
-      	    	</div>
-            </div>
-
+              <!-- Content Wrapper. Contains page content -->
+              <div class="content-wrapper">
+                <!-- Content Header (Page header) -->
+                <section class="content-header">
+                	<h1><?php echo $title; ?><small>Control Panel</small></h1>
+                	<ol class="breadcrumb">
+                		<?php echo $breadcrumb; ?>
+                	</ol>
+                </section>
+                <!-- Main content -->
+                <section class="content">
+                  <?php echo $body; ?>
+                </section>
+                <!-- /.content -->
+              </div>
         </div>
     </body>
-</html>
