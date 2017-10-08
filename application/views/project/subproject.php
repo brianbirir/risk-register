@@ -41,10 +41,10 @@
                     <table class="table table-hover">
                         <tbody>
                             <tr>
-                                <td>Subproject Name</td>
-                                <td>Subproject Description</td>
-                                <td>Created On</td>
-                                <td>Updated On</td>
+                                <th>Subproject Name</th>
+                                <th>Subproject Description</th>
+                                <th>Created On</th>
+                                <th>Updated On</th>
                             </tr>
                         
                             <?php
