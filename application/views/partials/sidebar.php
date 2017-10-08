@@ -33,10 +33,25 @@
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu">        
+      <ul class="sidebar-menu" data-widget="tree">        
         <!-- Optionally, you can add icons to the links -->
         <li class="active"><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="fa fa-link"></i> <span>Risk Registry</span></a></li>
         <li><a href="<?php echo base_url(); ?>index.php/project"><i class="fa fa-link"></i> <span>Projects</span></a></li>
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>Project</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+              <ul class="treeview-menu" style="display: none;">
+                <li><a href="<?php echo base_url(); ?>dashboard/project"><i class="fa fa-link"></i>View Projects</a></li>
+                <li><a href="<?php echo base_url(); ?>dashboard/project/add"><i class="fa fa-link"></i>Add Project</a></li>
+                <li><a href="<?php echo base_url(); ?>dashboard/subproject"><i class="fa fa-link"></i>View Subprojects</a></li>
+                <li><a href="<?php echo base_url(); ?>dashboard/subproject/add"><i class="fa fa-link"></i>Add Subproject</a></li>
+              </ul>
+            </a>
+        </li>    
         <li><a href="<?php echo base_url(); ?>index.php/settings"><i class="fa fa-link"></i> <span>Settings</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->

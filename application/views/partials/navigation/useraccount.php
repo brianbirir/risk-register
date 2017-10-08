@@ -45,7 +45,7 @@
       </div>
       <div class="pull-right">
         <!-- <a href="#" class="btn btn-default btn-flat">Sign out</a> -->
-        <?php echo anchor('logout','Sign Out',array('title'=>'logut','class'=>'btn btn-default btn-flat'))?>
+        <?php echo anchor('logout','Sign Out',array('title'=>'logout','class'=>'btn btn-default btn-flat'))?>
       </div>
     </li>
   </ul>

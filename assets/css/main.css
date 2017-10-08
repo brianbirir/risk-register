@@ -23,3 +23,13 @@
 .login-page {
     background: #1b1b1b;
 }
+
+
+/* PROJECTS / SUBPROJECTS PAGE */
+
+.view-projects .box,
+.view-subprojects .box {
+    margin-top: 20px;
+}
+
+

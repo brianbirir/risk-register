@@ -14,3 +14,9 @@ $route['logout'] = 'login/logout';
 
 // dashboard route
 $route['dashboard'] = 'dashboard/index';
+// projects
+$route['dashboard/project'] = 'project/index';
+$route['dashboard/project/add'] = 'project/reg_project_view';
+//subprojects
+$route['dashboard/subproject'] = 'project/index_subproject_view';
+$route['dashboard/subproject/add'] = 'project/reg_subproject_view';
