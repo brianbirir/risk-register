@@ -14,6 +14,7 @@ class Register extends CI_Controller
         $this->load->model('user_model');
     }
 
+
     // registration view
     function index($page = 'index')
     {

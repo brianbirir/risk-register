@@ -34,9 +34,6 @@
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">        
-        <!-- Optionally, you can add icons to the links -->
-        <li class="active"><a href="<?php echo base_url(); ?>index.php/dashboard"><i class="fa fa-link"></i> <span>Risk Registry</span></a></li>
-        <li><a href="<?php echo base_url(); ?>index.php/project"><i class="fa fa-link"></i> <span>Projects</span></a></li>
         <li class="treeview">
             <a href="#">
               <i class="fa fa-pie-chart"></i>
@@ -51,7 +48,20 @@
                 <li><a href="<?php echo base_url(); ?>dashboard/subproject/add"><i class="fa fa-link"></i>Add Subproject</a></li>
               </ul>
             </a>
-        </li>    
+        </li>
+        <li class="treeview">
+            <a href="#">
+              <i class="fa fa-pie-chart"></i>
+              <span>Risk Registry</span>
+              <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+              <ul class="treeview-menu" style="display: none;">
+                <li><a href="<?php echo base_url(); ?>dashboard/riskregistry"><i class="fa fa-link"></i>View Risk Registry</a></li>
+                <li><a href="<?php echo base_url(); ?>dashboard/riskregistry/add"><i class="fa fa-link"></i>Add Risk Registry</a></li>
+              </ul>
+            </a>
+        </li>     
         <li><a href="<?php echo base_url(); ?>index.php/settings"><i class="fa fa-link"></i> <span>Settings</span></a></li>
       </ul>
       <!-- /.sidebar-menu -->

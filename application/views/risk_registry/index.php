@@ -1,4 +1,5 @@
-<div class="view-projects">
+<div class="view-risk-registry">
+
 
     <?php if ($this->session->flashdata('msg')){ ?>
         <div class="alert alert-success alert-dismissible" role="alert">
@@ -21,22 +22,22 @@
     <?php } ?>
 
     <div class="reg-btn">
-        <a href="/dashboard/project/add" class="btn btn-success btn-sm btn-add-device">Add Project</a>
+        <a href="/dashboard/riskregistry/add" class="btn btn-success btn-sm btn-add-device">Add Risk</a>
     </div>
 
     <?php
-        // check if device data exists
-        if (!$project_data) {
-            $msg = 'You have no registered projects!';
+        // check if risk data exists
+        if (!$risk_data) {
+            $msg = 'You have no registered risks!';
             echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
         } else { ?>
         <div class="row">
         <div class="col-xs-12">
             <div class="box">
                 <div class="box-header">
-                    <h3 class="box-title">Project</h3>
+                    <h3 class="box-title">Risk Registry</h3>
                 </div>
-                <div class="box-body table-responsive no-padding">
+                <!-- <div class="box-body table-responsive no-padding">
                     <table class="table table-hover">
                         <tbody>
                             <tr>
@@ -46,18 +47,18 @@
                                 <th>Updated On</th>
                             </tr>
                             <?php
-                                foreach ($project_data as $project_row) {
-                                    echo "<tr>";
-                                    echo "<td>".$project_row->project_name."</td>";
-                                    echo "<td>".$project_row->project_description."</td>";
-                                    echo "<td>".$project_row->created_at."</td>";
-                                    echo "<td>".$project_row->updated_at."</td>";
-                                    echo "</tr>";
-                                } 
+                            //     foreach ($project_data as $project_row) {
+                            //         echo "<tr>";
+                            //         echo "<td>".$project_row->project_name."</td>";
+                            //         echo "<td>".$project_row->project_description."</td>";
+                            //         echo "<td>".$project_row->created_at."</td>";
+                            //         echo "<td>".$project_row->updated_at."</td>";
+                            //         echo "</tr>";
+                            //     } 
                             } ?>
                         </tbody>
                     <table>
-                </div>
+                </div> -->
             </div>
         </div>
     </div> <!-- end of decision statement -->
