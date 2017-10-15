@@ -1,3 +1,8 @@
+/* MAIN NAVIGATION */
+.main-header {
+    background-color: #ffffff;
+}
+
 /* SIDEBAR */
 .main-sidebar {
     background-color: #1b1b1b;
@@ -25,8 +30,7 @@
 }
 
 
-/* PROJECTS / SUBPROJECTS PAGE */
-
+/* PROJECTS & SUBPROJECTS PAGE */
 .view-projects .box,
 .view-subprojects .box {
     margin-top: 20px;

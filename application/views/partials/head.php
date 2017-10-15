@@ -36,6 +36,4 @@
 	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/vendor/raphael/raphael.min.js"></script>
 	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/vendor/chart.js/Chart.min.js"></script>
 	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/vendor/iCheck/icheck.min.js"></script>
-	<!-- Custom js -->
-  	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/main.js" defer></script>
 </head>
