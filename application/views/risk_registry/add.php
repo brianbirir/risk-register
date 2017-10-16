@@ -10,6 +10,14 @@
         <div class="col-sm-6">
 
             <div class="form-group">
+                <label for="sub_project">Subproject</label>
+                <?php 
+                    $select_subproject_attributes = 'class="form-control"';
+                    echo form_dropdown('sub_project',$select_subproject,"1",$select_subproject_attributes);
+                ?>
+            </div>
+
+            <div class="form-group">
                 <label for="system_safety">Main Category</label>
                 <?php 
                     $select_main_category_attributes = 'class="form-control"';
@@ -163,7 +171,7 @@
                     <label for="strategy">Strategy</label>
                     <?php 
                         $select_strategy_attributes = 'class="form-control"';
-                        echo form_dropdown('status',$select_strategy,"1",$select_strategy_attributes);
+                        echo form_dropdown('strategy',$select_strategy,"1",$select_strategy_attributes);
                     ?>
                 </div>
 
@@ -221,7 +229,7 @@
                         <div class="form-group">
                             <label for="residual_risk_rating">Residual Risk Rating</label>
                             <input id="residual_risk_rating" class="form-control" name="risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" />
-                            <?php echo form_error('risk_rating','<div class="alert alert-danger">','</div>'); ?>
+                            <?php echo form_error('residual_risk_rating','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>         
                     <div class="col-xs-6">   

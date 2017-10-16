@@ -86,4 +86,12 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+
+        // get risk categories
+        function getSubProject(){
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
     }
