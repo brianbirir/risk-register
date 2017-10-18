@@ -185,7 +185,7 @@
                     <label for="system_safety">System Safety</label>
                     <?php 
                         $select_system_attributes = 'class="form-control"';
-                        echo form_dropdown('system_safety',$select_safety,"2",$select_system_attributes);
+                        echo form_dropdown('system_safety',$select_safety,"1",$select_system_attributes);
                     ?>
                 </div>
 
@@ -193,7 +193,7 @@
                     <label for="realization">Realization</label>
                     <?php 
                         $select_realization_attributes = 'class="form-control"';
-                        echo form_dropdown('realization',$select_realization,"2",$select_realization_attributes);
+                        echo form_dropdown('realization',$select_realization,"1",$select_realization_attributes);
                     ?>
                 </div>
             </fieldset>
@@ -228,7 +228,7 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label for="residual_risk_rating">Residual Risk Rating</label>
-                            <input id="residual_risk_rating" class="form-control" name="risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" />
+                            <input id="residual_risk_rating" class="form-control" name="residual_risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo set_value('residual_risk_rating'); ?>" />
                             <?php echo form_error('residual_risk_rating','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>         

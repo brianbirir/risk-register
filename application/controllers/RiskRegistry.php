@@ -104,6 +104,22 @@ class RiskRegistry extends MY_Controller
         if ($this->form_validation->run() == FALSE)
         {
             $data = array('title' => 'Register Risk');
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            // select drop down
+            $data['select_status'] = $this->getStatus();
+            $data['select_category'] = $this->getCategories();
+            $data['select_strategy'] = $this->getRiskStrategies();
+            $data['select_safety'] = $this->getSystemSafety();
+            $data['select_realization'] = $this->getRealization();
+            $data['select_subproject'] = $this->getSubProject();
+
+            // load page to show all devices
             $this->template->load('dashboard', 'risk_registry/add', $data);
         }
         else
@@ -149,7 +165,7 @@ class RiskRegistry extends MY_Controller
             if ($this->registry_model->insertRegistry($data))
             {
                 $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
-                redirect('login');
+                redirect('dashboard/riskregistry');
             }
             else
             {
