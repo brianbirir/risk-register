@@ -1,7 +1,8 @@
 <?php
-    if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+
+if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class RiskRegistry extends RISK_Controller
+class Registry extends RISK_Controller
 {    
     
     public function __construct()
@@ -317,7 +318,7 @@ class RiskRegistry extends RISK_Controller
 
             return $options;
         }
-        else 
+        else
         {
             return 'No Data!';
         }

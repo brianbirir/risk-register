@@ -10,8 +10,6 @@ class Dashboard extends RISK_Controller
         $this->load->helper('form');
         $this->load->helper('url');
         $this->load->helper('html');
-        // $this->load->helper('company_logo');
-        // $this->load->helper('company_name');
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
