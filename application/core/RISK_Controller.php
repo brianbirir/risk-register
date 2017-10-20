@@ -4,7 +4,7 @@
  * It extends the core CI controller class
 */
 
-class MY_Controller extends CI_Controller
+class RISK_Controller extends CI_Controller
 {
 	public function __construct()
 	{
