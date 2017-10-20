@@ -1,7 +1,6 @@
 <?php
 
-/* This class handles global variables to be used throughout
- * the Ruleblox dashboard.
+/* This class handles global variables to be used throughout the system
  * It extends the core CI controller class
 */
 
