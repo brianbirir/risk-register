@@ -16,7 +16,7 @@
         }
 
 
-        // get risk registry registered under the particular user and subproject
+        // get risks registered under the particular user and subproject
         function getRegistry($user_id)
         {   
             $this->db->select('*');

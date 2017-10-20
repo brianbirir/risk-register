@@ -3,16 +3,16 @@
     <div id="reg-project-form">
 
         <?php
-            $attributes = array("class" => "ui form", "id" => "reg-project", "name" => "reg-project");
+            $attributes = array("class" => "ui form", "id" => "risk-reg-form", "name" => "reg-risk-form");
             echo form_open("riskregistry/register", $attributes);
         ?>
 
-        <div class="col-sm-6">
+        <div class="col-md-6 col-sm-12">
 
             <div class="form-group">
                 <label for="sub_project">Subproject</label>
                 <?php 
-                    $select_subproject_attributes = 'class="form-control"';
+                    $select_subproject_attributes = 'class="form-control" required';
                     echo form_dropdown('sub_project',$select_subproject,"1",$select_subproject_attributes);
                 ?>
             </div>
@@ -20,7 +20,7 @@
             <div class="form-group">
                 <label for="system_safety">Main Category</label>
                 <?php 
-                    $select_main_category_attributes = 'class="form-control"';
+                    $select_main_category_attributes = 'class="form-control" required';
                     echo form_dropdown('main_category',$select_category,"1",$select_main_category_attributes);
                 ?>
             </div>
@@ -30,19 +30,19 @@
 
                 <div class="form-group">
                     <label for="identified_hazard_risk">Identified Hazard Risk</label>
-                    <textarea class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" rows="5"/><?php echo set_value('identified_hazard_risk'); ?></textarea>
+                    <textarea class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" rows="5" required/><?php echo set_value('identified_hazard_risk'); ?></textarea>
                     <?php echo form_error('identified_hazard_risk','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
                 <div class="form-group">
                     <label for="cause_trigger">Cause Trigger</label>
-                    <textarea class="form-control" name="cause_trigger" placeholder="Cause Trigger" rows="5"/><?php echo set_value('cause_trigger'); ?></textarea>
+                    <textarea class="form-control" name="cause_trigger" placeholder="Cause Trigger" rows="5" required/><?php echo set_value('cause_trigger'); ?></textarea>
                     <?php echo form_error('cause_trigger','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
                 <div class="form-group">
                     <label for="effect">Effect</label>
-                    <textarea class="form-control" name="effect" placeholder="Effect" rows="5"/><?php echo set_value('effect'); ?></textarea>
+                    <textarea class="form-control" name="effect" placeholder="Effect" rows="5" required/><?php echo set_value('effect'); ?></textarea>
                     <?php echo form_error('effect','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
@@ -53,13 +53,13 @@
 
                 <div class="form-group">
                     <label for="materialization_phase">Materialization Phase</label>
-                    <input class="form-control" name="materialization_phase" placeholder="Materialization Phase" type="text" value="<?php echo set_value('materialization_phase'); ?>" />
+                    <input class="form-control" name="materialization_phase" placeholder="Materialization Phase" type="text" value="<?php echo set_value('materialization_phase'); ?>" required/>
                     <?php echo form_error('materialization_phase','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
                 <div class="form-group">
                     <label for="risk_owner">Risk Owner</label>
-                    <input class="form-control" name="risk_owner" placeholder="Risk Owner" type="text" value="<?php echo set_value('risk_owner'); ?>" />
+                    <input class="form-control" name="risk_owner" placeholder="Risk Owner" type="text" value="<?php echo set_value('risk_owner'); ?>" required/>
                     <?php echo form_error('risk_owner','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
@@ -141,7 +141,7 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label for="risk_rating">Risk Rating</label>
-                            <input id="risk_rating" class="form-control" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" />
+                            <input id="risk_rating" class="form-control" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" required/>
                             <?php echo form_error('risk_rating','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>
@@ -149,7 +149,7 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label for="risk_level">Risk Level</label>
-                            <input id="risk_level" class="form-control" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('risk_level'); ?>" />
+                            <input id="risk_level" class="form-control" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('risk_level'); ?>" required/>
                             <?php echo form_error('risk_level','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>
@@ -163,7 +163,7 @@
             </fieldset>
         </div>
 
-        <div class="col-sm-6">
+        <div class="col-md-6 col-sm-12">
             <fieldset>
                 <legend>Risk Control/ Mitigation</legend>
 
@@ -177,7 +177,7 @@
 
                 <div class="form-group">
                     <label for="control_mitigation">Risk Control/Mitigation</label>
-                    <textarea class="form-control" name="control_mitigation" placeholder="Risk Control/Mitigation" rows="5"/><?php echo set_value('control_mitigation'); ?></textarea>
+                    <textarea class="form-control" name="control_mitigation" placeholder="Risk Control/Mitigation" rows="5" required/><?php echo set_value('control_mitigation'); ?></textarea>
                     <?php echo form_error('control_mitigation','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
@@ -228,14 +228,14 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label for="residual_risk_rating">Residual Risk Rating</label>
-                            <input id="residual_risk_rating" class="form-control" name="residual_risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo set_value('residual_risk_rating'); ?>" />
+                            <input id="residual_risk_rating" class="form-control" name="residual_risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo set_value('residual_risk_rating'); ?>" required/>
                             <?php echo form_error('residual_risk_rating','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>         
                     <div class="col-xs-6">   
                         <div class="form-group">
                             <label for="residual_risk_level">Residual Risk Level</label>
-                            <input id="residual_risk_level" class="form-control" name="residual_risk_level" placeholder="Residual Risk Level" type="text" value="<?php echo set_value('residual_risk_level'); ?>" />
+                            <input id="residual_risk_level" class="form-control" name="residual_risk_level" placeholder="Residual Risk Level" type="text" value="<?php echo set_value('residual_risk_level'); ?>" required/>
                             <?php echo form_error('residual_risk_level','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>
@@ -247,13 +247,13 @@
 
                 <div class="form-group">
                     <label for="action_owner">Action Owner</label>
-                    <input class="form-control" name="action_owner" placeholder="Action Owner" type="text" value="<?php echo set_value('action_owner'); ?>" />
+                    <input class="form-control" name="action_owner" placeholder="Action Owner" type="text" value="<?php echo set_value('action_owner'); ?>" required/>
                     <?php echo form_error('action_owner','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
                 <div class="form-group">
                     <label for="milestone_target_date">Milestone Target Date</label>
-                    <input class="form-control" name="milestone_target_date" placeholder="Milestone Target Date" type="text" value="<?php echo set_value('milestone_target_date'); ?>" />
+                    <input class="form-control" name="milestone_target_date" placeholder="Milestone Target Date" type="text" value="<?php echo set_value('milestone_target_date'); ?>" required/>
                     <?php echo form_error('milestone_target_date','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
