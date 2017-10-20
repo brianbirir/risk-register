@@ -1,7 +1,7 @@
 <?php
     if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Project extends MY_Controller
+class Project extends RISK_Controller
 {
 
     public function __construct()

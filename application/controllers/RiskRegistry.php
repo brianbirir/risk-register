@@ -1,7 +1,7 @@
 <?php
     if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class RiskRegistry extends MY_Controller
+class RiskRegistry extends RISK_Controller
 {    
     
     public function __construct()
