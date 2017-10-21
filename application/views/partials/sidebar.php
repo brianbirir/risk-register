@@ -62,7 +62,7 @@
               </ul>
             </a>
         </li>     
-        <li><a href="<?php echo base_url(); ?>index.php/settings"><i class="fa fa-link"></i> <span>Settings</span></a></li>
+        
       </ul>
       <!-- /.sidebar-menu -->
     </section>
