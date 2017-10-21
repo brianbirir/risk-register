@@ -23,3 +23,4 @@ $route['dashboard/subproject/add'] = 'project/reg_subproject_view';
 // risk registry
 $route['dashboard/riskregistry'] = 'registry/index';
 $route['dashboard/riskregistry/add'] = 'registry/add';
+$route['dashboard/risk/(:num)'] = 'registry/single/$1'; # route to view a single risk item
