@@ -103,6 +103,7 @@
             $this->db->select('*');
             $this->db->from('RiskStrategies');
             $this->db->where('strategy_id',$id);
+            $query = $this->db->get();
             $row = $query->row();
             return (isset($row)) ? $row->strategy_name : false;
         }
@@ -112,7 +113,8 @@
         function getSystemSafetyName($id){
             $this->db->select('*');
             $this->db->from('SystemSafety');
-            $this->db->where('safery_id',$id);
+            $this->db->where('safety_id',$id);
+            $query = $this->db->get();
             $row = $query->row();
             return (isset($row)) ? $row->safety_name : false;
         }
@@ -123,6 +125,7 @@
             $this->db->select('*');
             $this->db->from('Status');
             $this->db->where('status_id',$id);
+            $query = $this->db->get();
             $row = $query->row();
             return (isset($row)) ? $row->status_name : false;
         }
@@ -133,6 +136,7 @@
             $this->db->select('*');
             $this->db->from('Realization');
             $this->db->where('realization_id',$id);
+            $query = $this->db->get();
             $row = $query->row();
             return (isset($row)) ? $row->realization_name : false;
         }
@@ -158,4 +162,14 @@
             $row = $query->row();
             return (isset($row)) ? $row->name : false;
         }
+
+        // get number of risks
+        function getRiskNumbers()
+        {   
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
     }

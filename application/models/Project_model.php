@@ -56,4 +56,20 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // get number of projects
+        function getProjectNumbers(){
+            $this->db->select('*');
+            $this->db->from('Project');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
+        // get number of subprojects
+        function getSubProjectNumbers(){
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
     }

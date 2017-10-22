@@ -25,6 +25,7 @@ class Risk extends RISK_Controller
         {
             // breadcrumb
             $this->breadcrumb->add($data['title']);
+            
             $data['breadcrumb'] = $this->breadcrumb->output();
 
             // get global data
@@ -37,7 +38,7 @@ class Risk extends RISK_Controller
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             // load page to show all registered risks
-            $this->template->load('dashboard', 'risk_registry/index', $data);
+            $this->template->load('dashboard', 'risk_registry/single', $data);
         }
         else
         {

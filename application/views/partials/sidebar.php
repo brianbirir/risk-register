@@ -33,7 +33,8 @@
       <!-- /.search form -->
 
       <!-- Sidebar Menu -->
-      <ul class="sidebar-menu" data-widget="tree">        
+      <ul class="sidebar-menu" data-widget="tree">
+        <li><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-link"></i>Dashboard</a></li>  
         <li class="treeview">
             <a href="#">
               <i class="fa fa-pie-chart"></i>
