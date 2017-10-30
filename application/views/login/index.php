@@ -30,11 +30,11 @@
 
     <div class="row">
       <div class="col-xs-8">
-        <div class="checkbox icheck">
+        <!-- <div class="checkbox icheck">
           <label>
             <input type="checkbox"> Remember Me
           </label>
-        </div>
+        </div> -->
       </div>
       <!-- /.col -->
       <div class="col-xs-4">
@@ -58,7 +58,7 @@
       </div>
     <?php } ?>
 
-    <a href="#">I forgot my password</a><br>
+    <!-- <a href="#">I forgot my password</a><br> -->
     
     <div class="signup-msg">
       <p style="text-align:center;">Not yet registered? You can sign up <?php echo anchor('signup','here','title="sign up"')?></p>
