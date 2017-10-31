@@ -20,37 +20,12 @@
         </div>
       </div>
 
-      <!-- search form (Optional) -->
-      <!-- <form action="#" method="get" class="sidebar-form">
-        <div class="input-group">
-          <input type="text" name="q" class="form-control" placeholder="Search...">
-              <span class="input-group-btn">
-                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i>
-                </button>
-              </span>
-        </div>
-      </form> -->
-      <!-- /.search form -->
-
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
-        <li><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-link"></i>Dashboard</a></li>  
-        <li class="treeview">
-            <a href="#">
-              <i class="fa fa-pie-chart"></i>
-              <span>Project</span>
-              <span class="pull-right-container">
-                <i class="fa fa-angle-left pull-right"></i>
-              </span>
-              <ul class="treeview-menu" style="display: none;">
-                <li><a href="<?php echo base_url(); ?>dashboard/project"><i class="fa fa-link"></i>View Projects</a></li>
-                <!-- <li><a href="<?php echo base_url(); ?>dashboard/project/add"><i class="fa fa-link"></i>Add Project</a></li> -->
-                <!-- <li><a href="<?php echo base_url(); ?>dashboard/subproject"><i class="fa fa-link"></i>View Risk Registry</a></li> -->
-                <!-- <li><a href="<?php echo base_url(); ?>dashboard/subproject/add"><i class="fa fa-link"></i>Add Subproject</a></li> -->
-                <li><a href="<?php echo base_url(); ?>dashboard/settings"><i class="fa fa-link"></i>Settings</a></li>
-              </ul>
-            </a>
-        </li>
+        <li><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-line-chart"></i>Dashboard</a></li>  
+        <li><a href="<?php echo base_url(); ?>dashboard/project"><i class="fa fa-folder"></i>Projects</a></li>
+        <li><a href="<?php echo base_url(); ?>dashboard/settings"><i class="fa fa-cog"></i>Settings</a></li>
+              
         <!-- <li class="treeview">
             <a href="#">
               <i class="fa fa-pie-chart"></i>
