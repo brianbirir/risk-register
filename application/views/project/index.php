@@ -40,15 +40,19 @@
                     <table class="table table-hover">
                         <tbody>
                             <tr>
+                                <th>No.</th>
                                 <th>Project Name</th>
                                 <th>Project Description</th>
                             </tr>
                             <?php
+                                $count  = 0 ;
                                 foreach ($project_data as $project_row) {
+                                    $count = $count + 1;
                                     echo "<tr>";
+                                    echo "<td>".$count."</td>";
                                     echo "<td>".$project_row->project_name."</td>";
                                     echo "<td>".$project_row->project_description."</td>";
-                                    echo "<td><a href='/dashboard/project/".$project_row->project_id."' class='btn btn-sm btn-primary'>View Project</a></td>";
+                                    echo "<td><a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary'>View Project</a></td>";
                                     echo "</tr>";
                                 } 
                             } ?>

@@ -58,9 +58,18 @@ class Project extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
             
-            $id = $this->uri->segment(3); // get id from third segment of uri
+            $uri_id = $this->uri->segment(3); // get id from third segment of uri
             
-            $data['project_details'] = $this->project_model->getSingleProject($id);
+            $single_project = $this->project_model->getSingleProject($uri_id);
+
+            $data['project_name'] = $single_project->project_name;
+
+            $data['project_description'] = $single_project->project_description;
+
+            $subproject = $this->project_model->getSubProjects($data['user_id']);
+
+            // check if result is true
+            ($subproject) ? $data['subproject_data'] = $subproject : $data['subproject_data'] = false;
 
             $this->template->load('dashboard', 'project/view', $data);
         }
@@ -131,7 +140,7 @@ class Project extends RISK_Controller
     // view for registering a subproject
     function reg_subproject_view()
     {
-        $data = array('title' => 'Register Subproject');
+        $data = array('title' => 'Add Risk Registry');
         
         if($this->session->userdata('logged_in'))
         {
@@ -150,7 +159,7 @@ class Project extends RISK_Controller
             ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
 
             // load page to show all devices
-            $this->template->load('dashboard', 'project/register_subproject', $data);
+            $this->template->load('dashboard', 'registry/register_subproject', $data);
         }
         else
         {

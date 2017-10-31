@@ -17,14 +17,14 @@
             ?>
 
             <div class="form-group">
-                <label for="subproject_name">Subproject Name</label>
-                <input class="form-control" name="subproject_name" placeholder="Subproject Name" type="text" value="<?php echo set_value('subproject_name'); ?>" />
+                <label for="subproject_name">Risk Registry Name</label>
+                <input class="form-control" name="subproject_name" placeholder="Risk Registry Name" type="text" value="<?php echo set_value('subproject_name'); ?>" />
                 <?php echo form_error('subproject_name','<div class="alert alert-danger">','</div>'); ?>
             </div>
 
             <div class="form-group">
-                <label for="subproject_description">Subproject Description</label>
-                <textarea class="form-control" name="subproject_description" placeholder="Subproject Description" rows="5"/><?php echo set_value('subproject_description'); ?></textarea>
+                <label for="subproject_description">Risk Registry Description</label>
+                <textarea class="form-control" name="subproject_description" placeholder="Risk Registry Description" rows="5"/><?php echo set_value('subproject_description'); ?></textarea>
                 <?php echo form_error('subproject_description','<div class="alert alert-danger">','</div>'); ?>
             </div>
 
@@ -36,7 +36,7 @@
                 ?>
             </div>
 
-            <input name="btn_reg_subproject" type="submit" class="btn btn-default btn-reg" value="Add Subproject" />
+            <input name="btn_reg_subproject" type="submit" class="btn btn-default btn-reg" value="Add Risk Registry" />
 
             <?php echo form_close(); ?>
 

@@ -40,6 +40,7 @@
             $this->db->from('Subproject');
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->where('Project.User_user_id',$user_id);
+            //$this->db->where('Subproject.Project_project_id',$uri_id);
             $query = $this->db->get();
             
             return ($query->num_rows() > 0) ? $query->result() : false;
@@ -79,7 +80,7 @@
             $this->db->from('Project');
             $this->db->where('project_id',$project_id);
             $query = $this->db->get();
-            return ($query->num_rows() == 1) ? $query->num_rows() : 0;
+            return ($query->num_rows() == 1) ? $query->row() : 0;
         }
 
     }

@@ -21,8 +21,8 @@ $route['dashboard/project/add'] = 'project/reg_project_view';
 $route['dashboard/project/(:num)'] = 'project/view_project/$1';
 
 //subprojects
-$route['dashboard/subproject'] = 'project/index_subproject_view';
-$route['dashboard/subproject/add'] = 'project/reg_subproject_view';
+$route['dashboard/riskregister/add'] = 'project/reg_subproject_view';
+$route['dashboard/riskregister/(:num)'] = 'project/view_registry/$1';
 
 // risk registry
 $route['dashboard/riskregistry'] = 'registry/index';
