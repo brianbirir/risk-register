@@ -1,6 +1,6 @@
 <?php 
     $CI =& get_instance();
-    $CI->load->model('registry_model');
+    $CI->load->model('risk_model');
 
     foreach ($risk_data as $risk_row) {
         echo "<div>";
@@ -32,12 +32,12 @@
 
             	echo "<tr>";
     			echo "<td><label>Sub-Project Name:</label>";
-    			echo "<td><p>".$CI->registry_model->getSubProjectName($risk_row->Subproject_subproject_id)."</p></td>";
+    			echo "<td><p>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</p></td>";
     			echo "</tr>";
 
     			echo "<tr>";
     			echo "<td><label>Main Catergory:</label>";
-    			echo "<td><p>".$CI->registry_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</p></td>";
+    			echo "<td><p>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</p></td>";
     			echo "</tr>";
 
     			echo "<tr>";
@@ -147,7 +147,7 @@
 
             	echo "<tr>";
     			echo "<td><label>Strategy:</label>";
-    			echo "<td><p>".$CI->registry_model->getRiskStrategiesName($risk_row->RiskStrategies_strategy_id)."</p></td>";
+    			echo "<td><p>".$CI->risk_model->getRiskStrategiesName($risk_row->RiskStrategies_strategy_id)."</p></td>";
     			echo "</tr>";
 
     			echo "<tr>";
@@ -157,12 +157,12 @@
 
     			echo "<tr>";
     			echo "<td><label>System Safety:</label></td>";
-                echo "<td><p>".$CI->registry_model->getSystemSafetyName($risk_row->SystemSafety_safety_id)."</p></td>";
+                echo "<td><p>".$CI->risk_model->getSystemSafetyName($risk_row->SystemSafety_safety_id)."</p></td>";
                 echo "</tr>";
 
                 echo "<tr>";
                 echo "<td><label>Realization:</label></td>";
-                echo "<td><p>".$CI->registry_model->getRealizationName($risk_row->Realization_realization_id)."</p></td>";
+                echo "<td><p>".$CI->risk_model->getRealizationName($risk_row->Realization_realization_id)."</p></td>";
                 echo "</tr>";
 
                 echo "</table>";
@@ -213,7 +213,7 @@
 
                 echo "<tr>";
                 echo "<td><label>Status:</label></td>";
-                echo "<td><p>".$CI->registry_model->getStatusName($risk_row->Status_status_id)."</p></td>";
+                echo "<td><p>".$CI->risk_model->getStatusName($risk_row->Status_status_id)."</p></td>";
                 echo "</tr>";
 
                 echo "</table>";

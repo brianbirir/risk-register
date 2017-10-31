@@ -84,4 +84,15 @@
             return ($query->num_rows() == 1) ? $query->row() : 0;
         }
 
+
+        // get single risk registry
+        function getSingleRiskRegister($register_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->where('subproject_id',$register_id);
+            $query = $this->db->get();
+            return ($query->num_rows() == 1) ? $query->row() : 0;
+        }
+
     }

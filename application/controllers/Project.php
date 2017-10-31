@@ -12,6 +12,7 @@ class Project extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->model('project_model');
+        $this->load->model('risk_model');
         $this->load->library('breadcrumb');
     }
 
@@ -72,6 +73,36 @@ class Project extends RISK_Controller
             ($subproject) ? $data['subproject_data'] = $subproject : $data['subproject_data'] = false;
 
             $this->template->load('dashboard', 'project/view', $data);
+        }
+        else {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    
+    // view a single risk register
+    function view_risk_register()
+    {
+        $data = array('title' => 'Single Risk Register');
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            $uri_id = $this->uri->segment(3); // get id from third segment of uri
+            $single_register = $this->project_model->getSingleRiskRegister($uri_id);
+            $data['register_name'] = $single_register->name;
+            $data['register_description'] = $single_register->description;
+            $risk = $this->risk_model->getRisk($data['user_id']);
+
+            // check if result is true
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+
+            $this->template->load('dashboard', 'registry/view', $data);
         }
         else {
             //If no session, redirect to login page

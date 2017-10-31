@@ -4,7 +4,7 @@
 
         <?php
             $attributes = array("class" => "ui form", "id" => "risk-reg-form", "name" => "reg-risk-form");
-            echo form_open("riskregistry/register", $attributes);
+            echo form_open("risk/register", $attributes);
         ?>
 
         <div class="col-md-6 col-sm-12">

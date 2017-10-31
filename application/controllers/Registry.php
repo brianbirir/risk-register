@@ -13,7 +13,7 @@ class Registry extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
-        $this->load->model('registry_model');
+        $this->load->model('risk_model');
     }
 
     
@@ -32,7 +32,7 @@ class Registry extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
 
             // get risk data
-            $risk = $this->registry_model->getRegistry($data['user_id']);
+            $risk = $this->risk_model->getRegistry($data['user_id']);
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
@@ -163,7 +163,7 @@ class Registry extends RISK_Controller
             );
             
             // insert form data into database
-            if ($this->registry_model->insertRegistry($data))
+            if ($this->risk_model->insertRegistry($data))
             {
                 $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
                 redirect('dashboard/riskregistry');
@@ -181,7 +181,7 @@ class Registry extends RISK_Controller
     // risk strategies
     function getRiskStrategies()
     {
-        $strategies = $this->registry_model->getRiskStrategies();
+        $strategies = $this->risk_model->getRiskStrategies();
         
         if($strategies)
         {
@@ -206,7 +206,7 @@ class Registry extends RISK_Controller
     // status
     function getStatus()
     {
-        $status = $this->registry_model->getStatus();
+        $status = $this->risk_model->getStatus();
         
         if($status)
         {
@@ -231,7 +231,7 @@ class Registry extends RISK_Controller
     // safety
     function getSystemSafety()
     {
-        $safety = $this->registry_model->getSystemSafety();
+        $safety = $this->risk_model->getSystemSafety();
         
         if($safety)
         {
@@ -255,7 +255,7 @@ class Registry extends RISK_Controller
     // realization
     function getRealization()
     {
-        $realization = $this->registry_model->getRealization();
+        $realization = $this->risk_model->getRealization();
         
         if($realization)
         {
@@ -279,7 +279,7 @@ class Registry extends RISK_Controller
     // categories
     function getCategories()
     {
-        $categories = $this->registry_model->getRiskCategories();
+        $categories = $this->risk_model->getRiskCategories();
         
         if($categories)
         {
@@ -303,7 +303,7 @@ class Registry extends RISK_Controller
     // categories
     function getSubProject()
     {
-        $subproject = $this->registry_model->getSubProject();
+        $subproject = $this->risk_model->getSubProject();
         
         if($subproject)
         {

@@ -13,7 +13,7 @@ class Dashboard extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
-        $this->load->model('registry_model');
+        $this->load->model('risk_model');
         $this->load->model('project_model');
     }
 
@@ -32,7 +32,7 @@ class Dashboard extends RISK_Controller
 
             // get numbers
             $data['subproject_numbers'] = $this->project_model->getSubProjectNumbers();
-            $data['risk_numbers'] = $this->registry_model->getRiskNumbers();
+            $data['risk_numbers'] = $this->risk_model->getRiskNumbers();
             $data['project_numbers'] = $this->project_model->getProjectNumbers();
 
             $this->template->load('dashboard', 'dashboard/index', $data);
