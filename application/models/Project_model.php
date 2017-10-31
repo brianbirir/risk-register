@@ -34,12 +34,14 @@
         }
 
         // fetch all subprojects for a particular user
-        function getSubProjects($user_id)
+        function getSubProjects($user_id, $uri_id)
         {
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->where('Project.User_user_id',$user_id);
+            $this->db->where('Project.project_id',$uri_id);
+            //$this->db->where('Subproject.Project_project_id',$uri_id);
             $query = $this->db->get();
             
             return ($query->num_rows() > 0) ? $query->result() : false;
@@ -70,6 +72,27 @@
             $this->db->from('Subproject');
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
+        // get single project
+        function getSingleProject($project_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Project');
+            $this->db->where('project_id',$project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() == 1) ? $query->row() : 0;
+        }
+
+
+        // get single risk registry
+        function getSingleRiskRegister($register_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->where('subproject_id',$register_id);
+            $query = $this->db->get();
+            return ($query->num_rows() == 1) ? $query->row() : 0;
         }
 
     }

@@ -1,6 +1,6 @@
 <?php
 
-    class Registry_model extends CI_Model {
+    class Risk_model extends CI_Model {
 
         
         public function __construct()
@@ -17,7 +17,7 @@
 
 
         // get risks registered under the particular user and subproject
-        function getRegistry($user_id)
+        function getRisk($user_id)
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');

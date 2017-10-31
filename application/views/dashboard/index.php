@@ -27,7 +27,7 @@
 	            <span class="info-box-icon bg-aqua"><i class="fa fa-tags"></i></span>
 
 	            <div class="info-box-content">
-	              <span class="info-box-text">Sub-Projects</span>
+	              <span class="info-box-text">Risk Registers</span>
 	              <span class="info-box-number"><?php echo $subproject_numbers?></span>
 	            </div>
 	            <!-- /.info-box-content -->
@@ -40,7 +40,7 @@
 	            <span class="info-box-icon bg-aqua"><i class="fa fa-flash"></i></span>
 
 	            <div class="info-box-content">
-	              <span class="info-box-text">Risks</span>
+	              <span class="info-box-text">Risk Items</span>
 	              <span class="info-box-number"><?php echo $risk_numbers?></span>
 	            </div>
 	            <!-- /.info-box-content -->

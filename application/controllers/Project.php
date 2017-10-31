@@ -12,6 +12,7 @@ class Project extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->model('project_model');
+        $this->load->model('risk_model');
         $this->load->library('breadcrumb');
     }
 
@@ -41,6 +42,70 @@ class Project extends RISK_Controller
         else
         {
             // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    // view a single project
+    function view_project()
+    {
+        $data = array('title' => 'Single Project');
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            
+            $uri_id = $this->uri->segment(3); // get id from third segment of uri
+            
+            $single_project = $this->project_model->getSingleProject($uri_id);
+
+            $data['project_name'] = $single_project->project_name;
+
+            $data['project_description'] = $single_project->project_description;
+
+            $subproject = $this->project_model->getSubProjects($data['user_id'],$uri_id);
+
+            // check if result is true
+            ($subproject) ? $data['subproject_data'] = $subproject : $data['subproject_data'] = false;
+
+            $this->template->load('dashboard', 'project/view', $data);
+        }
+        else {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    
+    // view a single risk register
+    function view_risk_register()
+    {
+        $data = array('title' => 'Single Risk Register');
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            $uri_id = $this->uri->segment(3); // get id from third segment of uri
+            $single_register = $this->project_model->getSingleRiskRegister($uri_id);
+            $data['register_name'] = $single_register->name;
+            $data['register_description'] = $single_register->description;
+            $risk = $this->risk_model->getRisk($data['user_id']);
+
+            // check if result is true
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+
+            $this->template->load('dashboard', 'registry/view', $data);
+        }
+        else {
+            //If no session, redirect to login page
             redirect('login', 'refresh');
         }
     }
@@ -106,7 +171,7 @@ class Project extends RISK_Controller
     // view for registering a subproject
     function reg_subproject_view()
     {
-        $data = array('title' => 'Register Subproject');
+        $data = array('title' => 'Add Risk Registry');
         
         if($this->session->userdata('logged_in'))
         {
@@ -125,7 +190,7 @@ class Project extends RISK_Controller
             ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
 
             // load page to show all devices
-            $this->template->load('dashboard', 'project/register_subproject', $data);
+            $this->template->load('dashboard', 'registry/register_subproject', $data);
         }
         else
         {
