@@ -42,16 +42,13 @@
                             <tr>
                                 <th>Project Name</th>
                                 <th>Project Description</th>
-                                <th>Created On</th>
-                                <th>Updated On</th>
                             </tr>
                             <?php
                                 foreach ($project_data as $project_row) {
                                     echo "<tr>";
                                     echo "<td>".$project_row->project_name."</td>";
                                     echo "<td>".$project_row->project_description."</td>";
-                                    echo "<td>".$project_row->created_at."</td>";
-                                    echo "<td>".$project_row->updated_at."</td>";
+                                    echo "<td><a href='/dashboard/project/".$project_row->project_id."' class='btn btn-sm btn-primary'>View Project</a></td>";
                                     echo "</tr>";
                                 } 
                             } ?>

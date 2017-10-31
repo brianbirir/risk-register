@@ -45,6 +45,31 @@ class Project extends RISK_Controller
         }
     }
 
+    // view a single project
+    function view_project()
+    {
+        $data = array('title' => 'Single Project');
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            
+            $id = $this->uri->segment(3); // get id from third segment of uri
+            
+            $data['project_details'] = $this->project_model->getSingleProject($id);
+
+            $this->template->load('dashboard', 'project/view', $data);
+        }
+        else {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
 
     // view all subprojects
     function index_subproject_view()

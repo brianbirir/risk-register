@@ -44,13 +44,14 @@
               </span>
               <ul class="treeview-menu" style="display: none;">
                 <li><a href="<?php echo base_url(); ?>dashboard/project"><i class="fa fa-link"></i>View Projects</a></li>
-                <li><a href="<?php echo base_url(); ?>dashboard/project/add"><i class="fa fa-link"></i>Add Project</a></li>
-                <li><a href="<?php echo base_url(); ?>dashboard/subproject"><i class="fa fa-link"></i>View Subprojects</a></li>
-                <li><a href="<?php echo base_url(); ?>dashboard/subproject/add"><i class="fa fa-link"></i>Add Subproject</a></li>
+                <!-- <li><a href="<?php echo base_url(); ?>dashboard/project/add"><i class="fa fa-link"></i>Add Project</a></li> -->
+                <!-- <li><a href="<?php echo base_url(); ?>dashboard/subproject"><i class="fa fa-link"></i>View Risk Registry</a></li> -->
+                <!-- <li><a href="<?php echo base_url(); ?>dashboard/subproject/add"><i class="fa fa-link"></i>Add Subproject</a></li> -->
+                <li><a href="<?php echo base_url(); ?>dashboard/settings"><i class="fa fa-link"></i>Settings</a></li>
               </ul>
             </a>
         </li>
-        <li class="treeview">
+        <!-- <li class="treeview">
             <a href="#">
               <i class="fa fa-pie-chart"></i>
               <span>Risk Registry</span>
@@ -62,7 +63,7 @@
                 <li><a href="<?php echo base_url(); ?>dashboard/riskregistry/add"><i class="fa fa-link"></i>Add Risk Registry</a></li>
               </ul>
             </a>
-        </li>     
+        </li>      -->
         
       </ul>
       <!-- /.sidebar-menu -->

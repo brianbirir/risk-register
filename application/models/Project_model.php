@@ -72,4 +72,14 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
+        // get single project
+        function getSingleProject($project_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Project');
+            $this->db->where('project_id',$project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() == 1) ? $query->num_rows() : 0;
+        }
+
     }
