@@ -34,12 +34,13 @@
         }
 
         // fetch all subprojects for a particular user
-        function getSubProjects($user_id)
+        function getSubProjects($user_id, $uri_id)
         {
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->where('Project.User_user_id',$user_id);
+            $this->db->where('Project.project_id',$uri_id);
             //$this->db->where('Subproject.Project_project_id',$uri_id);
             $query = $this->db->get();
             

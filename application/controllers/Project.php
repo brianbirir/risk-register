@@ -66,7 +66,7 @@ class Project extends RISK_Controller
 
             $data['project_description'] = $single_project->project_description;
 
-            $subproject = $this->project_model->getSubProjects($data['user_id']);
+            $subproject = $this->project_model->getSubProjects($data['user_id'],$uri_id);
 
             // check if result is true
             ($subproject) ? $data['subproject_data'] = $subproject : $data['subproject_data'] = false;
