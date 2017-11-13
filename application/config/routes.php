@@ -20,11 +20,11 @@ $route['dashboard/project'] = 'project/index';
 $route['dashboard/project/add'] = 'project/reg_project_view';
 $route['dashboard/project/(:num)'] = 'project/view_project/$1';
 
-//subprojects
+// risk register
 $route['dashboard/riskregister/add'] = 'project/reg_subproject_view';
 $route['dashboard/riskregister/(:num)'] = 'project/view_risk_register/$1';
 
-// risk registry
+// risk items
 $route['dashboard/risk'] = 'risk/index';
 $route['dashboard/risk/add'] = 'risk/add';
 $route['dashboard/risk/(:num)'] = 'risk/single/$1'; // route to view a single risk item

@@ -49,7 +49,7 @@ class Risk extends RISK_Controller
     // the view for adding risk registry
     function add()
     {
-        $data = array('title' => 'Register Risk');
+        $data = array('title' => 'Add Risk');
         
         if($this->session->userdata('logged_in'))
         {
@@ -69,7 +69,7 @@ class Risk extends RISK_Controller
             $data['select_subproject'] = $this->getSubProject();
 
             // load page to show all devices
-            $this->template->load('dashboard', 'risk_registry/add', $data);
+            $this->template->load('dashboard', 'risk/add', $data);
         }
         else
         {

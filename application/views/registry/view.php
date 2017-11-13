@@ -27,13 +27,13 @@
     <div class="col-md-9">
         
         <div class="reg-btn">
-            <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add-device">Add Risk Register</a>
+            <a href="/dashboard/risk/add" class="btn btn-success btn-sm btn-add-device">Add Risk Item</a>
         </div>
 
         <div class="box box-primary">
 
             <div class="box-header with-border">
-                <h3 class="box-title">Risk Register</h3>
+                <h3 class="box-title">Risk Item</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>

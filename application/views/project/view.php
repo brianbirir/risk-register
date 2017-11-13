@@ -60,7 +60,7 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$subproject_row->name."</td>";
-                                echo "<td><a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary'>View Risk Registry</a></td>";
+                                echo "<td><a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary'>View Risk Register</a></td>";
                                 echo "</tr>";
                             } 
                         } ?>
