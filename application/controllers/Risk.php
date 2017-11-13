@@ -164,7 +164,7 @@ class Risk extends RISK_Controller
             if ($this->risk_model->insertRegistry($data))
             {
                 $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
-                redirect('dashboard/riskregistry');
+                redirect('dashboard/risk');
             }
             else
             {
