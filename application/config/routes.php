@@ -28,3 +28,9 @@ $route['dashboard/riskregister/(:num)'] = 'project/view_risk_register/$1';
 $route['dashboard/risk'] = 'risk/index';
 $route['dashboard/risk/add'] = 'risk/add';
 $route['dashboard/risk/(:num)'] = 'risk/single/$1'; // route to view a single risk item
+
+
+// settings routes
+$route['dashboard/settings'] = 'dashboard/settings';
+$route['settings/role'] = 'role/index';
+$route['settings/role/add'] = 'role/add';
