@@ -1,8 +1,8 @@
 <div id="settings-page">
     <div class="row">
 
-        <!-- user loles link -->
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <!-- user loles link -->
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 			<div class="panel panel-default panel-dash-settings">
 			  <div class="panel-body">
 			   <h3><a href="/settings/role">Roles</a></h3>
@@ -11,7 +11,7 @@
 			</div>
 		</div>
 
-        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 			<div class="panel panel-default panel-dash-settings">
 			  <div class="panel-body">
 			   <h3><a href="/settings/users">Users</a></h3>

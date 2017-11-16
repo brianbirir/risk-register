@@ -34,3 +34,4 @@ $route['dashboard/risk/(:num)'] = 'risk/single/$1'; // route to view a single ri
 $route['dashboard/settings'] = 'dashboard/settings';
 $route['settings/role'] = 'role/index';
 $route['settings/role/add'] = 'role/add';
+$route['settings/role/(:num)'] = 'role/edit/$1';

@@ -3,7 +3,7 @@
 <div class="row">
     <div class="col-md-9">
         <div class="reg-btn">
-            <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add-device">Add User Role</a>
+            <a href="/settings/role/add" class="btn btn-success btn-sm">Add User Role</a>
         </div>
 
         <div class="box box-primary">
@@ -27,8 +27,10 @@
                 <table class="table table-hover">
                     <tbody>
                         <tr>
+                            <th>ID</th>
                             <th>Role Name</th>
                             <th>Role Description</th>
+                            <th>Actions</th>
                         </tr>
                     
                         <?php
@@ -38,7 +40,11 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$role_row->role_name."</td>";
-                                echo "<td>.$role_row->role_description.</td>";
+                                echo "<td>".$role_row->role_description."</td>";
+                                echo "<td>
+                                        <a title='edit role' href='/settings/role/".$role_row->role_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
+                                        <a title='edit role' href='/settings/role/delete/".$role_row->role_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                    </td>";
                                 echo "</tr>";
                             } 
                         } ?>

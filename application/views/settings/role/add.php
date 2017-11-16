@@ -20,7 +20,7 @@
                 <?php echo form_error('role_description','<div class="alert alert-danger">','</div>'); ?>
             </div>
 
-            <input name="btn_reg_role" type="submit" class="btn btn-default btn-reg" value="Add User ROle" />
+            <input name="btn_reg_role" type="submit" class="btn btn-default btn-reg" value="Add User Role" />
 
             <?php echo form_close(); ?>
 
