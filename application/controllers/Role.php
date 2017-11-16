@@ -199,4 +199,26 @@ class Role extends RISK_Controller
             }
         }
     }
+
+    // delete a user role
+    function delete()
+    {
+        // get id from fourth segment of uri
+        $id = $this->uri->segment(4);
+
+        // delete role record
+        if($this->role_model->deleteRole($id))
+        {
+            $this->session->set_flashdata('positive-msg','You have deleted the role successfully!');
+
+            // load page for viewing all roles
+            redirect('settings/role');
+        }
+        else
+        {
+            // error
+            $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
+            redirect('settings/role');
+        }
+    }
 }

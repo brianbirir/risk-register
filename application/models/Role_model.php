@@ -50,7 +50,8 @@
         // delete role
         function deleteRole($role_id)
         {
-            
+            $this->db->delete('Role',array('role_id'=>$role_id));
+            return true;
         }
     
     }
