@@ -57,3 +57,14 @@
 .reg-btn {
     margin-bottom: 30px;
 }
+
+/* SETTINGS PAGE */
+.panel-body h3 {
+    margin-top: 0px;
+}
+
+/* FORMS */
+.form-group .alert {
+    margin-top: 8px;
+    padding: 5px;
+}

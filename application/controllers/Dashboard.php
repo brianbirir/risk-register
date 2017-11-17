@@ -43,4 +43,26 @@ class Dashboard extends RISK_Controller
             redirect('login', 'refresh');
         }
     }
+
+    // dashboard settings page
+    function settings()
+    {
+        $data = array('title' => 'Settings');
+
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data and merge with new array
+            $data = array_merge($data,$this->get_global_data());
+
+            $this->template->load('dashboard', 'settings/index', $data);
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
 }
