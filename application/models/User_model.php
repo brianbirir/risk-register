@@ -36,11 +36,50 @@ class User_model extends CI_Model
     function getRoleID($role_name)
     {
         $this->db->select('role_id');
-        $this->db->from('role');
+        $this->db->from('Role');
         $this->db->where('role_name',$role_name);
         $query = $this->db->get();
         $row = $query->row();
         return $row->role_id;
+    }
+
+
+    function getUsers()
+    {
+        $this->db->select('*');
+        $this->db->from('User');
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : false;
+    }
+
+
+    // get a single user
+    function getUser($id)
+    {
+        $this->db->select('*');
+        $this->db->from('User');
+        $this->db->where('user_id',$id);
+        $query = $this->db->get();
+        $row = $query->row();
+        return ($query->num_rows() == 1) ? $row : false;
+    }
+
+
+    // update user
+    function updateUser($data,$id)
+    {
+        $this->db->set($data);
+        $this->db->where('user_id',$id);
+        $this->db->update('User',$data);
+        return true;
+    }
+
+
+    // delete user
+    function deleteUser($user_id)
+    {
+        $this->db->delete('User',array('user_id'=>$user_id));
+        return true;
     }
 }
 ?>
