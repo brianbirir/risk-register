@@ -18,7 +18,7 @@
 
 <!-- view user -->
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
         <div class="reg-btn">
             <a href="/settings/user/add" class="btn btn-success btn-sm">Add User</a>
         </div>

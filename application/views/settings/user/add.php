@@ -1,3 +1,14 @@
+<?php 
+    if($role_id == 1){
+
+?>
+<div class="bs-callout bs-callout-info" id="callout-alerts-dismiss-plugin"> 
+    <h4>Requires JavaScript alert plugin</h4> 
+    <p>For fully functioning, dismissible alerts, you must use the <a href="../javascript/#alerts">alerts JavaScript plugin</a>.</p> 
+</div>
+
+<?php }?>
+
 <!-- add users form -->
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">

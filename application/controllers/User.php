@@ -45,7 +45,7 @@ class User extends RISK_Controller
         }
     }
 
-    // the view for adding a user role
+    // the view for adding a user
     function add()
     {   
         if($this->session->userdata('logged_in'))
@@ -58,7 +58,7 @@ class User extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
-            // get role names from database & add them to select form element in sign up form
+            // get role names from database & add them to select form element
             $roles = $this->user_model->getRoles();
             
             if($roles)

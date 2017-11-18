@@ -10,6 +10,16 @@
         echo $currentUser;
       ?>
     </span>
+
+    <p style="margin:0;">
+      <span class="label label-default">
+        <?php
+          $CI =& get_instance();
+          $CI->load->model('role_model');
+          echo $CI->role_model->getRoleName($role_id);
+        ?>
+      </span>
+    </p>
   </a>
   
   <ul class="dropdown-menu">
