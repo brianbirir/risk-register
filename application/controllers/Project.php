@@ -275,7 +275,7 @@ class Project extends RISK_Controller
             if ($this->project_model->insertSubProject($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered the subproject! Please login.');
-                redirect('dashboard/subproject');
+                redirect('dashboard/project');
             }
             else
             {

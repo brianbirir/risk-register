@@ -1,66 +1,21 @@
 <?php 
     if($role_id == 1){
-
 ?>
-<div class="bs-callout bs-callout-info" id="callout-alerts-dismiss-plugin"> 
-    <h4>Requires JavaScript alert plugin</h4> 
-    <p>For fully functioning, dismissible alerts, you must use the <a href="../javascript/#alerts">alerts JavaScript plugin</a>.</p> 
-</div>
+    <div class="bs-callout bs-callout-info" id="callout-alerts-dismiss-plugin"> 
+        <h4>Super Admin Managed Users</h4> 
+        <p>Register users managed by the super administrator</p> 
+    </div>
+    
+    <!-- Load form for super admin that will be used to register project/programme managers -->
+    <?php $this->load->view('settings/user/admin_form'); ?>
+
+<?php } else { ?>
+    <div class="bs-callout bs-callout-info" id="callout-alerts-dismiss-plugin"> 
+        <h4>Project/Programme Manager Users</h4> 
+        <p>Register users managed by the project/programme manager.</p> 
+    </div>
+
+    <!-- Load form for manager that will be used to register generic users -->
+    <?php $this->load->view('settings/user/manager_form'); ?>
 
 <?php }?>
-
-<!-- add users form -->
-<div class="row">
-    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-        <div id="user-form">
-
-            <?php 
-                $attributes = array("class" => "ui form", "id" => "signupform", "name" => "signupform");
-                echo form_open("user/register", $attributes);
-            ?>        
-            <div class="form-group">
-                <label for="name">First Name</label>
-                <input class="form-control" name="first_name" placeholder="First Name" type="text" value="<?php echo set_value('first_name'); ?>" />
-                <?php echo form_error('first_name','<div class="alert alert-danger">','</div>'); ?>
-            </div>
-            
-            <div class="form-group">
-                <label for="name">Last Name</label>
-                <input class="form-control" name="last_name" placeholder="Last Name" type="text" value="<?php echo set_value('last_name'); ?>" />
-                <?php echo form_error('last_name','<div class="alert alert-danger">','</div>'); ?>
-            </div>
-
-            <div class="form-group">
-                <label for="name">User Name</label>
-                <input class="form-control" name="username" placeholder="User Name" type="text" value="<?php echo set_value('username'); ?>" />
-                <?php echo form_error('username','<div class="alert alert-danger">','</div>'); ?>
-            </div>
-
-            <div class="form-group">
-                <label for="email">Email Address</label>
-                <input class="form-control" name="email" placeholder="Email Address" type="text" value="<?php echo set_value('email'); ?>" />
-                <?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
-            </div>
-
-            <div class="form-group">
-                <label for="roles">User's Role</label>
-                <?php 
-                    $select_attributes = 'class="form-control"';
-                    echo form_dropdown('role',$select_option,"2",$select_attributes);
-                ?>
-            </div>
-
-            <input name="btn_reg" type="submit" class="btn btn-default btn-reg" value="Register" />
-
-            <?php echo form_close(); ?>
-
-            <?php if ($this->session->flashdata('msg')){ ?>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div><?php echo $this->session->flashdata('msg'); ?></div>
-                </div>
-            <?php } ?>
-
-        </div>
-    </div>
-</div>

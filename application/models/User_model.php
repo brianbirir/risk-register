@@ -19,6 +19,7 @@ class User_model extends CI_Model
     {
         $this->db->select('role_id,role_name'); // select role_name and role_id columns
         $this->db->where('role_id !=',1);
+        $this->db->where('role_name !=','General User');
         $query = $this->db->get('Role'); // select role table
         return ($query->num_rows() > 0) ? $query->result() : false;
     }

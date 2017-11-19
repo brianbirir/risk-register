@@ -1,7 +1,11 @@
 <div id="settings-page">
     <div class="row">
 
-    <!-- user loles link -->
+		<!-- user roles link -->
+		<?php if ($role_id == 1) {
+		
+		?>
+		
     <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 			<div class="panel panel-default panel-dash-settings">
 			  <div class="panel-body">
@@ -11,7 +15,9 @@
 			</div>
 		</div>
 
-    <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+		<?php } ?>
+		
+		<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
 			<div class="panel panel-default panel-dash-settings">
 			  <div class="panel-body">
 			   <h3><a href="/settings/users">Users</a></h3>
