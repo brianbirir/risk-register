@@ -1,6 +1,7 @@
 <?php 
     $CI =& get_instance();
-    $CI->load->model('project_model');
+    //$CI->load->model('project_model');
+    $CI->load->model('role_model');
 ?>
 <div class="row">
     <div class="col-md-12">
@@ -34,6 +35,7 @@
                             <th>Last Name</th>
                             <th>Email</th>
                             <th>Username</th>
+                            <th>Role</th>
                             <th>Risk Register</th>
                             <th>Actions</th>
                         </tr>
@@ -48,7 +50,8 @@
                                 echo "<td>".$user_row->last_name."</td>";;
                                 echo "<td>".$user_row->email."</td>";
                                 echo "<td>".$user_row->username."</td>";
-                                echo "<td>".$CI->project_model->getRiskRegisterName($user_row->riskregister_id)."</td>";
+                                echo "<td>".$CI->role_model->getRoleName($user_row->Role_role_id)."</td>";
+                                echo "<td><span class='label label-danger'><a href='/settings/user/riskregister/".$user_row->user_id."' style='color:#ffffff'>Unassigned</a></span></td>";
                                 echo "<td>
                                         <a title='edit' href='/settings/user/".$user_row->user_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                         <a title='delete' href='/settings/user/delete/".$user_row->user_id."'><i class='fa fa-trash' aria-hidden='true'></i>

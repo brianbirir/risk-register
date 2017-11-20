@@ -31,14 +31,6 @@
                 <?php echo form_error('email','<div class="alert alert-danger">','</div>'); ?>
             </div>
 
-            <div class="form-group">
-                <label for="riskregister">Risk Register</label>
-                <?php 
-                    $select_attributes = 'class="form-control"';
-                    echo form_dropdown('riskregister',$select_option,"2",$select_attributes);
-                ?>
-            </div>
-
             <input name="btn_reg" type="submit" class="btn btn-default btn-reg" value="Register" />
 
             <?php echo form_close(); ?>
