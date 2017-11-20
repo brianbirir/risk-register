@@ -18,6 +18,8 @@ class User_model extends CI_Model
     function getRoles()
     {
         $this->db->select('role_id,role_name'); // select role_name and role_id columns
+        $this->db->where('role_id !=',1);
+        $this->db->where('role_name !=','General User');
         $query = $this->db->get('Role'); // select role table
         return ($query->num_rows() > 0) ? $query->result() : false;
     }
@@ -44,10 +46,12 @@ class User_model extends CI_Model
     }
 
 
-    function getUsers()
+    function getUsers($user_id)
     {
         $this->db->select('*');
         $this->db->from('User');
+        $this->db->where('user_id !=',1);
+        $this->db->where('parent_user_id',$user_id);
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : false;
     }
@@ -63,6 +67,22 @@ class User_model extends CI_Model
         $row = $query->row();
         return ($query->num_rows() == 1) ? $row : false;
     }
+
+     // get a single user of general role
+     function getUserNames($id)
+     {
+         $this->db->select('*');
+         $this->db->from('User');
+         $this->db->where('user_id',$id);
+         $query = $this->db->get();
+         $row = $query->row();
+         $first_name = $row->first_name;
+         $last_name = $row->last_name;
+         $full_name = $first_name + " " + $last_name;
+         // return ($query->num_rows() == 1) ? $full_name : false;
+
+         return $full_name;
+     }
 
 
     // update user

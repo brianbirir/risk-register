@@ -18,6 +18,7 @@ class RISK_Controller extends CI_Controller
         $global_data['first_name'] = $session_data['first_name'];
         $global_data['last_name'] = $session_data['last_name'];
         $global_data['user_id'] = $session_data['user_id'];
+        $global_data['role_id'] = $session_data['role_id'];
         return $global_data;
 	}
 

@@ -17,10 +17,11 @@
 
 
         // get all roles
-        function getRoles()
+        function getRoles($role_id=1)
         {   
             $this->db->select('*');
             $this->db->from('Role');
+            $this->db->where('role_id !=',$role_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
