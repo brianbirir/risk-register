@@ -1,3 +1,8 @@
+<?php 
+    $CI =& get_instance();
+    //$CI->load->model('project_model');
+    $CI->load->model('role_model');
+?>
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">

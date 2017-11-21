@@ -340,6 +340,7 @@ class User extends RISK_Controller
                     'email' => $this->input->post('email'),
                     'password' => $default_password,
                     'Role_role_id' => $this->input->post('role'),
+                    'parent_user_id' => $data['user_id'],
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp
                 );
