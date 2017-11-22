@@ -47,6 +47,17 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // fetch all risk registers for a particular user
+        function getRiskRegisters($user_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Project.User_user_id',$user_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
         // get project name
         function getProjectName($user_id)
         {
