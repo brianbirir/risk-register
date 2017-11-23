@@ -1,9 +1,18 @@
 <!-- view all risk registers -->
 <div class="row">
     <div class="col-md-9">
-        <div class="reg-btn">
-            <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add-device">Add Risk Register</a>
-        </div>
+
+        <!-- ensures general user does not view the Add button -->
+        <?php 
+            if($role_id != 8)
+            {
+        ?>
+                <div class="reg-btn">
+                    <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add-device">Add Risk Register</a>
+                </div>
+        <?php 
+            }
+        ?>
 
         <div class="box box-primary">
 
@@ -16,9 +25,18 @@
 
             <div class="box-body table-responsive no-padding">
             <?php 
-                if (!$riskregister_data) {
-                    $msg = 'You have no registered risk registers!';
-                    echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+                if (!$riskregister_data)
+                {
+                    if($role_id != 8)
+                    {
+                        $msg = 'You have no registered risk registers!';
+                        echo '<div style="margin: 10px;"><div class="alert alert-warning" role="alert">'.$msg.'</div></div>';
+                    }
+                    else 
+                    {
+                        $msg = 'You have not been assigned a risk register! Please contact administrator.';
+                        echo '<div style="margin: 10px;"><div class="alert alert-warning" role="alert">'.$msg.'</div></div>';
+                    }
                 } 
                 else 
                 { ?>

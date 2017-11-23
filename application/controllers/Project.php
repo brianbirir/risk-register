@@ -46,6 +46,7 @@ class Project extends RISK_Controller
         }
     }
 
+    
     // view a single risk register
     function view_project()
     {
@@ -126,12 +127,22 @@ class Project extends RISK_Controller
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
+            
+            if ($data['role_id'] != 8) 
+            {
 
-            $risk_register = $this->project_model->getRiskRegisters($data['user_id']);
+                $risk_register = $this->project_model->getRiskRegisters($data['user_id']);
 
-            //check if result is true
-            ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
-
+                //check if result is true
+                ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
+            }
+            else 
+            {
+                $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
+                
+                //check if result is true
+                ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
+            }
             // load page to show all devices
             $this->template->load('dashboard', 'registry/index', $data);
         }

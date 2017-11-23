@@ -47,7 +47,7 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
-        // fetch all risk registers for a particular user
+        // fetch all risk registers for a particular user i.e. project manager and super administrator
         function getRiskRegisters($user_id)
         {
             $this->db->select('*');
@@ -58,6 +58,30 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+
+        // function getRiskRegisters($user_id)
+        // {
+        //     $this->db->select('*');
+        //     $this->db->from('Subproject');
+        //     $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
+        //     $this->db->where('Subproject_has_User.User_user_id',$user_id);
+        //     $query = $this->db->get();
+        //     return ($query->num_rows() > 0) ? $query->result() : false;
+        // }
+
+
+        // fetch all risk registers assigned to a general user
+        function getAssignedRiskRegisters($user_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
+            $this->db->where('Subproject_has_User.User_user_id',$user_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
         // get project name
         function getProjectName($user_id)
         {
@@ -67,6 +91,7 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+
 
         // get all subproject based only on user id
         function getUserSubProjects($user_id)
@@ -79,6 +104,7 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+
         // get number of projects
         function getProjectNumbers(){
             $this->db->select('*');
@@ -87,6 +113,7 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
+
         // get number of subprojects
         function getSubProjectNumbers(){
             $this->db->select('*');
@@ -94,6 +121,7 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
+
 
         // get single project
         function getSingleProject($project_id)
@@ -116,6 +144,7 @@
             return ($query->num_rows() == 1) ? $query->row() : 0;
         }
 
+
         // get single risk registry name
         function getRiskRegisterName($register_id)
         {
@@ -126,5 +155,5 @@
             $row = $query->row();
             return (isset($row)) ? $row->name : false;
         }
-
     }
+?>

@@ -27,8 +27,17 @@
     <?php
         // check if device data exists
         if (!$project_data) {
-            $msg = 'You have no registered projects!';
-            echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+            if($role_id != 8)
+            {
+                $msg = 'You have no registered projects!';
+                echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+            }
+            else 
+            {
+                $msg = 'You have not been assigned a project! Please contact administrator.';
+                echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+            }
+            
         } else { ?>
         <div class="row">
         <div class="col-xs-12">

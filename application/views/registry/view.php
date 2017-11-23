@@ -25,10 +25,19 @@
     </div>
 
     <div class="col-md-9">
+
+        <?php if($role_id != 8)
+        {
+
+        ?>
         
         <div class="reg-btn">
             <a href="/dashboard/risk/add" class="btn btn-success btn-sm btn-add-device">Add Risk Item</a>
         </div>
+
+        <?php 
+        }
+        ?>
 
         <div class="box box-primary">
 
@@ -41,37 +50,42 @@
 
             <div class="box-body table-responsive no-padding">
             <?php 
-                if (!$risk_data) {
-                    $msg = 'You have no registered subprojects!';
-                    echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+                if (!$risk_data)
+                {
+                    $msg = 'You have no risks for this register!';
+                    echo '<div style="margin: 10px;"><div class="alert alert-warning" role="alert">'.$msg.'</div></div>';
                 } 
                 else 
                 { ?>
 
                 <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <th>ID</th>
-                                <th>Sub-Project</th>
-                                <th>Main Category</th>
-                                <th>Identified Hazard/ Risk</th>
-                            </tr>
-                            <?php
-                                foreach ($risk_data as $risk_row) {
-                                    echo "<tr>";
-                                    echo "<td>".$risk_row->item_id."</td>";
-                                    echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
-                                    echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
-                                    echo "<td>".$risk_row->identified_hazard_risk."</td>";
-                                    echo "<td><a href='/dashboard/risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
-                                    echo "</tr>";
-                                } 
-                            } ?>
-                        </tbody>
-                    <table>
+                    <tbody>
+                        <tr>
+                            <th>ID</th>
+                            <th>Sub-Project</th>
+                            <th>Main Category</th>
+                            <th>Identified Hazard/ Risk</th>
+                        </tr>
+                        <?php
+                            foreach ($risk_data as $risk_row) 
+                            {
+                                echo "<tr>";
+                                echo "<td>".$risk_row->item_id."</td>";
+                                echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
+                                echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
+                                echo "<td>".$risk_row->identified_hazard_risk."</td>";
+                                echo "<td><a href='/dashboard/risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
+                                echo "</tr>";
+                            } 
+                }          ?>
+                    </tbody>
+                <table>
             </div>
-
         </div>
+
+        <!-- <div class="reg-btn">
+            <a href="/dashboard/risk/add" class="btn btn-success btn-sm btn-add-device">Add Risk Item</a>
+        </div> -->
     </div>
 
 </div>

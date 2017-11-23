@@ -203,13 +203,13 @@ class User extends RISK_Controller
         }
     }
 
+
+    // function to assign register to user
     function assign_register()
     {
         $data = array(
-            'riskregister_id' => $this->input->post('riskregister'),
+            'Subproject_subproject_id' => $this->input->post('riskregister'),
             'User_user_id' => $this->input->post('user_id'),
-            'created_at' => $timestamp,
-            'updated_at' => $timestamp
         );
 
         // insert form data into database
