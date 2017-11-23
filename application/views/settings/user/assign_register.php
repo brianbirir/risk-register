@@ -6,13 +6,19 @@
             <?php
                 $fname = $general_user->first_name;
                 $lname = $general_user->last_name;
-                echo "<h3>".$fname." ".$lname."</h3>";
             ?>
 
             <?php 
                 $attributes = array("class" => "ui form", "id" => "signupform", "name" => "signupform");
                 echo form_open("user/assign_register", $attributes);
-            ?>        
+            ?>
+
+            <input type="hidden" name="user_id" id="user_id" class="form-control" value="<?php echo $general_user_id; ?>"/>
+
+            <div class="form-group">
+                <label for="user_name">User's Name</label>
+                <input disabled class="form-control" name="user_name" placeholder="User's Name" type="text" value="<?php echo $fname." ".$lname;?>" />
+            </div>
 
             <div class="form-group">
                 <label for="riskregister">Risk Register</label>
