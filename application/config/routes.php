@@ -31,7 +31,7 @@ $route['dashboard/risk/add'] = 'risk/add';
 $route['dashboard/risk/(:num)'] = 'risk/single/$1'; // route to view a single risk item
 
 // reports
-$route['dashboard/report'] = 'report/index';
+$route['dashboard/reports'] = 'report/index';
 
 
 // settings routes
