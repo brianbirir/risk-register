@@ -46,7 +46,7 @@ class Project extends RISK_Controller
         }
     }
 
-    // view a single project
+    // view a single risk register
     function view_project()
     {
         $data = array('title' => 'Single Project');
@@ -111,11 +111,11 @@ class Project extends RISK_Controller
     }
 
 
-    // view all subprojects
-    function index_subproject_view()
+    // view all risk registers
+    function view_risk_registers()
     {
         $data = array(
-            'title' => 'Subprojects'
+            'title' => 'Risk Registers'
         );
   
         if($this->session->userdata('logged_in'))
@@ -127,13 +127,13 @@ class Project extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            $subproject = $this->project_model->getSubProjects($data['user_id']);
+            $risk_register = $this->project_model->getRiskRegisters($data['user_id']);
 
             //check if result is true
-            ($subproject) ? $data['subproject_data'] = $subproject : $data['subproject_data'] = false;
+            ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
 
             // load page to show all devices
-            $this->template->load('dashboard', 'project/subproject', $data);
+            $this->template->load('dashboard', 'registry/index', $data);
         }
         else
         {
@@ -168,7 +168,7 @@ class Project extends RISK_Controller
     }
 
 
-    // view for registering a subproject
+    // view for registering a risk register
     function reg_subproject_view()
     {
         $data = array('title' => 'Add Risk Registry');
@@ -245,7 +245,7 @@ class Project extends RISK_Controller
     }
 
 
-    // subproject registration process
+    // risk register registration process
     function reg_subproject()
     {
         //set validation rules

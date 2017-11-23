@@ -18,7 +18,7 @@ class Risk extends RISK_Controller
     // view all registered risks owned by a subproject
     function index()
     {
-        $data = array('title' => 'Risk Registry');
+        $data = array('title' => 'Risks');
 
         if($this->session->userdata('logged_in'))
         {
@@ -30,13 +30,13 @@ class Risk extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
 
             // get risk data
-            $risk = $this->risk_model->getRegistry($data['user_id']);
+            $risk = $this->risk_model->getRisk($data['user_id']);
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             // load page to show all registered risks
-            $this->template->load('dashboard', 'risk_registry/index', $data);
+            $this->template->load('dashboard', 'risk/index', $data);
         }
         else
         {

@@ -1,6 +1,6 @@
 <?php 
     $CI =& get_instance();
-    //$CI->load->model('project_model');
+    $CI->load->model('team_model');
     $CI->load->model('role_model');
 ?>
 <div class="row">
@@ -51,7 +51,15 @@
                                 echo "<td>".$user_row->email."</td>";
                                 echo "<td>".$user_row->username."</td>";
                                 echo "<td>".$CI->role_model->getRoleName($user_row->Role_role_id)."</td>";
-                                echo "<td><span class='label label-danger'><a href='/settings/user/riskregister/".$user_row->user_id."' style='color:#ffffff'>Unassigned</a></span></td>";
+                                // check if a general user has already been assigned a risk register
+                                if ($CI->team_model->is_assigned($user_row->user_id))
+                                {
+                                    echo "<td><span class='label label-success'>Assigned</span></td>";
+                                }
+                                else {
+                                    echo "<td><span class='label label-danger'><a href='/settings/user/riskregister/".$user_row->user_id."' style='color:#ffffff'>Unassigned</a></span></td>";
+                                }
+                                
                                 echo "<td>
                                         <a title='edit' href='/settings/user/".$user_row->user_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                         <a title='delete' href='/settings/user/delete/".$user_row->user_id."'><i class='fa fa-trash' aria-hidden='true'></i>
