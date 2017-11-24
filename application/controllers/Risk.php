@@ -46,7 +46,7 @@ class Risk extends RISK_Controller
     }
     
     
-    // the view for adding risk registry
+    // the view for adding risk
     function add()
     {
         $data = array('title' => 'Add Risk');
@@ -98,18 +98,18 @@ class Risk extends RISK_Controller
         $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
         $this->form_validation->set_rules('status', 'Status', 'trim|required');
 
+        $data = array('title' => 'Register Risk');
+        
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+
+        // get global data
+        $data = array_merge($data, $this->get_global_data());
         
         //validate form input
         if ($this->form_validation->run() == FALSE)
         {
-            $data = array('title' => 'Register Risk');
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
-            // get global data
-            $data = array_merge($data, $this->get_global_data());
-
             // select drop down
             $data['select_status'] = $this->getStatus();
             $data['select_category'] = $this->getCategories();
@@ -125,8 +125,11 @@ class Risk extends RISK_Controller
         {
             $timestamp = date('Y-m-d G:i:s');
 
+            // get global data
+            $global_data = $this->get_global_data();
+
             //insert the risk data into database
-            $data = array(
+            $risk_data = array(
                 'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
                 'cause_trigger' => $this->input->post('cause_trigger'),
                 'effect' => $this->input->post('effect'),
@@ -156,15 +159,16 @@ class Risk extends RISK_Controller
                 'residual_risk_rating' => $this->input->post('residual_risk_rating'),
                 'residual_risk_level' => $this->input->post('residual_risk_level'),
                 'Subproject_subproject_id' => $this->input->post('sub_project'),
+                'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             );
             
             // insert form data into database
-            if ($this->risk_model->insertRegistry($data))
+            if ($this->risk_model->insertRegistry($risk_data))
             {
                 $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
-                redirect('dashboard/risk');
+                redirect('dashboard/risks');
             }
             else
             {
