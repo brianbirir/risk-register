@@ -16,14 +16,12 @@
         }
 
 
-        // get risks registered under the particular user and subproject
+        // get risks registered by specific user
         function getRisk($user_id)
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
-            $this->db->where('Project.User_user_id',$user_id);
+            $this->db->where('User_user_id',$user_id);
             $query = $this->db->get();
             
             return ($query->num_rows() > 0) ? $query->result() : false;
