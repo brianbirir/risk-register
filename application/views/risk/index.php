@@ -64,7 +64,7 @@
                                     echo "<td><a href='risk/".$risk_row->item_id."' class='btn btn-primary'>View</td>";
                                     echo "<td>
                                     <a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                    <a title='delete' href='/dashboard/risk/delete/".$risk_row->item_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                    <a title='archive' href='/dashboard/risk/delete/".$risk_row->item_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                         </td>";
                                     echo "</tr>";
                                     echo "</tr>";

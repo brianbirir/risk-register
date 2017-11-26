@@ -6,7 +6,7 @@
 
  // residual risk
  var calc_residual_risk_btn = document.getElementById('btn-calc-res-risk');
- calc_residual_risk_btn.onclick = calcResidualRisk;
+ // calc_residual_risk_btn.onclick = calcResidualRisk;
 
  function calcResidualRisk()
  {
@@ -29,7 +29,7 @@
 
  // risk for qualitative assessment
  var calc_risk_btn = document.getElementById('btn-calc-risk');
- calc_risk_btn.onclick = calcQualitativeRisk;
+//  calc_risk_btn.onclick = calcQualitativeRisk;
 
  function calcQualitativeRisk() 
  {
@@ -65,8 +65,8 @@
  }
 
  // reset values in form input field with reset button
- var reset_risk_btn = document.getElementById('btn-risk-reset');
- reset_risk_btn.onclick = reset;
+ //var reset_risk_btn = document.getElementById('btn-risk-reset');
+ //reset_risk_btn.onclick = reset;
 
  function reset()
  {
@@ -161,4 +161,12 @@ $('#risk-tabs li:eq(3) a').click(function (e) {
 $('#risk-tabs li:eq(4) a').click(function (e) {
   e.preventDefault()
   $(this).tab('show')
+});
+
+// jQuery
+$(document).ready(function() {
+    // initiate date picker
+    $('.datepicker').datepicker({
+        format: 'yyyy/mm/dd',
+    });
 });

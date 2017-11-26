@@ -23,7 +23,6 @@
             $this->db->from('RiskRegistry');
             $this->db->where('User_user_id',$user_id);
             $query = $this->db->get();
-            
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 

@@ -34,6 +34,7 @@ $route['dashboard/risk/delete/(:num)'] = 'risk/delete/$1';
 
 // reports
 $route['dashboard/reports'] = 'report/index';
+$route['dashboard/reports/filter'] = 'report/export';
 
 
 // settings routes
@@ -47,3 +48,5 @@ $route['settings/user/add'] = 'user/add';
 $route['settings/user/(:num)'] = 'user/edit/$1';
 $route['settings/user/delete/(:num)'] = 'user/delete/$1';
 $route['settings/user/riskregister/(:num)'] = 'user/assign_register_view/$1';
+$route['settings/data'] = 'data/index';
+$route['settings/data/status'] = 'data/index_status';
