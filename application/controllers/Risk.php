@@ -120,7 +120,10 @@ class Risk extends RISK_Controller
 
     // update function for a risk item
     function update()
-    {
+    {   
+        // view title
+        $data = array('title' => 'Edit Risk');
+
         //set validation rules
         $this->form_validation->set_rules('identified_hazard_risk', 'Identified Hazard Risk', 'trim|required');
         $this->form_validation->set_rules('cause_trigger', 'Cause Trigger', 'trim|required');
@@ -147,11 +150,11 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
-            // get id from fourth segment of uri
-            $id = $this->uri->segment(4);
+            // get risk id from hidden field
+            $risk_id= $this->input->post('risk_id');
 
-            // get risk data based on id from uri
-            $data['risk'] = $this->risk_model->getRisk($id);
+            // get risk data based on id hidden field
+            $data['risk'] = $this->risk_model->getRisk($risk_id);
 
             // select drop down
             $data['select_status'] = $this->getStatus();

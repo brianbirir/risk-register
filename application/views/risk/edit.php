@@ -160,14 +160,17 @@
                             ?>
                         </div>
                         <div class="col-xs-12">
-                            <button id="btn-calc-risk" class="btn btn-primary btn-calc-risk pull-right btn-sm" type="button">Calculate Risk Rating & Level</button>
+                            <div class="pull-right">
+                                <button id="btn-calc-risk" class="btn btn-primary btn-calc-risk btn-sm" type="button">Calculate</button>
+                                <button id="btn-risk-reset" class="btn btn-success btn-sm" type="button">Reset</button>
+                            </div>
                         </div>
                     </div>
 
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label for="risk_rating">Risk Rating</label>
-                            <input disabled id="risk_rating" class="form-control" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo $risk->risk_rating; ?>" required/>
+                            <input id="risk_rating" class="form-control" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo $risk->risk_rating; ?>" required/>
                             <?php echo form_error('risk_rating','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>
@@ -175,7 +178,7 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label for="risk_level">Risk Level</label>
-                            <input disabled id="risk_level" class="form-control" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo $risk->risk_level; ?>" required/>
+                            <input id="risk_level" class="form-control" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo $risk->risk_level; ?>" required/>
                             <?php echo form_error('risk_level','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>
@@ -251,7 +254,10 @@
                         </div>
                     </div>
                     <div class="col-xs-12">
-                        <button id="btn-calc-res-risk" class="btn btn-primary pull-right btn-sm" type="button">Calculate Residual Risk Rating & Level</button>
+                    <div class="pull-right">
+                        <button id="btn-calc-res-risk" class="btn btn-primary btn-sm" type="button">Calculate</button>
+                        <button id="btn-residualrisk-reset" class="btn btn-success btn-sm" type="button">Reset</button>
+                    </div>
                     </div>
                 </div>
 
@@ -259,14 +265,14 @@
                     <div class="col-xs-6">
                         <div class="form-group">
                             <label for="residual_risk_rating">Residual Risk Rating</label>
-                            <input disabled id="residual_risk_rating" class="form-control" name="residual_risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo $risk->residual_risk_rating; ?>" required/>
+                            <input id="residual_risk_rating" class="form-control" name="residual_risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo $risk->residual_risk_rating; ?>" required/>
                             <?php echo form_error('residual_risk_rating','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>         
                     <div class="col-xs-6">   
                         <div class="form-group">
                             <label for="residual_risk_level">Residual Risk Level</label>
-                            <input disabled id="residual_risk_level" class="form-control" name="residual_risk_level" placeholder="Residual Risk Level" type="text" value="<?php echo $risk->residual_risk_level; ?>" required/>
+                            <input id="residual_risk_level" class="form-control" name="residual_risk_level" placeholder="Residual Risk Level" type="text" value="<?php echo $risk->residual_risk_level; ?>" required/>
                             <?php echo form_error('residual_risk_level','<div class="alert alert-danger">','</div>'); ?>
                         </div>
                     </div>
