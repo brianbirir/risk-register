@@ -209,9 +209,9 @@ class Risk extends RISK_Controller
             );
             
             // insert form data into database
-            if ($this->risk_model->updateRisk($risk_data))
+            if ($this->risk_model->updateRisk($risk_data,$risk_id))
             {
-                $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
+                $this->session->set_flashdata('positive-msg','Risk has been successfully updated.');
                 redirect('dashboard/risk/edit/'.$risk_id);
             }
             else
@@ -469,7 +469,7 @@ class Risk extends RISK_Controller
         }
     }
 
-    // categories
+    // risk registers
     function getSubProject()
     {
         $subproject = $this->risk_model->getSubProject();

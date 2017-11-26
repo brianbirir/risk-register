@@ -162,7 +162,7 @@
                         <div class="col-xs-12">
                             <div class="pull-right">
                                 <button id="btn-calc-risk" class="btn btn-primary btn-calc-risk btn-sm" type="button">Calculate</button>
-                                <button id="btn-risk-reset" class="btn btn-success btn-sm" type="button">Reset</button>
+                                <!-- <button id="btn-risk-reset" class="btn btn-success btn-sm" type="button">Reset</button> -->
                             </div>
                         </div>
                     </div>
@@ -256,7 +256,7 @@
                     <div class="col-xs-12">
                     <div class="pull-right">
                         <button id="btn-calc-res-risk" class="btn btn-primary btn-sm" type="button">Calculate</button>
-                        <button id="btn-residualrisk-reset" class="btn btn-success btn-sm" type="button">Reset</button>
+                        <!-- <button id="btn-residualrisk-reset" class="btn btn-success btn-sm" type="button">Reset</button> -->
                     </div>
                     </div>
                 </div>
