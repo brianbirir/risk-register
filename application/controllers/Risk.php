@@ -29,8 +29,8 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get risk data
-            $risk = $this->risk_model->getRisk($data['user_id']);
+            // get risk data belonging to specific user 
+            $risk = $this->risk_model->getUserRisk($data['user_id']);
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
@@ -78,6 +78,173 @@ class Risk extends RISK_Controller
         }
     }
 
+
+    // view editing risk item
+    function edit()
+    {
+        $data = array('title' => 'Edit Risk');
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            // get id from fourth segment of uri
+            $id = $this->uri->segment(4);
+
+            // get risk data based on id from uri
+            $data['risk'] = $this->risk_model->getRisk($id);
+
+            // select drop down
+            $data['select_status'] = $this->getStatus();
+            $data['select_category'] = $this->getCategories();
+            $data['select_strategy'] = $this->getRiskStrategies();
+            $data['select_safety'] = $this->getSystemSafety();
+            $data['select_realization'] = $this->getRealization();
+            $data['select_subproject'] = $this->getSubProject();
+
+            // load page to show all devices
+            $this->template->load('dashboard', 'risk/edit', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // update function for a risk item
+    function update()
+    {   
+        // view title
+        $data = array('title' => 'Edit Risk');
+
+        //set validation rules
+        $this->form_validation->set_rules('identified_hazard_risk', 'Identified Hazard Risk', 'trim|required');
+        $this->form_validation->set_rules('cause_trigger', 'Cause Trigger', 'trim|required');
+        $this->form_validation->set_rules('effect', 'Effect', 'trim|required');
+        $this->form_validation->set_rules('materialization_phase', 'Materialization Phase', 'trim|required');
+        $this->form_validation->set_rules('risk_owner', 'Risk Owner', 'trim|required');
+        $this->form_validation->set_rules('risk_rating', 'Risk Rating', 'trim|required');
+        $this->form_validation->set_rules('risk_level', 'Risk Level', 'trim|required');
+        $this->form_validation->set_rules('comments', 'Comments', 'trim|required');
+        $this->form_validation->set_rules('control_mitigation', 'Risk Control Mitigation', 'trim|required');
+        $this->form_validation->set_rules('residual_risk_rating', 'Residual Risk Rating', 'trim|required');
+        $this->form_validation->set_rules('residual_risk_level', 'Residual Risk Level', 'trim|required');
+        $this->form_validation->set_rules('action_owner', 'Action Owner', 'trim|required');
+        $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
+        $this->form_validation->set_rules('status', 'Status', 'trim|required');
+
+        // validate form input
+        if ($this->form_validation->run() == FALSE)
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            // get risk id from hidden field
+            $risk_id= $this->input->post('risk_id');
+
+            // get risk data based on id hidden field
+            $data['risk'] = $this->risk_model->getRisk($risk_id);
+
+            // select drop down
+            $data['select_status'] = $this->getStatus();
+            $data['select_category'] = $this->getCategories();
+            $data['select_strategy'] = $this->getRiskStrategies();
+            $data['select_safety'] = $this->getSystemSafety();
+            $data['select_realization'] = $this->getRealization();
+            $data['select_subproject'] = $this->getSubProject();
+
+            // load page to show all devices
+            $this->template->load('dashboard', 'risk/edit', $data);
+        }
+        else
+        {
+            $timestamp = date('Y-m-d G:i:s');
+
+            // get risk id from hidden field
+            $risk_id= $this->input->post('risk_id');
+
+            //insert the risk data into database
+            $risk_data = array(
+                'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
+                'cause_trigger' => $this->input->post('cause_trigger'),
+                'effect' => $this->input->post('effect'),
+                'materialization_phase' => $this->input->post('materialization_phase'),
+                'risk_owner' => $this->input->post('risk_owner'),
+                'likelihood' => $this->input->post('likelihood'),
+                'time_impact' => $this->input->post('timeimpact'),
+                'cost_impact' => $this->input->post('costimpact'),
+                'reputation_impact' => $this->input->post('reputationimpact'),
+                'hs_impact' => $this->input->post('hsimpact'),
+                'env_impact' => $this->input->post('environmentimpact'),
+                'legal_impact' => $this->input->post('legalimpact'),
+                'quality_impact' => $this->input->post('qualityimpact'),
+                'risk_rating' => $this->input->post('risk_rating'),
+                'risk_level' => $this->input->post('risk_level'),
+                'comments' => $this->input->post('comments'),
+                'control_mitigation' => $this->input->post('control_mitigation'),
+                'action_owner' => $this->input->post('action_owner'),
+                'milestone_target_date' => $this->input->post('milestone_target_date'),
+                'RiskCategories_category_id' => $this->input->post('main_category'),
+                'RiskStrategies_strategy_id' => $this->input->post('strategy'),
+                'SystemSafety_safety_id' => $this->input->post('system_safety'),
+                'Status_status_id' => $this->input->post('status'),
+                'Realization_realization_id' => $this->input->post('realization'),
+                'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
+                'residual_risk_impact' => $this->input->post('residual_impact'),
+                'residual_risk_rating' => $this->input->post('residual_risk_rating'),
+                'residual_risk_level' => $this->input->post('residual_risk_level'),
+                'Subproject_subproject_id' => $this->input->post('sub_project'),
+                'updated_at' => $timestamp
+            );
+            
+            // insert form data into database
+            if ($this->risk_model->updateRisk($risk_data,$risk_id))
+            {
+                $this->session->set_flashdata('positive-msg','Risk has been successfully updated.');
+                redirect('dashboard/risk/edit/'.$risk_id);
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                redirect('dashboard/risk/edit/'.$risk_id);
+            } 
+
+        }
+    }
+
+    // delete a risk item
+    function delete()
+    {
+        // get id from fourth segment of uri
+        $id = $this->uri->segment(4);
+
+        // delete risk record
+        if($this->risk_model->deleteRisk($id))
+        {
+            $this->session->set_flashdata('positive-msg','You have deleted the risk item successfully!');
+
+            // load page for viewing all roles
+            redirect('dashboard/risks');
+        }
+        else
+        {
+            // error
+            $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
+            redirect('dashboard/risks');
+        }
+    }
     
     // function for adding risk
     function register()
@@ -174,7 +341,7 @@ class Risk extends RISK_Controller
             {
                 // error
                 $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-                redirect('signup');
+                redirect('dashboard/risks');
             }
         }
     }
@@ -302,7 +469,7 @@ class Risk extends RISK_Controller
         }
     }
 
-    // categories
+    // risk registers
     function getSubProject()
     {
         $subproject = $this->risk_model->getSubProject();
@@ -342,8 +509,10 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $uri_id = $this->uri->segment(3); // get id from third segment of uri
+
             // get risk data
-            $risk = $this->risk_model->getRisk($data['user_id']);
+            $risk = $this->risk_model->getRisk($uri_id);
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;

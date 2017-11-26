@@ -138,10 +138,10 @@ class User extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
-            // get id from third segment of uri
+            // get id from fourth segment of uri
             $id = $this->uri->segment(3);
 
-            // get user data based in id from uri
+            // get user data based on id from uri
             $data['user'] = $this->user_model->getUser($id);
 
             // load page to show all roles
@@ -404,7 +404,7 @@ class User extends RISK_Controller
         // get id from fourth segment of uri
         $id = $this->uri->segment(4);
 
-        // delete role record
+        // delete user record
         if($this->user_model->deleteUser($id))
         {
             $this->session->set_flashdata('positive-msg','You have deleted the user successfully!');

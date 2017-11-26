@@ -20,9 +20,19 @@
       </div>
     <?php } ?>
 
+    <!-- ensures general user does not view the Add button -->
+    <?php 
+        if($role_id != 8)
+        {
+    ?>
+
     <div class="reg-btn">
         <a href="/dashboard/project/add" class="btn btn-success btn-sm btn-add-device">Add Project</a>
     </div>
+
+    <?php 
+        }
+    ?>
 
     <?php
         // check if device data exists

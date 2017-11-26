@@ -6,7 +6,7 @@
 
  // residual risk
  var calc_residual_risk_btn = document.getElementById('btn-calc-res-risk');
- calc_residual_risk_btn.onclick = calcResidualRisk;
+ // calc_residual_risk_btn.onclick = calcResidualRisk;
 
  function calcResidualRisk()
  {
@@ -29,10 +29,12 @@
 
  // risk for qualitative assessment
  var calc_risk_btn = document.getElementById('btn-calc-risk');
- calc_risk_btn.onclick = calcQualitativeRisk;
+//  calc_risk_btn.onclick = calcQualitativeRisk;
 
- function calcQualitativeRisk() {
-
+ function calcQualitativeRisk() 
+ {
+    var risk_form = document.forms['edit-risk-form'];
+    
     var likelihood_value = document.getElementById('likelihoodimpact').value;
     var time_value = document.getElementById('timeimpact').value;
     var cost_value = document.getElementById('costimpact').value;
@@ -50,9 +52,45 @@
     document.getElementById('risk_rating').value = risk_rating;
     document.getElementById('risk_level').value = risk_level.level;
 
+    // risk_form.elements["risk_rating"].value = risk_rating;
+    // risk_form.elements["risk_rating"].setAttribute("value",risk_rating);
+    
+    // risk_form.elements["risk_level"].value = risk_level.level;
+    // risk_form.elements["risk_level"].setAttribute("value",risk_level.level);
+
     // set colour background for form input based in risk level
     var risk_level_input = document.querySelector("#risk_level");
     risk_level_input.style.backgroundColor = risk_level.color;
+
+ }
+
+ // reset values in form input field with reset button
+ //var reset_risk_btn = document.getElementById('btn-risk-reset');
+ //reset_risk_btn.onclick = reset;
+
+ function reset()
+ {
+    var risk_form = document.forms['edit-risk-form'];
+
+    var likelihood = document.getElementById('likelihoodimpact');
+    var time = document.getElementById('timeimpact');
+    var cost = document.getElementById('costimpact');
+    var reputation = document.getElementById('reputationimpact');
+    var hs = document.getElementById('hsimpact');
+    var env = document.getElementById('envimpact');
+    var legal = document.getElementById('legalimpact');
+    var quality = document.getElementById('qualityimpact');
+
+    likelihood.value = 1;
+    time.value = 1;
+    cost.value = 1;
+    reputation.value = 1;
+    hs.value = 1;
+    env.value = 1;
+    legal.value = 1;
+    quality.value = 1;
+    risk_form.elements["risk_rating"].value = "";
+    risk_form.elements["risk_level"].value = "";
 
  }
 
@@ -123,4 +161,12 @@ $('#risk-tabs li:eq(3) a').click(function (e) {
 $('#risk-tabs li:eq(4) a').click(function (e) {
   e.preventDefault()
   $(this).tab('show')
+});
+
+// jQuery
+$(document).ready(function() {
+    // initiate date picker
+    $('.datepicker').datepicker({
+        format: 'yyyy/mm/dd',
+    });
 });

@@ -16,30 +16,46 @@
         }
 
 
-        // get risks registered by specific user
-        function getRisk($user_id)
+        // get risk items registered by specific user
+        function getUserRisk($user_id)
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->where('User_user_id',$user_id);
             $query = $this->db->get();
-            
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
 
-        // update risk registry
-        function updateRegistry($data)
-        {
-            
+        // get risk items based on risk ID
+        function getRisk($risk_id)
+        {   
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('item_id',$risk_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row : false;
         }
 
 
-        // delete risk registry
-        function deleteRegistry($risk_id)
+        // update risk item
+        function updateRisk($data,$id)
         {
-            
+            $this->db->set($data);
+            $this->db->where('item_id',$id);
+            $this->db->update('RiskRegistry',$data);
+            return true;
         }
+
+
+        // delete risk item
+        function deleteRisk($user_id)
+        {
+            $this->db->delete('RiskRegistry',array('user_id'=>$user_id));
+            return true;
+        }
+
 
         // get risk strategies info
         function getRiskStrategies(){
