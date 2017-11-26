@@ -509,8 +509,10 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $uri_id = $this->uri->segment(3); // get id from third segment of uri
+
             // get risk data
-            $risk = $this->risk_model->getRisk($data['user_id']);
+            $risk = $this->risk_model->getRisk($uri_id);
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;

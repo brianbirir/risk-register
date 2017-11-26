@@ -162,7 +162,7 @@
                                     echo "<td>".$risk_row->env_impact."</td>";
                                     echo "<td>".$risk_row->legal_impact."</td>";
                                     echo "<td>".$risk_row->quality_impact."</td>";
-                                    echo "<td>".$risk_row->comments."</td>";
+                                    echo "<td>".$CI->trim->trim_text($risk_row->comments)."</td>";
                                     echo "<td>".$risk_row->risk_rating."</td>";
                                     echo "<td>".$risk_row->risk_level."</td>";
                                     echo "<td>".$CI->risk_model->getRiskStrategiesName($risk_row->RiskStrategies_strategy_id)."</td>";
