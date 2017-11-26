@@ -54,8 +54,7 @@
 
             <div class="form-group">
                 <label for="role">Role</label>
-                <input class="form-control" name="role" disabled type="text" value="<?php echo $CI->role_model->getRoleName($user->Role_role_id); ?>
-" />
+                <input class="form-control" name="role" disabled type="text" value="<?php echo $CI->role_model->getRoleName($user->Role_role_id); ?> " />
             </div>
 
             <input name="btn_update" type="submit" class="btn btn-default btn-reg" value="Update" />

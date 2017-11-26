@@ -1,6 +1,6 @@
-<!-- risk registry registration form -->
+<!-- risk registration form -->
 <div class="row">
-    <div id="reg-project-form">
+    <div id="reg-risk-form">
 
         <?php
             $attributes = array("class" => "ui form", "id" => "risk-reg-form", "name" => "reg-risk-form");
@@ -10,7 +10,7 @@
         <div class="col-md-6 col-sm-12">
 
             <div class="form-group">
-                <label for="sub_project">Subproject</label>
+                <label for="sub_project">Risk Register</label>
                 <?php 
                     $select_subproject_attributes = 'class="form-control" required';
                     echo form_dropdown('sub_project',$select_subproject,"1",$select_subproject_attributes);
