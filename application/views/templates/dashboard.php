@@ -47,5 +47,6 @@
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <!-- Custom js -->
 	      <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/main.js"></script>
+        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/date.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/validate.js"></script>
     </body>
