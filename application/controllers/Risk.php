@@ -67,6 +67,7 @@ class Risk extends RISK_Controller
             $data['select_safety'] = $this->getSystemSafety();
             $data['select_realization'] = $this->getRealization();
             $data['select_subproject'] = $this->getSubProject();
+            $data['select_risk_owner'] = $this->getRiskOwner();            
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);
@@ -106,6 +107,7 @@ class Risk extends RISK_Controller
             $data['select_safety'] = $this->getSystemSafety();
             $data['select_realization'] = $this->getRealization();
             $data['select_subproject'] = $this->getSubProject();
+            $data['select_risk_owner'] = $this->getRiskOwner();
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
@@ -163,6 +165,7 @@ class Risk extends RISK_Controller
             $data['select_safety'] = $this->getSystemSafety();
             $data['select_realization'] = $this->getRealization();
             $data['select_subproject'] = $this->getSubProject();
+            $data['select_risk_owner'] = $this->getRiskOwner();
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
@@ -180,7 +183,7 @@ class Risk extends RISK_Controller
                 'cause_trigger' => $this->input->post('cause_trigger'),
                 'effect' => $this->input->post('effect'),
                 'materialization_phase' => $this->input->post('materialization_phase'),
-                'risk_owner' => $this->input->post('risk_owner'),
+                // 'risk_owner' => $this->input->post('risk_owner'),
                 'likelihood' => $this->input->post('likelihood'),
                 'time_impact' => $this->input->post('timeimpact'),
                 'cost_impact' => $this->input->post('costimpact'),
@@ -200,6 +203,7 @@ class Risk extends RISK_Controller
                 'SystemSafety_safety_id' => $this->input->post('system_safety'),
                 'Status_status_id' => $this->input->post('status'),
                 'Realization_realization_id' => $this->input->post('realization'),
+                'RiskOwner_riskowner_id' => $this->input->post('risk_owner'),
                 'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
                 'residual_risk_impact' => $this->input->post('residual_impact'),
                 'residual_risk_rating' => $this->input->post('residual_risk_rating'),
@@ -284,6 +288,7 @@ class Risk extends RISK_Controller
             $data['select_safety'] = $this->getSystemSafety();
             $data['select_realization'] = $this->getRealization();
             $data['select_subproject'] = $this->getSubProject();
+            $data['select_risk_owner'] = $this->getRiskOwner(); 
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk_registry/add', $data);
@@ -301,7 +306,7 @@ class Risk extends RISK_Controller
                 'cause_trigger' => $this->input->post('cause_trigger'),
                 'effect' => $this->input->post('effect'),
                 'materialization_phase' => $this->input->post('materialization_phase'),
-                'risk_owner' => $this->input->post('risk_owner'),
+                // 'risk_owner' => $this->input->post('risk_owner'),
                 'likelihood' => $this->input->post('likelihood'),
                 'time_impact' => $this->input->post('timeimpact'),
                 'cost_impact' => $this->input->post('costimpact'),
@@ -321,6 +326,7 @@ class Risk extends RISK_Controller
                 'SystemSafety_safety_id' => $this->input->post('system_safety'),
                 'Status_status_id' => $this->input->post('status'),
                 'Realization_realization_id' => $this->input->post('realization'),
+                'RiskOwner_riskowner_id' => $this->input->post('risk_owner'),
                 'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
                 'residual_risk_impact' => $this->input->post('residual_impact'),
                 'residual_risk_rating' => $this->input->post('residual_risk_rating'),
@@ -468,6 +474,32 @@ class Risk extends RISK_Controller
             return 'No Data!';
         }
     }
+
+
+    // risk owners
+    function getRiskOwner()
+    {
+        $owners = $this->risk_model->getRiskOwner();
+        
+        if($owners)
+        {
+            $options = array();
+
+            foreach ($owners as $row) 
+            {
+                $owner_id = $row->riskowner_id;
+                $owner_name = $row->risk_owner;
+                $options[$owner_id] = $owner_name;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
 
     // risk registers
     function getSubProject()

@@ -98,7 +98,7 @@ class Project extends RISK_Controller
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
             $data['register_name'] = $single_register->name;
             $data['register_description'] = $single_register->description;
-            $risk = $this->risk_model->getUserSingleRisk($data['user_id']);
+            $risk = $this->risk_model->getUserRisk($data['user_id']);
 
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
