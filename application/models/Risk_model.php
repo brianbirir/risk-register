@@ -110,6 +110,16 @@
         }
 
 
+        // get risk owner
+        function getRiskOwner()
+        {
+            $this->db->select('*');
+            $this->db->from('RiskOwner');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
         // Get name from each entity from database based on ID
 
         // get risk strategies info
@@ -120,6 +130,18 @@
             $query = $this->db->get();
             $row = $query->row();
             return (isset($row)) ? $row->strategy_name : false;
+        }
+
+
+        // get risk owner name
+        function getRiskOwnerName($id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskOwner');
+            $this->db->where('riskowner_id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->risk_owner : false;
         }
 
 
@@ -176,6 +198,9 @@
             $row = $query->row();
             return (isset($row)) ? $row->name : false;
         }
+
+
+        
 
         // get number of risks
         function getRiskNumbers()

@@ -75,10 +75,19 @@
                     <?php echo form_error('materialization_phase','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <label for="risk_owner">Risk Owner</label>
                     <input class="form-control" name="risk_owner" placeholder="Risk Owner" type="text" value="<?php echo $risk->risk_owner; ?>" required/>
                     <?php echo form_error('risk_owner','<div class="alert alert-danger">','</div>'); ?>
+                </div> -->
+
+                <div class="form-group">
+                    <label for="risk_owner">Risk Owner</label>
+                    <?php 
+                        $select_risk_owner_attributes = 'class="form-control" required';
+                        $risk_owner_id = $risk->RiskOwner_riskowner_id;
+                        echo form_dropdown('main_category',$select_risk_owner,$risk_owner_id,$select_risk_owner_attributes);
+                    ?>
                 </div>
 
             </fieldset>

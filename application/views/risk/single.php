@@ -57,10 +57,10 @@
                 echo "<td><label>Risk Materialization Phase:</label></td>";
                 echo "<td><p>".$risk_data->materialization_phase."</p></td>";
                 echo "</tr>";
-
+                
                 echo "<tr>";
                 echo "<td><label>Risk Owner:</label></td>";
-                echo "<td><p>".$risk_data->risk_owner."</p></td>";
+                echo "<td><p>".$CI->risk_model->getRiskOwnerName($risk_data->RiskOwner_riskowner_id)."</p></td>";
                 echo "</tr>";
 
                 echo "</table>";
