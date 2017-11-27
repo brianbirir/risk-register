@@ -18,7 +18,7 @@
             </div>
 
             <div class="form-group">
-                <label for="system_safety">Main Category</label>
+                <label for="main_category">Main Category</label>
                 <?php 
                     $select_main_category_attributes = 'class="form-control" required';
                     echo form_dropdown('main_category',$select_category,"1",$select_main_category_attributes);
@@ -57,17 +57,11 @@
                     <?php echo form_error('materialization_phase','<div class="alert alert-danger">','</div>'); ?>
                 </div>
 
-                <!-- <div class="form-group">
-                    <label for="risk_owner">Risk Owner</label>
-                    <input class="form-control" name="risk_owner" placeholder="Risk Owner" type="text" value="<?php echo set_value('risk_owner'); ?>" required/>
-                    <?php echo form_error('risk_owner','<div class="alert alert-danger">','</div>'); ?>
-                </div> -->
-
                 <div class="form-group">
                     <label for="risk_owner">Risk Owner</label>
                     <?php 
                         $select_risk_owner_attributes = 'class="form-control" required';
-                        echo form_dropdown('select_risk_owner',$select_risk_owner,"1",$select_risk_owner_attributes);
+                        echo form_dropdown('risk_owner',$select_risk_owner,"1",$select_risk_owner_attributes);
                     ?>
                 </div>
 
