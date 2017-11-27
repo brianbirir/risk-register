@@ -131,7 +131,6 @@ class Risk extends RISK_Controller
         $this->form_validation->set_rules('cause_trigger', 'Cause Trigger', 'trim|required');
         $this->form_validation->set_rules('effect', 'Effect', 'trim|required');
         $this->form_validation->set_rules('materialization_phase', 'Materialization Phase', 'trim|required');
-        $this->form_validation->set_rules('risk_owner', 'Risk Owner', 'trim|required');
         $this->form_validation->set_rules('risk_rating', 'Risk Rating', 'trim|required');
         $this->form_validation->set_rules('risk_level', 'Risk Level', 'trim|required');
         $this->form_validation->set_rules('comments', 'Comments', 'trim|required');
@@ -140,7 +139,6 @@ class Risk extends RISK_Controller
         $this->form_validation->set_rules('residual_risk_level', 'Residual Risk Level', 'trim|required');
         $this->form_validation->set_rules('action_owner', 'Action Owner', 'trim|required');
         $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
-        $this->form_validation->set_rules('status', 'Status', 'trim|required');
 
         // validate form input
         if ($this->form_validation->run() == FALSE)
@@ -183,7 +181,6 @@ class Risk extends RISK_Controller
                 'cause_trigger' => $this->input->post('cause_trigger'),
                 'effect' => $this->input->post('effect'),
                 'materialization_phase' => $this->input->post('materialization_phase'),
-                // 'risk_owner' => $this->input->post('risk_owner'),
                 'likelihood' => $this->input->post('likelihood'),
                 'time_impact' => $this->input->post('timeimpact'),
                 'cost_impact' => $this->input->post('costimpact'),
@@ -258,7 +255,6 @@ class Risk extends RISK_Controller
         $this->form_validation->set_rules('cause_trigger', 'Cause Trigger', 'trim|required');
         $this->form_validation->set_rules('effect', 'Effect', 'trim|required');
         $this->form_validation->set_rules('materialization_phase', 'Materialization Phase', 'trim|required');
-        $this->form_validation->set_rules('risk_owner', 'Risk Owner', 'trim|required');
         $this->form_validation->set_rules('risk_rating', 'Risk Rating', 'trim|required');
         $this->form_validation->set_rules('risk_level', 'Risk Level', 'trim|required');
         $this->form_validation->set_rules('comments', 'Comments', 'trim|required');
@@ -267,9 +263,8 @@ class Risk extends RISK_Controller
         $this->form_validation->set_rules('residual_risk_level', 'Residual Risk Level', 'trim|required');
         $this->form_validation->set_rules('action_owner', 'Action Owner', 'trim|required');
         $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
-        $this->form_validation->set_rules('status', 'Status', 'trim|required');
 
-        $data = array('title' => 'Register Risk');
+        $data = array('title' => 'Add Risk');
         
         // breadcrumb
         $this->breadcrumb->add($data['title']);
@@ -281,6 +276,7 @@ class Risk extends RISK_Controller
         //validate form input
         if ($this->form_validation->run() == FALSE)
         {
+
             // select drop down
             $data['select_status'] = $this->getStatus();
             $data['select_category'] = $this->getCategories();
@@ -288,10 +284,10 @@ class Risk extends RISK_Controller
             $data['select_safety'] = $this->getSystemSafety();
             $data['select_realization'] = $this->getRealization();
             $data['select_subproject'] = $this->getSubProject();
-            $data['select_risk_owner'] = $this->getRiskOwner(); 
+            $data['select_risk_owner'] = $this->getRiskOwner();            
 
             // load page to show all devices
-            $this->template->load('dashboard', 'risk_registry/add', $data);
+            $this->template->load('dashboard', 'risk/add', $data);
         }
         else
         {
@@ -306,7 +302,6 @@ class Risk extends RISK_Controller
                 'cause_trigger' => $this->input->post('cause_trigger'),
                 'effect' => $this->input->post('effect'),
                 'materialization_phase' => $this->input->post('materialization_phase'),
-                // 'risk_owner' => $this->input->post('risk_owner'),
                 'likelihood' => $this->input->post('likelihood'),
                 'time_impact' => $this->input->post('timeimpact'),
                 'cost_impact' => $this->input->post('costimpact'),
