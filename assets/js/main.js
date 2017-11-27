@@ -6,15 +6,15 @@
 
  // residual risk
  var calc_residual_risk_btn = document.getElementById('btn-calc-res-risk');
- // calc_residual_risk_btn.onclick = calcResidualRisk;
+ calc_residual_risk_btn.onclick = calcResidualRisk;
 
- function calcResidualRisk()
- {
+function calcResidualRisk()
+{
     var likelihood_value = document.getElementById('residual-risk-select').value;
     var impact_value = document.getElementById('residual-impact-select').value;
 
     var residual_risk_rating = parseInt(likelihood_value) * parseInt(impact_value);   
-    
+
     var residual_risk_level = riskMatrix(residual_risk_rating);
 
     // append values to form input
@@ -25,16 +25,16 @@
     var risk_level_input = document.querySelector("#residual_risk_level");
     risk_level_input.style.backgroundColor = residual_risk_level.color;
 
- }
+}
 
- // risk for qualitative assessment
- var calc_risk_btn = document.getElementById('btn-calc-risk');
-//  calc_risk_btn.onclick = calcQualitativeRisk;
+// risk for qualitative assessment
+var calc_risk_btn = document.getElementById('btn-calc-risk');
+calc_risk_btn.onclick = calcQualitativeRisk;
 
- function calcQualitativeRisk() 
- {
+function calcQualitativeRisk() 
+{
     var risk_form = document.forms['edit-risk-form'];
-    
+
     var likelihood_value = document.getElementById('likelihoodimpact').value;
     var time_value = document.getElementById('timeimpact').value;
     var cost_value = document.getElementById('costimpact').value;
@@ -47,14 +47,14 @@
     var risk_rating = parseInt(likelihood_value) * parseInt(time_value) * parseInt(cost_value) * parseInt(reputation_value) * parseInt(hs_value) * parseInt(time_value) * parseInt(env_value) * parseInt(legal_value) * parseInt(quality_value);
 
     var risk_level = riskMatrix(risk_rating);
-    
+
     // append values to form input
     document.getElementById('risk_rating').value = risk_rating;
     document.getElementById('risk_level').value = risk_level.level;
 
     // risk_form.elements["risk_rating"].value = risk_rating;
     // risk_form.elements["risk_rating"].setAttribute("value",risk_rating);
-    
+
     // risk_form.elements["risk_level"].value = risk_level.level;
     // risk_form.elements["risk_level"].setAttribute("value",risk_level.level);
 
@@ -62,14 +62,14 @@
     var risk_level_input = document.querySelector("#risk_level");
     risk_level_input.style.backgroundColor = risk_level.color;
 
- }
+}
 
  // reset values in form input field with reset button
  //var reset_risk_btn = document.getElementById('btn-risk-reset');
  //reset_risk_btn.onclick = reset;
 
- function reset()
- {
+function reset()
+{
     var risk_form = document.forms['edit-risk-form'];
 
     var likelihood = document.getElementById('likelihoodimpact');
@@ -92,7 +92,7 @@
     risk_form.elements["risk_rating"].value = "";
     risk_form.elements["risk_level"].value = "";
 
- }
+}
 
  // risk matrix
  function riskMatrix(rating) 
@@ -161,12 +161,4 @@ $('#risk-tabs li:eq(3) a').click(function (e) {
 $('#risk-tabs li:eq(4) a').click(function (e) {
   e.preventDefault()
   $(this).tab('show')
-});
-
-// jQuery
-$(document).ready(function() {
-    // initiate date picker
-    $('.datepicker').datepicker({
-        format: 'yyyy/mm/dd',
-    });
 });
