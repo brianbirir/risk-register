@@ -32,6 +32,8 @@ $route['dashboard/risk/add'] = 'risk/add';
 $route['dashboard/risk/(:num)'] = 'risk/single/$1'; // route to view a single risk item
 $route['dashboard/risk/edit/(:num)'] = 'risk/edit/$1'; // route to edit a risk item
 $route['dashboard/risk/delete/(:num)'] = 'risk/delete/$1';
+$route['dashboard/risk/archive/(:num)'] = 'risk/archive/$1';
+$route['dashboard/risks/archived'] = 'risk/index_archive';
 
 // reports
 $route['dashboard/reports'] = 'report/index';

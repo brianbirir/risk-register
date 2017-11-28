@@ -22,6 +22,18 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->where('User_user_id',$user_id);
+            $this->db->where('archived',false);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // get archived risk items
+        function getUserArchivedRisk($user_id)
+        {   
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('User_user_id',$user_id);
+            $this->db->where('archived',true);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -43,6 +55,15 @@
         function updateRisk($data,$id)
         {
             $this->db->set($data);
+            $this->db->where('item_id',$id);
+            $this->db->update('RiskRegistry',$data);
+            return true;
+        }
+
+        // archive risk item
+        function archiveRisk($data,$id)
+        {
+            // $this->db->set($data);
             $this->db->where('item_id',$id);
             $this->db->update('RiskRegistry',$data);
             return true;
