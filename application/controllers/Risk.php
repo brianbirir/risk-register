@@ -15,7 +15,7 @@ class Risk extends RISK_Controller
         $this->load->model('risk_model');
     }
 
-    // view all registered risks owned by a subproject
+    // view all registered risks owned by a user
     function index()
     {
         $data = array('title' => 'Risks');
@@ -37,6 +37,37 @@ class Risk extends RISK_Controller
 
             // load page to show all registered risks
             $this->template->load('dashboard', 'risk/index', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // view all archived risks owned by a user
+    function index_archive()
+    {
+        $data = array('title' => 'Risks');
+
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+
+            // get risk data belonging to specific user 
+            $risk = $this->risk_model->getUserArchivedRisk($data['user_id']);
+
+            //check if result is true
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+
+            // load page to show all registered risks
+            $this->template->load('dashboard', 'risk/archive', $data);
         }
         else
         {
@@ -246,6 +277,36 @@ class Risk extends RISK_Controller
             redirect('dashboard/risks');
         }
     }
+
+    // archive a risk item
+    function archive()
+    {
+        $timestamp = date('Y-m-d G:i:s');
+        $archived = true;
+
+        // get id from fourth segment of uri
+        $id = $this->uri->segment(4);
+        
+        $archive_data = array(
+            'archived_date' => $timestamp,
+            'archived' =>  $archived
+        );
+
+        // archive risk record
+        if($this->risk_model->archiveRisk($archive_data,$id))
+        {
+            $this->session->set_flashdata('positive-msg','You have archived the risk item successfully!');
+
+            // load page for viewing all roles
+            redirect('dashboard/risks');
+        }
+        else
+        {
+            // error
+            $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
+            redirect('dashboard/risks');
+        }
+    }
     
     // function for adding risk
     function register()
@@ -327,6 +388,7 @@ class Risk extends RISK_Controller
                 'residual_risk_rating' => $this->input->post('residual_risk_rating'),
                 'residual_risk_level' => $this->input->post('residual_risk_level'),
                 'Subproject_subproject_id' => $this->input->post('sub_project'),
+                'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
