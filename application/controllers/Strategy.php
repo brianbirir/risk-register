@@ -182,8 +182,8 @@ class Strategy extends RISK_Controller
         //validate form input
         if ($this->form_validation->run() == FALSE)
         {
-            // get role names from database & add them to select form element in sign up form
-            $roles = $this->user_model->getRoles();
+            // get data based on id from uri
+            $data['strategy'] = $this->strategy_model->getSingleStrategy($id);
 
             // breadcrumb
             $this->breadcrumb->add($data['title']);

@@ -2,7 +2,7 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Status extends RISK_Controller
+class Owner extends RISK_Controller
 {  
 	public function __construct()
     {
@@ -12,13 +12,13 @@ class Status extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
-        $this->load->model('data_model');
+        $this->load->model('owner_model');
     }
 
 
-    function index()
+    function index_owner()
     {
-        $data = array('title' => 'Risk Data');
+        $data = array('title' => 'Owner');
         
         if($this->session->userdata('logged_in'))
         {
@@ -29,38 +29,14 @@ class Status extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // load page to show all status
-            $this->template->load('dashboard', 'settings/data/index', $data);
-        }
-        else
-        {
-            // if no session, redirect to login page
-            redirect('login', 'refresh');
-        }
-    }
-
-
-    function index_status()
-    {
-        $data = array('title' => 'Status');
-        
-        if($this->session->userdata('logged_in'))
-        {
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
-            // get global data
-            $data = array_merge($data,$this->get_global_data());
-
-            // get status
-            $status = $this->data_model->getStatus();
+            // get owner
+            $owner = $this->owner_model->getOwner();
 
             //check if result is true
-            ($status) ? $data['status_data'] = $status : $data['status_data'] = false;
+            ($owner) ? $data['owner_data'] = $owner : $data['owner_data'] = false;
 
-            // load page to show all status
-            $this->template->load('dashboard', 'settings/data/status/index', $data);
+            // load page to show all owner
+            $this->template->load('dashboard', 'settings/data/owner/index', $data);
         }
         else
         {
@@ -70,9 +46,9 @@ class Status extends RISK_Controller
     }
 
 
-    function add_status_view()
+    function add_owner_view()
     {
-        $data = array('title' => 'Add Status');
+        $data = array('title' => 'Add Owner');
         
         if($this->session->userdata('logged_in'))
         {
@@ -83,8 +59,8 @@ class Status extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // load page to show all status
-            $this->template->load('dashboard', 'settings/data/status/add', $data);
+            // load page to show all owner
+            $this->template->load('dashboard', 'settings/data/owner/add', $data);
         }
         else
         {
@@ -94,12 +70,12 @@ class Status extends RISK_Controller
     }
 
 
-    function add_status()
+    function add_owner()
     {
         //set validation rules
-        $this->form_validation->set_rules('status_name', 'Status Name', 'trim|required');
+        $this->form_validation->set_rules('owner_name', 'Owner Name', 'trim|required');
 
-        $data = array('title' => 'Add Status');
+        $data = array('title' => 'Add Owner');
 
         // get global data
         $data = array_merge($data, $this->get_global_data());
@@ -114,20 +90,20 @@ class Status extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // load page to show all status
-            $this->template->load('dashboard', 'settings/data/status/add', $data);
+            // load page to show all owner
+            $this->template->load('dashboard', 'settings/data/owner/add', $data);
         }
         else
         {
             $data = array(
-                'status_name' => $this->input->post('status_name'),
+                'risk_owner' => $this->input->post('owner_name'),
             );
 
             // insert form data into database
-            if ($this->data_model->insertStatus($data))
+            if ($this->owner_model->insertOwner($data))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully registered a status item!');
-                redirect('settings/data/status');
+                $this->session->set_flashdata('positive-msg','You have successfully registered a owner item!');
+                redirect('settings/data/owner');
             }
             else
             {
@@ -139,9 +115,9 @@ class Status extends RISK_Controller
     }
 
 
-    function edit_status_view()
+    function edit_owner_view()
     {
-        $data = array('title' => 'Edit Status');
+        $data = array('title' => 'Edit Owner');
         
         if($this->session->userdata('logged_in'))
         {
@@ -153,13 +129,13 @@ class Status extends RISK_Controller
             $id = $this->uri->segment(5);
             
             // get data based on id from uri
-            $data['status'] = $this->data_model->getSingleStatus($id);
+            $data['owner'] = $this->owner_model->getSingleOwner($id);
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // load page to edit status
-            $this->template->load('dashboard', 'settings/data/status/edit', $data);
+            // load page to edit owner
+            $this->template->load('dashboard', 'settings/data/owner/edit', $data);
         }
         else
         {
@@ -169,12 +145,12 @@ class Status extends RISK_Controller
     }
 
     
-    function update_status()
+    function update_owner()
     {
         //set validation rules
-        $this->form_validation->set_rules('status_name', 'Status Name', 'trim|required');
+        $this->form_validation->set_rules('owner_name', 'Owner Name', 'trim|required');
         
-        $data = array('title' => 'Edit Status');
+        $data = array('title' => 'Edit Owner');
 
         // get global data
         $data = array_merge($data, $this->get_global_data());
@@ -183,59 +159,59 @@ class Status extends RISK_Controller
         if ($this->form_validation->run() == FALSE)
         {
             // get data based on id from uri
-            $data['status'] = $this->data_model->getSingleStatus($id);
+            $data['owner'] = $this->owner_model->getSingleOwner($id);
 
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // load page to show all status
-            $this->template->load('dashboard', 'settings/data/status/edit', $data);
+            // load page to show all owner
+            $this->template->load('dashboard', 'settings/data/owner/edit', $data);
         }
         else
         {
-            // get status id from hidden field
-            $status_id =  $this->input->post('status_id');
+            // get owner id from hidden field
+            $owner_id =  $this->input->post('owner_id');
             
             $data = array(
-                'status_name' => $this->input->post('status_name'),
+                'risk_owner' => $this->input->post('owner_name'),
             );
 
             // update table
-            if ($this->data_model->updateStatus($data,$status_id))
+            if ($this->owner_model->updateOwner($data,$owner_id))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully updated a status item!');
-                redirect('settings/data/status/edit/'.$status_id);
+                $this->session->set_flashdata('positive-msg','You have successfully updated a owner item!');
+                redirect('settings/data/owner/edit/'.$owner_id);
             }
             else
             {
                 // error
                 $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-                redirect('settings/data/status/edit/'.$status_id);
+                redirect('settings/data/owner/edit/'.$owner_id);
             }   
         }
     }
 
 
-    // delete status
+    // delete owner
     function delete()
     {
         // get id from fifth segment of uri
         $id = $this->uri->segment(5);
 
-        // delete status record
-        if($this->data_model->deleteStatus($id))
+        // delete owner record
+        if($this->owner_model->deleteOwner($id))
         {
-            $this->session->set_flashdata('positive-msg','You have deleted the status successfully!');
+            $this->session->set_flashdata('positive-msg','You have deleted the owner successfully!');
 
             // load page for viewing all roles
-            redirect('settings/data/status');
+            redirect('settings/data/owner');
         }
         else
         {
             // error
             $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
-            redirect('settings/data/status');
+            redirect('settings/data/owner');
         }
     }
 }

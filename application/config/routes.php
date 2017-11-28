@@ -70,3 +70,8 @@ $route['settings/data/strategy'] = 'strategy/index_strategy';
 $route['settings/data/strategy/add'] = 'strategy/add_strategy_view';
 $route['settings/data/strategy/edit/(:num)'] = 'strategy/edit_strategy_view/$1';
 $route['settings/data/strategy/delete/(:num)'] = 'strategy/delete/$1';
+
+$route['settings/data/owner'] = 'owner/index_owner';
+$route['settings/data/owner/add'] = 'owner/add_owner_view';
+$route['settings/data/owner/edit/(:num)'] = 'owner/edit_owner_view/$1';
+$route['settings/data/owner/delete/(:num)'] = 'owner/delete/$1';
