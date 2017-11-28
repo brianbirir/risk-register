@@ -31,10 +31,21 @@ class Project extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            $project = $this->project_model->getProjects($data['user_id']);
+            if ($data['role_id'] != 8) 
+            {
 
-            //check if result is true
-            ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+                $project = $this->project_model->getProjects($data['user_id']);
+                
+                //check if result is true
+                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+            }
+            else 
+            {
+                $project = $this->project_model->getAssignedProject($data['user_id']);
+                
+                //check if result is true
+                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+            }
 
             // load page to show all devices
             $this->template->load('dashboard', 'project/index', $data);

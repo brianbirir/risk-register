@@ -81,6 +81,17 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        function getAssignedProject($user_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Project');
+            $this->db->join('Subproject','Subproject.Project_project_id = Project.project_id');
+            $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
+            $this->db->where('Subproject_has_User.User_user_id',$user_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
 
         // get project name
         function getProjectName($user_id)
