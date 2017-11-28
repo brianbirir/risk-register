@@ -14,13 +14,13 @@
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
-            <a href="/settings/data/status/add" class="btn btn-success btn-sm">Add Risk Status</a>
+            <a href="/settings/data/safety/add" class="btn btn-success btn-sm">Add Risk Safety</a>
         </div>
 
         <div class="box box-primary">
 
             <div class="box-header with-border">
-                <h3 class="box-title">Risk Status</h3>
+                <h3 class="box-title">Risk Safety</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -28,8 +28,8 @@
 
             <div class="box-body table-responsive no-padding">
             <?php 
-                if (!$status_data) {
-                    $msg = 'You have no risk status to display!';
+                if (!$safety_data) {
+                    $msg = 'You have no risk safety to display!';
                     echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
                 } 
                 else 
@@ -39,21 +39,21 @@
                     <tbody>
                         <tr>
                             <th>ID</th>
-                            <th>Status Name</th>
+                            <th>Safety Name</th>
                             <th>Action</th>
                         </tr>
                     
                         <?php
                             $count  = 0 ;
-                            foreach ($status_data as $status_row) 
+                            foreach ($safety_data as $safety_row) 
                             {
                                 $count = $count + 1;
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
-                                echo "<td>".$status_row->status_name."</td>";
+                                echo "<td>".$safety_row->safety_name."</td>";
                                 echo "<td>
-                                        <a title='edit' href='/settings/data/status/edit/".$status_row->status_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a title='delete' href='/settings/data/status/delete/".$status_row->status_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a title='edit' href='/settings/data/safety/edit/".$safety_row->safety_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
+                                        <a title='delete' href='/settings/data/safety/delete/".$safety_row->safety_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

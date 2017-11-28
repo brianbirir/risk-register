@@ -6,24 +6,25 @@
         <li><a href="<?php echo base_url(); ?>dashboard"><i class="fa fa-line-chart"></i>Dashboard</a></li>  
         <li><a href="<?php echo base_url(); ?>dashboard/project"><i class="fa fa-folder"></i>Projects</a></li>
         <li><a href="<?php echo base_url(); ?>dashboard/riskregisters"><i class="fa fa-folder"></i>Risk Registers</a></li>
-        <li><a href="<?php echo base_url(); ?>dashboard/risks"><i class="fa fa-folder"></i>Risks</a></li>
-        <li><a href="<?php echo base_url(); ?>dashboard/reports"><i class="fa fa-folder"></i>Reports</a></li>
-        <?php if ($role_id != 8) { ?>
-          <li><a href="<?php echo base_url(); ?>dashboard/settings"><i class="fa fa-cog"></i>Settings</a></li>
-        <?php } ?> 
-        <!-- <li class="treeview">
+        <!-- <li><a href="<?php echo base_url(); ?>dashboard/risks"><i class="fa fa-folder"></i>Risks</a></li> -->
+        <li class="treeview">
             <a href="#">
               <i class="fa fa-pie-chart"></i>
-              <span>Risk Registry</span>
+              <span>Risks</span>
               <span class="pull-right-container">
                 <i class="fa fa-angle-left pull-right"></i>
               </span>
               <ul class="treeview-menu" style="display: none;">
-                <li><a href="<?php echo base_url(); ?>dashboard/riskregistry"><i class="fa fa-link"></i>View Risk Registry</a></li>
-                <li><a href="<?php echo base_url(); ?>dashboard/riskregistry/add"><i class="fa fa-link"></i>Add Risk Registry</a></li>
+                <li><a href="<?php echo base_url(); ?>dashboard/risks"><i class="fa fa-file"></i>Current Risks</a></li>
+                <li><a href="<?php echo base_url(); ?>dashboard/risks/archived"><i class="fa fa-trash"></i>Archived Risks</a></li>
               </ul>
             </a>
-        </li>      -->
+        </li>
+
+        <li><a href="<?php echo base_url(); ?>dashboard/reports"><i class="fa fa-folder"></i>Reports</a></li>
+        <?php if ($role_id != 8) { ?>
+          <li><a href="<?php echo base_url(); ?>dashboard/settings"><i class="fa fa-cog"></i>Settings</a></li>
+        <?php } ?>   
         
       </ul>
       <!-- /.sidebar-menu -->
