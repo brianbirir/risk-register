@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['default_controller'] = 'login/index';
@@ -49,4 +50,8 @@ $route['settings/user/(:num)'] = 'user/edit/$1';
 $route['settings/user/delete/(:num)'] = 'user/delete/$1';
 $route['settings/user/riskregister/(:num)'] = 'user/assign_register_view/$1';
 $route['settings/data'] = 'data/index';
-$route['settings/data/status'] = 'data/index_status';
+
+$route['settings/data/status'] = 'status/index_status';
+$route['settings/data/status/add'] = 'status/add_status_view';
+$route['settings/data/status/edit/(:num)'] = 'status/edit_status_view/$1';
+$route['settings/data/status/delete/(:num)'] = 'status/delete/$1';
