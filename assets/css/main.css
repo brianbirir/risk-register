@@ -6,6 +6,7 @@
 /* SIDEBAR */
 .main-sidebar {
     background-color: #1b1b1b;
+    padding-top: 80px;
 }
 
 .sidebar-menu li > a {
