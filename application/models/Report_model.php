@@ -22,8 +22,33 @@
         {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
+            $this->db->where('archived',false); // do not export archived data
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // get filtered risk data
+        function getFilteredRisk($category)
+        {   
+            if($category != "None")
+            {
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $this->db->where('RiskCategories_category_id',$category);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            }
+            else
+            {   
+                // show all filters
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            }
         }
 
         // get risk strategies info

@@ -5,90 +5,87 @@
 </div>
 
 <!-- report generation form -->
-<div class="row">
-    <div class="col-md-6">
-        <div id="report-generation-form">
 
-            <?php
-                $attributes = array("class" => "ui form", "id" => "report-form", "name" => "report-form");
-                echo form_open("report/export", $attributes);
-            ?>
+<div id="report-generation-form">
 
-            <!-- date range -->
-            <!-- <div class="form-group">
-                <label>From:</label>
-                <div class="input-group date">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <input type="text" class="form-control pull-right datepicker" id="datepicker-from">
-                </div>
-            </div> -->
+    <?php
+        $attributes = array("class" => "pure-form" ,"id" => "report-form", "name" => "report-form");
+        echo form_open("report/export", $attributes);
+    ?>
 
-            <!-- date range -->
-            <!-- <div class="form-group">
-                <label>To:</label>
-                <div class="input-group date">
-                    <div class="input-group-addon">
-                        <i class="fa fa-calendar"></i>
-                    </div>
-                    <input type="text" class="form-control pull-right datepicker" id="datepicker-to">
-                </div>
-            </div> -->
+    <fieldset>
 
-            <!-- <div class="form-group">
-                <label for="sub_project">Risk Register</label>
-                <?php 
-                    $select_subproject_attributes = 'class="form-control"';
-                    $select_subproject['None'] = "None";                    
-                    echo form_dropdown('sub_project',$select_subproject,"None",$select_subproject_attributes);
-                ?>
+    <!-- date range -->
+    <!-- <div class="form-group">
+        <label>From:</label>
+        <div class="input-group date">
+            <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
             </div>
-
-            <div class="form-group">
-                <label for="system_safety">Main Category</label>
-                <?php 
-                    $select_main_category_attributes = 'class="form-control"';
-                    $select_category['None'] = "None";
-                    echo form_dropdown('main_category',$select_category,"None",$select_main_category_attributes);
-                ?>
-            </div>
-        
-            <div class="form-group">
-                <label for="risk_level">Risk Level</label>
-                <?php 
-                    $select_risk_level = array(
-                        'None' => 'None',
-                        'Opportunity Low' => 'Opportunity Low',
-                        'Opportunity Medium' => 'Opportunity Medium',
-                        'Opportunity High' => 'Opportunity High',
-                        'Threat Low' => 'Threat Low',
-                        'Threat Medium' => 'Threat Medium',
-                        'Threat High' => 'Threat High',
-                        'Unknown Risk Level' => 'Unknown Risk Level',
-                    );
-                    $select_risk_level_attributes = 'class="form-control"';
-                    echo form_dropdown('risk_level',$select_risk_level,"None",$select_risk_level_attributes);
-                ?>
-            </div> -->
-
-            <input name="btn_report" type="submit" class="btn btn-success btn-reg" value="Generate Report" />
-
-            <?php echo form_close(); ?>
-
-            <?php if ($this->session->flashdata('msg')){ ?>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div><?php echo $this->session->flashdata('msg'); ?></div>
-                </div>
-            <?php } ?>
-
+            <input type="text" class="form-control pull-right datepicker" id="datepicker-from">
         </div>
-    </div>
+    </div> -->
+
+    <!-- date range -->
+    <!-- <div class="form-group">
+        <label>To:</label>
+        <div class="input-group date">
+            <div class="input-group-addon">
+                <i class="fa fa-calendar"></i>
+            </div>
+            <input type="text" class="form-control pull-right datepicker" id="datepicker-to">
+        </div>
+    </div> -->
+
+    <!-- <div class="form-group">
+        <label for="sub_project">Risk Register</label>
+        <?php 
+            // $select_subproject_attributes = 'class="form-control"';
+            // $select_subproject['None'] = "None";                    
+            // echo form_dropdown('sub_project',$select_subproject,"None",$select_subproject_attributes);
+        ?>
+    </div> -->
+
+    <label for="system_safety">Main Category</label>
+    <?php 
+        $select_main_category_attributes = '';
+        $select_category['None'] = "None";
+        echo form_dropdown('main_category',$select_category,"None",$select_main_category_attributes);
+    ?>
 
 
+    <!-- <div class="form-group">
+        <label for="risk_level">Risk Level</label>
+        <?php 
+            // $select_risk_level = array(
+            //     'None' => 'None',
+            //     'Opportunity Low' => 'Opportunity Low',
+            //     'Opportunity Medium' => 'Opportunity Medium',
+            //     'Opportunity High' => 'Opportunity High',
+            //     'Threat Low' => 'Threat Low',
+            //     'Threat Medium' => 'Threat Medium',
+            //     'Threat High' => 'Threat High',
+            //     'Unknown Risk Level' => 'Unknown Risk Level',
+            // );
+            // $select_risk_level_attributes = 'class="form-control"';
+            // echo form_dropdown('risk_level',$select_risk_level,"None",$select_risk_level_attributes);
+        ?>
+    </div> -->
+    
+    <input name="btn_filter" type="submit" class="pure-button pure-button-primary" value="Filter" />
+    <input name="btn_report" type="submit" class="pure-button pure-button-primary" value="Generate Report" />
+    </fieldset>
+    <?php echo form_close(); ?>
+
+    <?php if ($this->session->flashdata('msg')){ ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div><?php echo $this->session->flashdata('msg'); ?></div>
+        </div>
+    <?php } ?>
 
 </div>
+
 
 <?php
 

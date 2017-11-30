@@ -57,57 +57,56 @@ class Report extends RISK_Controller
 
     // generate and export report
     function export()
-    {
-        /*$data = array('title' => 'Exported Data');
-
-        // breadcrumb
-        $this->breadcrumb->add($data['title']);
-        $data['breadcrumb'] = $this->breadcrumb->output();
-
-        // get global data
-        $data = array_merge($data,$this->get_global_data());*/
+    {   
 
         // load InfluxDB Client library
         $this->load->library('csvgenerator');
 
-        // $data['db_dump'] = $this->csvgenerator->fetch_data();
+        //validation succeeds
+        if ($this->input->post('btn_filter') == "Filter")
+        {
+            $data = array('title' => 'Reports');
+          
+            if($this->session->userdata('logged_in'))
+            {
+                // breadcrumb
+                $this->breadcrumb->add($data['title']);
+                $data['breadcrumb'] = $this->breadcrumb->output();
+    
+                // get global data
+                $data = array_merge($data,$this->get_global_data());
 
-        $this->csvgenerator->fetch_data();
+                $main_category = $this->input->post('main_category');
+                $data['main_category'] = $main_category;
+                $filtered_risk_data = $this->report_model->getFilteredRisk($main_category);
 
-        // load page to show all registered risks
-        // $this->template->load('dashboard', 'report/filter', $data);
-
-        redirect('dashboard/reports');
-        
-        // $filter_data = array(
-        //     'sub_project' => $this->post('sub_project'),
-        //     'main_category' => $this->post('main_category'),
-        //     'risk_level' => $this->post('risk_level')
-        // );
-
-        // $subproject = $this->post('sub_project');
-        // $main_category = $this->post('main_category');
-        // $risk_level = $this->post('risk_level');
-
-        // $result = $this->report_model->filter($filter_data);
-
-        // $data = array('result' => $result);
-        
-        // load page to show all registered risks
-        // $this->template->load('dashboard', 'report/filter', $data);
-
-        // // use form data to search database
-        // if ($this->report_model->filter($filter_data))
-        // {
-        //     $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
-        //     redirect('dashboard/risks');
-        // }
-        // else
-        // {
-        //     // error
-        //     $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-        //     redirect('dashboard/risks');
-        // }
+                // check if result is true
+                ($filtered_risk_data) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
+    
+                // select drop down
+                // $data['select_status'] = $this->getStatus();
+                $data['select_category'] = $this->getCategories();
+                // $data['select_strategy'] = $this->getRiskStrategies();
+                // $data['select_safety'] = $this->getSystemSafety();
+                // $data['select_realization'] = $this->getRealization();
+                // $data['select_subproject'] = $this->getSubProject();
+    
+                // load page to show all registered risks
+                $this->template->load('dashboard', 'report/filter', $data);
+            }
+            else
+            {
+                // if no session, redirect to login page
+                redirect('login', 'refresh');
+            }
+        } 
+        else 
+        {
+            // $this->csvgenerator->fetch_data();
+            $main_category = $this->input->post('main_category');
+            $this->csvgenerator->fetch_data($main_category);
+            redirect('dashboard/reports');   
+        }
     }
 
     // risk strategies

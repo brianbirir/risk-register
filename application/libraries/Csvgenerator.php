@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Csvgenerator
+class Csvgenerator extends CI_Controller
 {
 
-    private $_riskdata;
-    private $_reportmodel;
-    public $ci;
+    // private $_riskdata;
+    // private $_reportmodel;
+    // public $ci;
 
     public function __construct()
     {
@@ -14,16 +14,16 @@ class Csvgenerator
         // load database report module
         $CI->load->model('report_model');
 
-        $this->_riskdata = $CI->report_model->getData();
+        //  $this->_riskdata = $CI->report_model->getData();
 
         $this->ci = $CI;
     }
+    
 
-    function fetch_data()
+    function fetch_data($main_category)
     {
-        $db_data = $this->_riskdata;
-
-        // return $db_data;
+        // $db_data = $this->ci->report_model->getData($main_category);
+        $db_data = $this->ci->report_model->getFilteredRisk($main_category);
         
         if($db_data)
         {
@@ -119,5 +119,10 @@ class Csvgenerator
             fpassthru($f);
         }
         exit;
+    }
+
+    function filter_data($category)
+    {
+        $db_data = $this->ci->report_model->getData();
     }
 }
