@@ -111,7 +111,7 @@ class Risk extends RISK_Controller
     }
 
 
-    // view editing risk item
+    // view for editing risk item
     function edit()
     {
         $data = array('title' => 'Edit Risk');
