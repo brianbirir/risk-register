@@ -78,9 +78,13 @@ class Report extends RISK_Controller
 
                 $main_category = $this->input->post('main_category');
                 $risk_level = $this->input->post('risk_level');
+                //$date_from = $this->input->post('date_from');
+                //$date_to = $this->input->post('date_to');
 
                 $data['main_category'] = $main_category;
                 $data['risk_level'] = $risk_level;
+                //$data['date_from'] = $date_to;
+                //$data['date_to'] = $date_from;
 
 
                 // get filtered data

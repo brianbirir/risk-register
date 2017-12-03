@@ -16,25 +16,28 @@
     <fieldset>
 
     <!-- date range -->
-    <!-- <div class="form-group">
-        <label>From:</label>
-        <div class="input-group date">
-            <div class="input-group-addon">
-                <i class="fa fa-calendar"></i>
-            </div>
-            <input type="text" class="form-control pull-right datepicker" id="datepicker-from">
+    <!-- <label>From:</label>
+    <div class="input-group date">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
         </div>
+        <input name="date_from" type="text" class="datepicker" id="datepicker-from">
     </div> -->
 
+
     <!-- date range -->
-    <!-- <div class="form-group">
-        <label>To:</label>
-        <div class="input-group date">
-            <div class="input-group-addon">
-                <i class="fa fa-calendar"></i>
-            </div>
-            <input type="text" class="form-control pull-right datepicker" id="datepicker-to">
+    <!-- <label>To:</label>
+    <div class="input-group date">
+        <div class="input-group-addon">
+            <i class="fa fa-calendar"></i>
         </div>
+        <input name="date_to" type="text" class="datepicker" id="datepicker-to">
+    </div> -->
+
+    <!-- <div class="input-group input-daterange">
+        <input name="date_from" type="text" class="form-control" value="2012-04-05" class="datepicker">
+        <div class="input-group-addon">to</div>
+        <input name="date_to" type="text" class="form-control" value="2012-04-19" class="datepicker">
     </div> -->
 
     <!-- <div class="form-group">
@@ -52,7 +55,6 @@
         $select_category['None'] = "None";
         echo form_dropdown('main_category',$select_category,"None",$select_main_category_attributes);
     ?>
-
 
     <label for="risk_level">Risk Level</label>
     <?php 
