@@ -77,8 +77,14 @@ class Report extends RISK_Controller
                 $data = array_merge($data,$this->get_global_data());
 
                 $main_category = $this->input->post('main_category');
+                $risk_level = $this->input->post('risk_level');
+
                 $data['main_category'] = $main_category;
-                $filtered_risk_data = $this->report_model->getFilteredRisk($main_category);
+                $data['risk_level'] = $risk_level;
+
+
+                // get filtered data
+                $filtered_risk_data = $this->report_model->getFilteredRisk($main_category,$risk_level);
 
                 // check if result is true
                 ($filtered_risk_data) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
@@ -100,11 +106,11 @@ class Report extends RISK_Controller
                 redirect('login', 'refresh');
             }
         } 
-        else 
+        else if ($this->input->post('btn_report') == "Generate Report")
         {
-            // $this->csvgenerator->fetch_data();
             $main_category = $this->input->post('main_category');
-            $this->csvgenerator->fetch_data($main_category);
+            $risk_level = $this->input->post('risk_level');
+            $this->csvgenerator->fetch_data($main_category,$risk_level);
             redirect('dashboard/reports');   
         }
     }

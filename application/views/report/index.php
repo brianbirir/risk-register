@@ -54,23 +54,21 @@
     ?>
 
 
-    <!-- <div class="form-group">
-        <label for="risk_level">Risk Level</label>
-        <?php 
-            // $select_risk_level = array(
-            //     'None' => 'None',
-            //     'Opportunity Low' => 'Opportunity Low',
-            //     'Opportunity Medium' => 'Opportunity Medium',
-            //     'Opportunity High' => 'Opportunity High',
-            //     'Threat Low' => 'Threat Low',
-            //     'Threat Medium' => 'Threat Medium',
-            //     'Threat High' => 'Threat High',
-            //     'Unknown Risk Level' => 'Unknown Risk Level',
-            // );
-            // $select_risk_level_attributes = 'class="form-control"';
-            // echo form_dropdown('risk_level',$select_risk_level,"None",$select_risk_level_attributes);
-        ?>
-    </div> -->
+    <label for="risk_level">Risk Level</label>
+    <?php 
+        $select_risk_level = array(
+            'None' => 'None',
+            'Opportunity Low' => 'Opportunity Low',
+            'Opportunity Medium' => 'Opportunity Medium',
+            'Opportunity High' => 'Opportunity High',
+            'Threat Low' => 'Threat Low',
+            'Threat Medium' => 'Threat Medium',
+            'Threat High' => 'Threat High',
+            'Unknown Risk Level' => 'Unknown Risk Level',
+        );
+        $select_risk_level_attributes = '';
+        echo form_dropdown('risk_level',$select_risk_level,"None",$select_risk_level_attributes);
+    ?>
     
     <input name="btn_filter" type="submit" class="pure-button pure-button-primary" value="Filter" />
     <input name="btn_report" type="submit" class="pure-button pure-button-primary" value="Generate Report" />
@@ -132,11 +130,11 @@
                                 <th>Strategy</th>
                                 <th>Combinations of Measures/Controls:</th> 
                                 <th>System Safety</th> 
-                                <th>Realization</th> 
-                                <th>Likelihood</th> 
-                                <th>Impact</th> 
-                                <th>Risk Rating</th>
-                                <th>Risk Level</th>
+                                <th>Residual Risk Realization</th> 
+                                <th>Residual Risk Likelihood</th> 
+                                <th>Residual Risk Impact</th> 
+                                <th>Residual Risk Rating</th>
+                                <th>Residual Risk Level</th>
                                 <th>Action Owner</th>
                                 <th>Milestone Target Date</th>
                                 <th>Status</th>

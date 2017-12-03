@@ -29,20 +29,42 @@
 
 
         // get filtered risk data
-        function getFilteredRisk($category)
+        function getFilteredRisk($category,$risk_level)
         {   
-            if($category != "None")
+            if($category != "None" and $risk_level != "None")
             {
+                // show both category and risk level filter
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $this->db->where('RiskCategories_category_id',$category);
+                $this->db->where('risk_level',$risk_level);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            } 
+            elseif($category != "None" and $risk_level == "None") 
+            {
+                // show only category filter
                 $this->db->select('*');
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
                 $this->db->where('RiskCategories_category_id',$category);
                 $query = $this->db->get();
                 return ($query->num_rows() > 0) ? $query->result() : false;
+            } 
+            elseif($category == "None" and $risk_level!= "None") 
+            {
+                // show only risk level filter
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $this->db->where('risk_level',$risk_level);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
             }
             else
             {   
-                // show all filters
+                // show all data if all filters are of None value
                 $this->db->select('*');
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
@@ -52,7 +74,8 @@
         }
 
         // get risk strategies info
-        function getRiskStrategiesName($id){
+        function getRiskStrategiesName($id)
+        {
             $this->db->select('*');
             $this->db->from('RiskStrategies');
             $this->db->where('strategy_id',$id);
@@ -63,7 +86,8 @@
 
 
         // get system safety info
-        function getSystemSafetyName($id){
+        function getSystemSafetyName($id)
+        {
             $this->db->select('*');
             $this->db->from('SystemSafety');
             $this->db->where('safety_id',$id);
@@ -74,7 +98,8 @@
 
 
         // get status
-        function getStatusName($id){
+        function getStatusName($id)
+        {
             $this->db->select('*');
             $this->db->from('Status');
             $this->db->where('status_id',$id);
@@ -85,7 +110,8 @@
 
 
         // get realization
-        function getRealizationName($id){
+        function getRealizationName($id)
+        {
             $this->db->select('*');
             $this->db->from('Realization');
             $this->db->where('realization_id',$id);
@@ -96,7 +122,8 @@
 
         
         // get risk categories
-        function getRiskCategoriesName($id){
+        function getRiskCategoriesName($id)
+        {
             $this->db->select('*');
             $this->db->from('RiskCategories');
             $this->db->where('category_id',$id);
@@ -106,7 +133,8 @@
         }
 
         // get subproject
-        function getSubProjectName($id){
+        function getSubProjectName($id)
+        {
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->where('subproject_id',$id);
