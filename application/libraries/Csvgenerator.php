@@ -20,10 +20,10 @@ class Csvgenerator extends CI_Controller
     }
     
 
-    function fetch_data($main_category,$risk_level)
+    function fetch_data($user_id,$main_category,$risk_level)
     {
         // $db_data = $this->ci->report_model->getData($main_category);
-        $db_data = $this->ci->report_model->getFilteredRisk($main_category,$risk_level);
+        $db_data = $this->ci->report_model->getFilteredRisk($user_id,$main_category,$risk_level);
         
         if($db_data)
         {

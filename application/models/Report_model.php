@@ -29,7 +29,7 @@
 
 
         // get filtered risk data
-        function getFilteredRisk($category,$risk_level)
+        function getFilteredRisk($user_id,$category,$risk_level)
         {   
             if($category != "None" and $risk_level != "None")
             {
@@ -37,6 +37,7 @@
                 $this->db->select('*');
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
+                $this->db->where('User_user_id',$user_id);
                 $this->db->where('RiskCategories_category_id',$category);
                 $this->db->where('risk_level',$risk_level);
                 // $this->db->where('created_at <=',$date_to);
@@ -50,6 +51,7 @@
                 $this->db->select('*');
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
+                $this->db->where('User_user_id',$user_id);
                 $this->db->where('RiskCategories_category_id',$category);
                 // $this->db->where('created_at <=',$date_to);
                 // $this->db->where('created_at >=',$date_from);
@@ -62,6 +64,7 @@
                 $this->db->select('*');
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
+                $this->db->where('User_user_id',$user_id);
                 $this->db->where('risk_level',$risk_level);
                 // $this->db->where('created_at <=',$date_to);
                 // $this->db->where('created_at >=',$date_from);
@@ -74,6 +77,7 @@
                 $this->db->select('*');
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
+                $this->db->where('User_user_id',$user_id);
                 $query = $this->db->get();
                 return ($query->num_rows() > 0) ? $query->result() : false;
             }

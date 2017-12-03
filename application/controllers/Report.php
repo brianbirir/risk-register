@@ -58,23 +58,26 @@ class Report extends RISK_Controller
     // generate and export report
     function export()
     {   
-
         // load InfluxDB Client library
         $this->load->library('csvgenerator');
+
+        $data = array('title' => 'Reports');
+
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+        
+        // get global data
+        $data = array_merge($data,$this->get_global_data());
+        // get user id from session data                
+        $user_id = $data['user_id'];
 
         //validation succeeds
         if ($this->input->post('btn_filter') == "Filter")
         {
-            $data = array('title' => 'Reports');
           
             if($this->session->userdata('logged_in'))
             {
-                // breadcrumb
-                $this->breadcrumb->add($data['title']);
-                $data['breadcrumb'] = $this->breadcrumb->output();
-    
-                // get global data
-                $data = array_merge($data,$this->get_global_data());
 
                 $main_category = $this->input->post('main_category');
                 $risk_level = $this->input->post('risk_level');
@@ -88,7 +91,7 @@ class Report extends RISK_Controller
 
 
                 // get filtered data
-                $filtered_risk_data = $this->report_model->getFilteredRisk($main_category,$risk_level);
+                $filtered_risk_data = $this->report_model->getFilteredRisk($user_id,$main_category,$risk_level);
 
                 // check if result is true
                 ($filtered_risk_data) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
@@ -114,7 +117,7 @@ class Report extends RISK_Controller
         {
             $main_category = $this->input->post('main_category');
             $risk_level = $this->input->post('risk_level');
-            $this->csvgenerator->fetch_data($main_category,$risk_level);
+            $this->csvgenerator->fetch_data($user_id,$main_category,$risk_level);
             redirect('dashboard/reports');   
         }
     }
