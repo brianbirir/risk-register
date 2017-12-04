@@ -58,12 +58,6 @@
       </div>
     <?php } ?>
 
-    <!-- <a href="#">I forgot my password</a><br> -->
-    
-    <div class="signup-msg">
-      <p style="text-align:center;">Not yet registered? You can sign up <?php echo anchor('signup','here','title="sign up"')?></p>
-    </div>
-
   </div>
   <!-- /.login-box-body -->
 </div>
