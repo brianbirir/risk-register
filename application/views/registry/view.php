@@ -25,21 +25,16 @@
     </div>
 
     <div class="col-md-9">
-
+        <div class="reg-btn">
         <?php if($role_id != 8)
         {
-
         ?>
-        
-        <div class="reg-btn">
-            <a href="/dashboard/risk/add" class="btn btn-success btn-sm btn-add-device">Add Risk Item</a>
-
-            <a href="/dashboard/risks/archived" class="btn btn-warning btn-sm btn-add-device">View Archived Risks</a>
-        </div>
-
+        <a href="/dashboard/risk/add" class="btn btn-success btn-sm btn-add-device">Add Risk Item</a>
         <?php 
         }
         ?>
+        <a href="/dashboard/risks/archived" class="btn btn-warning btn-sm btn-add-device">View Archived Risks</a>
+    </div>
 
         <div class="box box-primary">
 
