@@ -49,7 +49,7 @@ class Risk extends RISK_Controller
     // view all archived risks owned by a user
     function index_archive()
     {
-        $data = array('title' => 'Risks');
+        $data = array('title' => 'Archived Risks');
 
         if($this->session->userdata('logged_in'))
         {

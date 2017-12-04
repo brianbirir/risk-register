@@ -27,14 +27,10 @@
       </div>
     <?php } ?>
 
-    <div class="reg-btn">
-        <a href="/dashboard/risk/add" class="btn btn-success btn-sm btn-add-device">Add Risk</a>
-    </div>
-
     <?php
         // check if risk data exists
         if (!$risk_data) {
-            $msg = 'You have no registered risks!';
+            $msg = 'There are no archived risks!';
             echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
         } else { ?>
         <div class="row">
