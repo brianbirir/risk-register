@@ -79,10 +79,26 @@ class Project extends RISK_Controller
 
             $data['project_description'] = $single_project->project_description;
 
-            $subproject = $this->project_model->getSubProjects($data['user_id'],$uri_id);
+            // get all risk registers for specific user
+
+            if ($data['role_id'] != 8) 
+            {
+
+                $risk_register = $this->project_model->getRiskRegisters($data['user_id']);
+
+                //  check if result is true
+                ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
+            }
+            else 
+            {
+                $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
+                
+                //  check if result is true
+                ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
+            }
 
             // check if result is true
-            ($subproject) ? $data['subproject_data'] = $subproject : $data['subproject_data'] = false;
+            ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
 
             $this->template->load('dashboard', 'project/view', $data);
         }
