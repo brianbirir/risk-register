@@ -326,6 +326,9 @@ class Risk extends RISK_Controller
         $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
 
         $data = array('title' => 'Add Risk');
+
+        // load UUID generator library
+        $this->load->library('uuid');
         
         // breadcrumb
         $this->breadcrumb->add($data['title']);
@@ -391,7 +394,8 @@ class Risk extends RISK_Controller
                 'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
-                'updated_at' => $timestamp
+                'updated_at' => $timestamp,
+                'uuid' => $this->uuid->generate_uuid()
             );
             
             // insert form data into database

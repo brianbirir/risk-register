@@ -1,3 +1,11 @@
+<?php
+    // load uuid generator library
+    $CI =& get_instance();
+    $CI->load->library('uuid');
+
+    // echo $CI->uuid->generate_uuid();
+?>
+
 <!-- risk registration form -->
 <div class="row">
     <div id="reg-risk-form">
