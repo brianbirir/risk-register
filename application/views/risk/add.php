@@ -15,7 +15,11 @@
             echo form_open("risk/register", $attributes);
         ?>
 
+        
+
         <div class="col-md-6 col-sm-12">
+
+            <input type="hidden" name="risk_uuid" id="risk_uuid" class="form-control" value="<?php echo $CI->uuid->generate_uuid(); ?>"/>
 
             <div class="form-group">
                 <label for="sub_project">Risk Register</label>

@@ -327,9 +327,6 @@ class Risk extends RISK_Controller
 
         $data = array('title' => 'Add Risk');
 
-        // load UUID generator library
-        $this->load->library('uuid');
-        
         // breadcrumb
         $this->breadcrumb->add($data['title']);
         $data['breadcrumb'] = $this->breadcrumb->output();
@@ -395,7 +392,7 @@ class Risk extends RISK_Controller
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
-                'uuid' => $this->uuid->generate_uuid()
+                'uuid' => $this->input->post('risk_uuid')
             );
             
             // insert form data into database
