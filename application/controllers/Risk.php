@@ -13,6 +13,7 @@ class Risk extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('risk_model');
+        $this->load->model('project_model');
     }
 
     // view all registered risks owned by a user
@@ -90,6 +91,10 @@ class Risk extends RISK_Controller
 
             // get global data
             $data = array_merge($data, $this->get_global_data());
+
+
+            // get risk register that belongs to the user
+            $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
 
             // select drop down
             $data['select_status'] = $this->getStatus();
@@ -387,7 +392,7 @@ class Risk extends RISK_Controller
                 'residual_risk_impact' => $this->input->post('residual_impact'),
                 'residual_risk_rating' => $this->input->post('residual_risk_rating'),
                 'residual_risk_level' => $this->input->post('residual_risk_level'),
-                'Subproject_subproject_id' => $this->input->post('sub_project'),
+                'Subproject_subproject_id' => $this->input->post('register_id'),
                 'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,

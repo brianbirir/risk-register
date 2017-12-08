@@ -21,12 +21,11 @@
 
             <input type="hidden" name="risk_uuid" id="risk_uuid" class="form-control" value="<?php echo $CI->uuid->generate_uuid(); ?>"/>
 
+            <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_row->subproject_id;?>"/>
+
             <div class="form-group">
                 <label for="sub_project">Risk Register</label>
-                <?php 
-                    $select_subproject_attributes = 'class="form-control" required';
-                    echo form_dropdown('sub_project',$select_subproject,"1",$select_subproject_attributes);
-                ?>
+                <div class="well well-sm"><?php echo $register_row->name; ?></div>
             </div>
 
             <div class="form-group">
