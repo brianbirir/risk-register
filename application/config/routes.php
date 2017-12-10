@@ -12,6 +12,7 @@ $route['signup'] = 'register/index'; // initial registration
 // login and logout routes
 $route['login'] = 'login/index';
 $route['logout'] = 'login/logout';
+$route['change_password'] = 'login/change_password_view';
 
 // dashboard route
 $route['dashboard'] = 'dashboard/index';

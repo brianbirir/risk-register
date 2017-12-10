@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Login extends CI_Controller
+class Login extends RISK_Controller
 {
   function __construct()
   {
@@ -23,6 +23,8 @@ class Login extends CI_Controller
     
   }
 
+
+  // login function
   function login()
   {
     //get the posted values
@@ -35,7 +37,7 @@ class Login extends CI_Controller
 
       if ($this->form_validation->run() == FALSE)
       {
-        // load if validation failes
+        // load if validation failed
         $data = array('title' => 'Login');
         $this->template->load('default', 'login/index', $data);
       }
@@ -50,8 +52,8 @@ class Login extends CI_Controller
           if ($user_result) //if active user record is present
           {
             /* 
-            set session data
-            session data is obtained from the users table via login model
+            * set session data
+            * session data is obtained from the users table via login model
             */
             $sess_array = array();
 
@@ -63,16 +65,24 @@ class Login extends CI_Controller
                 'first_name' => $row->first_name,
                 'last_name'=> $row->last_name,
                 'role_id'=> $row->Role_role_id
-                );
+              );
               $this->session->set_userdata('logged_in', $sess_array);
             }
             $session_data = $this->session->userdata('logged_in');
+
             $data['user_id'] = $session_data['user_id'];
-            redirect('dashboard');
+
+            if ($this->check_password($data['user_id']))
+            {
+              redirect('change_password');
+            } else {
+              redirect('dashboard');
+            }
+  
           }
           else
           {
-            $this->session->set_flashdata('negative-msg', 'Invalid username and password!');
+            $this->session->set_flashdata('negative-msg', 'Unable to login!');
             redirect('login');
           }
         }
@@ -84,11 +94,84 @@ class Login extends CI_Controller
       }
   }
 
-    function logout()
+
+  // change password view
+  function change_password_view()
+  {
+    $data = array('title' => 'Change Password');
+    
+    // load default template with change password view
+    $this->template->load('default', 'login/change_password', $data);
+  }
+
+
+  // change password function
+  function change_password()
+  {
+    //get the posted values
+    $username = $this->input->post("new_password");
+
+    // validate passowrd
+    $this->form_validation->set_rules('new_password', 'New Password', 'trim|required|md5');
+    $this->form_validation->set_rules('confirm_password', 'Confirm Password', 'trim|required|matches[new_password]|md5');
+
+    //validate form input
+    if ($this->form_validation->run() == FALSE)
     {
-      $this->session->unset_userdata('logged_in');
-      session_destroy();
-      $this->session->set_flashdata('logout_msg', 'You have logged out successfully!');
-      redirect(site_url()); //redirect to home page
+        $data = array('title' => 'Confirm Password');
+        $this->template->load('default', 'login/change_password', $data);
     }
+    else
+    {
+      $timestamp = date('Y-m-d G:i:s');
+
+      // get global data
+      $global_data = $this->get_global_data();
+
+      // update password with time stamp
+      $db_data = array(
+          'password' => $this->input->post('new_password'),
+          'updated_at' => $timestamp
+      );
+      
+      // insert form data into database
+      if ($this->login_model->updatePassword($db_data,$global_data['user_id']))
+      {
+        $this->session->set_flashdata('positive-msg','You have successfully updated your password.');
+        redirect('dashboard');
+      }
+      else
+      {
+          // error
+          $this->session->set_flashdata('negative-msg','Oops! Error. Please try again later!');
+          redirect('change_password');
+      }
+    }
+
+  }
+
+
+  // check password
+  function check_password($user_id)
+  {
+    // get password of user based on user id
+    $password_check = $this->login_model->check_password($user_id);
+
+    if ($password_check == md5('password'))
+    {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  // log out function
+  function logout()
+  {
+    $this->session->unset_userdata('logged_in');
+    session_destroy();
+    $this->session->set_flashdata('logout_msg', 'You have logged out successfully!');
+    redirect(site_url()); //redirect to home page
+  }
 }?>
