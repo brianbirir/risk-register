@@ -2,7 +2,6 @@
 <div class="login-box">
   <div class="login-logo">
     <a href="/">
-      <!-- <b>Admin</b>LTE -->
       <img class="img-responsive" src="<?php echo base_url();?>assets/img/aldea_services_logo.jpg">
     </a>
 
@@ -10,6 +9,19 @@
   <!-- /.login-logo -->
   <div class="login-box-body">
     <p class="login-box-msg">Sign in</p>
+
+    <!-- display login error message -->
+    <?php if ($this->session->flashdata('positive-msg')){ ?>
+      <div class="alert alert-success alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span><?php echo $this->session->flashdata('positive-msg'); ?></span>
+      </div>
+    <?php } else if ($this->session->flashdata('negative-msg')) { ?>
+      <div class="alert alert-danger alert-dismissible" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <span><?php echo $this->session->flashdata('negative-msg'); ?></span>
+      </div>
+    <?php } ?>
 
     <?php 
       $attributes = array("class" => "form-login", "id" => "loginform", "name" => "loginform");
@@ -44,25 +56,6 @@
     </div>
 
     <?php echo form_close(); ?>
-
-    <!-- display login error message -->
-    <?php if ($this->session->flashdata('positive-msg')){ ?>
-      <div class="alert alert-success alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <span><?php echo $this->session->flashdata('positive-msg'); ?></span>
-      </div>
-    <?php } else if ($this->session->flashdata('negative-msg')) { ?>
-      <div class="alert alert-danger alert-dismissible" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <span><?php echo $this->session->flashdata('negative-msg'); ?></span>
-      </div>
-    <?php } ?>
-
-    <!-- <a href="#">I forgot my password</a><br> -->
-    
-    <div class="signup-msg">
-      <p style="text-align:center;">Not yet registered? You can sign up <?php echo anchor('signup','here','title="sign up"')?></p>
-    </div>
 
   </div>
   <!-- /.login-box-body -->

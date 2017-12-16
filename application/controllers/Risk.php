@@ -13,6 +13,7 @@ class Risk extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('risk_model');
+        $this->load->model('project_model');
     }
 
     // view all registered risks owned by a user
@@ -80,7 +81,7 @@ class Risk extends RISK_Controller
     // the view for adding risk
     function add()
     {
-        $data = array('title' => 'Add Risk');
+        $data = array('title' => 'Register Risk');
         
         if($this->session->userdata('logged_in'))
         {
@@ -91,6 +92,17 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
+            // if($data['role_id' == 8])
+            // {
+                // get risk register that belongs to the user
+                $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+            
+            //} 
+            //else 
+            //{
+
+            //}
+            
             // select drop down
             $data['select_status'] = $this->getStatus();
             $data['select_category'] = $this->getCategories();
@@ -326,7 +338,7 @@ class Risk extends RISK_Controller
         $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
 
         $data = array('title' => 'Add Risk');
-        
+
         // breadcrumb
         $this->breadcrumb->add($data['title']);
         $data['breadcrumb'] = $this->breadcrumb->output();
@@ -387,11 +399,12 @@ class Risk extends RISK_Controller
                 'residual_risk_impact' => $this->input->post('residual_impact'),
                 'residual_risk_rating' => $this->input->post('residual_risk_rating'),
                 'residual_risk_level' => $this->input->post('residual_risk_level'),
-                'Subproject_subproject_id' => $this->input->post('sub_project'),
+                'Subproject_subproject_id' => $this->input->post('register_id'),
                 'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
-                'updated_at' => $timestamp
+                'updated_at' => $timestamp,
+                'uuid' => $this->input->post('risk_uuid')
             );
             
             // insert form data into database

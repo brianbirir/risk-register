@@ -71,6 +71,11 @@
 }
 
 
+/* BOXES */
+.box .box-yellow {
+    border-top-color: #f39c12 !important;
+}
+
 /* CALL OUTS */
 .bs-callout {
     padding: 20px;

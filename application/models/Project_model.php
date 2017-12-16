@@ -81,6 +81,19 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+
+        // get risk register id and name that the general user is assigned to
+        function getAssignedRiskRegisterName($user_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
+            $this->db->where('Subproject_has_User.User_user_id',$user_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row : false;
+        }
+
         function getAssignedProject($user_id)
         {
             $this->db->select('*');
