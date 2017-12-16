@@ -81,7 +81,7 @@ class Risk extends RISK_Controller
     // the view for adding risk
     function add()
     {
-        $data = array('title' => 'Add Risk');
+        $data = array('title' => 'Register Risk');
         
         if($this->session->userdata('logged_in'))
         {
@@ -92,10 +92,17 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
+            // if($data['role_id' == 8])
+            // {
+                // get risk register that belongs to the user
+                $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+            
+            //} 
+            //else 
+            //{
 
-            // get risk register that belongs to the user
-            $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
-
+            //}
+            
             // select drop down
             $data['select_status'] = $this->getStatus();
             $data['select_category'] = $this->getCategories();

@@ -162,3 +162,14 @@ $('#risk-tabs li:eq(4) a').click(function (e) {
   e.preventDefault()
   $(this).tab('show')
 });
+
+
+// set current date on risk registration form
+function appendCurrentDate () {
+    var currentDate = moment().format("MMMM Do YYYY, h:mm:ss a");
+    // var today = new Date();
+    var date_element = document.getElementById("risk_current_date");
+    date_element.innerHTML= currentDate;
+}
+
+window.onload = appendCurrentDate;
