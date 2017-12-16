@@ -72,7 +72,7 @@
 
 
 /* BOXES */
-.box .box-yellow {
+.box.box-yellow {
     border-top-color: #f39c12 !important;
 }
 
