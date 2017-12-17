@@ -313,16 +313,16 @@
                         </div>
                     </div>
                     <div class="col-md-12">
-                        <button id="add-response-btn" class="btn btn-primary pull-right">Add Response</button>
+                        <div id="add-response-btn" class="btn btn-primary pull-right" onclick="new_row()">Add Response</div>
                     </div>
                     <table class="table table-hover">
-                        <tbody>
+                        <tbody id="response-table-body">
                             <tr>
                                 <th>Risk Response ID</th>
                                 <th>Risk Response Title</th>
                                 <th>Response Type</th>
                             </tr>
-                            <tr>
+                            <tr id="response-row">
                                 <td>
                                     <div class="form-group">
                                         <input size="8" class="form-control" name="risk_reponse_id" placeholder="Risk Response ID" type="text" value="<?php echo set_value('risk_reponse_id'); ?>" required/>
