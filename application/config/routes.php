@@ -78,3 +78,7 @@ $route['settings/data/owner'] = 'owner/index_owner';
 $route['settings/data/owner/add'] = 'owner/add_owner_view';
 $route['settings/data/owner/edit/(:num)'] = 'owner/edit_owner_view/$1';
 $route['settings/data/owner/delete/(:num)'] = 'owner/delete/$1';
+
+// test pages
+$route['test/reponse'] = 'risk/response_view';
+$route['test'] = 'risk/register_response';
