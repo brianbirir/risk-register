@@ -312,37 +312,49 @@
                             ?>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <!-- <div class="col-md-12">
                         <div id="add-response-btn" class="btn btn-primary pull-right" onclick="new_row()">Add Response</div>
+                    </div> -->
+
+                    <div class="col-md-12">
+                        <div class="box">
+                            <div class="box-header with-border">
+                                <h3 class="box-title">Risk Response</h3>
+                                <div id="add-response-btn" class="btn btn-sm btn-primary pull-right" onclick="new_row()">Add Response</div>
+                            </div>
+                            <div class="box-body">
+                                <table class="table table-hover">
+                                    <tbody id="response-table-body">
+                                        <tr>
+                                            <!-- <th>Risk Response ID</th> -->
+                                            <th>Risk Response Title</th>
+                                            <th>Response Type</th>
+                                            <th></th>
+                                        </tr>
+                                        <tr id="response-row">
+                                            <td>
+                                                <div class="form-group">
+                                                    <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_response[title][]'); ?>" required/>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <select name="risk_response[strategy][]" class="form-control">
+                                                        <?php 
+                                                            foreach ($select_strategy as $key => $value) {
+                                                                echo "<option value=".$key.">".$value."</option>";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-                    <table class="table table-hover">
-                        <tbody id="response-table-body">
-                            <tr>
-                                <!-- <th>Risk Response ID</th> -->
-                                <th>Risk Response Title</th>
-                                <th>Response Type</th>
-                                <th></th>
-                            </tr>
-                            <tr id="response-row">
-                                <td>
-                                    <div class="form-group">
-                                        <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_response[title][]'); ?>" required/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        <select name="risk_response[strategy][]" class="form-control">
-                                            <?php 
-                                                foreach ($select_strategy as $key => $value) {
-                                                    echo "<option value=".$key.">".$value."</option>";
-                                                }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
                 </div>
             </div>
 
