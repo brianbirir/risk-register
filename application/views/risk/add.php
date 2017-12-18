@@ -318,27 +318,26 @@
                     <table class="table table-hover">
                         <tbody id="response-table-body">
                             <tr>
-                                <th>Risk Response ID</th>
+                                <!-- <th>Risk Response ID</th> -->
                                 <th>Risk Response Title</th>
                                 <th>Response Type</th>
+                                <th></th>
                             </tr>
                             <tr id="response-row">
                                 <td>
                                     <div class="form-group">
-                                        <input size="8" class="form-control" name="risk_reponse_id" placeholder="Risk Response ID" type="text" value="<?php echo set_value('risk_reponse_id'); ?>" required/>
+                                        <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_response[title][]'); ?>" required/>
                                     </div>
                                 </td>
                                 <td>
                                     <div class="form-group">
-                                        <input class="form-control" name="risk_reponse_title" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse_title'); ?>" required/>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="form-group">
-                                        <?php 
-                                            $select_strategy_attributes = 'class="form-control"';
-                                            echo form_dropdown('strategy',$select_strategy,"1",$select_strategy_attributes);
-                                        ?>
+                                        <select name="risk_response[strategy][]" class="form-control">
+                                            <?php 
+                                                foreach ($select_strategy as $key => $value) {
+                                                    echo "<option value=".$key.">".$value."</option>";
+                                                }
+                                            ?>
+                                        </select>
                                     </div>
                                 </td>
                             </tr>

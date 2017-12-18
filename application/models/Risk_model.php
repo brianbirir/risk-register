@@ -16,6 +16,13 @@
         }
 
 
+        // add risk response
+        function insertResponse($data)
+        {
+            return $this->db->insert('RiskResponse', $data);
+        }
+
+
         // get risk items registered by specific user
         function getUserRisk($user_id)
         {   

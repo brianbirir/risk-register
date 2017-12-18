@@ -319,11 +319,81 @@ class Risk extends RISK_Controller
             redirect('dashboard/risks');
         }
     }
+
+    // response view
+    function response_view()
+    {
+        $data = array('title' => 'Responses');
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+
+            $data['select_strategy'] = $this->getRiskStrategies();
+
+            // load page to show all registered risks
+            $this->template->load('dashboard', 'risk/test_response', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    function register_response()
+    {
+        $this->load->library('uuid');
+        
+        $data = array('title' => 'Test');
+
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+
+        // get global data
+        $data = array_merge($data, $this->get_global_data());        
+
+        // set validation rules
+        // $this->form_validation->set_rules('risk_reponse[]', 'Identified Hazard Risk', 'trim|required');
+        $timestamp = date('Y-m-d G:i:s');
+        
+        // get global data
+        $global_data = $this->get_global_data();
+        
+        // $num_fields = $this->input->post('risk_response');
+
+        $num_fields = count($_POST['risk_response']['id']);
+
+        for ($i = 0; $i < $num_fields; $i++) 
+        {
+            // Pack the field up in an array for ease-of-use.
+            $field = array(
+                'risk_uuid'=> $this->uuid->generate_uuid(),
+                'response_uuid'=> $this->uuid->generate_uuid(),
+                'response_title' => $_POST['risk_response']['title'][$i],
+                'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
+            );
+
+            $this->risk_model->insertResponse($field);
+        }
+
+        redirect('dashboard');
+        
+    }
     
     // function for adding risk
     function register()
     {
-        //set validation rules
+        // load uuid library
+        $this->load->library('uuid');
+
+        //  set validation rules
         $this->form_validation->set_rules('identified_hazard_risk', 'Identified Hazard Risk', 'trim|required');
         $this->form_validation->set_rules('cause_trigger', 'Cause Trigger', 'trim|required');
         $this->form_validation->set_rules('effect', 'Effect', 'trim|required');
@@ -346,7 +416,7 @@ class Risk extends RISK_Controller
         // get global data
         $data = array_merge($data, $this->get_global_data());
         
-        //validate form input
+        // validate form input
         if ($this->form_validation->run() == FALSE)
         {
 
@@ -369,6 +439,9 @@ class Risk extends RISK_Controller
             // get global data
             $global_data = $this->get_global_data();
 
+            // get risk uuid
+            $risk_uuid = $this->input->post('risk_uuid');
+
             //insert the risk data into database
             $risk_data = array(
                 'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
@@ -390,7 +463,7 @@ class Risk extends RISK_Controller
                 'action_owner' => $this->input->post('action_owner'),
                 'milestone_target_date' => $this->input->post('milestone_target_date'),
                 'RiskCategories_category_id' => $this->input->post('main_category'),
-                'RiskStrategies_strategy_id' => $this->input->post('strategy'),
+                // 'RiskStrategies_strategy_id' => $this->input->post('strategy'),
                 'SystemSafety_safety_id' => $this->input->post('system_safety'),
                 'Status_status_id' => $this->input->post('status'),
                 'Realization_realization_id' => $this->input->post('realization'),
@@ -404,12 +477,28 @@ class Risk extends RISK_Controller
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
-                'uuid' => $this->input->post('risk_uuid')
+                'uuid' => $risk_uuid,
+                'entity' => $this->input->post('entity'),
+                'description_change' => $this->input->post('description_change')
             );
             
             // insert form data into database
             if ($this->risk_model->insertRegistry($risk_data))
             {
+                // insert risk response data
+                $num_fields = count($_POST['risk_response']['title']);
+                
+                for ($i = 0; $i < $num_fields; $i++) 
+                {
+                    $response_field = array(
+                        'risk_uuid'=> $risk_uuid,
+                        'response_uuid'=> $this->uuid->generate_uuid(),
+                        'response_title' => $_POST['risk_response']['title'][$i],
+                        'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
+                    );
+                    $this->risk_model->insertResponse($response_field);
+                }
+
                 $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
                 redirect('dashboard/risks');
             }
