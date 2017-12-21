@@ -24,8 +24,10 @@
         
         <?php
             $attributes = array("class" => "ui form", "id" => "risk-reg-form", "name" => "reg-risk-form");
-            echo form_open("risk/register", $attributes);
+            echo form_open("risk/update", $attributes);
         ?>
+
+        <input type="hidden" name="risk_id" id="risk_id" class="form-control" value="<?php echo $risk->item_id;?>"/>
     
             <div class="box box-success">
 
@@ -348,7 +350,7 @@
                                         <tr id="response-row">
                                             <td>
                                                 <div class="form-group">
-                                                    <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
+                                                    <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>"/>
                                                 </div>
                                             </td>
                                             <td>

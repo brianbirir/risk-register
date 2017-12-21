@@ -162,105 +162,99 @@ class Risk extends RISK_Controller
     // update function for a risk item
     function update()
     {   
-        // view title
-        $data = array('title' => 'Edit Risk');
+        // load UUID library for use in generating respone UUID
+        $this->load->library('uuid');
 
-        //set validation rules
-        $this->form_validation->set_rules('identified_hazard_risk', 'Identified Hazard Risk', 'trim|required');
-        $this->form_validation->set_rules('cause_trigger', 'Cause Trigger', 'trim|required');
-        $this->form_validation->set_rules('effect', 'Effect', 'trim|required');
-        $this->form_validation->set_rules('materialization_phase', 'Materialization Phase', 'trim|required');
-        $this->form_validation->set_rules('risk_rating', 'Risk Rating', 'trim|required');
-        $this->form_validation->set_rules('risk_level', 'Risk Level', 'trim|required');
-        $this->form_validation->set_rules('comments', 'Comments', 'trim|required');
-        $this->form_validation->set_rules('control_mitigation', 'Risk Control Mitigation', 'trim|required');
-        $this->form_validation->set_rules('residual_risk_rating', 'Residual Risk Rating', 'trim|required');
-        $this->form_validation->set_rules('residual_risk_level', 'Residual Risk Level', 'trim|required');
-        $this->form_validation->set_rules('action_owner', 'Action Owner', 'trim|required');
-        $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
+        $timestamp = date('Y-m-d G:i:s');
 
-        // validate form input
-        if ($this->form_validation->run() == FALSE)
+        // get risk id from hidden field
+        $risk_id= $this->input->post('risk_id');
+
+        // get risk uuid
+        $risk_uuid = $this->input->post('risk_uuid');
+
+        /**
+         * NOTE:
+         * The risk UUID is a very unique identifier hence cannot be updated.
+         * It should not be included in the updated data array below
+         * 
+         * Also archive variable is only used in the archiving function
+         */
+
+        //insert the risk data into database
+        $risk_data = array(
+            'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
+            'cause_trigger' => $this->input->post('cause_trigger'),
+            'risk_title' => $this->input->post('risk_title'),
+            'project_location' => $this->input->post('project_location'),
+            'effect' => $this->input->post('effect'),
+            'materialization_phase' => $this->input->post('materialization_phase'),
+            'likelihood' => $this->input->post('likelihood'),
+            'time_impact' => $this->input->post('timeimpact'),
+            'cost_impact' => $this->input->post('costimpact'),
+            'reputation_impact' => $this->input->post('reputationimpact'),
+            'hs_impact' => $this->input->post('hsimpact'),
+            'env_impact' => $this->input->post('environmentimpact'),
+            'legal_impact' => $this->input->post('legalimpact'),
+            'quality_impact' => $this->input->post('qualityimpact'),
+            'risk_rating' => $this->input->post('risk_rating'),
+            'risk_level' => $this->input->post('risk_level'),
+            'comments' => $this->input->post('comments'),
+            'control_mitigation' => $this->input->post('control_mitigation'),
+            'action_owner' => $this->input->post('action_owner'),
+            'milestone_target_date' => $this->input->post('milestone_target_date'),
+            'RiskCategories_category_id' => $this->input->post('main_category'),
+            'SystemSafety_safety_id' => $this->input->post('system_safety'),
+            'Status_status_id' => $this->input->post('status'),
+            'Realization_realization_id' => $this->input->post('realization'),
+            'RiskOwner_riskowner_id' => $this->input->post('risk_owner'),
+            'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
+            'residual_risk_impact' => $this->input->post('residual_impact'),
+            'residual_risk_rating' => $this->input->post('residual_risk_rating'),
+            'residual_risk_level' => $this->input->post('residual_risk_level'),
+            'Subproject_subproject_id' => $this->input->post('register_id'),
+            'entity' => $this->input->post('entity'),
+            'description_change' => $this->input->post('description_change'),
+            'updated_at' => $timestamp
+        );
+
+
+        // check first if there are any response fields that have been added
+        // if ( !empty($_POST['risk_response']['title']) && !empty($_POST['risk_response']['strategy']) )
+        // {
+            $num_fields = count($_POST['risk_response']['title']);
+
+            for ($i = 0; $i < $num_fields; $i++) 
+            {
+                if(empty($_POST['risk_response']['title'][$i]))
+                {
+                   break;
+                }
+
+                $field = array(
+                    'risk_uuid'=> $risk_uuid,
+                    'response_uuid'=> $this->uuid->generate_uuid(),
+                    'response_title' => $_POST['risk_response']['title'][$i],
+                    'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
+                );
+
+                $this->risk_model->insertResponse($field);
+            }
+        // }
+            
+        // insert form data into database
+        if ($this->risk_model->updateRisk($risk_data,$risk_id))
         {
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
+            
 
-            // get global data
-            $data = array_merge($data, $this->get_global_data());
-
-            // get risk id from hidden field
-            $risk_id= $this->input->post('risk_id');
-
-            // get risk data based on id hidden field
-            $data['risk'] = $this->risk_model->getRisk($risk_id);
-
-            // select drop down
-            $data['select_status'] = $this->getStatus();
-            $data['select_category'] = $this->getCategories();
-            $data['select_strategy'] = $this->getRiskStrategies();
-            $data['select_safety'] = $this->getSystemSafety();
-            $data['select_realization'] = $this->getRealization();
-            $data['select_subproject'] = $this->getSubProject();
-            $data['select_risk_owner'] = $this->getRiskOwner();
-
-            // load page to show all devices
-            $this->template->load('dashboard', 'risk/edit', $data);
+            $this->session->set_flashdata('positive-msg','Risk has been successfully updated.');
+            redirect('dashboard/risk/edit/'.$risk_id);
         }
         else
         {
-            $timestamp = date('Y-m-d G:i:s');
-
-            // get risk id from hidden field
-            $risk_id= $this->input->post('risk_id');
-
-            //insert the risk data into database
-            $risk_data = array(
-                'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
-                'cause_trigger' => $this->input->post('cause_trigger'),
-                'effect' => $this->input->post('effect'),
-                'materialization_phase' => $this->input->post('materialization_phase'),
-                'likelihood' => $this->input->post('likelihood'),
-                'time_impact' => $this->input->post('timeimpact'),
-                'cost_impact' => $this->input->post('costimpact'),
-                'reputation_impact' => $this->input->post('reputationimpact'),
-                'hs_impact' => $this->input->post('hsimpact'),
-                'env_impact' => $this->input->post('environmentimpact'),
-                'legal_impact' => $this->input->post('legalimpact'),
-                'quality_impact' => $this->input->post('qualityimpact'),
-                'risk_rating' => $this->input->post('risk_rating'),
-                'risk_level' => $this->input->post('risk_level'),
-                'comments' => $this->input->post('comments'),
-                'control_mitigation' => $this->input->post('control_mitigation'),
-                'action_owner' => $this->input->post('action_owner'),
-                'milestone_target_date' => $this->input->post('milestone_target_date'),
-                'RiskCategories_category_id' => $this->input->post('main_category'),
-                'RiskStrategies_strategy_id' => $this->input->post('strategy'),
-                'SystemSafety_safety_id' => $this->input->post('system_safety'),
-                'Status_status_id' => $this->input->post('status'),
-                'Realization_realization_id' => $this->input->post('realization'),
-                'RiskOwner_riskowner_id' => $this->input->post('risk_owner'),
-                'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
-                'residual_risk_impact' => $this->input->post('residual_impact'),
-                'residual_risk_rating' => $this->input->post('residual_risk_rating'),
-                'residual_risk_level' => $this->input->post('residual_risk_level'),
-                'Subproject_subproject_id' => $this->input->post('sub_project'),
-                'updated_at' => $timestamp
-            );
-            
-            // insert form data into database
-            if ($this->risk_model->updateRisk($risk_data,$risk_id))
-            {
-                $this->session->set_flashdata('positive-msg','Risk has been successfully updated.');
-                redirect('dashboard/risk/edit/'.$risk_id);
-            }
-            else
-            {
-                // error
-                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-                redirect('dashboard/risk/edit/'.$risk_id);
-            } 
-
+            // error
+            $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+            redirect('dashboard/risk/edit/'.$risk_id);
         }
     }
 
@@ -386,7 +380,7 @@ class Risk extends RISK_Controller
     // function for adding risk
     function register()
     {
-        // load uuid library
+        // load UUID library
         $this->load->library('uuid');
 
         //  set validation rules
