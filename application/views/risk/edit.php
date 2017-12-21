@@ -11,6 +11,12 @@
   </div>
 <?php } ?>
 
+
+<?php 
+    $CI =& get_instance();
+    $CI->load->model('risk_model');
+?>
+
 <!-- risk editing form -->
 <div class="row">
     <div id="edit-risk-form">
@@ -291,6 +297,7 @@
             
             </div>
 
+            <!-- risk responses -->
             <div class="box box-warning">
 
                 <div class="box-header with-border">
@@ -327,6 +334,8 @@
                                 <h3 class="box-title">Risk Response</h3>
                                 <div id="add-response-btn" class="btn btn-sm btn-primary pull-right" onclick="new_row()">Add Response</div>
                             </div>
+
+                            <!-- add more responses -->
                             <div class="box-body">
                                 <table class="table table-hover">
                                     <tbody id="response-table-body">
@@ -357,6 +366,31 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                            </div>
+
+                            <!-- existing responses -->
+                            <div class="box-body">
+                                <h4 class="box-title">Existing Responses</h4>
+                                <?php 
+                                    // risk responses
+                                    echo "<table class='table table-bordered'>";;
+
+                                    echo "<tr>";
+                                    echo "<th>Response ID</th>";
+                                    echo "<th>Response Title</th>";
+                                    echo "<th>Response Strategy</th>";
+                                    echo "</tr>";
+
+                                    foreach ($risk_response as $response_row) {
+                                        echo "<tr>";
+                                        echo "<td>".$response_row->response_uuid."</td>";
+                                        echo "<td>".$response_row->response_title."</td>";
+                                        echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
+                                        echo "</tr>";
+                                    }
+
+                                    echo "</table>";
+                                ?>
                             </div>
                         </div>
                     </div>

@@ -135,6 +135,9 @@ class Risk extends RISK_Controller
             $data['risk'] = $this->risk_model->getRisk($id);
 
             $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+                
+            // get risk responses
+            $data['risk_response'] = $this->risk_model->getRiskResponse($data['risk']->risk_uuid);
 
             // select drop down
             $data['select_status'] = $this->getStatus();
@@ -704,7 +707,7 @@ class Risk extends RISK_Controller
             $risk = $this->risk_model->getRisk($uri_id);
 
             //check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+            // ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             if($risk) 
             {
