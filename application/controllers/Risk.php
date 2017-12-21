@@ -92,17 +92,8 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
-            // if($data['role_id' == 8])
-            // {
-                // get risk register that belongs to the user
-                $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
-            
-            //} 
-            //else 
-            //{
-
-            //}
-            
+            $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+        
             // select drop down
             $data['select_status'] = $this->getStatus();
             $data['select_category'] = $this->getCategories();
@@ -126,7 +117,7 @@ class Risk extends RISK_Controller
     // view for editing risk item
     function edit()
     {
-        $data = array('title' => 'Edit Risk');
+        $data = array('title' => 'Edit Risk Item');
         
         if($this->session->userdata('logged_in'))
         {
@@ -142,6 +133,8 @@ class Risk extends RISK_Controller
 
             // get risk data based on id from uri
             $data['risk'] = $this->risk_model->getRisk($id);
+
+            $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
 
             // select drop down
             $data['select_status'] = $this->getStatus();
