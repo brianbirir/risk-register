@@ -52,20 +52,27 @@
                 <table class="table table-hover">
                     <tbody>
                         <tr>
-                            <th>ID</th>
-                            <th>Sub-Project</th>
+                            <th>UUID</th>
+                            <th>Title</th>
                             <th>Main Category</th>
-                            <th>Identified Hazard/ Risk</th>
+                            <!-- <th>Identified Hazard/ Risk</th> -->
+                            <th>Actions</th>
                         </tr>
                         <?php
                             foreach ($risk_data as $risk_row) 
                             {
                                 echo "<tr>";
-                                echo "<td>".$risk_row->item_id."</td>";
-                                echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
-                                echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
-                                echo "<td>".$risk_row->identified_hazard_risk."</td>";
-                                echo "<td><a href='/dashboard/risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
+                                echo "<td width=300>".$risk_row->risk_uuid."</td>";
+                                echo "<td width=300>".$risk_row->risk_title."</td>";
+                                //echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
+                                echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
+                                // echo "<td>".$risk_row->identified_hazard_risk."</td>";
+                                // echo "<td><a href='/dashboard/risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
+                                echo "<td>
+                                    <span><a title='view' href='/dashboard/risk/".$risk_row->item_id."'><i class='fa fa-eye' aria-hidden='true'></i></a></span>
+                                    <span><a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fa fa-pencil' aria-hidden='true'></i></a></span>
+                                    <span><a title='archive' href='/dashboard/risk/archive/".$risk_row->item_id."'><i class='fa fa-trash' aria-hidden='true'></i></a></span>
+                                        </td>";
                                 echo "</tr>";
                             } 
                 }          ?>

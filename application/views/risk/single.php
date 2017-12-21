@@ -11,9 +11,9 @@
 
 ?>
 
-<div class="box box-default">
+<div class="box box-success">
     <div class="box-header with-border">
-        <h3 class="box-title">Description</h3>
+        <h3 class="box-title">Identification</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
@@ -23,13 +23,53 @@
             echo "<table class='table'>";
 
             echo "<tr>";
-            echo "<td><label>Sub-Project Name:</label>";
+            echo "<td><label>Unique ID:</label></td>";
+            echo "<td><p>".$risk_data->risk_uuid."</p></td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td><label>Title:</label></td>";
+            echo "<td><p>".$risk_data->risk_title."</p></td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td><label>Project Location:</label></td>";
+            echo "<td><p>".$risk_data->project_location."</p></td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td><label>Registry:</label>";
             echo "<td><p>".$CI->risk_model->getSubProjectName($risk_data->Subproject_subproject_id)."</p></td>";
             echo "</tr>";
 
             echo "<tr>";
-            echo "<td><label>Main Catergory:</label>";
+            echo "<td><label>Main Category:</label>";
             echo "<td><p>".$CI->risk_model->getRiskCategoryName($risk_data->RiskCategories_category_id)."</p></td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td><label>Status:</label></td>";
+            echo "<td><p>".$CI->risk_model->getStatusName($risk_data->Status_status_id)."</p></td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td><label>Latest Update:</label></td>";
+            echo "<td><p>".$risk_data->updated_at."</p></td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td><label>Description and Change:</label></td>";
+            echo "<td><p>".$risk_data->description_change."</p></td>";
+            echo "</tr>";
+
+            echo "<tr>";
+            echo "<td><label>Risk Materialization Phase:</label></td>";
+            echo "<td><p>".$risk_data->materialization_phase."</p></td>";
+            echo "</tr>";
+            
+            echo "<tr>";
+            echo "<td><label>Risk Owner:</label></td>";
+            echo "<td><p>".$CI->risk_model->getRiskOwnerName($risk_data->RiskOwner_riskowner_id)."</p></td>";
             echo "</tr>";
 
             echo "<tr>";
@@ -47,24 +87,14 @@
             echo "<td><p>".$risk_data->effect."</p></td>";
             echo "</tr>";
 
-            echo "<tr>";
-            echo "<td><label>Risk Materialization Phase:</label></td>";
-            echo "<td><p>".$risk_data->materialization_phase."</p></td>";
-            echo "</tr>";
-            
-            echo "<tr>";
-            echo "<td><label>Risk Owner:</label></td>";
-            echo "<td><p>".$CI->risk_model->getRiskOwnerName($risk_data->RiskOwner_riskowner_id)."</p></td>";
-            echo "</tr>";
-
             echo "</table>";
     	?>
   </div>
 </div>
 
-<div class="box box-default">
+<div class="box box-info">
     <div class="box-header with-border">
-        <h3 class="box-title">Qualitative Assessment</h3>
+        <h3 class="box-title">Qualitative Analysis</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
@@ -107,10 +137,10 @@
         echo "<td><p>".$risk_data->quality_impact."</p></td>";
         echo "</tr>";
 
-        echo "<tr>";
-        echo "<td><label>Comments:</label></td>";
-        echo "<td><p>".$risk_data->comments."</p></td>";
-        echo "</tr>";
+        // echo "<tr>";
+        // echo "<td><label>Comments:</label></td>";
+        // echo "<td><p>".$risk_data->comments."</p></td>";
+        // echo "</tr>";
 
         echo "<tr>";
         echo "<td><label>Risk Rating:</label></td>";
@@ -127,9 +157,9 @@
     </div>
 </div>
 
-<div class="box box-default">
+<div class="box box-warning">
     <div class="box-header with-border">
-        <h3 class="box-title">Risk Control/Mitigation</h3>
+        <h3 class="box-title">Risk Responses</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
@@ -145,38 +175,56 @@
                 <li>P = Personnel/Staff</li>
             </ul>
         </div>
-    	<?php
-            	echo "<table class='table'>";
+        
+        <?php
+            echo "<table class='table table-bordered'>";;
 
-            	echo "<tr>";
-    			echo "<td><label>Strategy:</label>";
-    			echo "<td><p>".$CI->risk_model->getRiskStrategiesName($risk_data->RiskStrategies_strategy_id)."</p></td>";
-    			echo "</tr>";
+            echo "<tr>";
+            echo "<td><label>System Safety:</label></td>";
+            echo "<td><p>".$CI->risk_model->getSystemSafetyName($risk_data->SystemSafety_safety_id)."</p></td>";
+            echo "</tr>";
 
-    			echo "<tr>";
-    			echo "<td><label>(Combinations of) Measures/Controls:</label>";
-    			echo "<td><p>".$risk_data->control_mitigation."</p></td>";
-    			echo "</tr>";
+            echo "<tr>";
+            echo "<td><label>Realization:</label></td>";
+            echo "<td><p>".$CI->risk_model->getRealizationName($risk_data->Realization_realization_id)."</p></td>";
+            echo "</tr>";
 
-    			echo "<tr>";
-    			echo "<td><label>System Safety:</label></td>";
-                echo "<td><p>".$CI->risk_model->getSystemSafetyName($risk_data->SystemSafety_safety_id)."</p></td>";
-                echo "</tr>";
+            echo "</table>";
+        ?>
+        <br />
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Responses</h3>
+            </div>
+            <div class="box-body">
+                <?php 
+                    // risk responses
+                    echo "<table class='table table-bordered'>";;
 
-                echo "<tr>";
-                echo "<td><label>Realization:</label></td>";
-                echo "<td><p>".$CI->risk_model->getRealizationName($risk_data->Realization_realization_id)."</p></td>";
-                echo "</tr>";
+                    echo "<tr>";
+                    echo "<th>Response ID</th>";
+                    echo "<th>Response Title</th>";
+                    echo "<th>Response Strategy</th>";
+                    echo "</tr>";
 
-                echo "</table>";
-    	?>
-  </div>
+                    foreach ($risk_response as $response_row) {
+                        echo "<tr>";
+                        echo "<td>".$response_row->response_uuid."</td>";
+                        echo "<td>".$response_row->response_title."</td>";
+                        echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
+                        echo "</tr>";
+                    }
 
+                    echo "</table>";
+                ?>
+            </div>
+        </div>
+    </div>
 </div>
 
-<div class="box box-default">
+<div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title">Residual Risk<</h3>
+        <h3 class="box-title">Controlling Residual Risk</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
@@ -209,7 +257,7 @@
     </div>
 </div>
 
-<div class="box box-default">
+<div class="box box-yellow">
     <div class="box-header with-border">
         <h3 class="box-title">Controlling</h3>
         <div class="box-tools pull-right">
@@ -227,11 +275,6 @@
         echo "<tr>";
         echo "<td><label>Milestone Target Date:</label>";
         echo "<td><p>".$risk_data->milestone_target_date."</p></td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td><label>Status:</label></td>";
-        echo "<td><p>".$CI->risk_model->getStatusName($risk_data->Status_status_id)."</p></td>";
         echo "</tr>";
 
         echo "</table>";

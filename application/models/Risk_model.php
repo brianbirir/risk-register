@@ -33,6 +33,7 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+        
 
         // get archived risk items
         function getUserArchivedRisk($user_id)
@@ -46,7 +47,7 @@
         }
 
 
-        // get risk items based on risk ID
+        // get single risk item based on risk ID
         function getRisk($risk_id)
         {   
             $this->db->select('*');
@@ -228,8 +229,6 @@
         }
 
 
-        
-
         // get number of risks
         function getRiskNumbers()
         {   
@@ -237,6 +236,17 @@
             $this->db->from('RiskRegistry');
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
+
+        // get risk responses
+        function getRiskResponse($risk_uuid)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskResponse');
+            $this->db->where('risk_uuid',$risk_uuid);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
     }
