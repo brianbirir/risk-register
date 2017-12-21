@@ -175,46 +175,51 @@
                 <li>P = Personnel/Staff</li>
             </ul>
         </div>
-    	<?php
-            	echo "<table class='table'>";;
+        
+        <?php
+            echo "<table class='table table-bordered'>";;
 
-    			echo "<tr>";
-    			echo "<td><label>System Safety:</label></td>";
-                echo "<td><p>".$CI->risk_model->getSystemSafetyName($risk_data->SystemSafety_safety_id)."</p></td>";
-                echo "</tr>";
+            echo "<tr>";
+            echo "<td><label>System Safety:</label></td>";
+            echo "<td><p>".$CI->risk_model->getSystemSafetyName($risk_data->SystemSafety_safety_id)."</p></td>";
+            echo "</tr>";
 
-                echo "<tr>";
-                echo "<td><label>Realization:</label></td>";
-                echo "<td><p>".$CI->risk_model->getRealizationName($risk_data->Realization_realization_id)."</p></td>";
-                echo "</tr>";
+            echo "<tr>";
+            echo "<td><label>Realization:</label></td>";
+            echo "<td><p>".$CI->risk_model->getRealizationName($risk_data->Realization_realization_id)."</p></td>";
+            echo "</tr>";
 
-                echo "</table>";
+            echo "</table>";
+        ?>
+        <br />
+        <div class="box box-solid">
+            <div class="box-header with-border">
+                <h3 class="box-title">Responses</h3>
+            </div>
+            <div class="box-body">
+                <?php 
+                    // risk responses
+                    echo "<table class='table table-bordered'>";;
 
-                // risk responses
-                echo "<table class='table'>";;
+                    echo "<tr>";
+                    echo "<th>Response ID</th>";
+                    echo "<th>Response Title</th>";
+                    echo "<th>Response Strategy</th>";
+                    echo "</tr>";
 
-                echo "<tr>";
-    			echo "<th>Response ID</th>";
-                echo "<th>Response Title</th>";
-                echo "<th>Response Strategy</th>";
-                echo "</tr>";
+                    foreach ($risk_response as $response_row) {
+                        echo "<tr>";
+                        echo "<td>".$response_row->response_uuid."</td>";
+                        echo "<td>".$response_row->response_title."</td>";
+                        echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
+                        echo "</tr>";
+                    }
 
-    			echo "<tr>";
-    			echo "<td><label>System Safety:</label></td>";
-                echo "<td><p>".$CI->risk_model->getSystemSafetyName($risk_data->SystemSafety_safety_id)."</p></td>";
-                echo "</tr>";
-
-                echo "<tr>";
-                echo "<td><label>Realization:</label></td>";
-                echo "<td><p>".$CI->risk_model->getRealizationName($risk_data->Realization_realization_id)."</p></td>";
-                echo "</tr>";
-
-                echo "</table>";
-
-                print_r($risk_response);
-    	?>
-  </div>
-
+                    echo "</table>";
+                ?>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div class="box box-primary">
