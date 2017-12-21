@@ -29,11 +29,23 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->where('User_user_id',$user_id);
-            $this->db->where('archived',false);
+            $this->db->where('archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
-        
+
+
+        // get risks that belong to users under a manager
+        function getManagerRisk($user_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->join('User','User.user_id = RiskRegistry.User_user_id');
+            $this->db->where('User.parent_user_id',$user_id); // equivalent to parent user id
+            //$this->db->where('RiskRegistry.archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
 
         // get archived risk items
         function getUserArchivedRisk($user_id)

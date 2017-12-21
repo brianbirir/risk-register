@@ -123,12 +123,20 @@ class Project extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
             $uri_id = $this->uri->segment(3); // get id from third segment of uri
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
+
             $data['register_name'] = $single_register->name;
             $data['register_description'] = $single_register->description;
+            
+            // get all risks of user
             $risk = $this->risk_model->getUserRisk($data['user_id']);
+
+            // get all risks that belong to a manager's users
+            $users_risk = $this->risk_model->getManagerRisk($data['user_id']);
 
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+
+            ($users_risk) ? $data['user_risk_data'] = $users_risk : $data['user_risk_data'] = false;
 
             $this->template->load('dashboard', 'registry/view', $data);
         }

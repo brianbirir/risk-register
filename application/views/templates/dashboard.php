@@ -50,4 +50,5 @@
 	      <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/main.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/date.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/validate.js"></script>
+        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/register-tabs.js"></script>
     </body>
