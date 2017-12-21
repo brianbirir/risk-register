@@ -64,7 +64,7 @@
                                                 echo "<td>".$CI->risk_model->getSubProjectName($manager_risk_row->Subproject_subproject_id)."</td>";
                                                 echo "<td>".$CI->risk_model->getRiskCategoryName($manager_risk_row->RiskCategories_category_id)."</td>";
                                                 echo "<td>".$manager_risk_row->identified_hazard_risk."</td>";
-                                                echo "<td><a href='risk/".$manager_risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
+                                                echo "<td><a href='/dashboard/risk/".$manager_risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
                                                 echo "</tr>";
                                                 echo "</tr>";
                                             } 
@@ -111,7 +111,7 @@
                                                     echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
                                                     echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                                     echo "<td>".$risk_row->identified_hazard_risk."</td>";
-                                                    echo "<td><a href='risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
+                                                    echo "<td><a href='/dashboard/risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
                                                     echo "</tr>";
                                                     echo "</tr>";
                                                 } 
