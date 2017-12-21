@@ -64,8 +64,13 @@ class Risk extends RISK_Controller
             // get risk data belonging to specific user 
             $risk = $this->risk_model->getUserArchivedRisk($data['user_id']);
 
+            // get risk data belonging to a manager's users 
+            $manager_risk = $this->risk_model->getManagerArchivedRisk($data['user_id']);
+
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+
+            ($manager_risk) ? $data['manager_risk_data'] = $manager_risk : $data['manager_risk_data'] = false;
 
             // load page to show all registered risks
             $this->template->load('dashboard', 'risk/archive', $data);
