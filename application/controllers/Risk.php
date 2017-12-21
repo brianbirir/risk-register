@@ -394,18 +394,22 @@ class Risk extends RISK_Controller
         $this->load->library('uuid');
 
         //  set validation rules
-        $this->form_validation->set_rules('identified_hazard_risk', 'Identified Hazard Risk', 'trim|required');
-        $this->form_validation->set_rules('cause_trigger', 'Cause Trigger', 'trim|required');
-        $this->form_validation->set_rules('effect', 'Effect', 'trim|required');
-        $this->form_validation->set_rules('materialization_phase', 'Materialization Phase', 'trim|required');
-        $this->form_validation->set_rules('risk_rating', 'Risk Rating', 'trim|required');
-        $this->form_validation->set_rules('risk_level', 'Risk Level', 'trim|required');
-        $this->form_validation->set_rules('comments', 'Comments', 'trim|required');
-        $this->form_validation->set_rules('control_mitigation', 'Risk Control Mitigation', 'trim|required');
-        $this->form_validation->set_rules('residual_risk_rating', 'Residual Risk Rating', 'trim|required');
-        $this->form_validation->set_rules('residual_risk_level', 'Residual Risk Level', 'trim|required');
-        $this->form_validation->set_rules('action_owner', 'Action Owner', 'trim|required');
-        $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
+        // $this->form_validation->set_rules('identified_hazard_risk', 'Identified Hazard Risk', 'trim|required');
+        // $this->form_validation->set_rules('cause_trigger', 'Cause Trigger', 'trim|required');
+        // $this->form_validation->set_rules('effect', 'Effect', 'trim|required');
+        // $this->form_validation->set_rules('materialization_phase', 'Materialization Phase', 'trim|required');
+        // $this->form_validation->set_rules('risk_rating', 'Risk Rating', 'trim|required');
+        // $this->form_validation->set_rules('risk_level', 'Risk Level', 'trim|required');
+        // $this->form_validation->set_rules('comments', 'Comments', 'trim|required');
+        // $this->form_validation->set_rules('control_mitigation', 'Risk Control Mitigation', 'trim|required');
+        // $this->form_validation->set_rules('residual_risk_rating', 'Residual Risk Rating', 'trim|required');
+        // $this->form_validation->set_rules('residual_risk_level', 'Residual Risk Level', 'trim|required');
+        // $this->form_validation->set_rules('action_owner', 'Action Owner', 'trim|required');
+        // $this->form_validation->set_rules('milestone_target_date', 'Milestone Target Date', 'trim|required');
+        // $this->form_validation->set_rules('risk_title', 'Risk Title', 'trim|required');
+        // $this->form_validation->set_rules('project_location', 'Project Location', 'trim|required');
+        // $this->form_validation->set_rules('description_change', 'Description Change', 'trim|required');
+        // $this->form_validation->set_rules('risk_response[title][]', 'Risk Response', 'trim|required');
 
         $data = array('title' => 'Add Risk');
 
@@ -417,23 +421,22 @@ class Risk extends RISK_Controller
         $data = array_merge($data, $this->get_global_data());
         
         // validate form input
-        if ($this->form_validation->run() == FALSE)
-        {
+        // if ($this->form_validation->run() == FALSE)
+        // {
+        //     // select drop down
+        //     $data['select_status'] = $this->getStatus();
+        //     $data['select_category'] = $this->getCategories();
+        //     $data['select_strategy'] = $this->getRiskStrategies();
+        //     $data['select_safety'] = $this->getSystemSafety();
+        //     $data['select_realization'] = $this->getRealization();
+        //     $data['select_subproject'] = $this->getSubProject();
+        //     $data['select_risk_owner'] = $this->getRiskOwner();            
 
-            // select drop down
-            $data['select_status'] = $this->getStatus();
-            $data['select_category'] = $this->getCategories();
-            $data['select_strategy'] = $this->getRiskStrategies();
-            $data['select_safety'] = $this->getSystemSafety();
-            $data['select_realization'] = $this->getRealization();
-            $data['select_subproject'] = $this->getSubProject();
-            $data['select_risk_owner'] = $this->getRiskOwner();            
-
-            // load page to show all devices
-            $this->template->load('dashboard', 'risk/add', $data);
-        }
-        else
-        {
+        //     // load page to show all devices
+        //     $this->template->load('dashboard', 'risk/add', $data);
+        // }
+        // else
+        // {
             $timestamp = date('Y-m-d G:i:s');
 
             // get global data
@@ -446,6 +449,8 @@ class Risk extends RISK_Controller
             $risk_data = array(
                 'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
                 'cause_trigger' => $this->input->post('cause_trigger'),
+                'risk_title' => $this->input->post('risk_title'),
+                'project_location' => $this->input->post('project_location'),
                 'effect' => $this->input->post('effect'),
                 'materialization_phase' => $this->input->post('materialization_phase'),
                 'likelihood' => $this->input->post('likelihood'),
@@ -463,7 +468,6 @@ class Risk extends RISK_Controller
                 'action_owner' => $this->input->post('action_owner'),
                 'milestone_target_date' => $this->input->post('milestone_target_date'),
                 'RiskCategories_category_id' => $this->input->post('main_category'),
-                // 'RiskStrategies_strategy_id' => $this->input->post('strategy'),
                 'SystemSafety_safety_id' => $this->input->post('system_safety'),
                 'Status_status_id' => $this->input->post('status'),
                 'Realization_realization_id' => $this->input->post('realization'),
@@ -477,7 +481,7 @@ class Risk extends RISK_Controller
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp,
-                'uuid' => $risk_uuid,
+                'risk_uuid' => $risk_uuid,
                 'entity' => $this->input->post('entity'),
                 'description_change' => $this->input->post('description_change')
             );
@@ -485,18 +489,19 @@ class Risk extends RISK_Controller
             // insert form data into database
             if ($this->risk_model->insertRegistry($risk_data))
             {
-                // insert risk response data
                 $num_fields = count($_POST['risk_response']['title']);
-                
+
                 for ($i = 0; $i < $num_fields; $i++) 
                 {
-                    $response_field = array(
+                    // Pack the field up in an array for ease-of-use.
+                    $field = array(
                         'risk_uuid'=> $risk_uuid,
                         'response_uuid'=> $this->uuid->generate_uuid(),
                         'response_title' => $_POST['risk_response']['title'][$i],
                         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
                     );
-                    $this->risk_model->insertResponse($response_field);
+
+                    $this->risk_model->insertResponse($field);
                 }
 
                 $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
@@ -508,7 +513,7 @@ class Risk extends RISK_Controller
                 $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
                 redirect('dashboard/risks');
             }
-        }
+        // }
     }
 
 
@@ -686,7 +691,7 @@ class Risk extends RISK_Controller
 
 
     // controller to view one risk item
-    function Single($item_id)
+    function single()
     {
     	$data = array('title' => 'Risk Item');
 
@@ -707,6 +712,18 @@ class Risk extends RISK_Controller
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+
+            if($risk) 
+            {
+                $data['risk_data'] = $risk;
+                
+                // get risk responses
+                $data['risk_response'] = $this->risk_model->getRiskResponse($risk->risk_uuid);
+                
+            } else
+            {
+                $data['risk_data'] = false;
+            }
 
             // load page to show all registered risks
             $this->template->load('dashboard', 'risk/single', $data);
