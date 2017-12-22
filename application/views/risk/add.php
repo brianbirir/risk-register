@@ -203,7 +203,7 @@
                                     '2' => '2',
                                     '3' => '3',
                                     '4' => '4',
-                                    '5' => '5',
+                                    '5' => '5'
                                 );
                                 $select_likelihood_impact = 'id="likelihoodimpact" class="form-control input-sm select-input"';
                                 echo form_dropdown('likelihood',$select_option,"1",$select_likelihood_impact);
