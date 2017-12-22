@@ -97,7 +97,14 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
-            $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+            if ($data['role_id'] != 8) 
+            {
+                $data['register_row'] = $this->project_model->getManagerRegisterName($data['user_id']);
+            }
+            else
+            {
+                $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+            }
         
             // select drop down
             $data['select_status'] = $this->getStatus();
