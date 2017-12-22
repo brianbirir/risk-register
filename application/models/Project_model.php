@@ -94,6 +94,19 @@
             return ($query->num_rows() == 1) ? $row : false;
         }
 
+
+        // get risk register name for managers
+        function getManagerRegisterName($user_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Project.User_user_id',$user_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row : false;
+        }
+
         function getAssignedProject($user_id)
         {
             $this->db->select('*');
