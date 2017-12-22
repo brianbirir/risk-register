@@ -78,7 +78,7 @@ class User_model extends CI_Model
          $row = $query->row();
          $first_name = $row->first_name;
          $last_name = $row->last_name;
-         $full_name = $first_name + " " + $last_name;
+         $full_name = $first_name." ".$last_name;
          // return ($query->num_rows() == 1) ? $full_name : false;
 
          return $full_name;

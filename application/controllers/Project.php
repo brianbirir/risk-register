@@ -123,12 +123,20 @@ class Project extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
             $uri_id = $this->uri->segment(3); // get id from third segment of uri
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
+
             $data['register_name'] = $single_register->name;
             $data['register_description'] = $single_register->description;
+            
+            // get all risks of user
             $risk = $this->risk_model->getUserRisk($data['user_id']);
+
+            // get all risks that belong to a manager's users
+            $users_risk = $this->risk_model->getManagerRisk($data['user_id']);
 
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+
+            ($users_risk) ? $data['user_risk_data'] = $users_risk : $data['user_risk_data'] = false;
 
             $this->template->load('dashboard', 'registry/view', $data);
         }
@@ -206,8 +214,8 @@ class Project extends RISK_Controller
     }
 
 
-    // view for registering a risk register
-    function reg_subproject_view()
+    // view for adding a risk register
+    function add_register_view()
     {
         $data = array('title' => 'Add Risk Registry');
         
@@ -234,6 +242,106 @@ class Project extends RISK_Controller
         {
             //If no session, redirect to login page
             redirect('login', 'refresh');
+        }
+    }
+
+
+    // view for duplicating a register
+    function add_duplicate_view()
+    {
+        $data = array('title' => 'Duplicate Risk Register');
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            $uri_id = $this->uri->segment(4); // get id from fourth segment of uri
+
+            $single_register = $this->project_model->getSingleRiskRegister($uri_id);
+
+            $data['Project_project_id'] = $single_register->Project_project_id;
+            $data['register_id'] = $single_register->subproject_id;
+            $data['register_name'] = $single_register->name;
+            $data['register_description'] = $single_register->description;
+
+            // get risk ids associated with the register id
+            $data['risk_ids'] = $this->risk_model->getRiskIDs($data['register_id']);
+
+            // load page to show duplicating page
+            $this->template->load('dashboard', 'registry/duplicate', $data);
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    // duplication function
+    function duplicate_register()
+    {
+        //set validation rules
+        $this->form_validation->set_rules('subproject_name', 'Subproject Name', 'trim|required');
+        $this->form_validation->set_rules('subproject_description', 'Subproject Description', 'trim|required');
+        
+        //validate form input
+        if ($this->form_validation->run() == FALSE)
+        {
+            $data = array('title' => 'Register Subproject');
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+            $this->template->load('dashboard', 'registry/duplicate', $data);
+        }
+        else
+        {
+            $timestamp = date('Y-m-d G:i:s');
+
+            // get original register to duplicate all risk items for that particular register
+            $original_register_id = $this->input->post('register_id');
+            $original_project_id = $this->input->post('Project_project_id');
+            
+            // get risk ids associated with the register id
+            $risk_ids = $this->risk_model->getRiskIDs($original_register_id);
+
+
+            // get the register details from the form
+            $data = array(
+                'name' => $this->input->post('subproject_name'),
+                'description' => $this->input->post('subproject_description'),
+                'duplicate' => TRUE,
+                // 'original_register_id' => $original_register_id,
+                'Project_project_id' => $original_project_id,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            );
+            
+            // insert form data into database
+            if ($this->project_model->insertSubProject($data))
+            {
+                $table = 'RiskRegistry';
+
+                // duplicate risk
+                $this->risk_model->duplicateRiskRecord($table, $risk_ids, $original_register_id);
+
+                $this->session->set_flashdata('positive-msg','You have successfully registered the subproject! Please login.');
+                redirect('dashboard/riskregisters');
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                redirect('dashboard/subproject/add');
+            }
         }
     }
 
@@ -305,6 +413,7 @@ class Project extends RISK_Controller
                 'name' => $this->input->post('subproject_name'),
                 'description' => $this->input->post('subproject_description'),
                 'Project_project_id' => $this->input->post('project'),
+                'duplicate' => FALSE,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             );
@@ -344,6 +453,30 @@ class Project extends RISK_Controller
         return $options;
       } else {
           return 'No Data!';
+      }
+    }
+
+    // get register name
+    function get_register_name($user_id)
+    {
+      // get register information
+      $register = $this->project_model->getRiskRegisters($user_id);
+
+      if($register)
+      {
+        $options = array();
+
+        foreach ($register as $row) 
+        {
+            $register_id = $row->register_id;
+            $register_name = $row->register_name;
+            $options[$register_id] = $register_name;
+        }
+        return $options;
+      } 
+      else 
+      {
+        return 'No Data!';
       }
     }
 }

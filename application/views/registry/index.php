@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-md-9">
 
-        <!-- ensures general user does not view the Add button -->
+        <!-- ensures general user does not view the Add button for adding a register -->
         <?php 
             if($role_id != 8)
             {

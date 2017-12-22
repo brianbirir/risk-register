@@ -29,11 +29,23 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->where('User_user_id',$user_id);
-            $this->db->where('archived',false);
+            $this->db->where('archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
-        
+
+
+        // get risks that belong to users under a manager
+        function getManagerRisk($user_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->join('User','User.user_id = RiskRegistry.User_user_id');
+            $this->db->where('User.parent_user_id',$user_id); // equivalent to parent user id
+            $this->db->where('RiskRegistry.archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
 
         // get archived risk items
         function getUserArchivedRisk($user_id)
@@ -45,7 +57,18 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+        
 
+        function getManagerArchivedRisk($user_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->join('User','User.user_id = RiskRegistry.User_user_id');
+            $this->db->where('User.parent_user_id',$user_id); // equivalent to parent user id
+            $this->db->where('RiskRegistry.archived',true); // archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
 
         // get single risk item based on risk ID
         function getRisk($risk_id)
@@ -173,6 +196,16 @@
             return (isset($row)) ? $row->risk_owner : false;
         }
 
+        // get Risk IDs
+        function getRiskIDs($register_id)
+        {
+            $this->db->select('item_id');
+            $this->db->from('RiskRegistry');
+            $this->db->where('Subproject_subproject_id',$register_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
 
         // get system safety info
         function getSystemSafetyName($id){
@@ -247,6 +280,43 @@
             $this->db->where('risk_uuid',$risk_uuid);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // function duplicateRiskRecord ($table, $primary_key_field, $primary_key_val, $register_id)
+        function duplicateRiskRecord ($table, $risk_ids, $register_id)
+        {   
+            foreach ($risk_ids as $key_field) 
+            {
+                /* generate the select query */
+                // $this->db->where($primary_key_field, $primary_key_val);
+                $this->db->select('*');
+                $this->db->from($table);
+                // $this->db->where('risk_uuid',$risk_uuid);
+                $this->db->where($key_field, $key_field->item_id); 
+                $query = $this->db->get();
+            
+                foreach ($query->result() as $row)
+                {   
+                    foreach($row as $key=>$val)
+                    {        
+                        if($key != 'item_id')
+                        { 
+                            /* $this->db->set can be used instead of passing a data array directly to the insert or update functions */
+                            $this->db->set($key, $val);               
+                        }
+                        
+                        if($key == $register_id)
+                        {
+                            $this->db->set('Subproject_subproject_id', $register_id);
+                        }//endif              
+                    }//endforeach
+                }//endforeach
+
+                /* insert the new record into table*/
+                return $this->db->insert($table);
+                
+            } 
         }
 
     }
