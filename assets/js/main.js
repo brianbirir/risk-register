@@ -44,7 +44,7 @@ function calcQualitativeRisk()
     var legal_value = document.getElementById('legalimpact').value;
     var quality_value = document.getElementById('qualityimpact').value;
 
-    var risk_rating = parseInt(likelihood_value) * parseInt(time_value) * parseInt(cost_value) * parseInt(reputation_value) * parseInt(hs_value) * parseInt(time_value) * parseInt(env_value) * parseInt(legal_value) * parseInt(quality_value);
+    var risk_rating = parseInt(likelihood_value) * parseInt(time_value) * parseInt(cost_value) * parseInt(reputation_value) * parseInt(hs_value) * parseInt(env_value) * parseInt(legal_value) * parseInt(quality_value);
 
     var risk_level = riskMatrix(risk_rating);
 
