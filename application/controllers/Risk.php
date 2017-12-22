@@ -729,4 +729,60 @@ class Risk extends RISK_Controller
             redirect('login', 'refresh');
         }
     }
+
+
+    // view for duplicating risk based on selected register
+    function duplicate_risk_view()
+    {
+        $data = array('title' => 'Duplicate Risk');
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            $data['select_register_option'] = $this->get_register_name($data['user_id']);
+
+            $project = $this->project_model->getProjects($data['user_id']);
+
+            //check if result is true
+            ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+
+            // load page to show all devices
+            $this->template->load('dashboard', 'registry/duplicate', $data);
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    // get register name
+    function get_register_name($user_id)
+    {
+      // get register information
+      $register = $this->project_model->getRiskRegisters($user_id);
+
+      if($register)
+      {
+        $options = array();
+
+        foreach ($register as $row) 
+        {
+            $register_id = $row->register_id;
+            $register_name = $row->register_name;
+            $options[$register_id] = $register_name;
+        }
+        return $options;
+      } 
+      else 
+      {
+        return 'No Data!';
+      }
+    }
 }
