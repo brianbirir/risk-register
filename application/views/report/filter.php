@@ -128,8 +128,6 @@
                                 <th>Comments</th> 
                                 <th>Risk Rating</th> 
                                 <th>Risk Level</th> 
-                                <th>Strategy</th>
-                                <th>Combinations of Measures/Controls:</th> 
                                 <th>System Safety</th> 
                                 <th>Residual Risk Realization</th> 
                                 <th>Residual Risk Likelihood</th> 
@@ -161,8 +159,6 @@
                                     echo "<td>".$CI->trim->trim_text($risk_row->comments)."</td>";
                                     echo "<td>".$risk_row->risk_rating."</td>";
                                     echo "<td>".$risk_row->risk_level."</td>";
-                                    echo "<td>".$CI->risk_model->getRiskStrategiesName($risk_row->RiskStrategies_strategy_id)."</td>";
-                                    echo "<td>".$CI->trim->trim_text($risk_row->control_mitigation)."</td>";
                                     echo "<td>".$CI->risk_model->getSystemSafetyName($risk_row->SystemSafety_safety_id)."</td>";
                                     echo "<td>".$CI->risk_model->getRealizationName($risk_row->Realization_realization_id)."</td>";
                                     echo "<td>".$risk_row->residual_risk_likelihood."</td>";

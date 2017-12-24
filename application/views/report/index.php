@@ -128,7 +128,7 @@
                                 <th>Quality Impact</th> 
                                 <th>Comments</th> 
                                 <th>Risk Rating</th> 
-                                <th>Risk Level</th> 
+                                <th>Risk Level</th>
                                 <th>System Safety</th> 
                                 <th>Residual Risk Realization</th> 
                                 <th>Residual Risk Likelihood</th> 
