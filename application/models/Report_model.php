@@ -7,6 +7,7 @@
             parent::__construct();
         }
 
+
         function filter()
         {
             $this->db->select('*');
@@ -26,6 +27,21 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+
+
+        // get reponses for each risk based on the risk's uuid
+        function getResponses($risk_uuid)
+        {
+            if(!empty($risk_uuid))
+            {
+                $this->db->select('*');
+                $this->db->from('RiskResponse');
+                $this->db->where('risk_uuid',$risk_uuid); // do not export archived data
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            }
+        }
+
 
 
         // get filtered risk data
@@ -83,7 +99,7 @@
             }
         }
 
-        // get risk strategies info
+        // get risk strategies name
         function getRiskStrategiesName($id)
         {
             $this->db->select('*');
@@ -95,7 +111,7 @@
         }
 
 
-        // get system safety info
+        // get system safety name
         function getSystemSafetyName($id)
         {
             $this->db->select('*');
@@ -107,7 +123,7 @@
         }
 
 
-        // get status
+        // get status name
         function getStatusName($id)
         {
             $this->db->select('*');
@@ -119,7 +135,7 @@
         }
 
 
-        // get realization
+        // get realization name
         function getRealizationName($id)
         {
             $this->db->select('*');
@@ -131,7 +147,7 @@
         }
 
         
-        // get risk categories
+        // get risk categories name
         function getRiskCategoriesName($id)
         {
             $this->db->select('*');
@@ -142,7 +158,7 @@
             return (isset($row)) ? $row->category_name : false;
         }
 
-        // get subproject
+        // get subproject name
         function getSubProjectName($id)
         {
             $this->db->select('*');

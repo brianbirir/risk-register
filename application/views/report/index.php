@@ -93,6 +93,7 @@
     $CI =& get_instance();
     $CI->load->model('risk_model');
     $CI->load->library('trim');
+    $CI->load->library('responses');
 
     // check if risk data exists
     if (!$risk_data) {
@@ -112,6 +113,7 @@
                         <tbody>
                             <tr>
                                 <th>ID</th>
+                                <th>Unique ID</th>
                                 <th>Main Category</th>
                                 <th>Identified Hazard/ IdentifiedRisk</th>
                                 <th>Cause/Trigger</th>
@@ -128,9 +130,8 @@
                                 <th>Quality Impact</th> 
                                 <th>Comments</th> 
                                 <th>Risk Rating</th> 
-                                <th>Risk Level</th> 
-                                <th>Strategy</th>
-                                <th>Combinations of Measures/Controls:</th> 
+                                <th>Risk Level</th>
+                                <th>Risk Responses</th>
                                 <th>System Safety</th> 
                                 <th>Residual Risk Realization</th> 
                                 <th>Residual Risk Likelihood</th> 
@@ -145,6 +146,7 @@
                                 foreach ($risk_data as $risk_row) {
                                     echo "<tr>";
                                     echo "<td>".$risk_row->item_id."</td>";
+                                    echo "<td>".$risk_row->risk_uuid."</td>";
                                     echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                     echo "<td>".$risk_row->identified_hazard_risk."</td>";
                                     echo "<td>".$risk_row->cause_trigger."</td>";
@@ -162,8 +164,14 @@
                                     echo "<td>".$CI->trim->trim_text($risk_row->comments)."</td>";
                                     echo "<td>".$risk_row->risk_rating."</td>";
                                     echo "<td>".$risk_row->risk_level."</td>";
-                                    echo "<td>".$CI->risk_model->getRiskStrategiesName($risk_row->RiskStrategies_strategy_id)."</td>";
-                                    echo "<td>".$CI->trim->trim_text($risk_row->control_mitigation)."</td>";
+                                    echo "<td>";
+                                    $risk_responses = $CI->responses->collectResponses($risk_row->risk_uuid);
+
+                                    foreach ($risk_responses as $value) {
+                                        echo $value;
+                                    }
+                                    echo "</td>";
+                                    // echo "<td>".$CI->responses->collectResponses($risk_row->risk_uuid)."</td>";
                                     echo "<td>".$CI->risk_model->getSystemSafetyName($risk_row->SystemSafety_safety_id)."</td>";
                                     echo "<td>".$CI->risk_model->getRealizationName($risk_row->Realization_realization_id)."</td>";
                                     echo "<td>".$risk_row->residual_risk_likelihood."</td>";
