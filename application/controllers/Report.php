@@ -122,6 +122,7 @@ class Report extends RISK_Controller
         }
     }
 
+
     // risk strategies
     function getRiskStrategies()
     {
