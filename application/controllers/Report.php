@@ -37,12 +37,12 @@ class Report extends RISK_Controller
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             // select drop down
-            $data['select_status'] = $this->getStatus();
             $data['select_category'] = $this->getCategories();
-            $data['select_strategy'] = $this->getRiskStrategies();
-            $data['select_safety'] = $this->getSystemSafety();
-            $data['select_realization'] = $this->getRealization();
-            $data['select_subproject'] = $this->getSubProject();
+            // $data['select_status'] = $this->getStatus();
+            // $data['select_strategy'] = $this->getRiskStrategies();
+            // $data['select_safety'] = $this->getSystemSafety();
+            // $data['select_realization'] = $this->getRealization();
+            // $data['select_subproject'] = $this->getSubProject();
 
             // load page to show all registered risks
             $this->template->load('dashboard', 'report/index', $data);
