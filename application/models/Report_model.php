@@ -7,6 +7,7 @@
             parent::__construct();
         }
 
+
         function filter()
         {
             $this->db->select('*');
@@ -26,6 +27,18 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+
+
+        // get reponses for each risk based on the risk's uuid
+        function getResponses($risk_uuid)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskResponse');
+            $this->db->where('risk_uuid',$risk_uuid); // do not export archived data
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
 
 
         // get filtered risk data
