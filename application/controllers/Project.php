@@ -131,15 +131,15 @@ class Project extends RISK_Controller
             // get all risks of user
             $risk = $this->risk_model->getUserRisk($data['user_id']);
 
-            // get all risks that belong to a manager's users
-            $users_risk = $this->risk_model->getManagerRisk($data['user_id']);
+            // get all risks that belong to a manager's users and assigned register
+            $users_risk = $this->risk_model->getManagerRisk($data['user_id'], $data['register_id']);
 
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             ($users_risk) ? $data['user_risk_data'] = $users_risk : $data['user_risk_data'] = false;
 
-            $this->template->load('dashboard', 'registry/view', $data);
+            $this->template->load('dashboard', 'registry/view_single_register', $data);
         }
         else {
             //If no session, redirect to login page
