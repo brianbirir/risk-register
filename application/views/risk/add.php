@@ -31,7 +31,7 @@
 
                 <div class="box-body">
                     <input type="hidden" name="risk_uuid" id="risk_uuid" class="form-control" value="<?php echo $risk_uuid; ?>"/>
-                    <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_row->subproject_id;?>"/>
+                    <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id; ?>"/>
 
                     <div class="row">
                         <div class="col-md-6">
@@ -57,6 +57,7 @@
                                 <div class="well well-sm"><?php echo $register_row->name; ?></div>
                             </div>
                         </div>
+
 
                         <div class="col-md-3">
                             <div class="form-group">

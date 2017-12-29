@@ -124,6 +124,7 @@ class Project extends RISK_Controller
             $uri_id = $this->uri->segment(3); // get id from third segment of uri
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
 
+            $data['register_id'] = $single_register->subproject_id;
             $data['register_name'] = $single_register->name;
             $data['register_description'] = $single_register->description;
             
@@ -264,6 +265,9 @@ class Project extends RISK_Controller
 
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
 
+            // get the last row's ID from registry table
+            $data['last_reg_id'] = $this->project_model->lastRegisterID();
+
             $data['Project_project_id'] = $single_register->Project_project_id;
             $data['register_id'] = $single_register->subproject_id;
             $data['register_name'] = $single_register->name;
@@ -306,6 +310,12 @@ class Project extends RISK_Controller
         {
             $timestamp = date('Y-m-d G:i:s');
 
+            $uri_id = $this->uri->segment(4);
+
+            // load UUID library
+            $this->load->library('uuid');
+            $new_risk_uuid = $this->uuid->generate_uuid();
+
             // get original register to duplicate all risk items for that particular register
             $original_register_id = $this->input->post('register_id');
             $original_project_id = $this->input->post('Project_project_id');
@@ -324,24 +334,38 @@ class Project extends RISK_Controller
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             );
+
+            $table = 'RiskRegistry';
+
+            // get the last row's ID from registry table
+            $last_register_id = $this->project_model->lastRegisterID() + 1;
+
+            foreach ($risk_ids as $key_field) 
+            {
+                $this->risk_model->duplicateRiskRecord($table, $key_field, $original_register_id, $last_register_id,$new_risk_uuid);
+            }
             
-            // insert form data into database
-            if ($this->project_model->insertSubProject($data))
-            {
-                $table = 'RiskRegistry';
-
-                // duplicate risk
-                $this->risk_model->duplicateRiskRecord($table, $risk_ids, $original_register_id);
-
-                $this->session->set_flashdata('positive-msg','You have successfully registered the subproject! Please login.');
-                redirect('dashboard/riskregisters');
-            }
-            else
-            {
-                // error
-                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-                redirect('dashboard/subproject/add');
-            }
+            // duplicate risk items
+            // if ($this->risk_model->duplicateRiskRecord($table, $risk_ids, $original_register_id, $last_register_id,$new_risk_uuid))
+            // {
+                if ($this->project_model->insertSubProject($data)) 
+                {
+                    $this->session->set_flashdata('positive-msg','You have successfully duplicated the register!');
+                    redirect('dashboard/riskregisters');
+                } 
+                else
+                {
+                    // error
+                    $this->session->set_flashdata('msg','Unable to add register. Please try again!');
+                    redirect('dashboard/riskregister/duplicate/'.$uri_id);
+                }
+            // }
+            // else
+            // {
+            //     // error
+            //     $this->session->set_flashdata('msg','Error: Unable to duplicate risk items. Please try again!');
+            //     redirect('dashboard/riskregister/duplicate/'.$uri_id);
+            // }
         }
     }
 
