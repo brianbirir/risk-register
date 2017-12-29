@@ -27,7 +27,8 @@
 
     <div class="col-md-9">
         <div class="reg-btn">
-            <a href="/dashboard/risk/add" class="btn btn-success btn-xs btn-add-device">Add Risk Item</a>
+            <!-- <a href="/dashboard/risk/add" class="btn btn-success btn-xs btn-add-device">Add Risk Item</a> -->
+            <?php echo "<a href='/dashboard/risk/add/".$register_id."' class='btn btn-success btn-xs btn-add-device'>Add Risk Item</a>"; ?>
             <a href="/dashboard/risks/archived" class="btn btn-warning btn-xs btn-add-device">View Archived Risks</a>
         </div>
 

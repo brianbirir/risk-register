@@ -94,16 +94,19 @@ class Risk extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
+            // get register id from fourth segment of uri
+            $data['register_id'] = $this->uri->segment(4);
+
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
-            if ($data['role_id'] != 8) 
+            if ( $data['role_id'] == 8 ) 
             {
-                $data['register_row'] = $this->project_model->getManagerRegisterName($data['user_id']);
+                $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);   
             }
             else
             {
-                $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+                $data['register_row'] = $this->project_model->getManagerRegisterName($data['register_id']);
             }
         
             // select drop down

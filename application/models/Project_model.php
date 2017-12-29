@@ -96,12 +96,12 @@
 
 
         // get risk register name for managers
-        function getManagerRegisterName($user_id)
+        function getManagerRegisterName($register_id)
         {
             $this->db->select('*');
             $this->db->from('Subproject');
-            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
-            $this->db->where('Project.User_user_id',$user_id);
+            // $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('subproject_id',$register_id);
             $query = $this->db->get();
             $row = $query->row();
             return ($query->num_rows() == 1) ? $row : false;
@@ -192,5 +192,16 @@
             $row = $query->row();
             return (isset($row)) ? $row->name : false;
         }
+
+        // get last register id
+        function lastRegisterID()
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $query = $this->db->get();
+            $row = $query->last_row();
+            return (isset($row)) ? $row->subproject_id : false;
+        }
+
     }
 ?>
