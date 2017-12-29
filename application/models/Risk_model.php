@@ -284,51 +284,32 @@
 
 
         // duplicate risk record
-        // function duplicateRiskRecord ($table, $primary_key_field, $primary_key_val, $register_id)
-        //function duplicateRiskRecord ($table, $risk_ids, $register_id, $last_register_id, $new_risk_uuid)
         function duplicateRiskRecord ($table, $key_field, $register_id, $last_register_id, $new_risk_uuid)
-        {   
-            // foreach ($risk_ids as $key_field) 
-            // {
-                /* generate the select query */
-                // $this->db->where($primary_key_field, $primary_key_val);
-                
-                $this->db->select('*');
-                $this->db->from($table);
-                $this->db->where('item_id', $key_field->item_id); 
-                $query = $this->db->get();
-            
-                foreach ($query->result() as $row)
-                {   
-                    foreach($row as $key=>$val)
-                    {        
-                        if($key != 'item_id')
-                        { 
-                            /* $this->db->set can be used instead of passing 
-                             * a data array directly to the insert or update functions 
-                            */
-                            if($key == $register_id)
-                            {
-                                $last_register_id = $last_register_id + 1;
-                                $this->db->set('Subproject_subproject_id', $last_registry_id);
-                            }
-                            $this->db->set($key, $val);               
-                        } // endif
-                        
-                        
-                    } // endforeach
-
-                    /* insert the new record into table*/
+        {       
+            $this->db->select('*');
+            $this->db->from($table);
+            $this->db->where('item_id', $key_field->item_id); 
+            $query = $this->db->get();
+        
+            foreach ($query->result() as $row)
+            {   
+                foreach($row as $key=>$val)
+                {        
+                    if($key != 'item_id')
+                    { 
+                        /* $this->db->set can be used instead of passing 
+                            * a data array directly to the insert or update functions 
+                        */
+                        $this->db->set($key, $val);               
+                    } // endif   
                     
+                    if($key == 'Subproject_subproject_id')
+                    {
+                        $this->db->set('Subproject_subproject_id', $last_register_id);
+                    } // end if
                 } // endforeach
-            //} 
+            } // endforeach 
+
             return $this->db->insert($table);
         }
-
     }
-
-    // if($key == $register_id)
-    // {
-    //     $last_register_id = $last_register_id + 1;
-    //     $this->db->set('Subproject_subproject_id', $last_registry_id);
-    // }
