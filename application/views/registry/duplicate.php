@@ -2,7 +2,15 @@
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
-        <?php //var_dump($risk_ids); ?>
+        <?php 
+            echo "Last Register Row: ".$last_reg_id. "<br />";
+
+            foreach ($risk_ids as $key_field) 
+            {
+                echo $key_field->item_id . "<br />";
+                // echo $key_field;
+            }
+        ?>
 
         <div class="bs-callout bs-callout-info" id="callout-alerts-dismiss-plugin"> 
             <p>To duplicate this risk register, change the name and description. By duplicating this register, you will be able to copy all the risks that belong to this register.</p> 
