@@ -131,15 +131,15 @@ class Project extends RISK_Controller
             // get all risks of user
             $risk = $this->risk_model->getUserRisk($data['user_id']);
 
-            // get all risks that belong to a manager's users
-            $users_risk = $this->risk_model->getManagerRisk($data['user_id']);
+            // get all risks that belong to a manager's users and assigned register
+            $users_risk = $this->risk_model->getManagerRisk($data['user_id'], $data['register_id']);
 
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             ($users_risk) ? $data['user_risk_data'] = $users_risk : $data['user_risk_data'] = false;
 
-            $this->template->load('dashboard', 'registry/view', $data);
+            $this->template->load('dashboard', 'registry/view_single_register', $data);
         }
         else {
             //If no session, redirect to login page
@@ -337,35 +337,25 @@ class Project extends RISK_Controller
 
             $table = 'RiskRegistry';
 
-            // get the last row's ID from registry table
-            $last_register_id = $this->project_model->lastRegisterID() + 1;
-
-            foreach ($risk_ids as $key_field) 
+            if ($this->project_model->insertSubProject($data)) 
             {
-                $this->risk_model->duplicateRiskRecord($table, $key_field, $original_register_id, $last_register_id,$new_risk_uuid);
-            }
-            
-            // duplicate risk items
-            // if ($this->risk_model->duplicateRiskRecord($table, $risk_ids, $original_register_id, $last_register_id,$new_risk_uuid))
-            // {
-                if ($this->project_model->insertSubProject($data)) 
+                // get the last row's ID from registry table added by the above function
+                $last_register_id = $this->project_model->lastRegisterID();
+
+                foreach ($risk_ids as $key_field) 
                 {
-                    $this->session->set_flashdata('positive-msg','You have successfully duplicated the register!');
-                    redirect('dashboard/riskregisters');
-                } 
-                else
-                {
-                    // error
-                    $this->session->set_flashdata('msg','Unable to add register. Please try again!');
-                    redirect('dashboard/riskregister/duplicate/'.$uri_id);
+                    $this->risk_model->duplicateRiskRecord($table, $key_field, $original_register_id, $last_register_id,$new_risk_uuid);
                 }
-            // }
-            // else
-            // {
-            //     // error
-            //     $this->session->set_flashdata('msg','Error: Unable to duplicate risk items. Please try again!');
-            //     redirect('dashboard/riskregister/duplicate/'.$uri_id);
-            // }
+        
+                $this->session->set_flashdata('positive_msg','You have successfully duplicated the register!');
+                redirect('dashboard/riskregisters');
+            } 
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative_msg','Unable to duplicate register. Please try again!');
+                redirect('dashboard/riskregister/duplicate/'.$uri_id);
+            }
         }
     }
 

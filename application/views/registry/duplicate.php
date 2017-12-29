@@ -3,13 +3,13 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
         <?php 
-            echo "Last Register Row: ".$last_reg_id. "<br />";
+            // echo "Last Register Row: ".$last_reg_id. "<br />";
 
-            foreach ($risk_ids as $key_field) 
-            {
-                echo $key_field->item_id . "<br />";
-                // echo $key_field;
-            }
+            // foreach ($risk_ids as $key_field) 
+            // {
+            //     echo $key_field->item_id . "<br />";
+            //     echo $key_field;
+            // }
         ?>
 
         <div class="bs-callout bs-callout-info" id="callout-alerts-dismiss-plugin"> 
@@ -54,7 +54,7 @@
 
             <?php echo form_close(); ?>
 
-            <?php if ($this->session->flashdata('msg')){ ?>
+            <?php if ($this->session->flashdata('negative_msg')){ ?>
                 <div class="alert alert-danger alert-dismissible" role="alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     <div><?php echo $this->session->flashdata('msg'); ?></div>
