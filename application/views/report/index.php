@@ -128,7 +128,6 @@
                                 <th>Environment Impact</th>
                                 <th>Legal Impact</th> 
                                 <th>Quality Impact</th> 
-                                <th>Comments</th> 
                                 <th>Risk Rating</th> 
                                 <th>Risk Level</th>
                                 <th>Risk Responses</th>
@@ -161,7 +160,6 @@
                                     echo "<td>".$risk_row->env_impact."</td>";
                                     echo "<td>".$risk_row->legal_impact."</td>";
                                     echo "<td>".$risk_row->quality_impact."</td>";
-                                    echo "<td>".$CI->trim->trim_text($risk_row->comments)."</td>";
                                     echo "<td>".$risk_row->risk_rating."</td>";
                                     echo "<td>".$risk_row->risk_level."</td>";
                                     echo "<td>";
