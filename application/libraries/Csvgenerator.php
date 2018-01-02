@@ -34,7 +34,7 @@ class Csvgenerator extends CI_Controller
             //set column headers
             $fields = array(
                 'Risk ID', 
-                'Risk Unique ID'
+                'Risk Unique ID',
                 'Main Category', 
                 'Identified Hazard/ Identified Risk', 
                 'Cause/Trigger',
