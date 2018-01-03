@@ -34,13 +34,14 @@ class Csvgenerator extends CI_Controller
             //set column headers
             $fields = array(
                 'Risk ID', 
-                'Risk Unique ID'
+                'Risk Unique ID',
                 'Main Category', 
                 'Identified Hazard/ Identified Risk', 
                 'Cause/Trigger',
                 'Effect', 
                 'Risk Materialization Phase', 
                 'Risk Owner',
+                'Risk Register',
                 'Likelihood', 
                 'Time Impact', 
                 'Cost Impact', 
@@ -82,6 +83,7 @@ class Csvgenerator extends CI_Controller
                         $data_row->effect, 
                         $data_row->materialization_phase,
                         $data_row->risk_owner,
+                        $this->ci->report_model->getSubProjectName($data_row->Subproject_subproject_id),
                         $data_row->likelihood, 
                         $data_row->time_impact, 
                         $data_row->cost_impact, 

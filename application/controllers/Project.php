@@ -346,6 +346,15 @@ class Project extends RISK_Controller
                 {
                     $this->risk_model->duplicateRiskRecord($table, $key_field, $original_register_id, $last_register_id,$new_risk_uuid);
                 }
+
+                // data for register copy
+                $copy_data = array(
+                    'Subproject_subproject_id' => $last_register_id,
+                    'original_id' => $original_register_id
+                );
+
+                // set copy of original register in register copy table
+                $this->project_model->copyRegister($copy_data);
         
                 $this->session->set_flashdata('positive_msg','You have successfully duplicated the register!');
                 redirect('dashboard/riskregisters');

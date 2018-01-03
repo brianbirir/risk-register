@@ -203,5 +203,11 @@
             return (isset($row)) ? $row->subproject_id : false;
         }
 
+        // record register being copied
+        function copyRegister($data)
+        {
+            return $this->db->insert('RegisterCopy', $data);
+        }
+
     }
 ?>
