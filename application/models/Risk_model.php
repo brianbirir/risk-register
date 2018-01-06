@@ -22,20 +22,44 @@
             return $this->db->insert('RiskResponse', $data);
         }
 
-
-        // get risk items registered by specific user
-        function getUserRisk($user_id)
+        // get all risks
+        // get risk items registered by specific user and belongs to specific register
+        function getRisks($user_id)
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id',$user_id);
+            $this->db->where('User_user_id', $user_id);
             $this->db->where('archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
 
-        // get risks that belong to users under a manager, not archived and 
+        // get risk items registered by specific user and belongs to specific register
+        function getUserRisk($user_id, $register_id)
+        {   
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('User_user_id',$user_id);
+            $this->db->where('Subproject_subproject_id',$register_id);
+            $this->db->where('archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        function getReportRisks($user_id, $register_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('User_user_id',$user_id);
+            $this->db->where('Subproject_subproject_id',$register_id);
+            $this->db->where('archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // get risks that belong to users under a manager, not archived and belong to specific risk register
         function getManagerRisk($user_id, $register_id)
         {
             $this->db->select('*');
@@ -308,6 +332,11 @@
                     {
                         $this->db->set('Subproject_subproject_id', $last_register_id);
                     } // end if
+
+                    // set duplicated to true
+                    if ($key == 'duplicated') {
+                        $this->db->set('duplicated', TRUE);
+                    }
                 } // endforeach
             } // endforeach 
 

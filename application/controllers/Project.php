@@ -128,8 +128,8 @@ class Project extends RISK_Controller
             $data['register_name'] = $single_register->name;
             $data['register_description'] = $single_register->description;
             
-            // get all risks of user
-            $risk = $this->risk_model->getUserRisk($data['user_id']);
+            // get all risks of user and assigned register
+            $risk = $this->risk_model->getUserRisk($data['user_id'], $data['register_id']);
 
             // get all risks that belong to a manager's users and assigned register
             $users_risk = $this->risk_model->getManagerRisk($data['user_id'], $data['register_id']);

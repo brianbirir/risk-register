@@ -14,6 +14,7 @@ class Report extends RISK_Controller
         $this->load->library('breadcrumb');
         $this->load->model('report_model');
         $this->load->model('risk_model');
+        $this->load->model('project_model');
     }
 
     // view for report page
@@ -30,8 +31,12 @@ class Report extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            // get risk register id
+            $register_row = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+            $assigned_register_id = $register_row->subproject_id;
+
             // get risk data
-            $risk = $this->risk_model->getUserRisk($data['user_id']);
+            $risk = $this->risk_model->getReportRisks($data['user_id'], $assigned_register_id);
 
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
