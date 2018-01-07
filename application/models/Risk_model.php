@@ -15,6 +15,19 @@
             return $this->db->insert('RiskRegistry', $data);
         }
 
+        // insert risk revision
+        function insertRiskRevision( $data, $item_id )
+        {
+            foreach( $data as $key=>$val )
+            {
+                if ( $key != 'item_id' )
+                { 
+                    $this->db->set( 'item_id', $item_id );               
+                }
+            }
+            return $this->db->insert('RiskRevisions', $data);
+        }
+
 
         // add risk response
         function insertResponse($data)
@@ -108,13 +121,13 @@
 
 
         // update risk item
-        function updateRisk($data,$id)
-        {
-            $this->db->set($data);
-            $this->db->where('item_id',$id);
-            $this->db->update('RiskRegistry',$data);
-            return true;
-        }
+        // function updateRisk($data,$id)
+        // {
+        //     $this->db->set($data);
+        //     $this->db->where('item_id',$id);
+        //     $this->db->update('RiskRegistry',$data);
+        //     return true;
+        // }
 
         // archive risk item
         function archiveRisk($data,$id)
@@ -305,6 +318,15 @@
             $this->db->where('risk_uuid',$risk_uuid);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // update risk item
+        function updateRisk($data, $id)
+        {
+            $this->db->set($data);
+            $this->db->where('item_id',$id);
+            $this->db->update('RiskRegistry',$data);
+            return true;
         }
 
 

@@ -183,7 +183,7 @@ class Risk extends RISK_Controller
         $timestamp = date('Y-m-d G:i:s');
 
         // get risk id from hidden field
-        $risk_id= $this->input->post('risk_id');
+        $risk_id = $this->input->post('risk_id');
 
         // get risk uuid
         $risk_uuid = $this->input->post('risk_uuid');
@@ -196,7 +196,7 @@ class Risk extends RISK_Controller
          * Also archive variable is only used in the archiving function
          */
 
-        //insert the risk data into database
+        // insert the risk data into database
         $risk_data = array(
             'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
             'cause_trigger' => $this->input->post('cause_trigger'),
@@ -230,8 +230,20 @@ class Risk extends RISK_Controller
             'Subproject_subproject_id' => $this->input->post('register_id'),
             'entity' => $this->input->post('entity'),
             'description_change' => $this->input->post('description_change'),
-            'updated_at' => $timestamp
+            'effective_date' => $timestamp
         );
+
+        /**
+         * Get data for risk row before being updated
+         * and insert this data in revisions table
+         */
+        $current_risk_row = $this->risk_model->getRisk($risk_id);
+
+        if ( $current_risk_row )
+        {
+            // insert duplicated data and insert in revisions table
+            $this->risk_model->insertRiskRevision($current_risk_row, $risk_id);
+        }
 
 
         // check first if there are any response fields that have been added
@@ -260,8 +272,6 @@ class Risk extends RISK_Controller
         // insert form data into database
         if ($this->risk_model->updateRisk($risk_data,$risk_id))
         {
-            
-
             $this->session->set_flashdata('positive-msg','Risk has been successfully updated.');
             redirect('dashboard/risk/edit/'.$risk_id);
         }
@@ -485,7 +495,6 @@ class Risk extends RISK_Controller
                 'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
-                'updated_at' => $timestamp,
                 'risk_uuid' => $risk_uuid,
                 'entity' => $this->input->post('entity'),
                 'description_change' => $this->input->post('description_change')
