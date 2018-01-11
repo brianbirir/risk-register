@@ -5,7 +5,7 @@
         echo "<div>";
         echo "<h2 style='display:inline-block;' class='page-header'>Risk ID <span class='label label-info'>".$risk_data->item_id."</span></h2>";
 
-        echo "<div class='pull-right'>Created on <span class='label label-info'>".$risk_data->created_at."</span></div>";
+        echo "<div class='pull-right'>Latest Revision: <span class='label label-info'>".$risk_data->effective_date."</span></div>";
 
         echo "</div>";
 
@@ -54,7 +54,7 @@
 
             echo "<tr>";
             echo "<td><label>Latest Update:</label></td>";
-            echo "<td><p>".$risk_data->updated_at."</p></td>";
+            echo "<td><p>".$risk_data->effective_date."</p></td>";
             echo "</tr>";
 
             echo "<tr>";

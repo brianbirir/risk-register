@@ -15,6 +15,19 @@
             return $this->db->insert('RiskRegistry', $data);
         }
 
+        // insert risk revision
+        function insertRiskRevision( $data, $item_id )
+        {
+            foreach( $data as $key=>$val )
+            {
+                if ( $key != 'item_id' )
+                { 
+                    $this->db->set( 'item_id', $item_id );               
+                }
+            }
+            return $this->db->insert('RiskRevisions', $data);
+        }
+
 
         // add risk response
         function insertResponse($data)
@@ -22,20 +35,44 @@
             return $this->db->insert('RiskResponse', $data);
         }
 
-
-        // get risk items registered by specific user
-        function getUserRisk($user_id)
+        // get all risks
+        // get risk items registered by specific user and belongs to specific register
+        function getRisks($user_id)
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id',$user_id);
+            $this->db->where('User_user_id', $user_id);
             $this->db->where('archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
 
-        // get risks that belong to users under a manager, not archived and 
+        // get risk items registered by specific user and belongs to specific register
+        function getUserRisk($user_id, $register_id)
+        {   
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('User_user_id',$user_id);
+            $this->db->where('Subproject_subproject_id',$register_id);
+            $this->db->where('archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        function getReportRisks($user_id, $register_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('User_user_id',$user_id);
+            $this->db->where('Subproject_subproject_id',$register_id);
+            $this->db->where('archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // get risks that belong to users under a manager, not archived and belong to specific risk register
         function getManagerRisk($user_id, $register_id)
         {
             $this->db->select('*');
@@ -84,13 +121,13 @@
 
 
         // update risk item
-        function updateRisk($data,$id)
-        {
-            $this->db->set($data);
-            $this->db->where('item_id',$id);
-            $this->db->update('RiskRegistry',$data);
-            return true;
-        }
+        // function updateRisk($data,$id)
+        // {
+        //     $this->db->set($data);
+        //     $this->db->where('item_id',$id);
+        //     $this->db->update('RiskRegistry',$data);
+        //     return true;
+        // }
 
         // archive risk item
         function archiveRisk($data,$id)
@@ -283,6 +320,15 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // update risk item
+        function updateRisk($data, $id)
+        {
+            $this->db->set($data);
+            $this->db->where('item_id',$id);
+            $this->db->update('RiskRegistry',$data);
+            return true;
+        }
+
 
         // duplicate risk record
         function duplicateRiskRecord ($table, $key_field, $register_id, $last_register_id, $new_risk_uuid)
@@ -308,6 +354,11 @@
                     {
                         $this->db->set('Subproject_subproject_id', $last_register_id);
                     } // end if
+
+                    // set duplicated to true
+                    if ($key == 'duplicated') {
+                        $this->db->set('duplicated', TRUE);
+                    }
                 } // endforeach
             } // endforeach 
 

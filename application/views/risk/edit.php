@@ -102,7 +102,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="latest_update">Latest Update</label>
-                                <div class="well well-sm"><?php echo $risk->updated_at; ?></div>
+                                <div class="well well-sm"><?php echo $risk->effective_date; ?></div>
                             </div>
                         </div>
 
