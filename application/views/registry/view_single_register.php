@@ -100,6 +100,7 @@
                                         <th>Title</th>
                                         <th>Main Category</th>
                                         <th>Owner</th>
+                                        <th>Number of Revisions</th>
                                         <th>Actions</th>
                                     </tr>
                                     <?php
@@ -149,7 +150,7 @@
                                         <th>UUID</th>
                                         <th>Title</th>
                                         <th>Main Category</th>
-                                        <!-- <th>Identified Hazard/ Risk</th> -->
+                                        <th>Revisions</th>
                                         <th>Actions</th>
                                     </tr>
                                     <?php
@@ -162,6 +163,7 @@
                                             echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                             // echo "<td>".$risk_row->identified_hazard_risk."</td>";
                                             // echo "<td><a href='/dashboard/risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
+                                            echo "<td width=150></td>";
                                             echo "<td>
                                                 <span><a title='view' href='/dashboard/risk/".$risk_row->item_id."'><i class='fa fa-eye' aria-hidden='true'></i></a></span>
                                                 <span><a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fa fa-pencil' aria-hidden='true'></i></a></span>
