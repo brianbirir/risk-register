@@ -28,6 +28,16 @@
             return $this->db->insert('RiskRevisions', $data);
         }
 
+        // get the number of times a risk has been revised
+        function getNumberOfRiskRevisions( $risk_id )
+        {
+            $this->db->select( '*' );
+            $this->db->from( 'RiskRevisions' );
+            $this->db->where( 'item_id', $risk_id );
+            $query = $this->db->get();
+            return ( $query->num_rows() > 0 ) ? $query->num_rows() : 0;
+        }
+
 
         // add risk response
         function insertResponse($data)
