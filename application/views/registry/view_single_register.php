@@ -100,7 +100,7 @@
                                         <th>Title</th>
                                         <th>Main Category</th>
                                         <th>Owner</th>
-                                        <th>Number of Revisions</th>
+                                        <th>Revisions</th>
                                         <th>Actions</th>
                                     </tr>
                                     <?php
@@ -111,6 +111,7 @@
                                             echo "<td width=300>".$users_risk_row->risk_title."</td>";
                                             echo "<td width=400>".$CI->risk_model->getRiskCategoryName($users_risk_row->RiskCategories_category_id)."</td>";
                                             echo "<td>".$CI->user_model->getUserNames($users_risk_row->User_user_id)."</td>";
+                                            echo "<td width=150><span class='badge bg-yellow'>".$CI->risk_model->getNumberOfRiskRevisions($users_risk_row->item_id)."</span></td>";
                                             echo "<td><span><a title='view' href='/dashboard/risk/".$users_risk_row->item_id."'><i class='fa fa-eye' aria-hidden='true'></i></a></span></td>";
                                             echo "</tr>";
                                         } 
