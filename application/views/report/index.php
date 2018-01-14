@@ -152,7 +152,6 @@
                                     echo "<td>".$risk_row->cause_trigger."</td>";
                                     echo "<td>".$risk_row->effect."</td>";
                                     echo "<td>".$risk_row->materialization_phase."</td>";
-                                    echo "<td>".$risk_row->risk_owner."</td>";
                                     echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
                                     echo "<td>".$risk_row->likelihood."</td>";
                                     echo "<td>".$risk_row->time_impact."</td>";
