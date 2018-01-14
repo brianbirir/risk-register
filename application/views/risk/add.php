@@ -104,13 +104,8 @@
                             <div class="form-group">
                                 <label for="entity">Entity</label>
                                 <?php
-                                    $entity_options = array(
-                                        'owner' => 'Owner',
-                                        'contractor' => 'Contractor',
-                                        'government' => 'Government'
-                                    );
                                     $select_entity_attributes = 'class="form-control"';
-                                    echo form_dropdown('entity',$entity_options,"owner",$select_status_attributes);
+                                    echo form_dropdown('entity',$select_risk_entity,"1",$select_entity_attributes);  
                                 ?>
                             </div>
                         </div>

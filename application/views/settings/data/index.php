@@ -8,6 +8,8 @@
             <a href="/settings/data/owner" class="list-group-item">Risk Owners</a>
             <a href="/settings/data/entity" class="list-group-item">Entity</a>
             <a href="/settings/data/materialization" class="list-group-item">Materialization Phase</a>
+            <a href="/settings/data/cost" class="list-group-item">Cost Rating</a>
+            <a href="/settings/data/schedule" class="list-group-item">Schedule Rating</a>
         </div>
     </div>
 </div>

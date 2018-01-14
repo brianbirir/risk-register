@@ -254,6 +254,16 @@
         }
 
 
+        // get risk entity
+        function getRiskEntity()
+        {
+            $this->db->select('*');
+            $this->db->from('Entity');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
         // Get name from each entity from database based on ID
 
         // get risk strategies info

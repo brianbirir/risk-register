@@ -93,6 +93,16 @@ $route['settings/data/materialization/add'] = 'materialization/add_materializati
 $route['settings/data/materialization/edit/(:num)'] = 'materialization/edit_materialization_view/$1';
 $route['settings/data/materialization/delete/(:num)'] = 'materialization/delete/$1';
 
+$route['settings/data/cost'] = 'cost/index_cost';
+$route['settings/data/cost/add'] = 'cost/add_cost_view';
+$route['settings/data/cost/edit/(:num)'] = 'cost/edit_cost_view/$1';
+$route['settings/data/cost/delete/(:num)'] = 'cost/delete/$1';
+
+$route['settings/data/schedule'] = 'schedule/index_schedule';
+$route['settings/data/schedule/add'] = 'schedule/add_schedule_view';
+$route['settings/data/schedule/edit/(:num)'] = 'schedule/edit_schedule_view/$1';
+$route['settings/data/schedule/delete/(:num)'] = 'schedule/delete/$1';
+
 // test pages
 $route['test/reponse'] = 'risk/response_view';
 $route['test'] = 'risk/register_response';
