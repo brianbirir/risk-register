@@ -145,7 +145,7 @@ class Project extends RISK_Controller
 
             ($users_risk) ? $data['user_risk_data'] = $users_risk : $data['user_risk_data'] = false;
 
-            ($unapproved_risk) ? $data['unapproved_risk'] = $unapproved_risk : $data['unapproved_risk'] = false;
+            // ($unapproved_risk) ? $data['unapproved_risk'] = $unapproved_risk : $data['unapproved_risk'] = false;
 
             $this->template->load('dashboard', 'registry/view_single_register', $data);
         }

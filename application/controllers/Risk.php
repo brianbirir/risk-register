@@ -723,7 +723,10 @@ class Risk extends RISK_Controller
             $uri_id = $this->uri->segment(3); // get id from third segment of uri
 
             // get risk data
-            $risk = $this->risk_model->getRisk($uri_id);
+            $risk = $this->risk_model->getRisk( $uri_id );
+
+            // get risk revision data
+            $revision = $this->risk_model->getRiskRevisions( $uri_id );
 
             //check if result is true
             // ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
@@ -731,16 +734,17 @@ class Risk extends RISK_Controller
             if($risk) 
             {
                 $data['risk_data'] = $risk;
+                $data['revision_data'] = $revision;
                 
                 // get risk responses
-                $data['risk_response'] = $this->risk_model->getRiskResponse($risk->risk_uuid);
+                $data['risk_response'] = $this->risk_model->getRiskResponse( $risk->risk_uuid );
                 
             } else
             {
                 $data['risk_data'] = false;
             }
 
-            // load page to show all registered risks
+            // load page to show single risk item
             $this->template->load('dashboard', 'risk/single', $data);
         }
         else
@@ -750,6 +754,47 @@ class Risk extends RISK_Controller
         }
     }
 
+
+    // controller to view an old risk version
+    function revision()
+    {
+    	$data = array('title' => 'Risk Revision');
+
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+
+            $uri_id = $this->uri->segment(4); // get id from fourth segment of uri
+
+            // get risk revision data
+            $revision = $this->risk_model->getSingleRevision( $uri_id );
+
+            if($revision) 
+            {
+                $data['revision_data'] = $revision;
+                // get risk responses
+                $data['risk_response'] = $this->risk_model->getRiskResponse( $revision->risk_uuid );
+            } 
+            else
+            {
+                $data['risk_data'] = false;
+            }
+
+            // load page to show single revision version
+            $this->template->load('dashboard', 'risk/revision', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
 
     // view for duplicating risk based on selected register
     function duplicate_risk_view()

@@ -38,6 +38,26 @@
             return ( $query->num_rows() > 0 ) ? $query->num_rows() : 0;
         }
 
+        // get risk revisions for specific risk
+        function getRiskRevisions( $risk_id )
+        {
+            $this->db->select( '*' );
+            $this->db->from( 'RiskRevisions' );
+            $this->db->where( 'item_id', $risk_id );
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        function getSingleRevision( $revision_id )
+        {
+            $this->db->select( '*' );
+            $this->db->from( 'RiskRevisions' );
+            $this->db->where( 'revision_id', $revision_id );
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row : false;
+        }
+        
         // get revised risks that have not been approved
         // function getUnapprovedRevisions( $user_id, $register_id )
         // {
