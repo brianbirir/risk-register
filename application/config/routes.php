@@ -83,6 +83,26 @@ $route['settings/data/owner/add'] = 'owner/add_owner_view';
 $route['settings/data/owner/edit/(:num)'] = 'owner/edit_owner_view/$1';
 $route['settings/data/owner/delete/(:num)'] = 'owner/delete/$1';
 
+$route['settings/data/entity'] = 'entity/index_entity';
+$route['settings/data/entity/add'] = 'entity/add_entity_view';
+$route['settings/data/entity/edit/(:num)'] = 'entity/edit_entity_view/$1';
+$route['settings/data/entity/delete/(:num)'] = 'entity/delete/$1';
+
+$route['settings/data/materialization'] = 'materialization/index_materialization';
+$route['settings/data/materialization/add'] = 'materialization/add_materialization_view';
+$route['settings/data/materialization/edit/(:num)'] = 'materialization/edit_materialization_view/$1';
+$route['settings/data/materialization/delete/(:num)'] = 'materialization/delete/$1';
+
+$route['settings/data/cost'] = 'cost/index_cost';
+$route['settings/data/cost/add'] = 'cost/add_cost_view';
+$route['settings/data/cost/edit/(:num)'] = 'cost/edit_cost_view/$1';
+$route['settings/data/cost/delete/(:num)'] = 'cost/delete/$1';
+
+$route['settings/data/schedule'] = 'schedule/index_schedule';
+$route['settings/data/schedule/add'] = 'schedule/add_schedule_view';
+$route['settings/data/schedule/edit/(:num)'] = 'schedule/edit_schedule_view/$1';
+$route['settings/data/schedule/delete/(:num)'] = 'schedule/delete/$1';
+
 // test pages
 $route['test/reponse'] = 'risk/response_view';
 $route['test'] = 'risk/register_response';

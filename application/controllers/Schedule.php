@@ -2,7 +2,7 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Category extends RISK_Controller
+class Schedule extends RISK_Controller
 {  
 	public function __construct()
     {
@@ -12,7 +12,7 @@ class Category extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
-        $this->load->model('category_model');
+        $this->load->model('schedule_model');
     }
 
 
@@ -29,7 +29,7 @@ class Category extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // load page to show all category
+            // load page to show all schedule
             $this->template->load('dashboard', 'settings/data/index', $data);
         }
         else
@@ -40,9 +40,9 @@ class Category extends RISK_Controller
     }
 
 
-    function index_category()
+    function index_schedule()
     {
-        $data = array('title' => 'Category');
+        $data = array('title' => 'Schedule');
         
         if($this->session->userdata('logged_in'))
         {
@@ -53,14 +53,14 @@ class Category extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get category
-            $category = $this->category_model->getCategory();
+            // get schedule
+            $schedule = $this->schedule_model->getSchedule();
 
             //check if result is true
-            ($category) ? $data['category_data'] = $category : $data['category_data'] = false;
+            ($schedule) ? $data['schedule_data'] = $schedule : $data['schedule_data'] = false;
 
-            // load page to show all category
-            $this->template->load('dashboard', 'settings/data/category/index', $data);
+            // load page to show all schedule
+            $this->template->load('dashboard', 'settings/data/schedule/index', $data);
         }
         else
         {
@@ -70,9 +70,9 @@ class Category extends RISK_Controller
     }
 
 
-    function add_category_view()
+    function add_schedule_view()
     {
-        $data = array('title' => 'Add Category');
+        $data = array('title' => 'Add Schedule');
         
         if($this->session->userdata('logged_in'))
         {
@@ -83,11 +83,8 @@ class Category extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get project data
-            $data['project_data'] = $this->getProject( $data['user_id'] );
-
-            // load page to show all category
-            $this->template->load('dashboard', 'settings/data/category/add', $data);
+            // load page to show all schedule
+            $this->template->load('dashboard', 'settings/data/schedule/add', $data);
         }
         else
         {
@@ -97,12 +94,12 @@ class Category extends RISK_Controller
     }
 
 
-    function add_category()
+    function add_schedule()
     {
         //set validation rules
-        $this->form_validation->set_rules('category_name', 'Category Name', 'trim|required');
+        $this->form_validation->set_rules('schedule_name', 'Schedule Name', 'trim|required');
 
-        $data = array('title' => 'Add Category');
+        $data = array('title' => 'Add Schedule');
 
         // get global data
         $data = array_merge($data, $this->get_global_data());
@@ -117,20 +114,20 @@ class Category extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // load page to show all category
-            $this->template->load('dashboard', 'settings/data/category/add', $data);
+            // load page to show all schedule
+            $this->template->load('dashboard', 'settings/data/schedule/add', $data);
         }
         else
         {
             $data = array(
-                'category_name' => $this->input->post('category_name'),
+                'schedule_rating' => $this->input->post('schedule_name'),
             );
 
             // insert form data into database
-            if ($this->category_model->insertCategory($data))
+            if ($this->schedule_model->insertSchedule($data))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully registered a category item!');
-                redirect('settings/data/category');
+                $this->session->set_flashdata('positive-msg','You have successfully registered a schedule item!');
+                redirect('settings/data/schedule');
             }
             else
             {
@@ -142,9 +139,9 @@ class Category extends RISK_Controller
     }
 
 
-    function edit_category_view()
+    function edit_schedule_view()
     {
-        $data = array('title' => 'Edit Category');
+        $data = array('title' => 'Edit Schedule');
         
         if($this->session->userdata('logged_in'))
         {
@@ -156,13 +153,13 @@ class Category extends RISK_Controller
             $id = $this->uri->segment(5);
             
             // get data based on id from uri
-            $data['category'] = $this->category_model->getSingleCategory($id);
+            $data['schedule'] = $this->schedule_model->getSingleSchedule($id);
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // load page to edit category
-            $this->template->load('dashboard', 'settings/data/category/edit', $data);
+            // load page to edit schedule
+            $this->template->load('dashboard', 'settings/data/schedule/edit', $data);
         }
         else
         {
@@ -172,12 +169,12 @@ class Category extends RISK_Controller
     }
 
     
-    function update_category()
+    function update_schedule()
     {
         //set validation rules
-        $this->form_validation->set_rules('category_name', 'Category Name', 'trim|required');
+        $this->form_validation->set_rules('schedule_name', 'Schedule Name', 'trim|required');
         
-        $data = array('title' => 'Edit Category');
+        $data = array('title' => 'Edit Schedule');
 
         // get global data
         $data = array_merge($data, $this->get_global_data());
@@ -185,88 +182,60 @@ class Category extends RISK_Controller
         //validate form input
         if ($this->form_validation->run() == FALSE)
         {
-            // get role names from database & add them to select form element in sign up form
-            $roles = $this->user_model->getRoles();
+            // get data based on id from uri
+            $data['schedule'] = $this->schedule_model->getSingleSchedule($id);
 
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // load page to show all category
-            $this->template->load('dashboard', 'settings/data/category/edit', $data);
+            // load page to show all schedule
+            $this->template->load('dashboard', 'settings/data/schedule/edit', $data);
         }
         else
         {
-            // get category id from hidden field
-            $category_id =  $this->input->post('category_id');
+            // get schedule id from hidden field
+            $schedule_id =  $this->input->post('schedule_id');
             
             $data = array(
-                'category_name' => $this->input->post('category_name'),
+                'schedule_rating' => $this->input->post('schedule_name'),
             );
 
             // update table
-            if ($this->category_model->updateCategory($data,$category_id))
+            if ($this->schedule_model->updateSchedule($data,$schedule_id))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully updated a category item!');
-                redirect('settings/data/category/edit/'.$category_id);
+                $this->session->set_flashdata('positive-msg','You have successfully updated a schedule item!');
+                redirect('settings/data/schedule/edit/'.$schedule_id);
             }
             else
             {
                 // error
                 $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-                redirect('settings/data/category/edit/'.$category_id);
+                redirect('settings/data/schedule/edit/'.$schedule_id);
             }   
         }
     }
 
 
-    // delete category
+    // delete schedule
     function delete()
     {
         // get id from fifth segment of uri
         $id = $this->uri->segment(5);
 
-        // delete category record
-        if($this->category_model->deleteCategory($id))
+        // delete schedule record
+        if($this->schedule_model->deleteSchedule($id))
         {
-            $this->session->set_flashdata('positive-msg','You have deleted the category successfully!');
+            $this->session->set_flashdata('positive-msg','You have deleted the schedule successfully!');
 
             // load page for viewing all roles
-            redirect('settings/data/category');
+            redirect('settings/data/schedule');
         }
         else
         {
             // error
             $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
-            redirect('settings/data/category');
-        }
-    }
-
-
-    // get project data
-    function getProject( $user_id )
-    {
-        $this->load->model('project_model');
-
-        // get project that belong to user (manager)
-        $project = $this->project_model->getProjects( $user_id );
-        
-        if($project)
-        {
-            $options = array();
-
-            foreach ($project as $row) 
-            {
-                $project_id = $row->project_id;
-                $project_name = $row->project_name;
-                $options[$project_id] = $project_name;  
-            }
-
-            return $options;
-        }
-        else 
-        {
-            return 'No Data!';
+            redirect('settings/data/schedule');
         }
     }
 }
