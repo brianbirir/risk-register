@@ -117,7 +117,9 @@ class Risk extends RISK_Controller
             $data['select_realization'] = $this->getRealization();
             $data['select_subproject'] = $this->getSubProject();
             $data['select_risk_owner'] = $this->getRiskOwner();
-            $data['select_risk_entity'] = $this->getRiskEntity();                  
+            $data['select_risk_entity'] = $this->getRiskEntity();
+            $data['select_risk_cost'] = $this->getRiskCost();
+            $data['select_risk_schedule'] = $this->getRiskSchedule();                  
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);
@@ -163,7 +165,9 @@ class Risk extends RISK_Controller
             $data['select_realization'] = $this->getRealization();
             $data['select_subproject'] = $this->getSubProject();
             $data['select_risk_owner'] = $this->getRiskOwner();
-            $data['select_risk_entity'] = $this->getRiskEntity(); 
+            $data['select_risk_entity'] = $this->getRiskEntity();
+            $data['select_risk_cost'] = $this->getRiskCost();
+            $data['select_risk_schedule'] = $this->getRiskSchedule(); 
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
@@ -232,7 +236,9 @@ class Risk extends RISK_Controller
             'Subproject_subproject_id' => $this->input->post('register_id'),
             'Entity_entity_id' => $this->input->post('entity'),
             'description_change' => $this->input->post('description_change'),
-            'effective_date' => $timestamp
+            'effective_date' => $timestamp,
+            'CostMetric_cost_id' => $this->input->post('cost_metric'),
+            'ScheduleMetric_schedule_id' => $this->input->post('schedule_metric')
             // 'approved' => FALSE
         );
 
@@ -496,6 +502,8 @@ class Risk extends RISK_Controller
                 'residual_risk_level' => $this->input->post('residual_risk_level'),
                 'Subproject_subproject_id' => $this->input->post('register_id'),
                 'Entity_entity_id' => $this->input->post('entity'),
+                'CostMetric_cost_id' => $this->input->post('cost_metric'),
+                'ScheduleMetric_schedule_id' => $this->input->post('schedule_metric'),
                 'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
@@ -695,6 +703,56 @@ class Risk extends RISK_Controller
                 $entity_id = $row->entity_id;
                 $entity_name = $row->entity_name;
                 $options[$entity_id] = $entity_name;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
+
+    // risk entity
+    function getRiskCost()
+    {
+        $cost = $this->risk_model->getRiskCost();
+        
+        if($cost)
+        {
+            $options = array();
+
+            foreach ($entity as $row) 
+            {
+                $cost_id = $row->cost_id;
+                $cost_rating = $row->cost_rating;
+                $options[$cost_id] = $cost_rating;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
+
+    // risk entity
+    function getRiskSchedule()
+    {
+        $schedule = $this->risk_model->getRiskSchedule();
+        
+        if($schedule)
+        {
+            $options = array();
+
+            foreach ($schedule as $row) 
+            {
+                $schedule_id = $row->schedule_id;
+                $schedule_rating = $row->schedule_rating;
+                $options[$schedule_rating] = $schedule_rating;  
             }
 
             return $options;

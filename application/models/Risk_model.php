@@ -263,6 +263,24 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // get risk cost
+        function getRiskCost()
+        {
+            $this->db->select('*');
+            $this->db->from('CostMetric');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // get risk schedule
+        function getRiskSchedule()
+        {
+            $this->db->select('*');
+            $this->db->from('ScheduleMetric');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
 
         // Get name from each entity from database based on ID
 
