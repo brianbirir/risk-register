@@ -32,6 +32,7 @@ $route['dashboard/riskregister/duplicate/(:num)'] = 'project/add_duplicate_view'
 $route['dashboard/risks'] = 'risk/index';
 $route['dashboard/risk/add/(:num)'] = 'risk/add/$1';
 $route['dashboard/risk/(:num)'] = 'risk/single/$1'; // route to view a single risk item
+$route['dashboard/risk/revision/(:num)'] = 'risk/revision/$1'; // route to view single risk revision
 $route['dashboard/risk/edit/(:num)'] = 'risk/edit/$1'; // route to edit a risk item
 $route['dashboard/risk/delete/(:num)'] = 'risk/delete/$1';
 $route['dashboard/risk/archive/(:num)'] = 'risk/archive/$1';

@@ -28,6 +28,50 @@
             return $this->db->insert('RiskRevisions', $data);
         }
 
+        // get the number of times a risk has been revised
+        function getNumberOfRiskRevisions( $risk_id )
+        {
+            $this->db->select( '*' );
+            $this->db->from( 'RiskRevisions' );
+            $this->db->where( 'item_id', $risk_id );
+            $query = $this->db->get();
+            return ( $query->num_rows() > 0 ) ? $query->num_rows() : 0;
+        }
+
+        // get risk revisions for specific risk
+        function getRiskRevisions( $risk_id )
+        {
+            $this->db->select( '*' );
+            $this->db->from( 'RiskRevisions' );
+            $this->db->where( 'item_id', $risk_id );
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        function getSingleRevision( $revision_id )
+        {
+            $this->db->select( '*' );
+            $this->db->from( 'RiskRevisions' );
+            $this->db->where( 'revision_id', $revision_id );
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row : false;
+        }
+        
+        // get revised risks that have not been approved
+        // function getUnapprovedRevisions( $user_id, $register_id )
+        // {
+        //     $this->db->select( '*' );
+        //     $this->db->from( 'RiskRegistry' );
+        //     $this->db->join( 'User', 'User.user_id = RiskRegistry.User_user_id' );
+        //     $this->db->where('User.parent_user_id',$user_id); // equivalent to parent user id
+        //     $this->db->where('RiskRegistry.archived',false); // not archived
+        //     $this->db->where('RiskRegistry.approved',false); // not approved
+        //     $this->db->where('RiskRegistry.Subproject_subproject_id', $register_id);
+        //     $query = $this->db->get();
+        //     return ($query->num_rows() > 0) ? $query->result() : false;
+        // }
+
 
         // add risk response
         function insertResponse($data)
