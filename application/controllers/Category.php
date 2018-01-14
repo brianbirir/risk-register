@@ -83,6 +83,9 @@ class Category extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            // get project data
+            $data['project_data'] = $this->getProject( $data['user_id'] );
+
             // load page to show all category
             $this->template->load('dashboard', 'settings/data/category/add', $data);
         }
@@ -236,6 +239,34 @@ class Category extends RISK_Controller
             // error
             $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
             redirect('settings/data/category');
+        }
+    }
+
+
+    // get project data
+    function getProject( $user_id )
+    {
+        $this->load->model('project_model');
+
+        // get project that belong to user (manager)
+        $project = $this->project_model->getProjects( $user_id );
+        
+        if($project)
+        {
+            $options = array();
+
+            foreach ($project as $row) 
+            {
+                $project_id = $row->project_id;
+                $project_name = $row->project_name;
+                $options[$project_id] = $project_name;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
         }
     }
 }
