@@ -121,23 +121,31 @@ class Project extends RISK_Controller
         {
             // get global data
             $data = array_merge($data,$this->get_global_data());
-            $uri_id = $this->uri->segment(3); // get id from third segment of uri
+
+            // get id from third segment of uri and use as id for retrieving register data
+            $uri_id = $this->uri->segment(3);
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
 
+            // data for a single register
             $data['register_id'] = $single_register->subproject_id;
             $data['register_name'] = $single_register->name;
             $data['register_description'] = $single_register->description;
             
             // get all risks of user and assigned register
-            $risk = $this->risk_model->getUserRisk($data['user_id'], $data['register_id']);
+            $risk = $this->risk_model->getUserRisk( $data['user_id'], $data['register_id'] );
 
             // get all risks that belong to a manager's users and assigned register
-            $users_risk = $this->risk_model->getManagerRisk($data['user_id'], $data['register_id']);
+            $users_risk = $this->risk_model->getManagerRisk( $data['user_id'], $data['register_id'] );
+
+            // get unapproved revised risks
+            // $unapproved_risk = $this->risk_model->getUnapprovedRevisions( $data['user_id'], $data['register_id'] );
 
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             ($users_risk) ? $data['user_risk_data'] = $users_risk : $data['user_risk_data'] = false;
+
+            ($unapproved_risk) ? $data['unapproved_risk'] = $unapproved_risk : $data['unapproved_risk'] = false;
 
             $this->template->load('dashboard', 'registry/view_single_register', $data);
         }

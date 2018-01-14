@@ -231,6 +231,7 @@ class Risk extends RISK_Controller
             'entity' => $this->input->post('entity'),
             'description_change' => $this->input->post('description_change'),
             'effective_date' => $timestamp
+            // 'approved' => FALSE
         );
 
         /**
@@ -272,7 +273,7 @@ class Risk extends RISK_Controller
         // insert form data into database
         if ($this->risk_model->updateRisk($risk_data,$risk_id))
         {
-            $this->session->set_flashdata('positive-msg','Risk has been successfully updated.');
+            $this->session->set_flashdata('positive-msg','Risk has been successfully updated. Please wait for this revision to be approved by your manager.');
             redirect('dashboard/risk/edit/'.$risk_id);
         }
         else
