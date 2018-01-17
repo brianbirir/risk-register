@@ -13,10 +13,12 @@
 	          <div class="info-box">
 	            <span class="info-box-icon bg-aqua"><i class="fa fa-tag"></i></span>
 
-	            <div class="info-box-content">
-	              <span class="info-box-text">Projects</span>
-	              <span class="info-box-number"><?php echo $project_numbers?></span>
-	            </div>
+							<a href="/dashboard/project">
+								<div class="info-box-content">
+									<span class="info-box-text">Projects</span>
+									<span class="info-box-number"><?php echo $project_numbers?></span>
+								</div>
+							</a>
 	            <!-- /.info-box-content -->
 	          </div>
 	          <!-- /.info-box -->
@@ -25,11 +27,12 @@
 	        <div class="col-md-3 col-sm-6 col-xs-12">
 	          <div class="info-box">
 	            <span class="info-box-icon bg-aqua"><i class="fa fa-tags"></i></span>
-
-	            <div class="info-box-content">
-	              <span class="info-box-text">Risk Registers</span>
-	              <span class="info-box-number"><?php echo $subproject_numbers?></span>
-	            </div>
+							<a href="/dashboard/riskregisters">
+								<div class="info-box-content">
+									<span class="info-box-text">Risk Registers</span>
+									<span class="info-box-number"><?php echo $subproject_numbers?></span>
+								</div>
+							</a>
 	            <!-- /.info-box-content -->
 	          </div>
 	          <!-- /.info-box -->
@@ -38,11 +41,12 @@
 	        <div class="col-md-3 col-sm-6 col-xs-12">
 	          <div class="info-box">
 	            <span class="info-box-icon bg-aqua"><i class="fa fa-flash"></i></span>
-
-	            <div class="info-box-content">
-	              <span class="info-box-text">Risk Items</span>
-	              <span class="info-box-number"><?php echo $risk_numbers?></span>
-	            </div>
+							<a href="/dashboard/risks">
+								<div class="info-box-content">
+									<span class="info-box-text">Risk Items</span>
+									<span class="info-box-number"><?php echo $risk_numbers?></span>
+								</div>
+							</a>
 	            <!-- /.info-box-content -->
 	          </div>
 	          <!-- /.info-box -->
