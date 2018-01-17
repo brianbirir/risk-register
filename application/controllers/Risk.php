@@ -31,7 +31,10 @@ class Risk extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
 
             // get risk data belonging to specific user 
-            $risk = $this->risk_model->getRisks($data['user_id']);
+            // $risk = $this->risk_model->getRisks($data['user_id']);
+
+            // get all risks of user
+            $risk = $this->risk_model->getAllUserRisk( $data['user_id'] );
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;

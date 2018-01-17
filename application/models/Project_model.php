@@ -129,9 +129,20 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // returns a single project name
+        function getSingleProjectName( $project_id )
+        {
+            $this->db->select('project_name');
+            $this->db->from('Project');
+            $this->db->where('project_id',$project_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row->project_name : false;
+        }
+
 
         // get all subproject based only on user id
-        function getUserSubProjects($user_id)
+        function getUserSubProjects( $user_id )
         {
             $this->db->select('subproject_id, name');
             $this->db->from('Subproject');
@@ -143,18 +154,21 @@
 
 
         // get number of projects
-        function getProjectNumbers(){
+        function getProjectNumbers( $user_id ){
             $this->db->select('*');
-            $this->db->from('Project');
+            $this->db->from( 'Project' );
+            $this->db->where( 'User_user_id',$user_id );
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
 
         // get number of subprojects
-        function getSubProjectNumbers(){
+        function getRegisterNumbers( $user_id ){
             $this->db->select('*');
             $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Project.User_user_id',$user_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }

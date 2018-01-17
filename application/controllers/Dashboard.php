@@ -31,9 +31,9 @@ class Dashboard extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
 
             // get numbers
-            $data['subproject_numbers'] = $this->project_model->getSubProjectNumbers();
-            $data['risk_numbers'] = $this->risk_model->getRiskNumbers();
-            $data['project_numbers'] = $this->project_model->getProjectNumbers();
+            $data['subproject_numbers'] = $this->project_model->getRegisterNumbers( $data['user_id'] );
+            $data['risk_numbers'] = $this->risk_model->getRiskNumbers( $data['user_id'] );
+            $data['project_numbers'] = $this->project_model->getProjectNumbers( $data['user_id'] );
 
             $this->template->load('dashboard', 'dashboard/index', $data);
         }

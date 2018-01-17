@@ -11,6 +11,11 @@
   </div>
 <?php } ?>
 
+<?php 
+    $CI =& get_instance();
+    $CI->load->model('project_model');
+?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
@@ -40,6 +45,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Status Name</th>
+                            <th>Project</th>
                             <th>Action</th>
                         </tr>
                     
@@ -51,6 +57,7 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$status_row->status_name."</td>";
+                                echo "<td>".$CI->project_model->getSingleProjectName( $status_row->Project_project_id )."</td>";
                                 echo "<td>
                                         <a title='edit' href='/settings/data/status/edit/".$status_row->status_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                         <a title='delete' href='/settings/data/status/delete/".$status_row->status_id."'><i class='fa fa-trash' aria-hidden='true'></i>
