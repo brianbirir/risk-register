@@ -29,6 +29,15 @@
                 <?php echo form_error('safety_name','<div class="alert alert-danger">','</div>'); ?>
             </div>
 
+            <div class="form-group">
+                <label for="main_category">Project</label>
+                <?php 
+                    $select_project_name_attributes = 'class="form-control" required disabled';
+                    $project_id = $safety->Project_project_id;
+                    echo form_dropdown( 'main_category', $select_project, $project_id, $select_project_name_attributes );
+                ?>
+            </div>
+
             <input name="btn_reg_safety" type="submit" class="btn btn-default btn-reg" value="Update Safety" />
 
             <?php echo form_close(); ?>

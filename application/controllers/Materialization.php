@@ -13,6 +13,7 @@ class Materialization extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('materialization_model');
+        $this->load->library('project');
     }
 
 
@@ -83,6 +84,8 @@ class Materialization extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+
             // load page to show all materialization
             $this->template->load('dashboard', 'settings/data/materialization/add', $data);
         }
@@ -121,6 +124,7 @@ class Materialization extends RISK_Controller
         {
             $data = array(
                 'materialization_name' => $this->input->post('materialization_name'),
+                'Project_project_id' => $this->input->post('project_name')
             );
 
             // insert form data into database
@@ -157,6 +161,9 @@ class Materialization extends RISK_Controller
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
+
+            // get project data
+            $data['select_project'] = $this->project->getProject( $data['user_id'] );
 
             // load page to edit materialization
             $this->template->load('dashboard', 'settings/data/materialization/edit', $data);

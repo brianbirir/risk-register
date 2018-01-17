@@ -13,6 +13,7 @@ class Entity extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('entity_model');
+        $this->load->library('project');
     }
 
 
@@ -83,6 +84,8 @@ class Entity extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+
             // load page to show all entity
             $this->template->load('dashboard', 'settings/data/entity/add', $data);
         }
@@ -121,6 +124,7 @@ class Entity extends RISK_Controller
         {
             $data = array(
                 'entity_name' => $this->input->post('entity_name'),
+                'Project_project_id' => $this->input->post('project_name')
             );
 
             // insert form data into database
@@ -157,6 +161,9 @@ class Entity extends RISK_Controller
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
+
+            // get project data
+            $data['select_project'] = $this->project->getProject( $data['user_id'] );
 
             // load page to edit entity
             $this->template->load('dashboard', 'settings/data/entity/edit', $data);

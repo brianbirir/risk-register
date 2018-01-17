@@ -14,6 +14,14 @@
                 <?php echo form_error('materialization_name','<div class="alert alert-danger">','</div>'); ?>
             </div>
 
+            <div class="form-group">
+                <label for="project_name">Select Project</label>
+                <?php 
+                    $select_project_attributes = 'class="form-control" required';
+                    echo form_dropdown('project_name',$select_project,"1",$select_project_attributes);
+                ?>
+            </div>
+
             <input name="btn_update_materialization" type="submit" class="btn btn-default btn-reg" value="Add Materialization" />
 
             <?php echo form_close(); ?>

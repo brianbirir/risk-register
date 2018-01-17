@@ -29,6 +29,15 @@
                 <?php echo form_error('status_name','<div class="alert alert-danger">','</div>'); ?>
             </div>
 
+            <div class="form-group">
+                <label for="main_category">Project</label>
+                <?php 
+                    $select_project_name_attributes = 'class="form-control" required disabled';
+                    $project_id = $status->Project_project_id;
+                    echo form_dropdown( 'main_category', $select_project, $project_id, $select_project_name_attributes );
+                ?>
+            </div>
+
             <input name="btn_reg_status" type="submit" class="btn btn-default btn-reg" value="Update Status" />
 
             <?php echo form_close(); ?>

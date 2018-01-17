@@ -129,6 +129,17 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // returns a single project name
+        function getSingleProjectName( $project_id )
+        {
+            $this->db->select('project_name');
+            $this->db->from('Project');
+            $this->db->where('project_id',$project_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row->project_name : false;
+        }
+
 
         // get all subproject based only on user id
         function getUserSubProjects($user_id)
