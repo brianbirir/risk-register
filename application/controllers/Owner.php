@@ -13,7 +13,7 @@ class Owner extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('owner_model');
-        $this->load->library('project');
+        $this->load->library('userproject');
     }
 
 
@@ -60,7 +60,7 @@ class Owner extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to show all owner
             $this->template->load('dashboard', 'settings/data/owner/add', $data);
@@ -138,8 +138,8 @@ class Owner extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get project data
-            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to edit owner
             $this->template->load('dashboard', 'settings/data/owner/edit', $data);

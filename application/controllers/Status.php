@@ -13,7 +13,7 @@ class Status extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('data_model');
-        $this->load->library('project');
+        $this->load->library('userproject');
     }
 
 
@@ -84,7 +84,7 @@ class Status extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to show all status
             $this->template->load('dashboard', 'settings/data/status/add', $data);
@@ -162,8 +162,8 @@ class Status extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get project data
-            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to edit status
             $this->template->load('dashboard', 'settings/data/status/edit', $data);
