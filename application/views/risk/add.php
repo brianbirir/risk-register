@@ -381,9 +381,9 @@
                                 ?>
                             </div>
                         </div>
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <button id="btn-calc-res-risk" class="btn btn-primary pull-right btn-sm" type="button">Calculate Residual Risk Rating & Level</button>
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="row">

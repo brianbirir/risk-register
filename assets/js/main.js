@@ -5,12 +5,13 @@
  */
 
  // residual risk
- var calc_residual_risk_btn = document.getElementById('btn-calc-res-risk');
- calc_residual_risk_btn.onclick = calcResidualRisk;
+ // var calc_residual_risk_btn = document.getElementById('btn-calc-res-risk');
+ // calc_residual_risk_btn.onclick = calcResidualRisk;
 
-function calcResidualRisk()
+ function calcResidualRisk()
 {
     var likelihood_value = document.getElementById('residual-risk-select').value;
+    
     var impact_value = document.getElementById('residual-impact-select').value;
 
     var residual_risk_rating = parseInt(likelihood_value) * parseInt(impact_value);   
@@ -19,13 +20,20 @@ function calcResidualRisk()
 
     // append values to form input
     document.getElementById('residual_risk_rating').value = residual_risk_rating;
+    
     document.getElementById('residual_risk_level').value = residual_risk_level.level;
 
     // set colour background for form input based in risk level
     var risk_level_input = document.querySelector("#residual_risk_level");
+    
     risk_level_input.style.backgroundColor = residual_risk_level.color;
-
 }
+
+ var residual_likelihood = document.getElementById('residual-risk-select');
+ var impact_likelihood = document.getElementById('residual-impact-select');
+ residual_likelihood.onchange  = function(){calcResidualRisk()};
+ impact_likelihood.onchange  = function(){calcResidualRisk()};
+
 
 // risk for qualitative assessment
 var calc_risk_btn = document.getElementById('btn-calc-risk');
