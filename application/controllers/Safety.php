@@ -13,7 +13,7 @@ class Safety extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('safety_model');
-        $this->load->library('project');
+        $this->load->library('userproject');
     }
 
 
@@ -83,7 +83,7 @@ class Safety extends RISK_Controller
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
-            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to show all safety
             $this->template->load('dashboard', 'settings/data/safety/add', $data);
@@ -161,8 +161,8 @@ class Safety extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get project data
-            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to edit safety
             $this->template->load('dashboard', 'settings/data/safety/edit', $data);

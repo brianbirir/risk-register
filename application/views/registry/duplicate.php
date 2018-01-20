@@ -31,6 +31,15 @@
                 <div class="well well-sm"><?php echo $register_name; ?></div>
             </div>
 
+            <div class="form-group"> 
+                <label for="project_name">Assign Project</label> 
+                <?php  
+                    $select_project_attributes = 'class="form-control" required';
+                    $select_project['none'] = 'None';
+                    echo form_dropdown('project_name',$select_project,'none',$select_project_attributes); 
+                ?> 
+            </div>
+
             <div class="form-group">
                 <label for="subproject_name">New Register Name</label>
                 <input class="form-control" name="subproject_name" placeholder="Risk Register Name" type="text" value="<?php echo set_value('subproject_name'); ?>" />

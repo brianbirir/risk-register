@@ -12,7 +12,7 @@ class Category extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
-        $this->load->library('project');
+        $this->load->library('userproject');
         $this->load->model('category_model');
     }
 
@@ -84,8 +84,8 @@ class Category extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get project data
-            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to show all category
             $this->template->load('dashboard', 'settings/data/category/add', $data);
@@ -163,8 +163,8 @@ class Category extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get project data
-            $data['select_project'] = $this->project->getProject( $data['user_id'] );
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to edit category
             $this->template->load('dashboard', 'settings/data/category/edit', $data);

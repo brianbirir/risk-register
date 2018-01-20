@@ -254,11 +254,6 @@
                                 echo form_dropdown('qualityimpact',$select_option,"1",$select_quality_impact);
                             ?>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <button id="btn-calc-risk" class="btn btn-primary btn-calc-risk pull-right btn-sm" type="button">Calculate Risk Rating & Level</button>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="row">
@@ -380,9 +375,6 @@
                                     echo form_dropdown('residual_impact',$select_option,"1",$select_residual_impact);
                                 ?>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <button id="btn-calc-res-risk" class="btn btn-primary pull-right btn-sm" type="button">Calculate Residual Risk Rating & Level</button>
                         </div>
                     </div>
 

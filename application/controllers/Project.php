@@ -14,6 +14,7 @@ class Project extends RISK_Controller
         $this->load->model('project_model');
         $this->load->model('risk_model');
         $this->load->library('breadcrumb');
+        $this->load->library('userproject'); 
     }
 
 
@@ -257,7 +258,8 @@ class Project extends RISK_Controller
 
     // view for duplicating a register
     function add_duplicate_view()
-    {
+    {  
+
         $data = array('title' => 'Duplicate Risk Register');
         
         if($this->session->userdata('logged_in'))
@@ -275,11 +277,13 @@ class Project extends RISK_Controller
 
             // get the last row's ID from registry table
             $data['last_reg_id'] = $this->project_model->lastRegisterID();
-
             $data['Project_project_id'] = $single_register->Project_project_id;
             $data['register_id'] = $single_register->subproject_id;
             $data['register_name'] = $single_register->name;
             $data['register_description'] = $single_register->description;
+
+            // get project data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // get risk ids associated with the register id
             $data['risk_ids'] = $this->risk_model->getRiskIDs($data['register_id']);
@@ -326,10 +330,38 @@ class Project extends RISK_Controller
 
             // get original register to duplicate all risk items for that particular register
             $original_register_id = $this->input->post('register_id');
+
             $original_project_id = $this->input->post('Project_project_id');
+
+            $new_project_id = $this->input->post('project_name');
             
             // get risk ids associated with the register id
             $risk_ids = $this->risk_model->getRiskIDs($original_register_id);
+
+            if( $new_project_id == "none") 
+            {
+                // get the register details from the form
+                $data = array(
+                    'name' => $this->input->post('subproject_name'),
+                    'description' => $this->input->post('subproject_description'),
+                    'duplicate' => TRUE,
+                    'Project_project_id' => $original_project_id,
+                    'created_at' => $timestamp,
+                    'updated_at' => $timestamp
+                );
+            } 
+            else 
+            {
+                // get the register details from the form
+                $data = array(
+                    'name' => $this->input->post('subproject_name'),
+                    'description' => $this->input->post('subproject_description'),
+                    'duplicate' => TRUE,
+                    'Project_project_id' => $new_project_id,
+                    'created_at' => $timestamp,
+                    'updated_at' => $timestamp
+                );
+            }
 
 
             // get the register details from the form
@@ -337,7 +369,6 @@ class Project extends RISK_Controller
                 'name' => $this->input->post('subproject_name'),
                 'description' => $this->input->post('subproject_description'),
                 'duplicate' => TRUE,
-                // 'original_register_id' => $original_register_id,
                 'Project_project_id' => $original_project_id,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp

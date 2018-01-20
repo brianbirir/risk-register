@@ -726,7 +726,7 @@ class Risk extends RISK_Controller
         {
             $options = array();
 
-            foreach ($entity as $row) 
+            foreach ($cost as $row) 
             {
                 $cost_id = $row->cost_id;
                 $cost_rating = $row->cost_rating;

@@ -5,12 +5,10 @@
  */
 
  // residual risk
- var calc_residual_risk_btn = document.getElementById('btn-calc-res-risk');
- calc_residual_risk_btn.onclick = calcResidualRisk;
-
-function calcResidualRisk()
+ function calcResidualRisk()
 {
     var likelihood_value = document.getElementById('residual-risk-select').value;
+    
     var impact_value = document.getElementById('residual-impact-select').value;
 
     var residual_risk_rating = parseInt(likelihood_value) * parseInt(impact_value);   
@@ -19,18 +17,22 @@ function calcResidualRisk()
 
     // append values to form input
     document.getElementById('residual_risk_rating').value = residual_risk_rating;
+    
     document.getElementById('residual_risk_level').value = residual_risk_level.level;
 
     // set colour background for form input based in risk level
     var risk_level_input = document.querySelector("#residual_risk_level");
+    
     risk_level_input.style.backgroundColor = residual_risk_level.color;
-
 }
 
-// risk for qualitative assessment
-var calc_risk_btn = document.getElementById('btn-calc-risk');
-calc_risk_btn.onclick = calcQualitativeRisk;
+ var residual_likelihood = document.getElementById('residual-risk-select');
+ var impact_likelihood = document.getElementById('residual-impact-select');
+ residual_likelihood.onchange  = function(){calcResidualRisk()};
+ impact_likelihood.onchange  = function(){calcResidualRisk()};
 
+
+// risk for qualitative assessment
 function calcQualitativeRisk() 
 {
     var risk_form = document.forms['edit-risk-form'];
@@ -63,6 +65,26 @@ function calcQualitativeRisk()
     risk_level_input.style.backgroundColor = risk_level.color;
 
 }
+
+var likelihoodimpact = document.getElementById('likelihoodimpact');
+var timeimpact = document.getElementById('timeimpact');
+var costimpact = document.getElementById('costimpact');
+var reputationimpact = document.getElementById('reputationimpact');
+var hsimpact = document.getElementById('hsimpact');
+var envimpact = document.getElementById('envimpact');
+var legalimpact = document.getElementById('legalimpact');
+var qualityimpact = document.getElementById('qualityimpact');
+
+
+likelihoodimpact.onchange  = function(){calcQualitativeRisk()};
+timeimpact.onchange  = function(){calcQualitativeRisk()};
+costimpact.onchange  = function(){calcQualitativeRisk()};
+reputationimpact.onchange  = function(){calcQualitativeRisk()};
+hsimpact.onchange  = function(){calcQualitativeRisk()};
+envimpact.onchange  = function(){calcQualitativeRisk()};
+legalimpact.onchange  = function(){calcQualitativeRisk()};
+qualityimpact.onchange  = function(){calcQualitativeRisk()};
+
 
  // reset values in form input field with reset button
  //var reset_risk_btn = document.getElementById('btn-risk-reset');
