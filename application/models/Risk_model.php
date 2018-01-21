@@ -80,6 +80,16 @@
         }
 
         // get all risks
+        function getAllRisks()
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
         // get risk items registered by specific user and belongs to specific register
         function getRisks($user_id)
         {   
