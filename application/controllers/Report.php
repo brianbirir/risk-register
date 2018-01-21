@@ -47,7 +47,7 @@ class Report extends RISK_Controller
             // $data['select_strategy'] = $this->getRiskStrategies();
             // $data['select_safety'] = $this->getSystemSafety();
             // $data['select_realization'] = $this->getRealization();
-            // $data['select_subproject'] = $this->getSubProject();
+            $data['select_subproject'] = $this->getSubProject( $data['user_id'] );
 
             // load page to show all registered risks
             $this->template->load('dashboard', 'report/index', $data);
@@ -65,7 +65,6 @@ class Report extends RISK_Controller
     {   
         // load InfluxDB Client library
         $this->load->library('csvgenerator');
-
         $data = array('title' => 'Reports');
 
         // breadcrumb
@@ -83,31 +82,27 @@ class Report extends RISK_Controller
           
             if($this->session->userdata('logged_in'))
             {
-
+                $risk_register = $this->input->post('risk_register');
                 $main_category = $this->input->post('main_category');
                 $risk_level = $this->input->post('risk_level');
                 //$date_from = $this->input->post('date_from');
                 //$date_to = $this->input->post('date_to');
 
+                $data['risk_register'] = $risk_register;
                 $data['main_category'] = $main_category;
                 $data['risk_level'] = $risk_level;
                 //$data['date_from'] = $date_to;
                 //$data['date_to'] = $date_from;
 
-
                 // get filtered data
-                $filtered_risk_data = $this->report_model->getFilteredRisk($user_id,$main_category,$risk_level);
+                $filtered_risk_data = $this->report_model->getFilteredRisk( $user_id, $main_category, $risk_level, $risk_register );
 
                 // check if result is true
-                ($filtered_risk_data) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
+                ( $filtered_risk_data ) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
     
                 // select drop down
-                // $data['select_status'] = $this->getStatus();
                 $data['select_category'] = $this->getCategories();
-                // $data['select_strategy'] = $this->getRiskStrategies();
-                // $data['select_safety'] = $this->getSystemSafety();
-                // $data['select_realization'] = $this->getRealization();
-                // $data['select_subproject'] = $this->getSubProject();
+                $data['select_subproject'] = $this->getSubProject( $data['user_id'] );
     
                 // load page to show all registered risks
                 $this->template->load('dashboard', 'report/filter', $data);
@@ -120,9 +115,10 @@ class Report extends RISK_Controller
         } 
         else if ($this->input->post('btn_report') == "Generate Report")
         {
+            $risk_register = $this->input->post('risk_register');
             $main_category = $this->input->post('main_category');
             $risk_level = $this->input->post('risk_level');
-            $this->csvgenerator->fetch_data($user_id,$main_category,$risk_level);
+            $this->csvgenerator->fetch_data( $user_id, $main_category, $risk_level, $risk_register );
             redirect('dashboard/reports');   
         }
     }
@@ -251,15 +247,15 @@ class Report extends RISK_Controller
     }
 
     // risk registers
-    function getSubProject()
+    function getSubProject( $user_id )
     {
-        $subproject = $this->risk_model->getSubProject();
+        $risk_register = $this->project_model->getAssignedRiskRegisters( $user_id );
         
-        if($subproject)
+        if( $risk_register )
         {
             $options = array();
 
-            foreach ($subproject as $row) 
+            foreach ( $risk_register as $row ) 
             {
                 $subproject_id = $row->subproject_id;
                 $subproject_name = $row->name;

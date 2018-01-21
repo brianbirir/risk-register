@@ -49,6 +49,13 @@
         ?>
     </div> -->
 
+    <label for="risk_register">Risk Register</label>
+    <?php 
+        $select_subproject_attributes = '';
+        $select_subproject['None'] = "None";
+        echo form_dropdown('risk_register',$select_subproject,"None",$select_subproject_attributes);
+    ?>
+
     <label for="system_safety">Main Category</label>
     <?php 
         $select_main_category_attributes = '';
@@ -119,7 +126,6 @@
                                 <th>Cause/Trigger</th>
                                 <th>Effect</th> 
                                 <th>Risk Materialization Phase</th>
-                                <th>Risk Owner</th>
                                 <th>Risk Register</th>
                                 <th>Likelihood</th> 
                                 <th>Time Impact</th> 

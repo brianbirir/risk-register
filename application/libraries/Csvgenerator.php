@@ -8,19 +8,18 @@ class Csvgenerator extends CI_Controller
         $CI =& get_instance();
 
         // load database report module
-        $CI->load->model('report_model');
+        $CI->load->model( 'report_model' );
 
         // load response library
-        $CI->load->library('responses');
+        $CI->load->library( 'responses' );
 
         $this->ci = $CI;
     }
     
 
-    function fetch_data($user_id, $main_category, $risk_level)
+    function fetch_data( $user_id, $main_category, $risk_level, $risk_register )
     {
-        // $db_data = $this->ci->report_model->getData($main_category);
-        $db_data = $this->ci->report_model->getFilteredRisk($user_id,$main_category,$risk_level);
+        $db_data = $this->ci->report_model->getFilteredRisk( $user_id, $main_category, $risk_level, $risk_register );
         
         if($db_data)
         {
@@ -40,7 +39,6 @@ class Csvgenerator extends CI_Controller
                 'Cause/Trigger',
                 'Effect', 
                 'Risk Materialization Phase', 
-                'Risk Owner',
                 'Risk Register',
                 'Likelihood', 
                 'Time Impact', 
@@ -82,7 +80,6 @@ class Csvgenerator extends CI_Controller
                         $data_row->identified_hazard_risk, 
                         $data_row->effect, 
                         $data_row->materialization_phase,
-                        $data_row->risk_owner,
                         $this->ci->report_model->getSubProjectName($data_row->Subproject_subproject_id),
                         $data_row->likelihood, 
                         $data_row->time_impact, 

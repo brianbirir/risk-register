@@ -71,7 +71,7 @@
 
 
         // fetch all risk registers assigned to a general user
-        function getAssignedRiskRegisters($user_id)
+        function getAssignedRiskRegisters( $user_id )
         {
             $this->db->select('*');
             $this->db->from('Subproject');
@@ -83,7 +83,7 @@
 
 
         // get risk register id and name that the general user is assigned to
-        function getAssignedRiskRegisterName($user_id)
+        function getAssignedRiskRegisterName( $user_id )
         {
             $this->db->select('*');
             $this->db->from('Subproject');
