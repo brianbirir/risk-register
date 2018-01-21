@@ -45,23 +45,24 @@
 
 
         // get filtered risk data
-        function getFilteredRisk($user_id,$category,$risk_level)
+        function getFilteredRisk( $user_id, $category, $risk_level, $risk_register)
         {   
-            if($category != "None" and $risk_level != "None")
+            if($category != "None" and $risk_level != "None" and $risk_register != "None")
             {
-                // show both category and risk level filter
+                // show both category, risk level and risk register filter
                 $this->db->select('*');
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
                 $this->db->where('User_user_id',$user_id);
                 $this->db->where('RiskCategories_category_id',$category);
+                $this->db->where('Subproject_subproject_id',$risk_register);
                 $this->db->where('risk_level',$risk_level);
                 // $this->db->where('created_at <=',$date_to);
                 // $this->db->where('created_at >=',$date_from);
                 $query = $this->db->get();
                 return ($query->num_rows() > 0) ? $query->result() : false;
             } 
-            elseif($category != "None" and $risk_level == "None") 
+            elseif($category != "None" and $risk_level == "None" and $risk_register == "None") 
             {
                 // show only category filter
                 $this->db->select('*');
@@ -74,7 +75,7 @@
                 $query = $this->db->get();
                 return ($query->num_rows() > 0) ? $query->result() : false;
             } 
-            elseif($category == "None" and $risk_level != "None") 
+            elseif($category == "None" and $risk_level != "None" and $risk_register == "None") 
             {
                 // show only risk level filter
                 $this->db->select('*');
@@ -82,6 +83,19 @@
                 $this->db->where('archived',false);
                 $this->db->where('User_user_id',$user_id);
                 $this->db->where('risk_level',$risk_level);
+                // $this->db->where('created_at <=',$date_to);
+                // $this->db->where('created_at >=',$date_from);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            }
+            elseif($category == "None" and $risk_level == "None" and $risk_register != "None") 
+            {
+                // show only risk level filter
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $this->db->where('User_user_id',$user_id);
+                $this->db->where('Subproject_subproject_id',$risk_register);
                 // $this->db->where('created_at <=',$date_to);
                 // $this->db->where('created_at >=',$date_from);
                 $query = $this->db->get();
@@ -164,6 +178,50 @@
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->where('subproject_id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->name : false;
+        }
+
+        // get risk cost number
+        function getRiskCostNumber( $id )
+        {
+            $this->db->select('*');
+            $this->db->from('CostMetric');
+            $this->db->where('cost_id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->name : false;
+        }
+
+        // get risk schedule number
+        function getRiskScheduleNumber( $id )
+        {
+            $this->db->select('*');
+            $this->db->from('ScheduleMetric');
+            $this->db->where('schedule_id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->name : false;
+        }
+
+        // get risk entity
+        function getRiskEntityName( $id )
+        {
+            $this->db->select('*');
+            $this->db->from('Entity');
+            $this->db->where('entity_id', $id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->name : false;
+        }
+
+        // get risk entity
+        function getRiskMaterializationName( $id )
+        {
+            $this->db->select('*');
+            $this->db->from('MaterializationPhase');
+            $this->db->where('materialization_id', $id);
             $query = $this->db->get();
             $row = $query->row();
             return (isset($row)) ? $row->name : false;
