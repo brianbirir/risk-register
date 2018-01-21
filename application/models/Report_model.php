@@ -182,4 +182,48 @@
             $row = $query->row();
             return (isset($row)) ? $row->name : false;
         }
+
+        // get risk cost number
+        function getRiskCostNumber( $id )
+        {
+            $this->db->select('*');
+            $this->db->from('CostMetric');
+            $this->db->where('cost_id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->name : false;
+        }
+
+        // get risk schedule number
+        function getRiskScheduleNumber( $id )
+        {
+            $this->db->select('*');
+            $this->db->from('ScheduleMetric');
+            $this->db->where('schedule_id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->name : false;
+        }
+
+        // get risk entity
+        function getRiskEntityName( $id )
+        {
+            $this->db->select('*');
+            $this->db->from('Entity');
+            $this->db->where('entity_id', $id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->name : false;
+        }
+
+        // get risk entity
+        function getRiskMaterializationName( $id )
+        {
+            $this->db->select('*');
+            $this->db->from('MaterializationPhase');
+            $this->db->where('materialization_id', $id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->name : false;
+        }
     }

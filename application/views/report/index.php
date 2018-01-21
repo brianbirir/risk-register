@@ -147,6 +147,7 @@
                                 <th>Action Owner</th>
                                 <th>Milestone Target Date</th>
                                 <th>Status</th>
+                                <th>Entity</th>
                             </tr>
                             <?php
                                 foreach ($risk_data as $risk_row) {
@@ -157,7 +158,8 @@
                                     echo "<td>".$risk_row->identified_hazard_risk."</td>";
                                     echo "<td>".$risk_row->cause_trigger."</td>";
                                     echo "<td>".$risk_row->effect."</td>";
-                                    echo "<td>".$risk_row->materialization_phase."</td>";
+                                    // echo "<td>".$risk_row->materialization_phase."</td>";
+                                    echo "<td>".$CI->risk_model->getRiskMaterializationName($risk_row->materialization_phase_materialization_id)."</td>";
                                     echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
                                     echo "<td>".$risk_row->likelihood."</td>";
                                     echo "<td>".$risk_row->time_impact."</td>";
@@ -186,6 +188,7 @@
                                     echo "<td>".$risk_row->action_owner."</td>";
                                     echo "<td>".$risk_row->milestone_target_date."</td>";
                                     echo "<td>".$CI->risk_model->getStatusName($risk_row->Status_status_id)."</td>";
+                                    echo "<td>".$CI->risk_model->getRiskEntityName($risk_row->Entity_entity_id)."</td>";
                                 } 
                             } ?>
                         </tbody>

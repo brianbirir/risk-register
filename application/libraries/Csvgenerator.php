@@ -60,7 +60,8 @@ class Csvgenerator extends CI_Controller
                 'Risk Level', 
                 'Action Owner', 
                 'Milestone Target Date', 
-                'Status'      
+                'Status',
+                'Entity'      
             );
 
             fputcsv($f, $fields, $delimiter);
@@ -79,7 +80,8 @@ class Csvgenerator extends CI_Controller
                         $data_row->cause_trigger, 
                         $data_row->identified_hazard_risk, 
                         $data_row->effect, 
-                        $data_row->materialization_phase,
+                        // $data_row->materialization_phase,
+                        $this->ci->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
                         $this->ci->report_model->getSubProjectName($data_row->Subproject_subproject_id),
                         $data_row->likelihood, 
                         $data_row->time_impact, 
@@ -101,7 +103,8 @@ class Csvgenerator extends CI_Controller
                         $data_row->residual_risk_level,
                         $data_row->action_owner, 
                         $data_row->milestone_target_date,
-                        $this->ci->report_model->getStatusName($data_row->Status_status_id)
+                        $this->ci->report_model->getStatusName($data_row->Status_status_id),
+                        $this->ci->report_model->getRiskEntityName($data_row->Entity_entity_id)
                     );
 
                     fputcsv($f, $lineData, $delimiter);
