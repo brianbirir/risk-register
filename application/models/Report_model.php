@@ -113,6 +113,70 @@
             }
         }
 
+        // get filtered risk data
+        function getManagerFilteredRisk( $category, $risk_level, $risk_register)
+        {   
+            if($category != "None" and $risk_level != "None" and $risk_register != "None")
+            {
+                // show both category, risk level and risk register filter
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $this->db->where('RiskCategories_category_id',$category);
+                $this->db->where('Subproject_subproject_id',$risk_register);
+                $this->db->where('risk_level',$risk_level);
+                // $this->db->where('created_at <=',$date_to);
+                // $this->db->where('created_at >=',$date_from);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            } 
+            elseif($category != "None" and $risk_level == "None" and $risk_register == "None") 
+            {
+                // show only category filter
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $this->db->where('RiskCategories_category_id',$category);
+                // $this->db->where('created_at <=',$date_to);
+                // $this->db->where('created_at >=',$date_from);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            } 
+            elseif($category == "None" and $risk_level != "None" and $risk_register == "None") 
+            {
+                // show only risk level filter
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $this->db->where('risk_level',$risk_level);
+                // $this->db->where('created_at <=',$date_to);
+                // $this->db->where('created_at >=',$date_from);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            }
+            elseif($category == "None" and $risk_level == "None" and $risk_register != "None") 
+            {
+                // show only risk level filter
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $this->db->where('Subproject_subproject_id',$risk_register);
+                // $this->db->where('created_at <=',$date_to);
+                // $this->db->where('created_at >=',$date_from);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            }
+            else
+            {   
+                // show all data if all filters are of None value
+                $this->db->select('*');
+                $this->db->from('RiskRegistry');
+                $this->db->where('archived',false);
+                $query = $this->db->get();
+                return ($query->num_rows() > 0) ? $query->result() : false;
+            }
+        }
+
         // get risk strategies name
         function getRiskStrategiesName($id)
         {

@@ -77,6 +77,7 @@ class Report extends RISK_Controller
         
         // get global data
         $data = array_merge($data,$this->get_global_data());
+        
         // get user id from session data                
         $user_id = $data['user_id'];
 
@@ -98,15 +99,25 @@ class Report extends RISK_Controller
                 //$data['date_from'] = $date_to;
                 //$data['date_to'] = $date_from;
 
-                // get filtered data
-                $filtered_risk_data = $this->report_model->getFilteredRisk( $user_id, $main_category, $risk_level, $risk_register );
+
+                if ($data['role_id'] == 8)
+                {
+                    // get filtered data
+                    $filtered_risk_data = $this->report_model->getFilteredRisk( $user_id, $main_category, $risk_level, $risk_register );
+                }
+                else
+                {
+                    // get filtered data
+                    $filtered_risk_data = $this->report_model->getManagerFilteredRisk( $main_category, $risk_level, $risk_register );
+                }
+                
 
                 // check if result is true
                 ( $filtered_risk_data ) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
     
                 // select drop down
                 $data['select_category'] = $this->getCategories();
-                $data['select_subproject'] = $this->getSubProject( $data['user_id'] );
+                $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
     
                 // load page to show all registered risks
                 $this->template->load('dashboard', 'report/filter', $data);
@@ -122,7 +133,16 @@ class Report extends RISK_Controller
             $risk_register = $this->input->post('risk_register');
             $main_category = $this->input->post('main_category');
             $risk_level = $this->input->post('risk_level');
-            $this->csvgenerator->fetch_data( $user_id, $main_category, $risk_level, $risk_register );
+
+            if ($data['role_id'] == 8)
+            {
+                $this->csvgenerator->fetch_data( $user_id, $main_category, $risk_level, $risk_register );
+            }
+            else
+            {
+                $this->csvgenerator->fetch_manager_data( $main_category, $risk_level, $risk_register );
+            }
+            
             redirect('dashboard/reports');   
         }
     }

@@ -124,6 +124,113 @@ class Csvgenerator extends CI_Controller
         exit;
     }
 
+    function fetch_manager_data( $main_category, $risk_level, $risk_register )
+    {
+        $db_data = $this->ci->report_model->getManagerFilteredRisk( $main_category, $risk_level, $risk_register );
+        
+        if($db_data)
+        {
+            $delimiter = ",";
+
+            $filename = "risk_report_" . date('Y-m-d') . ".csv";
+
+            // create file pointer
+            $f = fopen('php://memory', 'w');
+            
+            //set column headers
+            $fields = array(
+                'Risk ID', 
+                'Risk Unique ID',
+                'Main Category', 
+                'Identified Hazard/ Identified Risk', 
+                'Cause/Trigger',
+                'Effect', 
+                'Risk Materialization Phase', 
+                'Risk Register',
+                'Likelihood', 
+                'Time Impact', 
+                'Cost Impact', 
+                'Reputation Impact', 
+                'H&S Impact', 
+                'Environment Impact',
+                'Legal Impact', 
+                'Quality Impact', 
+                'Comments', 
+                'Risk Rating', 
+                'Risk Level',
+                'Risk Responses',
+                'System Safety', 
+                'Realization', 
+                'Likelihood', 
+                'Impact', 
+                'Risk Rating',
+                'Risk Level', 
+                'Action Owner', 
+                'Milestone Target Date', 
+                'Status',
+                'Entity'      
+            );
+
+            fputcsv($f, $fields, $delimiter);
+
+            //  output each row of the data, format line as csv and write to file pointer
+            foreach ($db_data as $data_row) 
+            {
+                $risk_response = $this->ci->responses->collectResponses($data_row->risk_uuid);
+                
+                foreach ($risk_response as  $value) {
+
+                    $lineData = array(
+                        $data_row->item_id,
+                        $data_row->risk_uuid,
+                        $this->ci->report_model->getRiskCategoriesName($data_row->RiskCategories_category_id), 
+                        $data_row->cause_trigger, 
+                        $data_row->identified_hazard_risk, 
+                        $data_row->effect, 
+                        // $data_row->materialization_phase,
+                        $this->ci->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
+                        $this->ci->report_model->getSubProjectName($data_row->Subproject_subproject_id),
+                        $data_row->likelihood, 
+                        $data_row->time_impact, 
+                        $data_row->cost_impact, 
+                        $data_row->reputation_impact,
+                        $data_row->hs_impact, 
+                        $data_row->env_impact, 
+                        $data_row->legal_impact, 
+                        $data_row->quality_impact,
+                        $data_row->comments,  
+                        $data_row->risk_rating,
+                        $data_row->risk_level,
+                        $value,
+                        $this->ci->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
+                        $this->ci->report_model->getRealizationName($data_row->Realization_realization_id),
+                        $data_row->residual_risk_likelihood,
+                        $data_row->residual_risk_impact, 
+                        $data_row->residual_risk_rating, 
+                        $data_row->residual_risk_level,
+                        $data_row->action_owner, 
+                        $data_row->milestone_target_date,
+                        $this->ci->report_model->getStatusName($data_row->Status_status_id),
+                        $this->ci->report_model->getRiskEntityName($data_row->Entity_entity_id)
+                    );
+
+                    fputcsv($f, $lineData, $delimiter);
+                }
+            }
+
+            //  move back to beginning of file
+            fseek($f, 0);
+            
+            //  set headers to download file rather than be displayed
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . $filename . '";');
+            
+            //  output all remaining data on a file pointer
+            fpassthru($f);
+        }
+        exit;
+    }
+
     // filter data function
     function filter_data($category)
     {
