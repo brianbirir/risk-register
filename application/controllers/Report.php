@@ -51,7 +51,7 @@ class Report extends RISK_Controller
 
             // select drop down
             $data['select_category'] = $this->getCategories();
-            $data['select_subproject'] = $this->getSubProject( $data['user_id'] );
+            $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
 
             // load page to show all registered risks
             $this->template->load('dashboard', 'report/index', $data);
@@ -251,9 +251,9 @@ class Report extends RISK_Controller
     }
 
     // risk registers
-    function getSubProject( $user_id )
+    function getSubProject( $user_id, $role_id )
     {
-        if ( $user_id == 8 ) 
+        if ( $role_id == 8 ) 
         {
             $risk_register = $this->project_model->getAssignedRiskRegisters( $user_id );
         }
