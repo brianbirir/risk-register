@@ -32,21 +32,25 @@ class Report extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
 
             // get risk register id
-            $register_row = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
-            $assigned_register_id = $register_row->subproject_id;
-
-            // get risk data
-            $risk = $this->risk_model->getReportRisks($data['user_id'], $assigned_register_id);
-
+            // if general user
+            if ( $data['role_id'] == 8 ) 
+            {
+                $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
+                $assigned_register_id = $register_row->subproject_id;
+                
+                // get risk data
+                $risk = $this->risk_model->getReportRisks($data['user_id'], $assigned_register_id);
+            }
+            else // if manager or super admin
+            {
+                $risk = $this->risk_model->getAllRisks();
+            }
+            
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             // select drop down
             $data['select_category'] = $this->getCategories();
-            // $data['select_status'] = $this->getStatus();
-            // $data['select_strategy'] = $this->getRiskStrategies();
-            // $data['select_safety'] = $this->getSystemSafety();
-            // $data['select_realization'] = $this->getRealization();
             $data['select_subproject'] = $this->getSubProject( $data['user_id'] );
 
             // load page to show all registered risks
@@ -249,7 +253,14 @@ class Report extends RISK_Controller
     // risk registers
     function getSubProject( $user_id )
     {
-        $risk_register = $this->project_model->getAssignedRiskRegisters( $user_id );
+        if ( $user_id == 8 ) 
+        {
+            $risk_register = $this->project_model->getAssignedRiskRegisters( $user_id );
+        }
+        else
+        {
+            $risk_register = $this->project_model->getRiskRegisters( $user_id );
+        }
         
         if( $risk_register )
         {
