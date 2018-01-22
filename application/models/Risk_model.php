@@ -459,11 +459,12 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
-        function getUsersRiskNumbers( $user_id )
+        function getUsersRiskNumbers( $user_id, $assigned_register_id )
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id',$user_id); // equivalent to parent user id
+            $this->db->where('User_user_id', $user_id); // equivalent to parent user id
+            $this->db->where('Subproject_subproject_id', $assigned_register_id);
             $this->db->where('RiskRegistry.archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
