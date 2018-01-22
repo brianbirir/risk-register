@@ -30,10 +30,21 @@ class Dashboard extends RISK_Controller
             // get global data and merge with new array
             $data = array_merge($data,$this->get_global_data());
 
-            // get numbers
-            $data['subproject_numbers'] = $this->project_model->getRegisterNumbers( $data['user_id'] );
-            $data['risk_numbers'] = $this->risk_model->getRiskNumbers( $data['user_id'] );
-            $data['project_numbers'] = $this->project_model->getProjectNumbers( $data['user_id'] );
+            if ($data['role_id'] != 8)
+            {
+                // get numbers
+                $data['subproject_numbers'] = $this->project_model->getRegisterNumbers( $data['user_id'] );
+                $data['risk_numbers'] = $this->risk_model->getRiskNumbers( $data['user_id'] );
+                $data['project_numbers'] = $this->project_model->getProjectNumbers( $data['user_id'] );
+            }
+            else
+            {
+                // get numbers
+                $data['subproject_numbers'] = $this->project_model->getUserRegisterNumbers( $data['user_id'] );
+                $data['risk_numbers'] = $this->risk_model->getUsersRiskNumbers( $data['user_id'] );
+                $data['project_numbers'] = $this->project_model->getUserProjectNumbers( $data['user_id'] );
+            }
+            
 
             $this->template->load('dashboard', 'dashboard/index', $data);
         }

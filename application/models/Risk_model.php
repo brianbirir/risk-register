@@ -459,6 +459,16 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
+        function getUsersRiskNumbers( $user_id )
+        {   
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('User_user_id',$user_id); // equivalent to parent user id
+            $this->db->where('RiskRegistry.archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
 
         // get risk responses
         function getRiskResponse($risk_uuid)
