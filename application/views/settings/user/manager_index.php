@@ -61,6 +61,7 @@
                                 }
                                 
                                 echo "<td>
+                                        <a title='change-password' href='/settings/user/change-password/".$user_row->user_id."'><i class='fa fa-lock' aria-hidden='true'></i>
                                         <a title='edit' href='/settings/user/".$user_row->user_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                         <a title='delete' href='/settings/user/delete/".$user_row->user_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";

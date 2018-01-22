@@ -419,4 +419,89 @@ class User extends RISK_Controller
             redirect('settings/users');
         }
     }
+
+
+    // change user password
+    function change_password_view()
+    {
+        if($this->session->userdata('logged_in'))
+        {
+            $data = array('title' => "Change User's Password");
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            // get id from fourth segment of uri
+            $id = $this->uri->segment(4);
+
+            // get user data based on id from uri
+            $data['user'] = $this->user_model->getUser($id);
+
+            // load page to show all roles
+            $this->template->load('dashboard', 'settings/user/change-password', $data);
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    function change_password()
+    {
+        //set validation rules
+        $this->form_validation->set_rules('password', 'Password', 'trim|required|md5');
+        $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]|md5');
+        
+        //validate form input
+        if ($this->form_validation->run() == FALSE)
+        {
+            $data = array('title' => 'Edit User');
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            // get id from third segment of uri
+            $id = $this->uri->segment(4);
+
+            // get user data based in id from uri
+            $data['user'] = $this->user_model->getUser($id);
+
+            // load page to show all roles
+            $this->template->load('dashboard', 'settings/user/change-password', $data);
+        }
+        else
+        {
+            $timestamp = date('Y-m-d G:i:s');
+
+            // get user id from hidden field
+            $user_id= $this->input->post('user_id');
+
+            // insert the role details into database
+            $data = array(
+                'password' => $this->input->post('password'),
+                'updated_at' => $timestamp
+            );
+            
+            // insert form data into database
+            if ($this->user_model->updateUser($data,$user_id))
+            {
+                $this->session->set_flashdata('positive-msg',"You have successfully change this user's password!");
+                redirect('settings/user/'.$user_id);
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative-msg','Oops! Error. Please try again later!');
+                redirect('settings/user/'.$user_id);
+            }
+        }
+    }
 }

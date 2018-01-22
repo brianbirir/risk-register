@@ -54,6 +54,7 @@ $route['settings/role/delete/(:num)'] = 'role/delete/$1';
 $route['settings/users'] = 'user/index';
 $route['settings/user/add'] = 'user/add';
 $route['settings/user/(:num)'] = 'user/edit/$1';
+$route['settings/user/change-password/(:num)'] = 'user/change_password_view/$1';
 $route['settings/user/delete/(:num)'] = 'user/delete/$1';
 $route['settings/user/riskregister/(:num)'] = 'user/assign_register_view/$1';
 $route['settings/data'] = 'settings/risk_data';
