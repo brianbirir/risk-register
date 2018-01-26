@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
-            <a href="/settings/data/category/add" class="btn btn-success btn-sm">Add Risk Category</a>
+            <a href="/settings/data/category/add" class="btn btn-success btn-sm btn-add">Add Risk Category</a>
         </div>
 
         <div class="box box-primary">
@@ -59,8 +59,8 @@
                                 echo "<td>".$category_row->category_name."</td>";
                                 echo "<td>".$CI->project_model->getSingleProjectName( $category_row->Project_project_id )."</td>";
                                 echo "<td>
-                                        <a title='edit' href='/settings/data/category/edit/".$category_row->category_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a title='delete' href='/settings/data/category/delete/".$category_row->category_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='edit' href='/settings/data/category/edit/".$category_row->category_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='delete' href='/settings/data/category/delete/".$category_row->category_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

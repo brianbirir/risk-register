@@ -14,7 +14,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
-            <a href="/settings/data/cost/add" class="btn btn-success btn-sm">Add Risk Cost</a>
+            <a href="/settings/data/cost/add" class="btn btn-success btn-sm btn-add">Add Risk Cost</a>
         </div>
 
         <div class="box box-primary">
@@ -30,7 +30,7 @@
             <?php 
                 if (!$cost_data) {
                     $msg = 'You have no risk cost to display!';
-                    echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+                    echo '<div class="alert alert-warning alert-aldea" role="alert">'.$msg.'</div>';
                 } 
                 else 
                 { ?>
@@ -52,8 +52,8 @@
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$cost_row->cost_rating."</td>";
                                 echo "<td>
-                                        <a title='edit' href='/settings/data/cost/edit/".$cost_row->cost_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a title='delete' href='/settings/data/cost/delete/".$cost_row->cost_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='edit' href='/settings/data/cost/edit/".$cost_row->cost_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='delete' href='/settings/data/cost/delete/".$cost_row->cost_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

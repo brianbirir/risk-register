@@ -27,9 +27,9 @@
 
     <div class="col-md-9">
         <div class="reg-btn">
-            <!-- <a href="/dashboard/risk/add" class="btn btn-success btn-xs btn-add-device">Add Risk Item</a> -->
-            <?php echo "<a href='/dashboard/risk/add/".$register_id."' class='btn btn-success btn-xs btn-add-device'>Add Risk Item</a>"; ?>
-            <a href="/dashboard/risks/archived" class="btn btn-warning btn-xs btn-add-device">View Archived Risks</a>
+            <!-- <a href="/dashboard/risk/add" class="btn btn-success btn-xs btn-add">Add Risk Item</a> -->
+            <?php echo "<a href='/dashboard/risk/add/".$register_id."' class='btn btn-success btn-xs btn-add'>Add Risk Item</a>"; ?>
+            <a href="/dashboard/risks/archived" class="btn btn-warning btn-xs btn-view">View Archived Risks</a>
         </div>
 
         <?php if($role_id != 8) { ?>
@@ -46,7 +46,7 @@
                         <?php if (!$risk_data) { ?>
          
                             <div style="margin: 10px;">
-                                <div class="alert alert-warning" role="alert">You have no risks for this register!</div>
+                                <div class="alert alert-warning alert-aldea" role="alert">You have no risks for this register!</div>
                             </div>
 
                         <?php } else { ?>
@@ -69,7 +69,7 @@
                                             //echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
                                             echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                             // echo "<td>".$risk_row->identified_hazard_risk."</td>";
-                                            // echo "<td><a href='/dashboard/risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
+                                            // echo "<td><a href='/dashboard/risk/".$risk_row->item_id."' class='btn btn-primary btn-xs btn-view'>View</td>";
                                             echo "<td>
                                                 <span><a title='view' href='/dashboard/risk/".$risk_row->item_id."'><i class='fa fa-eye' aria-hidden='true'></i></a></span>
                                                 <span><a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fa fa-pencil' aria-hidden='true'></i></a></span>
@@ -88,7 +88,7 @@
                         <?php if (!$user_risk_data) { ?>
 
                             <div style="margin: 10px;">
-                                <div class="alert alert-warning" role="alert">Your users have no risks for this register!</div>
+                                <div class="alert alert-warning alert-aldea" role="alert">Your users have no risks for this register!</div>
                             </div>
 
                         <?php } else { ?>
@@ -140,7 +140,7 @@
                         <?php if (!$risk_data) { ?>
 
                             <div style="margin: 10px;">
-                                <div class="alert alert-warning" role="alert">You have no risks for this register!</div>
+                                <div class="alert alert-warning alert-aldea" role="alert">You have no risks for this register!</div>
                             </div>
 
                         <?php } else { ?>

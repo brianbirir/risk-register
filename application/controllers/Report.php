@@ -39,16 +39,18 @@ class Report extends RISK_Controller
                 $assigned_register_id = $register_row->subproject_id;
                 
                 // get risk data
-                $risk = $this->risk_model->getReportRisks($data['user_id'], $assigned_register_id);
+                $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
+
+                // check if result is true
+                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
             }
             else // if manager or super admin
             {
                 $risk = $this->risk_model->getAllRisks();
+                // check if result is true
+                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
             }
             
-            // check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-
             // select drop down
             $data['select_category'] = $this->getCategories();
             $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
@@ -81,7 +83,7 @@ class Report extends RISK_Controller
         // get user id from session data                
         $user_id = $data['user_id'];
 
-        //validation succeeds
+        // validation succeeds
         if ($this->input->post('btn_filter') == "Filter")
         {
           
@@ -100,27 +102,44 @@ class Report extends RISK_Controller
                 //$data['date_to'] = $date_from;
 
 
-                if ($data['role_id'] == 8)
-                {
-                    // get filtered data
-                    $filtered_risk_data = $this->report_model->getFilteredRisk( $user_id, $main_category, $risk_level, $risk_register );
-                }
-                else
+                if ( $data['role_id'] != 8 )
                 {
                     // get filtered data
                     $filtered_risk_data = $this->report_model->getManagerFilteredRisk( $main_category, $risk_level, $risk_register );
-                }
-                
 
-                // check if result is true
-                ( $filtered_risk_data ) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
+                    // check if result is true
+                    ( $filtered_risk_data ) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
     
-                // select drop down
-                $data['select_category'] = $this->getCategories();
-                $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
-    
-                // load page to show all registered risks
-                $this->template->load('dashboard', 'report/filter', $data);
+                    // select drop down
+                    $data['select_category'] = $this->getCategories();
+                    $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
+        
+                    // load page to show filtered registered risks
+                    $this->template->load('dashboard', 'report/index', $data);
+                }
+                else
+                {
+                    // get assigned risk register and its ID
+                    $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
+                    $assigned_register_id = $register_row->subproject_id;
+
+                    // get filtered data
+                    $filtered_risk_data = $this->report_model->getFilteredRisk( $user_id, $main_category, $risk_level, $risk_register, $assigned_register_id );
+
+                    // check if result is true
+                    ( $filtered_risk_data ) ? $data['risk_data'] = $filtered_risk_data : $data['risk_data'] = false;
+        
+                    // select drop down
+                    $data['select_category'] = $this->getCategories();
+                    $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
+        
+                    // load page to show filtered registered risks
+                    $this->template->load('dashboard', 'report/filter', $data);
+
+                    //$this->session->set_flashdata('positive-msg','You have successfully registered the subproject! Please login.');
+
+                    //redirect('dashboard/reports');
+                }
             }
             else
             {
@@ -128,7 +147,7 @@ class Report extends RISK_Controller
                 redirect('login', 'refresh');
             }
         } 
-        else if ($this->input->post('btn_report') == "Generate Report")
+        else
         {
             $risk_register = $this->input->post('risk_register');
             $main_category = $this->input->post('main_category');

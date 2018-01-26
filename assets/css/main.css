@@ -3,6 +3,15 @@
     background-color: #ffffff;
 }
 
+/* DASHBOARD */
+.bg-aldea {
+    background-color: #f1c40f !important;
+}
+
+.info-box-aldea a {
+    color: #1b1b1b;
+}
+
 /* SIDEBAR */
 .main-sidebar {
     background-color: #1b1b1b;
@@ -17,6 +26,14 @@
     color: #f1c40f;
 }
 
+/* SETTINGS PAGE */
+#settings-page h3 a {
+    color: #000000;
+}
+
+#settings-page h3 a:hover {
+    text-decoration: underline;
+}
 
 /* LOGIN PAGE */
 
@@ -58,9 +75,53 @@
     overflow: auto;
 }
 
-/*Button*/
+/*Buttons*/
 .reg-btn {
     margin-bottom: 10px;
+}
+
+.btn-reg,
+.btn-add,
+.btn-view,
+.btn-filter,
+.btn-report {
+    background-color: #f1c40f;
+    border-color: #f1c40f;
+    color: #1b1b1b;
+}
+
+.btn-reg:hover,
+.btn-add:hover,
+.btn-view:hover,
+.btn-report:hover,
+.btn-filter:hover {
+    background-color: #f1c40f;
+    border-color: #f1c40f;
+    color: #1b1b1b;
+}
+
+
+/* Aldea Alerts */
+.alert-aldea,
+.alert-warning {
+    background-color: #f1c40f !important;
+    color: #1b1b1b !important;
+    border-color: #f1c40f;
+}
+
+/* Callouts */
+.bs-callout-info {
+    border-left-color: #f1c40f !important;
+
+}
+.bs-callout-info h4 {
+    color: #1b1b1b !important;
+}
+
+
+/*Font Awesome Icons*/
+.fa-icon {
+    color: #f1c40f !important;
 }
 
 /* SETTINGS PAGE */

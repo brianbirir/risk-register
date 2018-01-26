@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
-            <a href="/settings/data/status/add" class="btn btn-success btn-sm">Add Risk Status</a>
+            <a href="/settings/data/status/add" class="btn btn-success btn-sm btn-add">Add Risk Status</a>
         </div>
 
         <div class="box box-primary">
@@ -35,7 +35,7 @@
             <?php 
                 if (!$status_data) {
                     $msg = 'You have no risk status to display!';
-                    echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+                    echo '<div class="alert alert-warning alert-aldea" role="alert">'.$msg.'</div>';
                 } 
                 else 
                 { ?>
@@ -59,8 +59,8 @@
                                 echo "<td>".$status_row->status_name."</td>";
                                 echo "<td>".$CI->project_model->getSingleProjectName( $status_row->Project_project_id )."</td>";
                                 echo "<td>
-                                        <a title='edit' href='/settings/data/status/edit/".$status_row->status_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a title='delete' href='/settings/data/status/delete/".$status_row->status_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='edit' href='/settings/data/status/edit/".$status_row->status_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='delete' href='/settings/data/status/delete/".$status_row->status_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

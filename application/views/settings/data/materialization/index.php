@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
-            <a href="/settings/data/materialization/add" class="btn btn-success btn-sm">Add Risk Materialization</a>
+            <a href="/settings/data/materialization/add" class="btn btn-success btn-sm btn-add">Add Risk Materialization</a>
         </div>
 
         <div class="box box-primary">
@@ -35,7 +35,7 @@
             <?php 
                 if (!$materialization_data) {
                     $msg = 'You have no risk materialization to display!';
-                    echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+                    echo '<div class="alert alert-warning alert-aldea" role="alert">'.$msg.'</div>';
                 } 
                 else 
                 { ?>
@@ -59,8 +59,8 @@
                                 echo "<td>".$materialization_row->materialization_name."</td>";
                                 echo "<td>".$CI->project_model->getSingleProjectName( $materialization_row->Project_project_id )."</td>";
                                 echo "<td>
-                                        <a title='edit' href='/settings/data/materialization/edit/".$materialization_row->materialization_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a title='delete' href='/settings/data/materialization/delete/".$materialization_row->materialization_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='edit' href='/settings/data/materialization/edit/".$materialization_row->materialization_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='delete' href='/settings/data/materialization/delete/".$materialization_row->materialization_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 
