@@ -62,6 +62,7 @@
                                 <th>No.</th>
                                 <th>Project Name</th>
                                 <th>Project Description</th>
+                                <th>Actions</th>
                             </tr>
                             <?php
                                 $count  = 0 ;

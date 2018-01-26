@@ -298,7 +298,7 @@ class Report extends RISK_Controller
         }
         else
         {
-            $risk_register = $this->project_model->getRiskRegisters( $user_id );
+            $risk_register = $this->project_model->getReportRiskRegisters( $user_id );
         }
         
         if( $risk_register )
