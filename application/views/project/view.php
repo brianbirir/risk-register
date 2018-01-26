@@ -40,7 +40,7 @@
             <div class="box-body table-responsive no-padding">
             <?php 
                 if (!$subproject_data) {
-                    $msg = 'You have no registered subprojects!';
+                    $msg = 'You have no registered risk registers!';
                     echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
                 } 
                 else 

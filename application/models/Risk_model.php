@@ -107,9 +107,9 @@
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id',$user_id);
+            $this->db->where('User_user_id', $user_id);
             $this->db->where('Subproject_subproject_id',$register_id);
-            $this->db->where('archived',false); // not archived
+            $this->db->where('archived', false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }

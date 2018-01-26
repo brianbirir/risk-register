@@ -85,7 +85,7 @@ class Project extends RISK_Controller
             if ($data['role_id'] != 8) 
             {
 
-                $risk_register = $this->project_model->getRiskRegisters($data['user_id']);
+                $risk_register = $this->project_model->getRiskRegisters( $uri_id, $data['user_id'] );
 
                 //  check if result is true
                 ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
@@ -483,13 +483,13 @@ class Project extends RISK_Controller
             // insert form data into database
             if ($this->project_model->insertSubProject($data))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully registered the subproject! Please login.');
+                $this->session->set_flashdata('positive_msg','You have successfully registered the risk register!');
                 redirect('dashboard/project');
             }
             else
             {
                 // error
-                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
                 redirect('dashboard/subproject/add');
             }
         }

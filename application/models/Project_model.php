@@ -48,12 +48,24 @@
         }
 
         // fetch all risk registers for a particular user i.e. project manager and super administrator
-        function getRiskRegisters( $user_id )
+        function getRiskRegisters( $project_id, $user_id )
         {
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
-            $this->db->where('Project.User_user_id',$user_id);
+            $this->db->where('Project.User_user_id', $user_id);
+            $this->db->where('Project.project_id', $project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // fetch all risk registers for a particular user i.e. project manager and super administrator
+        function getReportRiskRegisters( $user_id )
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Project.User_user_id', $user_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
