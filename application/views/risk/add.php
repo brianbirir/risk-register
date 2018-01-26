@@ -311,7 +311,7 @@
                         <div class="box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Risk Response</h3>
-                                <div id="add-response-btn" class="btn btn-sm btn-primary pull-right" onclick="new_row()">Add Response</div>
+                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right" onclick="new_row()">Add Response</div>
                             </div>
                             <div class="box-body">
                                 <table class="table table-hover">

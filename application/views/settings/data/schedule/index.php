@@ -40,6 +40,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Schedule Rating</th>
+                            <th>Schedule Description</th>
                             <th>Action</th>
                         </tr>
                     
@@ -51,6 +52,7 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$schedule_row->schedule_rating."</td>";
+                                echo "<td>".$schedule_row->schedule_description."</td>";
                                 echo "<td>
                                         <a class='fa-icon' title='edit' href='/settings/data/schedule/edit/".$schedule_row->schedule_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                         <a class='fa-icon' title='delete' href='/settings/data/schedule/delete/".$schedule_row->schedule_id."'><i class='fa fa-trash' aria-hidden='true'></i>

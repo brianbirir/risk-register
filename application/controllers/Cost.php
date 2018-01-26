@@ -121,6 +121,7 @@ class Cost extends RISK_Controller
         {
             $data = array(
                 'cost_rating' => $this->input->post('cost_name'),
+                'cost_description' => $this->input->post('cost_description')
             );
 
             // insert form data into database
@@ -199,6 +200,7 @@ class Cost extends RISK_Controller
             
             $data = array(
                 'cost_rating' => $this->input->post('cost_name'),
+                'cost_description' => $this->input->post('cost_description')
             );
 
             // update table

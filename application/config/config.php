@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 |
 | URL to your CodeIgniter root. Typically this will be your base URL,
 | WITH a trailing slash:
-|
+|ß
 |	http://example.com/
 |
 | WARNING: You MUST set this value!
@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://127.0.0.1';
+$config['base_url'] = 'http://127.0.0.1:8008';
 
 /*
 |--------------------------------------------------------------------------

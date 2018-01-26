@@ -14,6 +14,12 @@
                 <?php echo form_error('schedule_name','<div class="alert alert-danger">','</div>'); ?>
             </div>
 
+            <div class="form-group">
+                <label for="schedule_description">Schedule Description</label>
+                <textarea class="form-control" name="schedule_description" placeholder="Schedule Description" rows="5"/><?php echo set_value('schedule_description'); ?></textarea>
+                <?php echo form_error('schedule_description','<div class="alert alert-danger">','</div>'); ?>
+            </div>
+
             <input name="btn_update_schedule" type="submit" class="btn btn-default btn-reg" value="Add Schedule" />
 
             <?php echo form_close(); ?>

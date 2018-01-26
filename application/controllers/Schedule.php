@@ -121,6 +121,7 @@ class Schedule extends RISK_Controller
         {
             $data = array(
                 'schedule_rating' => $this->input->post('schedule_name'),
+                'schedule_description' => $this->input->post('schedule_description')
             );
 
             // insert form data into database
@@ -199,6 +200,7 @@ class Schedule extends RISK_Controller
             
             $data = array(
                 'schedule_rating' => $this->input->post('schedule_name'),
+                'schedule_description' => $this->input->post('schedule_description')
             );
 
             // update table

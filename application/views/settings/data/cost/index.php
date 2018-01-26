@@ -40,6 +40,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Cost Rating</th>
+                            <th>Cost Description</th>
                             <th>Action</th>
                         </tr>
                     
@@ -51,6 +52,7 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$cost_row->cost_rating."</td>";
+                                echo "<td>".$cost_row->cost_description."</td>";
                                 echo "<td>
                                         <a class='fa-icon' title='edit' href='/settings/data/cost/edit/".$cost_row->cost_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                         <a class='fa-icon' title='delete' href='/settings/data/cost/delete/".$cost_row->cost_id."'><i class='fa fa-trash' aria-hidden='true'></i>
