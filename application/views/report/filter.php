@@ -117,10 +117,14 @@
                         <tbody>
                             <tr>
                                 <th>ID</th>
+                                <th>Unique ID</th>
+                                <th>Title</th>
                                 <th>Main Category</th>
                                 <th>Identified Hazard/ IdentifiedRisk</th>
                                 <th>Cause/Trigger</th>
-                                <th>Effect</th> 
+                                <th>Effect</th>
+                                <th>Project Location</th>
+                                <th>Description & Change</th>    
                                 <th>Risk Materialization Phase</th>
                                 <th>Risk Register</th>
                                 <th>Likelihood</th> 
@@ -131,9 +135,9 @@
                                 <th>Environment Impact</th>
                                 <th>Legal Impact</th> 
                                 <th>Quality Impact</th> 
-                                <th>Comments</th> 
                                 <th>Risk Rating</th> 
-                                <th>Risk Level</th> 
+                                <th>Risk Level</th>
+                                <th>Risk Responses</th>
                                 <th>System Safety</th> 
                                 <th>Residual Risk Realization</th> 
                                 <th>Residual Risk Likelihood</th> 
@@ -143,15 +147,21 @@
                                 <th>Action Owner</th>
                                 <th>Milestone Target Date</th>
                                 <th>Status</th>
+                                <th>Entity</th>
                             </tr>
                             <?php
                                 foreach ($risk_data as $risk_row) {
                                     echo "<tr>";
                                     echo "<td>".$risk_row->item_id."</td>";
+                                    echo "<td>".$risk_row->risk_uuid."</td>";
+                                    echo "<td>".$risk_row->risk_title."</td>";
                                     echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                     echo "<td>".$risk_row->identified_hazard_risk."</td>";
                                     echo "<td>".$risk_row->cause_trigger."</td>";
-                                    echo "<td>".$risk_row->effect."</td>";
+                                    echo "<td>".$risk_row->effect."</td>";  
+                                    echo "<td>".$risk_row->project_location."</td>";
+                                    echo "<td>".$risk_row->description_change."</td>";
+                                    // echo "<td>".$risk_row->materialization_phase."</td>";
                                     echo "<td>".$CI->risk_model->getRiskMaterializationName($risk_row->materialization_phase_materialization_id)."</td>";
                                     echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
                                     echo "<td>".$risk_row->likelihood."</td>";
@@ -162,9 +172,16 @@
                                     echo "<td>".$risk_row->env_impact."</td>";
                                     echo "<td>".$risk_row->legal_impact."</td>";
                                     echo "<td>".$risk_row->quality_impact."</td>";
-                                    echo "<td>".$CI->trim->trim_text($risk_row->comments)."</td>";
                                     echo "<td>".$risk_row->risk_rating."</td>";
                                     echo "<td>".$risk_row->risk_level."</td>";
+                                    echo "<td>";
+                                    $risk_responses = $CI->responses->collectResponses($risk_row->risk_uuid);
+
+                                    foreach ($risk_responses as $value) {
+                                        echo $value;
+                                    }
+                                    echo "</td>";
+                                    // echo "<td>".$CI->responses->collectResponses($risk_row->risk_uuid)."</td>";
                                     echo "<td>".$CI->risk_model->getSystemSafetyName($risk_row->SystemSafety_safety_id)."</td>";
                                     echo "<td>".$CI->risk_model->getRealizationName($risk_row->Realization_realization_id)."</td>";
                                     echo "<td>".$risk_row->residual_risk_likelihood."</td>";

@@ -121,10 +121,13 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Unique ID</th>
+                                <th>Title</th>
                                 <th>Main Category</th>
                                 <th>Identified Hazard/ IdentifiedRisk</th>
                                 <th>Cause/Trigger</th>
-                                <th>Effect</th> 
+                                <th>Effect</th>
+                                <th>Project Location</th>
+                                <th>Description & Change</th>    
                                 <th>Risk Materialization Phase</th>
                                 <th>Risk Register</th>
                                 <th>Likelihood</th> 
@@ -154,10 +157,13 @@
                                     echo "<tr>";
                                     echo "<td>".$risk_row->item_id."</td>";
                                     echo "<td>".$risk_row->risk_uuid."</td>";
+                                    echo "<td>".$risk_row->risk_title."</td>";
                                     echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                     echo "<td>".$risk_row->identified_hazard_risk."</td>";
                                     echo "<td>".$risk_row->cause_trigger."</td>";
-                                    echo "<td>".$risk_row->effect."</td>";
+                                    echo "<td>".$risk_row->effect."</td>";  
+                                    echo "<td>".$risk_row->project_location."</td>";
+                                    echo "<td>".$risk_row->description_change."</td>";
                                     // echo "<td>".$risk_row->materialization_phase."</td>";
                                     echo "<td>".$CI->risk_model->getRiskMaterializationName($risk_row->materialization_phase_materialization_id)."</td>";
                                     echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
