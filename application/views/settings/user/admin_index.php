@@ -6,7 +6,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
-            <a href="/settings/user/add" class="btn btn-success btn-sm">Add User</a>
+            <a href="/settings/user/add" class="btn btn-success btn-sm btn-add">Add User</a>
         </div>
 
         <div class="box box-primary">
@@ -51,8 +51,8 @@
                                 echo "<td>".$user_row->email."</td>";
                                 echo "<td>".$user_row->username."</td>";
                                 echo "<td>
-                                        <a title='edit' href='/settings/user/".$user_row->user_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a title='delete' href='/settings/user/delete/".$user_row->user_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='edit' href='/settings/user/".$user_row->user_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='delete' href='/settings/user/delete/".$user_row->user_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

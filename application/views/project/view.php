@@ -25,7 +25,7 @@
     <div class="col-md-9">
         
         <div class="reg-btn">
-            <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add-device">Add Risk Register</a>
+            <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add">Add Risk Register</a>
         </div>
 
         <div class="box box-primary">
@@ -60,8 +60,8 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$subproject_row->name."</td>";
-                                echo "<td><a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary'>View Risk Register</a></td>";
-                                echo "<td><a href='/dashboard/riskregister/duplicate/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-add-device'>Duplicate</a></td>";
+                                echo "<td><a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>View Risk Register</a></td>";
+                                echo "<td><a href='/dashboard/riskregister/duplicate/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-add'>Duplicate</a></td>";
                                 echo "<td><span class='glyphicon glyphicon-align-left' aria-hidden='true'></span></td>";
                                 echo "</tr>";
                             } 

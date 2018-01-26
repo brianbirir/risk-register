@@ -1,4 +1,4 @@
-<div class="callout callout-info">
+<div class="bs-callout bs-callout-info">
     <h4>Generate a risk report</h4>
 
     <p>The risk report will be generated based on the given filters and downloaded as a CSV file that is readable using Microsoft Excel.</p>
@@ -79,8 +79,8 @@
         echo form_dropdown('risk_level',$select_risk_level,"None",$select_risk_level_attributes);
     ?>
     
-    <input name="btn_filter" type="submit" class="pure-button pure-button-primary" value="Filter" />
-    <input name="btn_report" type="submit" class="pure-button pure-button-primary" value="Generate Report" />
+    <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" />
+    <input name="btn_report" type="submit" class="pure-button pure-button-primary btn-report" value="Generate Report" />
     </fieldset>
     <?php echo form_close(); ?>
 
@@ -104,7 +104,7 @@
 
     // check if risk data exists
     if (!$risk_data) {
-        $msg = 'You have no registered risks!';
+        $msg = 'There are no risk fitting this criteria';
         echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
     } 
     else 

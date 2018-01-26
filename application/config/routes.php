@@ -42,7 +42,7 @@ $route['dashboard/risk/duplicate_risk'] = 'risk/duplicate_risk_view';
 
 // reports
 $route['dashboard/reports'] = 'report/index';
-$route['dashboard/reports/filter'] = 'report/export';
+// $route['dashboard/reports/filter'] = 'report/export';
 
 
 // settings routes

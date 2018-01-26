@@ -45,7 +45,7 @@
 
 
         // get filtered risk data
-        function getFilteredRisk( $user_id, $category, $risk_level, $risk_register)
+        function getFilteredRisk( $user_id, $category, $risk_level, $risk_register, $assigned_register_id )
         {   
             if($category != "None" and $risk_level != "None" and $risk_register != "None")
             {
@@ -70,6 +70,7 @@
                 $this->db->where('archived',false);
                 $this->db->where('User_user_id',$user_id);
                 $this->db->where('RiskCategories_category_id',$category);
+                $this->db->where('Subproject_subproject_id',$assigned_register_id);
                 // $this->db->where('created_at <=',$date_to);
                 // $this->db->where('created_at >=',$date_from);
                 $query = $this->db->get();
@@ -83,6 +84,7 @@
                 $this->db->where('archived',false);
                 $this->db->where('User_user_id',$user_id);
                 $this->db->where('risk_level',$risk_level);
+                $this->db->where('Subproject_subproject_id',$assigned_register_id);
                 // $this->db->where('created_at <=',$date_to);
                 // $this->db->where('created_at >=',$date_from);
                 $query = $this->db->get();
@@ -90,7 +92,7 @@
             }
             elseif($category == "None" and $risk_level == "None" and $risk_register != "None") 
             {
-                // show only risk level filter
+                // show only risk register filter
                 $this->db->select('*');
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
@@ -108,6 +110,7 @@
                 $this->db->from('RiskRegistry');
                 $this->db->where('archived',false);
                 $this->db->where('User_user_id',$user_id);
+                $this->db->where('Subproject_subproject_id',$assigned_register_id);
                 $query = $this->db->get();
                 return ($query->num_rows() > 0) ? $query->result() : false;
             }

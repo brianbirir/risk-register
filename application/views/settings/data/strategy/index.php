@@ -19,7 +19,7 @@
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
-            <a href="/settings/data/strategy/add" class="btn btn-success btn-sm">Add Risk Strategy</a>
+            <a href="/settings/data/strategy/add" class="btn btn-success btn-sm btn-add">Add Risk Strategy</a>
         </div>
 
         <div class="box box-primary">
@@ -35,7 +35,7 @@
             <?php 
                 if (!$strategy_data) {
                     $msg = 'You have no risk strategy to display!';
-                    echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
+                    echo '<div class="alert alert-warning alert-aldea" role="alert">'.$msg.'</div>';
                 } 
                 else 
                 { ?>
@@ -59,8 +59,8 @@
                                 echo "<td>".$strategy_row->strategy_name."</td>";
                                 echo "<td>".$CI->project_model->getSingleProjectName( $strategy_row->Project_project_id )."</td>";
                                 echo "<td>
-                                        <a title='edit' href='/settings/data/strategy/edit/".$strategy_row->strategy_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a title='delete' href='/settings/data/strategy/delete/".$strategy_row->strategy_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='edit' href='/settings/data/strategy/edit/".$strategy_row->strategy_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='delete' href='/settings/data/strategy/delete/".$strategy_row->strategy_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

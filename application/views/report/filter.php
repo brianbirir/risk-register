@@ -99,8 +99,9 @@
     $CI->load->library('trim');
 
     // check if risk data exists
-    if (!$risk_data) {
-        $msg = 'You have no registered risks!';
+    if (!$risk_data) 
+    {
+        $msg = 'There are no risk fitting this criteria.';
         echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
     } 
     else 
