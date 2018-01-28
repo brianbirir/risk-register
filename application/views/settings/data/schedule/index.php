@@ -38,19 +38,15 @@
                 <table class="table table-hover">
                     <tbody>
                         <tr>
-                            <th>ID</th>
                             <th>Schedule Rating</th>
                             <th>Schedule Description</th>
                             <th>Action</th>
                         </tr>
                     
                         <?php
-                            $count  = 0 ;
                             foreach ($schedule_data as $schedule_row) 
                             {
-                                $count = $count + 1;
                                 echo "<tr>";
-                                echo "<td>".$count."</td>";
                                 echo "<td>".$schedule_row->schedule_rating."</td>";
                                 echo "<td>".$schedule_row->schedule_description."</td>";
                                 echo "<td>
