@@ -20,7 +20,6 @@
 <!-- view user based on role type i.e. super admin or manager-->
 <?php 
     if ($role_id == 1) {
-        // $this->load->view('settings/user/admin_index');
     ?>
     <div class="bs-callout bs-callout-info" id="callout-alerts-dismiss-plugin"> 
         <h4>Super Admin Managed Users</h4> 
