@@ -134,7 +134,7 @@ class Cost extends RISK_Controller
             {
                 // error
                 $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-                redirect('settings/user/add');
+                redirect('settings/data/cost/add');
             }   
         }
     }

@@ -22,6 +22,16 @@
         }
 
 
+        // view all projects
+        function getAllProjects()
+        {
+            $this->db->select('*');
+            $this->db->from('Project');
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
         // fetch all projects for a particular user
         function getProjects($user_id)
         {
@@ -43,7 +53,6 @@
             $this->db->where('Project.project_id',$uri_id);
             //$this->db->where('Subproject.Project_project_id',$uri_id);
             $query = $this->db->get();
-            
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
@@ -55,6 +64,15 @@
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->where('Project.User_user_id', $user_id);
             $this->db->where('Project.project_id', $project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // get all risk registers
+        function getAllRiskRegisters()
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -186,6 +204,14 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
+        // get all project numbers
+        function getAllProjectNumbers(){
+            $this->db->select('*');
+            $this->db->from( 'Project' );
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
         // get number of projects
         function getUserProjectNumbers( $user_id ){
             $this->db->select('*');
@@ -204,6 +230,14 @@
             $this->db->from('Subproject');
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->where('Project.User_user_id',$user_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
+        // get number of all subprojects
+        function getAllRegisterNumbers(){
+            $this->db->select('*');
+            $this->db->from('Subproject');
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }

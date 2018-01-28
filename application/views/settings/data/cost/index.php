@@ -38,19 +38,15 @@
                 <table class="table table-hover">
                     <tbody>
                         <tr>
-                            <th>ID</th>
                             <th>Cost Rating</th>
                             <th>Cost Description</th>
                             <th>Action</th>
                         </tr>
                     
                         <?php
-                            $count  = 0 ;
                             foreach ($cost_data as $cost_row) 
                             {
-                                $count = $count + 1;
                                 echo "<tr>";
-                                echo "<td>".$count."</td>";
                                 echo "<td>".$cost_row->cost_rating."</td>";
                                 echo "<td>".$cost_row->cost_description."</td>";
                                 echo "<td>

@@ -459,6 +459,16 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
+        // get number of risks
+        function getAllRiskNumbers()
+        {   
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('RiskRegistry.archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
         function getUsersRiskNumbers( $user_id, $assigned_register_id )
         {   
             $this->db->select('*');
