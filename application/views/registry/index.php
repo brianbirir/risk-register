@@ -13,7 +13,7 @@
 
 <!-- view all risk registers -->
 <div class="row">
-    <div class="col-md-9">
+    <div class="col-md-12">
 
         <!-- ensures general user does not view the Add button for adding a register -->
         <?php 
@@ -21,7 +21,7 @@
             {
         ?>
                 <div class="reg-btn">
-                    <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add-device">Add Risk Register</a>
+                    <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add">Add Risk Register</a>
                 </div>
         <?php 
             }

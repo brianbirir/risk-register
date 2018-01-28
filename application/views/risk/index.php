@@ -26,7 +26,7 @@
     <?php } ?>
 
     <div class="reg-btn">
-        <a href="/dashboard/risk/add" class="btn btn-success btn-sm btn-add-device">Add Risk</a>
+        <a href="/dashboard/risk/add" class="btn btn-success btn-sm btn-add">Add Risk</a>
     </div>
 
     <?php

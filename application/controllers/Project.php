@@ -32,7 +32,7 @@ class Project extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            if ($data['role_id'] != 8) 
+            if ($data['role_id'] == 8) 
             {
 
                 $project = $this->project_model->getProjects($data['user_id']);
@@ -40,7 +40,14 @@ class Project extends RISK_Controller
                 //check if result is true
                 ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
             }
-            else 
+            else if ( $data['role_id'] == 1 )
+            {
+                $project = $this->project_model->getAllProjects();
+                
+                //check if result is true
+                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+            } 
+            else
             {
                 $project = $this->project_model->getAssignedProject($data['user_id']);
                 
@@ -173,18 +180,25 @@ class Project extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
             
-            if ($data['role_id'] != 8) 
+            if ($data['role_id'] == 8) 
             {
 
-                $risk_register = $this->project_model->getRiskRegisters($data['user_id']);
-
+                $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
+                
+                //check if result is true
+                ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
+            }
+            else if($data['role_id'] == 1)
+            {
+                $risk_register = $this->project_model->getAllRiskRegisters();
+                
                 //check if result is true
                 ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
             }
             else 
             {
-                $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
-                
+                $risk_register = $this->project_model->getRiskRegisters($data['user_id']);
+
                 //check if result is true
                 ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
             }
