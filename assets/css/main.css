@@ -141,9 +141,26 @@
     border-top-color: #f39c12 !important;
 }
 
-/* Response Table */
+/* Risk Box Sections*/
+.box-identification {
+    background-color: #a8e2dc;
+}
 
+.box-qualitative {
+    background-color: #c7effb;
+}
 
+.box-responses {
+    background-color: #FBE8B9;
+}
+
+.box-residual-risk {
+    background-color: #D8E8F1;
+}
+
+.box-controlling {
+    background-color: #FCEBCF;
+}
 /* CALL OUTS */
 .bs-callout {
     padding: 20px;
