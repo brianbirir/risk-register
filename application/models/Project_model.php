@@ -68,6 +68,16 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        function getRiskRegistersByID( $user_id )
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Project.User_user_id', $user_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
         // get all risk registers
         function getAllRiskRegisters()
         {
