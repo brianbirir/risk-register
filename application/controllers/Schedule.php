@@ -53,8 +53,10 @@ class Schedule extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get schedule
-            $schedule = $this->schedule_model->getSchedule();
+            $schedule = $this->schedule_model->getSchedule($data['project_id']);
 
             //check if result is true
             ($schedule) ? $data['schedule_data'] = $schedule : $data['schedule_data'] = false;
@@ -119,6 +121,7 @@ class Schedule extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'schedule_rating' => $this->input->post('schedule_name'),
                 'schedule_description' => $this->input->post('schedule_description')
@@ -128,7 +131,7 @@ class Schedule extends RISK_Controller
             if ($this->schedule_model->insertSchedule($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a schedule item!');
-                redirect('settings/data/schedule');
+                redirect('settings/data/schedule/'.$project_id);
             }
             else
             {

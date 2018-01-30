@@ -54,8 +54,10 @@ class Safety extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get safety
-            $safety = $this->safety_model->getSafety();
+            $safety = $this->safety_model->getSafety($data['project_id']);
 
             //check if result is true
             ($safety) ? $data['safety_data'] = $safety : $data['safety_data'] = false;
@@ -121,6 +123,7 @@ class Safety extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'safety_name' => $this->input->post('safety_name'),
                 'Project_project_id' => $this->input->post('project_name')
@@ -130,7 +133,7 @@ class Safety extends RISK_Controller
             if ($this->safety_model->insertSafety($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a safety item!');
-                redirect('settings/data/safety');
+                redirect('settings/data/safety/'.$project_id);
             }
             else
             {

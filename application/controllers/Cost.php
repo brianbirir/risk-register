@@ -53,8 +53,10 @@ class Cost extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get cost
-            $cost = $this->cost_model->getCost();
+            $cost = $this->cost_model->getCost($data['project_id']);
 
             //check if result is true
             ($cost) ? $data['cost_data'] = $cost : $data['cost_data'] = false;
@@ -119,6 +121,7 @@ class Cost extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'cost_rating' => $this->input->post('cost_name'),
                 'cost_description' => $this->input->post('cost_description')
@@ -128,7 +131,7 @@ class Cost extends RISK_Controller
             if ($this->cost_model->insertCost($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a cost item!');
-                redirect('settings/data/cost');
+                redirect('settings/data/cost/'.$project_id);
             }
             else
             {

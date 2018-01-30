@@ -54,8 +54,10 @@ class Materialization extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get materialization
-            $materialization = $this->materialization_model->getMaterialization();
+            $materialization = $this->materialization_model->getMaterialization($data['project_id']);
 
             //check if result is true
             ($materialization) ? $data['materialization_data'] = $materialization : $data['materialization_data'] = false;
@@ -122,6 +124,7 @@ class Materialization extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'materialization_name' => $this->input->post('materialization_name'),
                 'Project_project_id' => $this->input->post('project_name')
@@ -131,7 +134,7 @@ class Materialization extends RISK_Controller
             if ($this->materialization_model->insertMaterialization($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a materialization item!');
-                redirect('settings/data/materialization');
+                redirect('settings/data/materialization/'.$project_id);
             }
             else
             {

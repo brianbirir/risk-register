@@ -54,8 +54,10 @@ class Category extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get category
-            $category = $this->category_model->getCategory();
+            $category = $this->category_model->getCategory($data['project_id']);
 
             //check if result is true
             ($category) ? $data['category_data'] = $category : $data['category_data'] = false;
@@ -123,6 +125,7 @@ class Category extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'category_name' => $this->input->post('category_name'),
                 'Project_project_id' => $this->input->post('project_name')
@@ -132,7 +135,7 @@ class Category extends RISK_Controller
             if ($this->category_model->insertCategory($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a category item!');
-                redirect('settings/data/category');
+                redirect('settings/data/category/'.$project_id);
             }
             else
             {

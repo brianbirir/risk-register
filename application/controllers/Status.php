@@ -54,8 +54,10 @@ class Status extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get status
-            $status = $this->data_model->getStatus();
+            $status = $this->data_model->getStatus($data['project_id']);
 
             //check if result is true
             ($status) ? $data['status_data'] = $status : $data['status_data'] = false;
@@ -122,6 +124,7 @@ class Status extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'status_name' => $this->input->post('status_name'),
                 'Project_project_id' => $this->input->post('project_name')
@@ -131,7 +134,7 @@ class Status extends RISK_Controller
             if ($this->data_model->insertStatus($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a status item!');
-                redirect('settings/data/status');
+                redirect('settings/data/status/'.$project_id);
             }
             else
             {
