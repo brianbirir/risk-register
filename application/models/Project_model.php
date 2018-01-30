@@ -33,13 +33,12 @@
 
 
         // fetch all projects for a particular user
-        function getProjects($user_id)
+        function getProjects( $user_id )
         {
             $this->db->select('*');
             $this->db->from('Project');
             $this->db->where('Project.User_user_id',$user_id);
             $query = $this->db->get();
-            
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
@@ -64,6 +63,16 @@
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->where('Project.User_user_id', $user_id);
             $this->db->where('Project.project_id', $project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        function getRiskRegistersByID( $user_id )
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Project.User_user_id', $user_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -149,7 +158,7 @@
             return ($query->num_rows() == 1) ? $row : false;
         }
 
-        function getAssignedProject($user_id)
+        function getAssignedProject( $user_id )
         {
             $this->db->select('*');
             $this->db->from('Project');

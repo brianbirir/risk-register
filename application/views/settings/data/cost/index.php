@@ -11,6 +11,12 @@
   </div>
 <?php } ?>
 
+<?php 
+    $CI =& get_instance();
+    $CI->load->model('project_model');
+    $project_name = $CI->project_model->getSingleProjectName( $project_id );
+?>
+
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
@@ -20,7 +26,7 @@
         <div class="box box-primary">
 
             <div class="box-header with-border">
-                <h3 class="box-title">Risk Cost</h3>
+                <h3 class="box-title">Risk Cost for <?php echo $project_name; ?> project</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -29,7 +35,7 @@
             <div class="box-body table-responsive no-padding">
             <?php 
                 if (!$cost_data) {
-                    $msg = 'You have no risk cost to display!';
+                    $msg = 'You have no risk cost to display for <strong>'.$project_name.'</strong> project!';
                     echo '<div class="alert alert-warning alert-aldea" role="alert">'.$msg.'</div>';
                 } 
                 else 

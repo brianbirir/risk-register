@@ -30,8 +30,10 @@ class Owner extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get owner
-            $owner = $this->owner_model->getOwner();
+            $owner = $this->owner_model->getOwner($data['project_id']);
 
             //check if result is true
             ($owner) ? $data['owner_data'] = $owner : $data['owner_data'] = false;
@@ -98,6 +100,7 @@ class Owner extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'risk_owner' => $this->input->post('owner_name'),
                 'Project_project_id' => $this->input->post('project_name')
@@ -107,7 +110,7 @@ class Owner extends RISK_Controller
             if ($this->owner_model->insertOwner($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a owner item!');
-                redirect('settings/data/owner');
+                redirect('settings/data/owner/'.$project_id);
             }
             else
             {

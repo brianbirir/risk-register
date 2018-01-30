@@ -17,10 +17,11 @@
 
 
         // get strategy
-        function getStrategy()
+        function getStrategy($project_id)
         {
             $this->db->select('*');
             $this->db->from('RiskStrategies');
+            $this->db->where('Project_project_id',$project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }

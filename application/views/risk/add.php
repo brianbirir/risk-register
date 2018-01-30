@@ -23,9 +23,9 @@
                 echo form_open("risk/register", $attributes);
             ?>
         
-            <div class="box box-success">
+            <div class="box box-success box-identification">
 
-                <div class="box-header with-border">
+                <div class="box-header">
                     <h3 class="box-title">Identification</h3>
                 </div>
 
@@ -183,9 +183,9 @@
                 </div>
             </div>
 
-            <div class="box box-info">
+            <div class="box box-info box-qualitative">
 
-                <div class="box-header with-border">
+                <div class="box-header">
                     <h3 class="box-title">Qualitative Analysis</h3>
                 </div>
 
@@ -276,9 +276,9 @@
             
             </div>
 
-            <div class="box box-warning">
+            <div class="box box-warning box-responses">
 
-                <div class="box-header with-border">
+                <div class="box-header">
                     <h3 class="box-title">Risk Responses</h3>
                 </div>
 
@@ -350,9 +350,9 @@
                 </div>
             </div>
 
-            <div class="box box-primary">
+            <div class="box box-primary box-residual-risk">
 
-                <div class="box-header with-border">
+                <div class="box-header">
                     <h3 class="box-title">Controlling Residual Risk</h3>
                 </div>
 
@@ -398,19 +398,32 @@
 
             </div>
 
-            <div class="box box-yellow">
+            <div class="box box-yellow box-controlling">
 
-                <div class="box-header with-border">
+                <div class="box-header">
                     <h3 class="box-title">Controlling</h3>
                 </div>
 
                 <div class="box-body">
                     <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="action_owner">Action Owner</label>
-                            <input class="form-control" name="action_owner" placeholder="Action Owner" type="text" value="<?php echo set_value('action_owner'); ?>" required/>
-                            <?php echo form_error('action_owner','<div class="alert alert-danger">','</div>'); ?>
-                        </div>
+                        <fieldset>
+                            <legend>Action Owner</legend>
+                            <div class="form-group">
+                                <label for="action_owner_fname">First Name</label>
+                                <input class="form-control" name="action_owner_fname" placeholder="First Name" type="text" value="<?php echo set_value('action_owner_fname'); ?>" required/>
+                                <?php echo form_error('action_owner_fname','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="action_owner_lname">Last Name</label>
+                                <input class="form-control" name="action_owner_lname" placeholder="Last Name" type="text" value="<?php echo set_value('action_owner_lname'); ?>" required/>
+                                <?php echo form_error('action_owner_lname','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                            <div class="form-group">
+                                <label for="action_owner_email">Email</label>
+                                <input class="form-control" name="action_owner_email" placeholder="Email" type="text" value="<?php echo set_value('action_owner_email'); ?>" required/>
+                                <?php echo form_error('action_owner_email','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </fieldset>
                     </div>
 
                     <div class="col-md-6">

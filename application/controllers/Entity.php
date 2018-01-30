@@ -54,8 +54,10 @@ class Entity extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get entity
-            $entity = $this->entity_model->getEntity();
+            $entity = $this->entity_model->getEntity( $data['project_id'] );
 
             //check if result is true
             ($entity) ? $data['entity_data'] = $entity : $data['entity_data'] = false;
@@ -122,6 +124,7 @@ class Entity extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'entity_name' => $this->input->post('entity_name'),
                 'Project_project_id' => $this->input->post('project_name')
@@ -131,7 +134,7 @@ class Entity extends RISK_Controller
             if ($this->entity_model->insertEntity($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a entity item!');
-                redirect('settings/data/entity');
+                redirect('settings/data/entity/'.$project_id);
             }
             else
             {

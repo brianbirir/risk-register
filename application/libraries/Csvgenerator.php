@@ -61,7 +61,9 @@ class Csvgenerator extends CI_Controller
                 'Impact', 
                 'Risk Rating',
                 'Risk Level', 
-                'Action Owner', 
+                'A.O. First Name',
+                'A.O. Last Name', 
+                'A.O. Email',
                 'Milestone Target Date', 
                 'Status',
                 'Entity'      
@@ -107,7 +109,9 @@ class Csvgenerator extends CI_Controller
                         $data_row->residual_risk_impact, 
                         $data_row->residual_risk_rating, 
                         $data_row->residual_risk_level,
-                        $data_row->action_owner, 
+                        $data_row->action_owner_fname,
+                        $data_row->action_owner_lname, 
+                        $data_row->action_owner_email, 
                         $data_row->milestone_target_date,
                         $this->ci->report_model->getStatusName($data_row->Status_status_id),
                         $this->ci->report_model->getRiskEntityName($data_row->Entity_entity_id)
@@ -174,7 +178,9 @@ class Csvgenerator extends CI_Controller
                 'Impact', 
                 'Risk Rating',
                 'Risk Level', 
-                'Action Owner', 
+                'A.O. First Name',
+                'A.O. Last Name', 
+                'A.O. Email', 
                 'Milestone Target Date', 
                 'Status',
                 'Entity'      
@@ -220,7 +226,9 @@ class Csvgenerator extends CI_Controller
                         $data_row->residual_risk_impact, 
                         $data_row->residual_risk_rating, 
                         $data_row->residual_risk_level,
-                        $data_row->action_owner, 
+                        $data_row->action_owner_fname,
+                        $data_row->action_owner_lname, 
+                        $data_row->action_owner_email,
                         $data_row->milestone_target_date,
                         $this->ci->report_model->getStatusName($data_row->Status_status_id),
                         $this->ci->report_model->getRiskEntityName($data_row->Entity_entity_id)

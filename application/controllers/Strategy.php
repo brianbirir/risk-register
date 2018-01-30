@@ -54,8 +54,10 @@ class Strategy extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
+
             // get strategy
-            $strategy = $this->strategy_model->getStrategy();
+            $strategy = $this->strategy_model->getStrategy($data['project_id']);
 
             //check if result is true
             ($strategy) ? $data['strategy_data'] = $strategy : $data['strategy_data'] = false;
@@ -122,6 +124,7 @@ class Strategy extends RISK_Controller
         }
         else
         {
+            $project_id = $this->input->post('project_name');
             $data = array(
                 'strategy_name' => $this->input->post('strategy_name'),
                 'Project_project_id' => $this->input->post('project_name')
@@ -131,7 +134,7 @@ class Strategy extends RISK_Controller
             if ($this->strategy_model->insertStrategy($data))
             {
                 $this->session->set_flashdata('positive-msg','You have successfully registered a strategy item!');
-                redirect('settings/data/strategy');
+                redirect('settings/data/strategy/'.$project_id);
             }
             else
             {

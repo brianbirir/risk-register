@@ -35,7 +35,7 @@ class Project extends RISK_Controller
             if ($data['role_id'] == 8) 
             {
 
-                $project = $this->project_model->getProjects($data['user_id']);
+                $project = $this->project_model->getAssignedProject($data['user_id']);
                 
                 //check if result is true
                 ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
@@ -49,7 +49,7 @@ class Project extends RISK_Controller
             } 
             else
             {
-                $project = $this->project_model->getAssignedProject($data['user_id']);
+                $project = $this->project_model->getProjects($data['user_id']);
                 
                 //check if result is true
                 ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
@@ -197,7 +197,7 @@ class Project extends RISK_Controller
             }
             else 
             {
-                $risk_register = $this->project_model->getRiskRegisters($data['user_id']);
+                $risk_register = $this->project_model->getRiskRegistersByID($data['user_id']);
 
                 //check if result is true
                 ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
@@ -536,7 +536,7 @@ class Project extends RISK_Controller
     function get_register_name($user_id)
     {
       // get register information
-      $register = $this->project_model->getRiskRegisters($user_id);
+      $register = $this->project_model->getRiskRegistersByID($user_id);
 
       if($register)
       {

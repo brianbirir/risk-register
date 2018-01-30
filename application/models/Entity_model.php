@@ -17,10 +17,11 @@
 
 
         // get entity
-        function getEntity()
+        function getEntity( $project_id )
         {
             $this->db->select('*');
             $this->db->from('Entity');
+            $this->db->where('Project_project_id',$project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
