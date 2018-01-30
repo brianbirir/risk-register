@@ -14,6 +14,7 @@
 <?php 
     $CI =& get_instance();
     $CI->load->model('project_model');
+    $project_name = $CI->project_model->getSingleProjectName( $project_id );
 ?>
 
 <div class="row">
@@ -25,7 +26,7 @@
         <div class="box box-primary">
 
             <div class="box-header with-border">
-                <h3 class="box-title">Risk Category</h3>
+                <h3 class="box-title">Risk Category for <?php echo $project_name; ?> project</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -34,7 +35,7 @@
             <div class="box-body table-responsive no-padding">
             <?php 
                 if (!$category_data) {
-                    $msg = 'You have no risk category to display!';
+                    $msg = 'You have no risk category to display for <strong>'.$project_name.'</strong> project!';
                     echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
                 } 
                 else 
@@ -45,7 +46,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Category Name</th>
-                            <th>Project</th>
                             <th>Action</th>
                         </tr>
                     
@@ -57,7 +57,6 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$category_row->category_name."</td>";
-                                echo "<td>".$CI->project_model->getSingleProjectName( $category_row->Project_project_id )."</td>";
                                 echo "<td>
                                         <a class='fa-icon' title='edit' href='/settings/data/category/edit/".$category_row->category_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                         <a class='fa-icon' title='delete' href='/settings/data/category/delete/".$category_row->category_id."'><i class='fa fa-trash' aria-hidden='true'></i>

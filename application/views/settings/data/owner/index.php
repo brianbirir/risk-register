@@ -25,7 +25,7 @@
         <div class="box box-primary">
 
             <div class="box-header with-border">
-                <h3 class="box-title">Risk Owner</h3>
+                <h3 class="box-title">Risk Owner for <?php echo $project_name; ?> project</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -34,7 +34,7 @@
             <div class="box-body table-responsive no-padding">
             <?php 
                 if (!$owner_data) {
-                    $msg = 'You have no risk owner to display!';
+                    $msg = 'You have no risk owner to display for <strong>'.$project_name.'</strong> project!';
                     echo '<div class="alert alert-warning alert-aldea" role="alert">'.$msg.'</div>';
                 } 
                 else 
@@ -45,7 +45,6 @@
                         <tr>
                             <th>ID</th>
                             <th>Owner Name</th>
-                            <th>Project</th>
                             <th>Action</th>
                         </tr>
                     
@@ -57,7 +56,6 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$owner_row->risk_owner."</td>";
-                                echo "<td>".$CI->project_model->getSingleProjectName( $owner_row->Project_project_id )."</td>";
                                 echo "<td>
                                         <a class='fa-icon' title='edit' href='/settings/data/owner/edit/".$owner_row->riskowner_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                         <a class='fa-icon' title='delete' href='/settings/data/owner/delete/".$owner_row->riskowner_id."'><i class='fa fa-trash' aria-hidden='true'></i>
