@@ -14,6 +14,7 @@
 <?php 
     $CI =& get_instance();
     $CI->load->model('project_model');
+    $project_name = $CI->project_model->getSingleProjectName( $project_id );
 ?>
 
 <div class="row">

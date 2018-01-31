@@ -13,6 +13,7 @@ class Cost extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('cost_model');
+        $this->load->library('userproject');
     }
 
 
@@ -85,6 +86,9 @@ class Cost extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
+
             // load page to show all cost
             $this->template->load('dashboard', 'settings/data/cost/add', $data);
         }
@@ -124,7 +128,8 @@ class Cost extends RISK_Controller
             $project_id = $this->input->post('project_name');
             $data = array(
                 'cost_rating' => $this->input->post('cost_name'),
-                'cost_description' => $this->input->post('cost_description')
+                'cost_description' => $this->input->post('cost_description'),
+                'Project_project_id' => $this->input->post('project_name')
             );
 
             // insert form data into database
@@ -158,6 +163,9 @@ class Cost extends RISK_Controller
             
             // get data based on id from uri
             $data['cost'] = $this->cost_model->getSingleCost($id);
+
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // get global data
             $data = array_merge($data,$this->get_global_data());

@@ -13,6 +13,7 @@ class Schedule extends RISK_Controller
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('schedule_model');
+        $this->load->library('userproject');
     }
 
 
@@ -85,6 +86,9 @@ class Schedule extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
+
             // load page to show all schedule
             $this->template->load('dashboard', 'settings/data/schedule/add', $data);
         }
@@ -124,7 +128,8 @@ class Schedule extends RISK_Controller
             $project_id = $this->input->post('project_name');
             $data = array(
                 'schedule_rating' => $this->input->post('schedule_name'),
-                'schedule_description' => $this->input->post('schedule_description')
+                'schedule_description' => $this->input->post('schedule_description'),
+                'Project_project_id' => $this->input->post('project_name')
             );
 
             // insert form data into database
@@ -158,6 +163,9 @@ class Schedule extends RISK_Controller
             
             // get data based on id from uri
             $data['schedule'] = $this->schedule_model->getSingleSchedule($id);
+
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
