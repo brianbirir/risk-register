@@ -34,9 +34,13 @@ class Risk extends RISK_Controller
             {
                 $risk = $this->risk_model->getAllRisks();
             } 
-            else 
+            else if ($data['role_id'] == 8)
             {
                 $risk = $this->risk_model->getAllUserRisk( $data['user_id'] );
+            }
+            else
+            {
+                $risk = $this->risk_model->getRisks( $data['user_id'] );
             }
             
             //check if result is true
@@ -103,6 +107,10 @@ class Risk extends RISK_Controller
             // get register id from fourth segment of uri
             $data['register_id'] = $this->uri->segment(4);
 
+            // get project ID from session data
+            $session_data = $this->session->userdata('logged_in');
+            $data['user_project_id'] = $session_data['user_project_id'];
+
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
@@ -116,16 +124,17 @@ class Risk extends RISK_Controller
             }
         
             // select drop down
-            $data['select_status'] = $this->getStatus();
-            $data['select_category'] = $this->getCategories();
-            $data['select_strategy'] = $this->getRiskStrategies();
-            $data['select_safety'] = $this->getSystemSafety();
-            $data['select_realization'] = $this->getRealization();
+            $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
+            $data['select_status'] = $this->getStatus($data['user_project_id']);
+            $data['select_category'] = $this->getCategories($data['user_project_id']);
+            $data['select_strategy'] = $this->getRiskStrategies($data['user_project_id']);
+            $data['select_safety'] = $this->getSystemSafety($data['user_project_id']);
+            $data['select_realization'] = $this->getRealization($data['user_project_id']);
             $data['select_subproject'] = $this->getSubProject();
-            $data['select_risk_owner'] = $this->getRiskOwner();
-            $data['select_risk_entity'] = $this->getRiskEntity();
-            $data['select_risk_cost'] = $this->getRiskCost();
-            $data['select_risk_schedule'] = $this->getRiskSchedule();                  
+            $data['select_risk_owner'] = $this->getRiskOwner($data['user_project_id']);
+            $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
+            $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
+            $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);                  
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);
@@ -155,6 +164,10 @@ class Risk extends RISK_Controller
             // get id from fourth segment of uri
             $id = $this->uri->segment(4);
 
+            // get project ID from session data
+            $session_data = $this->session->userdata('logged_in');
+            $data['user_project_id'] = $session_data['user_project_id'];
+
             // get risk data based on id from uri
             $data['risk'] = $this->risk_model->getRisk($id);
 
@@ -164,16 +177,17 @@ class Risk extends RISK_Controller
             $data['risk_response'] = $this->risk_model->getRiskResponse($data['risk']->risk_uuid);
 
             // select drop down
-            $data['select_status'] = $this->getStatus();
-            $data['select_category'] = $this->getCategories();
-            $data['select_strategy'] = $this->getRiskStrategies();
-            $data['select_safety'] = $this->getSystemSafety();
-            $data['select_realization'] = $this->getRealization();
+            $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
+            $data['select_status'] = $this->getStatus($data['user_project_id']);
+            $data['select_category'] = $this->getCategories($data['user_project_id']);
+            $data['select_strategy'] = $this->getRiskStrategies($data['user_project_id']);
+            $data['select_safety'] = $this->getSystemSafety($data['user_project_id']);
+            $data['select_realization'] = $this->getRealization($data['user_project_id']);
             $data['select_subproject'] = $this->getSubProject();
-            $data['select_risk_owner'] = $this->getRiskOwner();
-            $data['select_risk_entity'] = $this->getRiskEntity();
-            $data['select_risk_cost'] = $this->getRiskCost();
-            $data['select_risk_schedule'] = $this->getRiskSchedule(); 
+            $data['select_risk_owner'] = $this->getRiskOwner($data['user_project_id']);
+            $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
+            $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
+            $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
@@ -215,10 +229,10 @@ class Risk extends RISK_Controller
             'risk_title' => $this->input->post('risk_title'),
             'project_location' => $this->input->post('project_location'),
             'effect' => $this->input->post('effect'),
-            'materialization_phase' => $this->input->post('materialization_phase'),
+            'materialization_phase_materialization_id' => $this->input->post('materialization_phase'),
             'likelihood' => $this->input->post('likelihood'),
-            'time_impact' => $this->input->post('timeimpact'),
-            'cost_impact' => $this->input->post('costimpact'),
+            //'time_impact' => $this->input->post('timeimpact'),
+            //'cost_impact' => $this->input->post('costimpact'),
             'reputation_impact' => $this->input->post('reputationimpact'),
             'hs_impact' => $this->input->post('hsimpact'),
             'env_impact' => $this->input->post('environmentimpact'),
@@ -245,8 +259,8 @@ class Risk extends RISK_Controller
             'Entity_entity_id' => $this->input->post('entity'),
             'description_change' => $this->input->post('description_change'),
             'effective_date' => $timestamp,
-            'CostMetric_cost_id' => $this->input->post('cost_metric'),
-            'ScheduleMetric_schedule_id' => $this->input->post('schedule_metric')
+            'CostMetric_cost_id' => $this->input->post('costimpact'),
+            'ScheduleMetric_schedule_id' => $this->input->post('timeimpact')
             // 'approved' => FALSE
         );
 
@@ -484,10 +498,10 @@ class Risk extends RISK_Controller
                 'risk_title' => $this->input->post('risk_title'),
                 'project_location' => $this->input->post('project_location'),
                 'effect' => $this->input->post('effect'),
-                'materialization_phase' => $this->input->post('materialization_phase'),
+                'materialization_phase_materialization_id' => $this->input->post('materialization_phase'),
                 'likelihood' => $this->input->post('likelihood'),
-                'time_impact' => $this->input->post('timeimpact'),
-                'cost_impact' => $this->input->post('costimpact'),
+                //'time_impact' => $this->input->post('timeimpact'),
+                //'cost_impact' => $this->input->post('costimpact'),
                 'reputation_impact' => $this->input->post('reputationimpact'),
                 'hs_impact' => $this->input->post('hsimpact'),
                 'env_impact' => $this->input->post('environmentimpact'),
@@ -512,8 +526,8 @@ class Risk extends RISK_Controller
                 'residual_risk_level' => $this->input->post('residual_risk_level'),
                 'Subproject_subproject_id' => $this->input->post('register_id'),
                 'Entity_entity_id' => $this->input->post('entity'),
-                'CostMetric_cost_id' => $this->input->post('cost_metric'),
-                'ScheduleMetric_schedule_id' => $this->input->post('schedule_metric'),
+                'CostMetric_cost_id' => $this->input->post('costimpact'),
+                'ScheduleMetric_schedule_id' => $this->input->post('timeimpact'),
                 'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
@@ -551,11 +565,34 @@ class Risk extends RISK_Controller
         // }
     }
 
+    function getMaterialization($project_id)
+    {
+        $materialization = $this->risk_model->getRiskMaterialization($project_id);
+        
+        if($materialization)
+        {
+            $options = array();
+
+            foreach ($materialization as $row) 
+            {
+                $materialization_id = $row->materialization_id;
+                $materialization_name = $row->materialization_name;
+                $options[$materialization_id] = $materialization_name;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        } 
+    }
+
 
     // risk strategies
-    function getRiskStrategies()
+    function getRiskStrategies($project_id)
     {
-        $strategies = $this->risk_model->getRiskStrategies();
+        $strategies = $this->risk_model->getRiskStrategies($project_id);
         
         if($strategies)
         {
@@ -578,9 +615,9 @@ class Risk extends RISK_Controller
 
 
     // status
-    function getStatus()
+    function getStatus($project_id)
     {
-        $status = $this->risk_model->getStatus();
+        $status = $this->risk_model->getStatus($project_id);
         
         if($status)
         {
@@ -603,9 +640,9 @@ class Risk extends RISK_Controller
 
 
     // safety
-    function getSystemSafety()
+    function getSystemSafety($project_id)
     {
-        $safety = $this->risk_model->getSystemSafety();
+        $safety = $this->risk_model->getSystemSafety($project_id);
         
         if($safety)
         {
@@ -627,9 +664,9 @@ class Risk extends RISK_Controller
     }
 
     // realization
-    function getRealization()
+    function getRealization($project_id)
     {
-        $realization = $this->risk_model->getRealization();
+        $realization = $this->risk_model->getRealization($project_id);
         
         if($realization)
         {
@@ -651,9 +688,9 @@ class Risk extends RISK_Controller
     }
 
     // categories
-    function getCategories()
+    function getCategories($project_id)
     {
-        $categories = $this->risk_model->getRiskCategories();
+        $categories = $this->risk_model->getRiskCategories($project_id);
         
         if($categories)
         {
@@ -676,9 +713,9 @@ class Risk extends RISK_Controller
 
 
     // risk owners
-    function getRiskOwner()
+    function getRiskOwner($project_id)
     {
-        $owners = $this->risk_model->getRiskOwner();
+        $owners = $this->risk_model->getRiskOwner($project_id);
         
         if($owners)
         {
@@ -700,9 +737,9 @@ class Risk extends RISK_Controller
     }
 
     // risk entity
-    function getRiskEntity()
+    function getRiskEntity($project_id)
     {
-        $entity = $this->risk_model->getRiskEntity();
+        $entity = $this->risk_model->getRiskEntity($project_id);
         
         if($entity)
         {
@@ -725,9 +762,9 @@ class Risk extends RISK_Controller
 
 
     // risk entity
-    function getRiskCost()
+    function getRiskCost($project_id)
     {
-        $cost = $this->risk_model->getRiskCost();
+        $cost = $this->risk_model->getRiskCost($project_id);
         
         if($cost)
         {
@@ -737,7 +774,7 @@ class Risk extends RISK_Controller
             {
                 $cost_id = $row->cost_id;
                 $cost_rating = $row->cost_rating;
-                $options[$cost_id] = $cost_rating;  
+                $options[$cost_rating] = $cost_rating;  
             }
 
             return $options;
@@ -750,9 +787,9 @@ class Risk extends RISK_Controller
 
 
     // risk entity
-    function getRiskSchedule()
+    function getRiskSchedule($project_id)
     {
-        $schedule = $this->risk_model->getRiskSchedule();
+        $schedule = $this->risk_model->getRiskSchedule($project_id);
         
         if($schedule)
         {

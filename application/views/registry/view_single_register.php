@@ -11,6 +11,7 @@
 
             <div class="box-header with-border">
                 <h3 class="box-title">About Risk Register</h3>
+                <?php echo $user_project_id; ?>
             </div>
 
             <div class="box-body">

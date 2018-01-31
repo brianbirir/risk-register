@@ -102,7 +102,7 @@
 
             echo "<tr>";
             echo "<td><label>Risk Materialization Phase:</label></td>";
-            echo "<td><p>".$risk_data->materialization_phase."</p></td>";
+            echo "<td><p>".$risk_data->materialization_phase_materialization_id."</p></td>";
             echo "</tr>";
             
             echo "<tr>";
@@ -142,12 +142,12 @@
         echo "<table class='table'>";
         echo "<tr>";
         echo "<td><label>Time Impact:</label>";
-        echo "<td><p>".$risk_data->time_impact."</p></td>";
+        echo "<td><p>".$risk_data->ScheduleMetric_schedule_id."</p></td>";
         echo "</tr>";
 
         echo "<tr>";
         echo "<td><label>Cost Impact:</label>";
-        echo "<td><p>".$risk_data->cost_impact."</p></td>";
+        echo "<td><p>".$risk_data->CostMetric_cost_id."</p></td>";
         echo "</tr>";
 
         echo "<tr>";
@@ -306,8 +306,18 @@
     <?php
         echo "<table class='table'>";
         echo "<tr>";
-        echo "<td><label>Action Owner:</label>";
-        echo "<td><p>".$risk_data->action_owner."</p></td>";
+        echo "<td><label>Action Owner First Name:</label>";
+        echo "<td><p>".$risk_data->action_owner_fname."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Action Owner Last Name:</label>";
+        echo "<td><p>".$risk_data->action_owner_lname."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Action Owner Email:</label>";
+        echo "<td><p>".$risk_data->action_owner_email."</p></td>";
         echo "</tr>";
 
         echo "<tr>";

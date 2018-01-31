@@ -2,7 +2,7 @@
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
-class Schedule extends RISK_Controller
+class Realization extends RISK_Controller
 {  
 	public function __construct()
     {
@@ -12,8 +12,8 @@ class Schedule extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
-        $this->load->model('schedule_model');
         $this->load->library('userproject');
+        $this->load->model('realization_model');
     }
 
 
@@ -30,7 +30,7 @@ class Schedule extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // load page to show all schedule
+            // load page to show all realization
             $this->template->load('dashboard', 'settings/data/index', $data);
         }
         else
@@ -41,9 +41,9 @@ class Schedule extends RISK_Controller
     }
 
 
-    function index_schedule()
+    function index_realization()
     {
-        $data = array('title' => 'Schedule');
+        $data = array('title' => 'Realization');
         
         if($this->session->userdata('logged_in'))
         {
@@ -56,14 +56,14 @@ class Schedule extends RISK_Controller
 
             $data['project_id'] = $this->uri->segment(4); // get id from fourth segment of uri
 
-            // get schedule
-            $schedule = $this->schedule_model->getSchedule($data['project_id']);
+            // get realization
+            $realization = $this->realization_model->getRealization($data['project_id']);
 
             //check if result is true
-            ($schedule) ? $data['schedule_data'] = $schedule : $data['schedule_data'] = false;
+            ($realization) ? $data['realization_data'] = $realization : $data['realization_data'] = false;
 
-            // load page to show all schedule
-            $this->template->load('dashboard', 'settings/data/schedule/index', $data);
+            // load page to show all realization
+            $this->template->load('dashboard', 'settings/data/realization/index', $data);
         }
         else
         {
@@ -73,9 +73,9 @@ class Schedule extends RISK_Controller
     }
 
 
-    function add_schedule_view()
+    function add_realization_view()
     {
-        $data = array('title' => 'Add Schedule');
+        $data = array('title' => 'Add Realization');
         
         if($this->session->userdata('logged_in'))
         {
@@ -89,8 +89,8 @@ class Schedule extends RISK_Controller
             // get userproject data
             $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
-            // load page to show all schedule
-            $this->template->load('dashboard', 'settings/data/schedule/add', $data);
+            // load page to show all realization
+            $this->template->load('dashboard', 'settings/data/realization/add', $data);
         }
         else
         {
@@ -100,12 +100,12 @@ class Schedule extends RISK_Controller
     }
 
 
-    function add_schedule()
+    function add_realization()
     {
         //set validation rules
-        $this->form_validation->set_rules('schedule_name', 'Schedule Name', 'trim|required');
+        $this->form_validation->set_rules('realization_name', 'Realization Name', 'trim|required');
 
-        $data = array('title' => 'Add Schedule');
+        $data = array('title' => 'Add Realization');
 
         // get global data
         $data = array_merge($data, $this->get_global_data());
@@ -120,37 +120,36 @@ class Schedule extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // load page to show all schedule
-            $this->template->load('dashboard', 'settings/data/schedule/add', $data);
+            // load page to show all realization
+            $this->template->load('dashboard', 'settings/data/realization/add', $data);
         }
         else
         {
             $project_id = $this->input->post('project_name');
             $data = array(
-                'schedule_rating' => $this->input->post('schedule_name'),
-                'schedule_description' => $this->input->post('schedule_description'),
+                'realization_name' => $this->input->post('realization_name'),
                 'Project_project_id' => $this->input->post('project_name')
             );
 
             // insert form data into database
-            if ($this->schedule_model->insertSchedule($data))
+            if ($this->realization_model->insertRealization($data))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully registered a schedule item!');
-                redirect('settings/data/schedule/'.$project_id);
+                $this->session->set_flashdata('positive-msg','You have successfully registered a realization item!');
+                redirect('settings/data/realization/'.$project_id);
             }
             else
             {
                 // error
                 $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-                redirect('settings/data/schedule/add');
+                redirect('settings/user/add');
             }   
         }
     }
 
 
-    function edit_schedule_view()
+    function edit_realization_view()
     {
-        $data = array('title' => 'Edit Schedule');
+        $data = array('title' => 'Edit Realization');
         
         if($this->session->userdata('logged_in'))
         {
@@ -162,16 +161,16 @@ class Schedule extends RISK_Controller
             $id = $this->uri->segment(5);
             
             // get data based on id from uri
-            $data['schedule'] = $this->schedule_model->getSingleSchedule($id);
-
-            // get userproject data
-            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
+            $data['realization'] = $this->realization_model->getSingleRealization($id);
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // load page to edit schedule
-            $this->template->load('dashboard', 'settings/data/schedule/edit', $data);
+            // get userproject data
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
+
+            // load page to edit realization
+            $this->template->load('dashboard', 'settings/data/realization/edit', $data);
         }
         else
         {
@@ -181,12 +180,12 @@ class Schedule extends RISK_Controller
     }
 
     
-    function update_schedule()
+    function update_realization()
     {
         //set validation rules
-        $this->form_validation->set_rules('schedule_name', 'Schedule Name', 'trim|required');
+        $this->form_validation->set_rules('realization_name', 'Realization Name', 'trim|required');
         
-        $data = array('title' => 'Edit Schedule');
+        $data = array('title' => 'Edit Realization');
 
         // get global data
         $data = array_merge($data, $this->get_global_data());
@@ -194,61 +193,60 @@ class Schedule extends RISK_Controller
         //validate form input
         if ($this->form_validation->run() == FALSE)
         {
-            // get data based on id from uri
-            $data['schedule'] = $this->schedule_model->getSingleSchedule($id);
+            // get role names from database & add them to select form element in sign up form
+            $roles = $this->user_model->getRoles();
 
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // load page to show all schedule
-            $this->template->load('dashboard', 'settings/data/schedule/edit', $data);
+            // load page to show all realization
+            $this->template->load('dashboard', 'settings/data/realization/edit', $data);
         }
         else
         {
-            // get schedule id from hidden field
-            $schedule_id =  $this->input->post('schedule_id');
+            // get realization id from hidden field
+            $realization_id =  $this->input->post('realization_id');
             
             $data = array(
-                'schedule_rating' => $this->input->post('schedule_name'),
-                'schedule_description' => $this->input->post('schedule_description')
+                'realization_name' => $this->input->post('realization_name'),
             );
 
             // update table
-            if ($this->schedule_model->updateSchedule($data,$schedule_id))
+            if ($this->realization_model->updateRealization($data,$realization_id))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully updated a schedule item!');
-                redirect('settings/data/schedule/edit/'.$schedule_id);
+                $this->session->set_flashdata('positive-msg','You have successfully updated a realization item!');
+                redirect('settings/data/realization/edit/'.$realization_id);
             }
             else
             {
                 // error
                 $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-                redirect('settings/data/schedule/edit/'.$schedule_id);
+                redirect('settings/data/realization/edit/'.$realization_id);
             }   
         }
     }
 
 
-    // delete schedule
+    // delete realization
     function delete()
     {
         // get id from fifth segment of uri
         $id = $this->uri->segment(5);
 
-        // delete schedule record
-        if($this->schedule_model->deleteSchedule($id))
+        // delete realization record
+        if($this->realization_model->deleteRealization($id))
         {
-            $this->session->set_flashdata('positive-msg','You have deleted the schedule successfully!');
+            $this->session->set_flashdata('positive-msg','You have deleted the realization successfully!');
 
             // load page for viewing all roles
-            redirect('settings/data/schedule');
+            redirect('settings/data/realization');
         }
         else
         {
             // error
             $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
-            redirect('settings/data/schedule');
+            redirect('settings/data/realization');
         }
     }
 }
