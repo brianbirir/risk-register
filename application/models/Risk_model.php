@@ -213,49 +213,55 @@
 
 
         // get risk strategies info
-        function getRiskStrategies(){
+        function getRiskStrategies($project_id){
             $this->db->select('*');
             $this->db->from('RiskStrategies');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
 
         // get system safety info
-        function getSystemSafety(){
+        function getSystemSafety($project_id){
             $this->db->select('*');
             $this->db->from('SystemSafety');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
 
         // get status
-        function getStatus(){
+        function getStatus($project_id){
             $this->db->select('*');
             $this->db->from('Status');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
 
         // get realization
-        function getRealization(){
+        function getRealization($project_id){
             $this->db->select('*');
             $this->db->from('Realization');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
         
         // get risk categories
-        function getRiskCategories(){
+        function getRiskCategories($project_id){
             $this->db->select('*');
             $this->db->from('RiskCategories');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        
         // get subproject
         function getSubProject(){
             $this->db->select('*');
@@ -266,47 +272,52 @@
 
 
         // get risk owner
-        function getRiskOwner()
+        function getRiskOwner($project_id)
         {
             $this->db->select('*');
             $this->db->from('RiskOwner');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
 
         // get risk entity
-        function getRiskEntity()
+        function getRiskEntity($project_id)
         {
             $this->db->select('*');
             $this->db->from('Entity');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
         // get risk materialization
-        function getRiskMaterialization()
+        function getRiskMaterialization($project_id)
         {
             $this->db->select('*');
             $this->db->from('MaterializationPhase');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
         // get risk cost
-        function getRiskCost()
+        function getRiskCost($project_id)
         {
             $this->db->select('*');
             $this->db->from('CostMetric');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
         // get risk schedule
-        function getRiskSchedule()
+        function getRiskSchedule($project_id)
         {
             $this->db->select('*');
             $this->db->from('ScheduleMetric');
+            $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -452,8 +463,7 @@
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->join('User','User.user_id = RiskRegistry.User_user_id');
-            $this->db->where('User.parent_user_id',$user_id); // equivalent to parent user id
+            $this->db->where('User_user_id', $user_id);
             $this->db->where('RiskRegistry.archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;

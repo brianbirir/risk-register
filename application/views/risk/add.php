@@ -138,8 +138,10 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="materialization_phase">Materialization Phase</label>
-                                <input class="form-control" name="materialization_phase" placeholder="Materialization Phase" type="text" value="<?php echo set_value('materialization_phase'); ?>" required/>
-                                <?php echo form_error('materialization_phase','<div class="alert alert-danger">','</div>'); ?>
+                                <?php 
+                                    $select_materialization_attributes = 'class="form-control" required';
+                                    echo form_dropdown('materialization_phase',$select_materialization_phase,"1",$select_materialization_attributes);
+                                ?>
                             </div>
                         </div>
 
@@ -209,14 +211,16 @@
                             <label for="timeimpact">Time Impact</label>
                             <?php 
                                 $select_time_impact = 'id="timeimpact" class="form-control input-sm select-input"';
-                                echo form_dropdown('timeimpact',$select_option,"1",$select_time_impact);
+                                // echo form_dropdown('timeimpact',$select_option,"1",$select_time_impact);
+                                echo form_dropdown('timeimpact', $select_risk_schedule, "1", $select_time_impact);
                             ?>
                         </div>
                         <div class="col-md-2">
                             <label for="costimpact">Cost Impact</label>
                             <?php 
                                 $select_cost_impact = 'id="costimpact" class="form-control input-sm select-input"';
-                                echo form_dropdown('costimpact',$select_option,"1",$select_cost_impact);
+                                // echo form_dropdown('costimpact',$select_option,"1",$select_cost_impact);
+                                echo form_dropdown('costimpact', $select_risk_cost, "1", $select_cost_impact);
                             ?>
                         </div>
                         <div class="col-md-2">

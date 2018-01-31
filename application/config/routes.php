@@ -106,6 +106,11 @@ $route['settings/data/schedule/add'] = 'schedule/add_schedule_view';
 $route['settings/data/schedule/edit/(:num)'] = 'schedule/edit_schedule_view/$1';
 $route['settings/data/schedule/delete/(:num)'] = 'schedule/delete/$1';
 
+$route['settings/data/realization/(:num)'] = 'realization/index_realization/$1';
+$route['settings/data/realization/add'] = 'realization/add_realization_view';
+$route['settings/data/realization/edit/(:num)'] = 'realization/edit_realization_view/$1';
+$route['settings/data/realization/delete/(:num)'] = 'realization/delete/$1';
+
 // test pages
 $route['test/reponse'] = 'risk/response_view';
 $route['test'] = 'risk/register_response';

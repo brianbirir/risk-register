@@ -140,7 +140,7 @@ class Project extends RISK_Controller
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
 
 
-            // get user project id
+            // get user project id from session data
             $session_data = $this->session->userdata('logged_in');
             $data['user_project_id'] = $session_data['user_project_id'];
 
