@@ -26,6 +26,16 @@
     color: #f1c40f;
 }
 
+.sidebar-toggle 
+{
+    color: #000000;
+}
+
+.sidebar-toggle:hover
+{
+    color: #000000;
+}
+
 /* SETTINGS PAGE */
 #settings-page h3 a {
     color: #000000;
@@ -218,4 +228,14 @@
 }
 .bs-callout-info h4 {
     color: #5bc0de;
+}
+
+
+/* Media Query */
+@media all and (max-width: 699px) and (min-width: 520px), (min-width: 1151px)
+{
+  .sidebar-toggle 
+  {
+    display: none;
+  }
 }

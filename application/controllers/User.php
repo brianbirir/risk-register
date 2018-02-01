@@ -233,7 +233,7 @@ class User extends RISK_Controller
         $this->form_validation->set_rules('first_name', 'First Name', 'trim|required');
         $this->form_validation->set_rules('last_name', 'Last Name', 'trim|required');
         $this->form_validation->set_rules('username', 'User Name', 'trim|required|alpha|min_length[3]|max_length[12]');
-        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email|is_unique[User.email]');
+        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
 
         $data = array('title' => 'Register User');
 
