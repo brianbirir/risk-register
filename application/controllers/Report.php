@@ -66,6 +66,59 @@ class Report extends RISK_Controller
     }
 
 
+    // view page to select project
+    function select_project()
+    {
+        $data = array('title' => 'Risk Report');
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge( $data, $this->get_global_data() );
+
+            // get project data
+            $data['select_project'] = $this->getProject( $data['user_id'] );
+
+            // load page to show all status
+            $this->template->load('dashboard', 'report/select_project', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // get project
+    function getProject( $user_id )
+    {
+        $project = $this->project_model->getProjects( $user_id );
+        
+        if($project)
+        {
+            $options = array();
+
+            foreach ($project as $row) 
+            {
+                $project_id = $row->project_id;
+                $project_name = $row->project_name;
+                $options[$project_id] = $project_name;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
+
     // generate and export report
     function export()
     {   
