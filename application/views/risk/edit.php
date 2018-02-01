@@ -15,20 +15,22 @@
 <?php 
     $CI =& get_instance();
     $CI->load->model('risk_model');
+    $CI->load->model('project_model');
+    $risk_register = $CI->project_model->getManagerRegisterName( $risk->Subproject_subproject_id );
 ?>
 
 <!-- risk editing form -->
 <div class="row">
     <div id="edit-risk-form">
-    <div class="col-md-12">
-        
-        <?php
-            $attributes = array("class" => "ui form", "id" => "risk-reg-form", "name" => "reg-risk-form");
-            echo form_open("risk/update", $attributes);
-        ?>
+        <div class="col-md-12">
+            
+            <?php
+                $attributes = array("class" => "ui form", "id" => "risk-reg-form", "name" => "reg-risk-form");
+                echo form_open("risk/update", $attributes);
+            ?>
 
-        <input type="hidden" name="risk_id" id="risk_id" class="form-control" value="<?php echo $risk->item_id;?>"/>
-    
+            <input type="hidden" name="risk_id" id="risk_id" class="form-control" value="<?php echo $risk->item_id;?>"/>
+        
             <div class="box box-success">
 
                 <div class="box-header with-border">
@@ -37,7 +39,7 @@
 
                 <div class="box-body">
                     <input type="hidden" name="risk_uuid" id="risk_uuid" class="form-control" value="<?php echo $risk->risk_uuid; ?>"/>
-                    <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_row->subproject_id;?>"/>
+                    <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $risk->Subproject_subproject_id;?>"/>
 
                     <div class="row">
                         <div class="col-md-6">
@@ -60,7 +62,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="sub_project">Risk Register</label>
-                                <div class="well well-sm"><?php echo $register_row->name; ?></div>
+                                <div class="well well-sm"><?php echo $risk_register->name; ?></div>
                             </div>
                         </div>
 
@@ -111,8 +113,8 @@
                                 <label for="entity">Entity</label>
                                 <?php
                                     $select_entity_attributes = 'class="form-control"';
-                                    $entity_name = $risk->entity;
-                                    echo form_dropdown('entity',$entity_name,$entity_name,$select_entity_attributes);
+                                    $entity_name = $risk->Entity_entity_id;
+                                    echo form_dropdown('entity',$select_risk_entity,$entity_name,$select_entity_attributes);
                                 ?>
                             </div>
                         </div>
@@ -124,22 +126,22 @@
                                     $select_main_category_attributes = 'class="form-control" required';
                                     $category_id = $risk->RiskCategories_category_id;
                                     echo form_dropdown('main_category',$select_category,$category_id,$select_main_category_attributes);
-                
                                 ?>
                             </div>
                         </div>
 
                     </div>
                     
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="description_change">Description and Change</label>
-                                <textarea class="form-control" name="description_change" placeholder="Description and Change" rows="5" required/><?php echo $risk->description_change; ?></textarea>
+                                <textarea class="form-control" name="description_change" placeholder="Description and Change" rows="5" required/>   <?php echo $risk->description_change; ?>
+                                </textarea>
                                 <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
                     <!-- <legend>Phase & Owner</legend> -->
                     
@@ -147,8 +149,11 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="materialization_phase">Materialization Phase</label>
-                                <input class="form-control" name="materialization_phase" placeholder="Materialization Phase" type="text" value="<?php echo $risk->materialization_phase; ?>" required/>
-                                <?php echo form_error('materialization_phase','<div class="alert alert-danger">','</div>'); ?>
+                                <?php 
+                                    $select_materialization_attributes = 'class="form-control" required';
+                                    $materialization_id = $risk->materialization_phase_materialization_id;
+                                    echo form_dropdown('materialization_phase',$select_materialization_phase,$materialization_id,$select_materialization_attributes);
+                                ?>
                             </div>
                         </div>
 
@@ -193,6 +198,7 @@
                 </div>
             </div>
 
+
             <div class="box box-info">
 
                 <div class="box-header with-border">
@@ -219,17 +225,17 @@
                         <div class="col-md-2">
                             <label for="timeimpact">Time Impact</label>
                             <?php
-                                $time_impact_id = $risk->time_impact; 
+                                $time_impact_id = $risk->ScheduleMetric_schedule_id; 
                                 $select_time_impact = 'id="timeimpact" class="form-control input-sm select-input"';
-                                echo form_dropdown('timeimpact',$select_option,$time_impact_id,$select_time_impact);
+                                echo form_dropdown('timeimpact',$select_risk_schedule,$time_impact_id,$select_time_impact);
                             ?>
                         </div>
                         <div class="col-md-2">
                             <label for="costimpact">Cost Impact</label>
                             <?php 
-                                $cost_impact_id = $risk->cost_impact;  
+                                $cost_impact_id = $risk->CostMetric_cost_id;  
                                 $select_cost_impact = 'id="costimpact" class="form-control input-sm select-input"';
-                                echo form_dropdown('costimpact',$select_option,$cost_impact_id,$select_cost_impact);
+                                echo form_dropdown('costimpact',$select_risk_cost,$cost_impact_id,$select_cost_impact);
                             ?>
                         </div>
                         <div class="col-md-2">
@@ -272,11 +278,6 @@
                                 echo form_dropdown('qualityimpact',$select_option,$quality_impact_id,$select_quality_impact);
                             ?>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <button id="btn-calc-risk" class="btn btn-primary btn-calc-risk pull-right btn-sm" type="button">Calculate Risk Rating & Level</button>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="row">
@@ -298,6 +299,7 @@
                 </div>
             
             </div>
+
 
             <!-- risk responses -->
             <div class="box box-warning">
@@ -412,8 +414,9 @@
                             <div class="form-group">
                                 <label for="residual_likelihood">Likelihood</label>
                                 <?php
+                                    $residual_risk_likelihood = $risk->residual_risk_likelihood; 
                                     $select_residual_likelihood = 'id="residual-risk-select" class="form-control input-sm select-input"';
-                                    echo form_dropdown('residual_likelihood',$select_option,"1",$select_residual_likelihood);
+                                    echo form_dropdown('residual_likelihood',$select_option,$residual_risk_likelihood,$select_residual_likelihood);
                                 ?>
                             </div>
                         </div>
@@ -421,13 +424,11 @@
                             <div class="form-group">
                                 <label for="residual_impact">Impact</label>
                                 <?php 
+                                    $residual_risk_impact = $risk->residual_risk_impact; 
                                     $select_residual_impact = 'id="residual-impact-select" class="form-control input-sm select-input"';
-                                    echo form_dropdown('residual_impact',$select_option,"1",$select_residual_impact);
+                                    echo form_dropdown('residual_impact',$select_option,$residual_risk_impact,$select_residual_impact);
                                 ?>
                             </div>
-                        </div>
-                        <div class="col-md-12">
-                            <button id="btn-calc-res-risk" class="btn btn-primary pull-right btn-sm" type="button">Calculate Residual Risk Rating & Level</button>
                         </div>
                     </div>
 
@@ -463,17 +464,17 @@
                             <legend>Action Owner</legend>
                             <div class="form-group">
                                 <label for="action_owner_fname">First Name</label>
-                                <input class="form-control" name="action_owner_fname" placeholder="First Name" type="text" value="<?php echo set_value('action_owner_fname'); ?>" required/>
+                                <input class="form-control" name="action_owner_fname" placeholder="First Name" type="text" value="<?php echo $risk->action_owner_fname; ?>" required/>
                                 <?php echo form_error('action_owner_fname','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="form-group">
                                 <label for="action_owner_lname">Last Name</label>
-                                <input class="form-control" name="action_owner_lname" placeholder="Last Name" type="text" value="<?php echo set_value('action_owner_lname'); ?>" required/>
+                                <input class="form-control" name="action_owner_lname" placeholder="Last Name" type="text" value="<?php echo $risk->action_owner_lname; ?>" required/>
                                 <?php echo form_error('action_owner_lname','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                             <div class="form-group">
                                 <label for="action_owner_email">Email</label>
-                                <input class="form-control" name="action_owner_email" placeholder="Email" type="text" value="<?php echo set_value('action_owner_email'); ?>" required/>
+                                <input class="form-control" name="action_owner_email" placeholder="Email" type="text" value="<?php echo $risk->action_owner_email; ?>" required/>
                                 <?php echo form_error('action_owner_email','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </fieldset>
@@ -492,9 +493,7 @@
 
             <input name="btn_update_risk" type="submit" class="btn btn-success btn-reg pull-right" value="Update Risk" />
 
-        <?php echo form_close(); ?>
-
-    </div>
-
+            <?php echo form_close(); ?>
+        </div>
     </div>
 </div>

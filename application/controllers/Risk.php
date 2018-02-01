@@ -164,14 +164,18 @@ class Risk extends RISK_Controller
             // get id from fourth segment of uri
             $id = $this->uri->segment(4);
 
+            // get register data
+            // if ( $data['role_id'] == 8 ) 
+            // {
+            //     $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);   
+            // }
+
             // get project ID from session data
             $session_data = $this->session->userdata('logged_in');
             $data['user_project_id'] = $session_data['user_project_id'];
 
             // get risk data based on id from uri
             $data['risk'] = $this->risk_model->getRisk($id);
-
-            $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
                 
             // get risk responses
             $data['risk_response'] = $this->risk_model->getRiskResponse($data['risk']->risk_uuid);
@@ -261,7 +265,6 @@ class Risk extends RISK_Controller
             'effective_date' => $timestamp,
             'CostMetric_cost_id' => $this->input->post('costimpact'),
             'ScheduleMetric_schedule_id' => $this->input->post('timeimpact')
-            // 'approved' => FALSE
         );
 
         /**
@@ -303,7 +306,7 @@ class Risk extends RISK_Controller
         // insert form data into database
         if ($this->risk_model->updateRisk($risk_data,$risk_id))
         {
-            $this->session->set_flashdata('positive-msg','Risk has been successfully updated. Please wait for this revision to be approved by your manager.');
+            $this->session->set_flashdata('positive-msg','Risk has been successfully updated.');
             redirect('dashboard/risk/edit/'.$risk_id);
         }
         else
