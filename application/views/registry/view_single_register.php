@@ -55,7 +55,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <th>UUID</th>
+                                        <!-- <th>UUID</th> -->
                                         <th>Title</th>
                                         <th>Main Category</th>
                                         <!-- <th>Identified Hazard/ Risk</th> -->
@@ -65,7 +65,7 @@
                                         foreach ($risk_data as $risk_row) 
                                         {
                                             echo "<tr>";
-                                            echo "<td width=300>".$risk_row->risk_uuid."</td>";
+                                            //echo "<td width=300>".$risk_row->risk_uuid."</td>";
                                             echo "<td width=300>".$risk_row->risk_title."</td>";
                                             //echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
                                             echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
@@ -97,7 +97,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <th>UUID</th>
+                                        <!-- <th>UUID</th> -->
                                         <th>Title</th>
                                         <th>Main Category</th>
                                         <th>Owner</th>
@@ -108,7 +108,7 @@
                                         foreach ($user_risk_data as $users_risk_row) 
                                         {
                                             echo "<tr>";
-                                            echo "<td width=300>".$users_risk_row->risk_uuid."</td>";
+                                            //echo "<td width=300>".$users_risk_row->risk_uuid."</td>";
                                             echo "<td width=300>".$users_risk_row->risk_title."</td>";
                                             echo "<td width=400>".$CI->risk_model->getRiskCategoryName($users_risk_row->RiskCategories_category_id)."</td>";
                                             echo "<td>".$CI->user_model->getUserNames($users_risk_row->User_user_id)."</td>";
@@ -149,7 +149,7 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <th>UUID</th>
+                                        <!-- <th>UUID</th> -->
                                         <th>Title</th>
                                         <th>Main Category</th>
                                         <th>Revisions</th>
@@ -159,7 +159,7 @@
                                         foreach ($risk_data as $risk_row) 
                                         {
                                             echo "<tr>";
-                                            echo "<td width=300>".$risk_row->risk_uuid."</td>";
+                                            // echo "<td width=300>".$risk_row->risk_uuid."</td>";
                                             echo "<td width=300>".$risk_row->risk_title."</td>";
                                             echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                             echo "<td width=150><span class='badge bg-yellow'>".$CI->risk_model->getNumberOfRiskRevisions($risk_row->item_id)."</span></td>";
