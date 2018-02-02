@@ -110,17 +110,6 @@
         }
 
 
-        // function getRiskRegisters($user_id)
-        // {
-        //     $this->db->select('*');
-        //     $this->db->from('Subproject');
-        //     $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
-        //     $this->db->where('Subproject_has_User.User_user_id',$user_id);
-        //     $query = $this->db->get();
-        //     return ($query->num_rows() > 0) ? $query->result() : false;
-        // }
-
-
         // fetch all risk registers assigned to a general user
         function getAssignedRiskRegisters( $user_id )
         {

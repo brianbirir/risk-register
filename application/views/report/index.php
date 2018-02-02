@@ -1,7 +1,7 @@
 <div class="bs-callout bs-callout-info">
     <h4>Generate a risk report</h4>
-
     <p>The risk report will be generated based on the given filters and downloaded as a CSV file that is readable using Microsoft Excel.</p>
+    <?php // echo "<p>". $risk_project_id; ."</p>" ?>
 </div>
 
 <!-- report generation form -->
@@ -79,7 +79,7 @@
         echo form_dropdown('risk_level',$select_risk_level,"None",$select_risk_level_attributes);
     ?>
     
-    <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" />
+    <!-- <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" /> -->
     <input name="btn_report" type="submit" class="pure-button pure-button-primary btn-report" value="Generate Report" />
     </fieldset>
     <?php echo form_close(); ?>

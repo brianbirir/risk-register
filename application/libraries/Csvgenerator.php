@@ -17,9 +17,9 @@ class Csvgenerator extends CI_Controller
     }
     
 
-    function fetch_data( $user_id, $main_category, $risk_level, $risk_register )
+    function fetch_data( $user_id, $main_category, $risk_level, $risk_register, $assigned_register_id )
     {
-        $db_data = $this->ci->report_model->getFilteredRisk( $user_id, $main_category, $risk_level, $risk_register );
+        $db_data = $this->ci->report_model->getFilteredRisk( $user_id, $main_category, $risk_level, $risk_register, $assigned_register_id );
         
         if($db_data)
         {
@@ -76,7 +76,7 @@ class Csvgenerator extends CI_Controller
             {
                 $risk_response = $this->ci->responses->collectResponses($data_row->risk_uuid);
                 
-                foreach ($risk_response as  $value) {
+                foreach ($risk_response as $value) {
 
                     $lineData = array(
                         $data_row->item_id,

@@ -126,9 +126,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="description_change">Description and Change</label>
-                                <textarea class="form-control" name="description_change" placeholder="Description and Change" rows="5" required>
-                                    <?php echo set_value('description_change'); ?>
-                                </textarea>
+                                <textarea class="form-control" name="description_change" placeholder="Description and Change" rows="5" required><?php echo set_value('description_change');?></textarea>
                                 <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
