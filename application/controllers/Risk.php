@@ -36,7 +36,7 @@ class Risk extends RISK_Controller
             } 
             else if ($data['role_id'] == 8)
             {
-                $risk = $this->risk_model->getAllUserRisk( $data['user_id'] );
+                $risk = $this->risk_model->getRisks( $data['user_id'] );
             }
             else
             {

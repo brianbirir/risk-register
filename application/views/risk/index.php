@@ -45,8 +45,8 @@
                                 <th>Risk Register</th>
                                 <th>Main Category</th>
                                 <th>Identified Hazard/ Risk</th>
-                                <th></th>
                                 <th>Actions</th>
+                                <!-- <th>Actions</th> -->
                             </tr>
                             <?php
                                 foreach ($risk_data as $risk_row) {
@@ -56,10 +56,10 @@
                                     echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                     echo "<td>".$risk_row->identified_hazard_risk."</td>";
                                     echo "<td><a href='risk/".$risk_row->item_id."' class='btn btn-primary btn-xs'>View</td>";
-                                    echo "<td>
+                                    /*echo "<td>
                                     <a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
                                     <a title='archive' href='/dashboard/risk/archive/".$risk_row->item_id."'><i class='fa fa-trash' aria-hidden='true'></i>
-                                        </td>";
+                                        </td>";*/
                                     echo "</tr>";
                                     echo "</tr>";
                                 } 
