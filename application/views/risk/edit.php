@@ -31,7 +31,7 @@
 
             <input type="hidden" name="risk_id" id="risk_id" class="form-control" value="<?php echo $risk->item_id;?>"/>
         
-            <div class="box box-success">
+            <div class="box box-success box-identification">
 
                 <div class="box-header with-border">
                     <h3 class="box-title">Identification</h3>
@@ -131,6 +131,16 @@
                         </div>
 
                     </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="description_change">Description and Change</label>
+                                <textarea class="form-control" name="description_change" placeholder="Description and Change" rows="5" required><?php echo $risk->description_change; ?></textarea>
+                                <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                    </div>
                     
                     <!-- <div class="row">
                         <div class="col-md-12">
@@ -199,7 +209,7 @@
             </div>
 
 
-            <div class="box box-info">
+            <div class="box box-info box-qualitative">
 
                 <div class="box-header with-border">
                     <h3 class="box-title">Qualitative Analysis</h3>
@@ -302,7 +312,7 @@
 
 
             <!-- risk responses -->
-            <div class="box box-warning">
+            <div class="box box-warning box-responses">
 
                 <div class="box-header with-border">
                     <h3 class="box-title">Risk Responses</h3>
@@ -402,7 +412,7 @@
                 </div>
             </div>
 
-            <div class="box box-primary">
+            <div class="box box-primary box-residual-risk">
 
                 <div class="box-header with-border">
                     <h3 class="box-title">Controlling Residual Risk</h3>
@@ -452,7 +462,7 @@
 
             </div>
 
-            <div class="box box-yellow">
+            <div class="box box-yellow box-controlling">
 
                 <div class="box-header with-border">
                     <h3 class="box-title">Controlling</h3>
