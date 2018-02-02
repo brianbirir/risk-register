@@ -90,7 +90,7 @@
         }
 
 
-        // get risk items registered by specific user and belongs to specific register
+        // get risk items registered by specific user
         function getRisks($user_id)
         {   
             $this->db->select('*');
@@ -443,7 +443,7 @@
             $this->db->where('entity_id', $id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->name : false;
+            return (isset($row)) ? $row->entity_name : false;
         }
 
         // get risk entity
@@ -454,7 +454,7 @@
             $this->db->where('materialization_id', $id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->name : false;
+            return (isset($row)) ? $row->materialization_name : false;
         }
 
 

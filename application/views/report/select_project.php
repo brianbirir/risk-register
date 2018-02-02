@@ -3,7 +3,7 @@
 
         <?php
             $attributes = array("class" => "pure-form" ,"id" => "risk-data-form", "name" => "risk-data-form");
-            echo form_open("settings/set_project", $attributes);
+            echo form_open("report/index", $attributes);
         ?>
         <div class="form-group">
             <label for="risk_project">Select Project First:</label>
