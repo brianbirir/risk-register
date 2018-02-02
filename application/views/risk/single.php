@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<div class="box box-success">
+<div class="box box-success box-identification">
     <div class="box-header with-border">
         <h3 class="box-title">Identification</h3>
         <div class="box-tools pull-right">
@@ -130,7 +130,7 @@
   </div>
 </div>
 
-<div class="box box-info">
+<div class="box box-info box-qualitative">
     <div class="box-header with-border">
         <h3 class="box-title">Qualitative Analysis</h3>
         <div class="box-tools pull-right">
@@ -195,7 +195,7 @@
     </div>
 </div>
 
-<div class="box box-warning">
+<div class="box box-warning box-responses">
     <div class="box-header with-border">
         <h3 class="box-title">Risk Responses</h3>
         <div class="box-tools pull-right">
@@ -260,7 +260,7 @@
     </div>
 </div>
 
-<div class="box box-primary">
+<div class="box box-primary box-residual-risk">
     <div class="box-header with-border">
         <h3 class="box-title">Controlling Residual Risk</h3>
         <div class="box-tools pull-right">
@@ -295,7 +295,7 @@
     </div>
 </div>
 
-<div class="box box-yellow">
+<div class="box box-yellow box-controlling">
     <div class="box-header with-border">
         <h3 class="box-title">Controlling</h3>
         <div class="box-tools pull-right">
