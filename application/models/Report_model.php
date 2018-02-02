@@ -258,7 +258,7 @@
             $this->db->where('cost_id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->name : false;
+            return (isset($row)) ? $row->cost_rating : false;
         }
 
         // get risk schedule number
@@ -269,7 +269,7 @@
             $this->db->where('schedule_id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->name : false;
+            return (isset($row)) ? $row->schedule_rating : false;
         }
 
         // get risk entity
@@ -280,7 +280,7 @@
             $this->db->where('entity_id', $id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->name : false;
+            return (isset($row)) ? $row->entity_name : false;
         }
 
         // get risk entity
@@ -291,6 +291,6 @@
             $this->db->where('materialization_id', $id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->name : false;
+            return (isset($row)) ? $row->materialization_name : false;
         }
     }

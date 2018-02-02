@@ -79,7 +79,7 @@
         echo form_dropdown('risk_level',$select_risk_level,"None",$select_risk_level_attributes);
     ?>
     
-    <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" />
+    <!-- <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" /> -->
     <input name="btn_report" type="submit" class="pure-button pure-button-primary btn-report" value="Generate Report" />
     </fieldset>
     <?php echo form_close(); ?>
