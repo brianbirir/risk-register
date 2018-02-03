@@ -105,12 +105,12 @@
         echo "<table class='table'>";
         echo "<tr>";
         echo "<td><label>Time Impact:</label>";
-        echo "<td><p>".$revision_data->time_impact."</p></td>";
+        echo "<td><p>".$revision_data->ScheduleMetric_schedule_id."</p></td>";
         echo "</tr>";
 
         echo "<tr>";
         echo "<td><label>Cost Impact:</label>";
-        echo "<td><p>".$revision_data->cost_impact."</p></td>";
+        echo "<td><p>".$revision_data->CostMetric_cost_id."</p></td>";
         echo "</tr>";
 
         echo "<tr>";
