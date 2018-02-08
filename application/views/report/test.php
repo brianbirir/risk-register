@@ -6,7 +6,7 @@
 
 <!-- report generation form -->
 
-<div id="report-form">
+<div id="test-repor-form">
 
     <?php if ($this->session->flashdata('msg')){ ?>
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -130,7 +130,7 @@
                             </tbody>
                         </table>
                     </div>
-                                    
+
                     <?php if (isset($pagination_links)) { ?>
                         <?php echo $pagination_links; ?>
                     <?php } ?>
