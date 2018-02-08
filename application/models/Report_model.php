@@ -19,6 +19,29 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // get row count of risk data
+        function getRisks($params = array())
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->order_by('item_id','asc'); // order by item ID
+            $this->db->where('archived',false); // do not export archived data
+            $this->db->where('User_user_id', $params['user_id']); // get by user ID
+
+            if(array_key_exists("start",$params) && array_key_exists("limit",$params))
+            {
+                $this->db->limit($params['limit'],$params['start']);
+            }
+            elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params))
+            {
+                $this->db->limit($params['limit']);
+            }
+
+            $query = $this->db->get();
+
+            return ($query->num_rows() > 0) ?  $query->result() : false;
+        }
+
         function getData()
         {
             $this->db->select('*');

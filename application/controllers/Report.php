@@ -12,16 +12,30 @@ class Report extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
+        $this->load->library('Ajax_pagination');
+        $this->load->library('pagination');
         $this->load->model('report_model');
         $this->load->model('risk_model');
         $this->load->model('project_model');
+        $this->perPage = 20;
     }
 
 
     // view for report page
-    function index()
+    function test1()
     {
         $data = array('title' => 'Reports');
+
+        // total row counts
+        $total_rows = count($this->report_model->getRisks());
+
+
+        //pagination configuration
+        $config['target']      = '#postList';
+        $config['base_url']    = base_url().'posts/ajaxPaginationData';
+        $config['total_rows']  = $total_rows;
+        $config['per_page']    = $this->perPage;
+        $this->ajax_pagination->initialize($config);
         
         // breadcrumb
         $this->breadcrumb->add($data['title']);
@@ -55,7 +69,10 @@ class Report extends RISK_Controller
         }
         else
         {
-            $risk = $this->risk_model->getRisks( $data['user_id'] );
+            // $risk = $this->risk_model->getRisks( $data['user_id'] );
+
+            //get the risk data
+            $risk = $this->report_model->getRisks(array('limit'=>$this->perPage, 'user_id'=>$data['user_id']));
             
             // check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
@@ -71,6 +88,151 @@ class Report extends RISK_Controller
         $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
 
         $this->template->load('dashboard', 'report/index', $data);
+    }
+
+
+    function test()
+    {
+        $data = array('title' => 'Reports');
+
+        // get global data
+        $data = array_merge($data,$this->get_global_data());
+
+        // total row counts
+        $total_rows = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+
+
+        //pagination configuration
+        $config['target']      = '#report-data';
+        $config['base_url']    = base_url().'report/ajaxPaginationData';
+        $config['total_rows']  = $total_rows;
+        $config['per_page']    = $this->perPage;
+        $this->ajax_pagination->initialize($config);
+        
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+
+        // if general user
+        if ( $data['role_id'] == 8 ) 
+        {
+            $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
+            $assigned_register_id = $register_row->subproject_id;
+            
+            // get risk data
+            $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
+
+            // check if result is true
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        }
+        else if( $data['role_id'] == 1 ) // if manager or super admin
+        {
+            $risk = $this->risk_model->getAllRisks();
+            
+            // check if result is true
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        }
+        else
+        {
+            //get the risk data
+            $risk = $this->report_model->getRisks(array('limit'=>$this->perPage,'user_id'=>$data['user_id']));
+            
+            // check if result is true
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        }
+
+        $this->template->load('dashboard', 'report/test', $data);
+    }
+
+    function index()
+    {
+        $data = array('title' => 'Reports');
+
+        // get global data
+        $data = array_merge($data,$this->get_global_data());
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+
+        // init params
+        $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+
+        // load pagination config file
+        $this->config->load('pagination', TRUE);
+        $settings = $this->config->item('pagination');
+        $settings['total_rows'] = $total_records;
+        $settings['base_url'] = base_url() . 'report/test1';
+
+        if ( $data['role_id'] == 8 ) 
+        {
+            $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
+            $assigned_register_id = $register_row->subproject_id;
+            
+            // get risk data
+            $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        }
+        else if( $data['role_id'] == 1 ) // if manager or super admin
+        {
+            $risk = $this->risk_model->getAllRisks();
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        }
+        else 
+        {
+             // get current page results
+            $risk = $this->report_model->getRisks(array('limit'=>$settings['per_page'],'start'=>$start_index,'user_id'=>$data['user_id']));
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        }
+
+        // initialize pagination    
+        $this->pagination->initialize($settings);
+            
+        // build paging links
+        $data["pagination_links"] = $this->pagination->create_links();
+
+        // load view
+        $this->template->load('dashboard', 'report/index', $data);
+    }
+
+
+    function ajaxPaginationData()
+    {
+        $data = array();
+
+        // get global data
+        $data = array_merge($data,$this->get_global_data());
+
+        // total row counts
+        $total_rows = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+
+        $page = $this->input->post('page');
+        
+        if(!$page)
+        {
+            $offset = 0;
+        }
+        else
+        {
+            $offset = $page;
+        }
+        
+        
+        //pagination configuration
+        $config['target']      = '#report-data';
+        $config['base_url']    = base_url().'report/ajaxPaginationData';
+        $config['total_rows']  = $total_rows;
+        $config['per_page']    = $this->perPage;
+        $this->ajax_pagination->initialize($config);
+        
+        //get the risk data
+        $risk = $this->report_model->getRisks(array('start'=>$offset,'limit'=>$this->perPage, 'user_id'=>$data['user_id']));
+            
+        // check if result is true
+        ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        
+        //load the view
+        $this->load->view('report/ajax_pagination_data', $data, false);
     }
 
 
