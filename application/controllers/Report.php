@@ -162,7 +162,7 @@ class Report extends RISK_Controller
         $this->config->load('pagination', TRUE);
         $settings = $this->config->item('pagination');
         $settings['total_rows'] = $total_records;
-        $settings['base_url'] = base_url() . 'report/test1';
+        $settings['base_url'] = base_url() . 'report/index';
 
         if ( $data['role_id'] == 8 ) 
         {
