@@ -200,8 +200,9 @@ class Report extends RISK_Controller
 
         // data for filter drop down
         $data['select_category'] = $this->getCategories($risk_project_id);
-        $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
+        $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
         $data['selected_category'] = "None"; 
+        $data['selected_register'] = "None";
         // load view
         $this->template->load('dashboard', 'report/index', $data);
     }
@@ -223,51 +224,54 @@ class Report extends RISK_Controller
             $session_data['category_id'] = $category_id;
             $session_data['register_id'] = $register_id;
             $this->session->set_userdata('logged_in', $session_data);
+        
         }
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
 
-        // get global data
-        $data = array_merge($data,$this->get_global_data());
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
 
-        // breadcrumb
-        $this->breadcrumb->add($data['title']);
-        $data['breadcrumb'] = $this->breadcrumb->output();
+            // PAGINATION
+            // init pagination params
+            $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
 
-        // PAGINATION
-        // init pagination params
-        $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+            // load pagination configurations
+            $this->config->load('pagination', TRUE);
+            $settings = $this->config->item('pagination');
+            $settings['total_rows'] = $total_records;
+            $settings['base_url'] = base_url() . 'report/getFilterResults';
 
-        // load pagination configurations
-        $this->config->load('pagination', TRUE);
-        $settings = $this->config->item('pagination');
-        $settings['total_rows'] = $total_records;
-        $settings['base_url'] = base_url() . 'report/getFilterResults';
+            ($start_index == 0) ? $offset = 0 : $offset = $start_index;
 
-        ($start_index == 0) ? $offset = 0 : $offset = $start_index;
+            // get current page results
+            $risk = $this->report_model->getRisks(array(
+                'limit'=>$settings['per_page'],
+                'start'=>$offset,
+                'user_id'=>$data['user_id'],
+                'category_id'=>$session_data['category_id'],
+                'register_id'=>$session_data['register_id']
+            ));
 
-        // get current page results
-        $risk = $this->report_model->getRisks(array(
-            'limit'=>$settings['per_page'],
-            'start'=>$offset,
-            'user_id'=>$data['user_id'],
-            'category_id'=>$session_data['category_id'],
-            'register_id'=>$session_data['register_id']
-        ));
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
-        ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+            // data for filter drop down
+            $data['select_category'] = $this->getCategories($session_data['report_project_id']);
+            $data['selected_category'] = $session_data['category_id'];
+            
+            $data['select_register'] = $this->getSubProject($data['user_id'], $data['role_id']);
+            $data['selected_register'] = $session_data['register_id'];
 
-        // data for filter drop down
-        $data['select_category'] = $this->getCategories($session_data['report_project_id']);
-        // $data['selected_category'] = $session_data['category_id'];
-        // $data['select_subproject'] = $this->getSubProject($data['user_id'], $data['role_id']);
+            // initialize pagination    
+            $this->pagination->initialize($settings);
+            // build paging links
+            $data["pagination_links"] = $this->pagination->create_links();
 
-        // initialize pagination    
-        $this->pagination->initialize($settings);
-        // build paging links
-        $data["pagination_links"] = $this->pagination->create_links();
+            // load view
+            $this->template->load('dashboard', 'report/index', $data);
 
-        // load view
-        $this->template->load('dashboard', 'report/index', $data);
     }
 
 
@@ -308,54 +312,6 @@ class Report extends RISK_Controller
         
         //load the view
         $this->load->view('report/ajax_pagination_data', $data, false);
-    }
-
-
-    function report_view()
-    {
-        $data = array('title' => 'Reports');
-
-        if($this->session->userdata('logged_in'))
-        {
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
-            // get global data
-            $data = array_merge($data,$this->get_global_data());
-
-            // get risk register id
-            // if general user
-            if ( $data['role_id'] == 8 ) 
-            {
-                $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
-                $assigned_register_id = $register_row->subproject_id;
-                
-                // get risk data
-                $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
-
-                // check if result is true
-                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-            }
-            else // if manager or super admin
-            {
-                $risk = $this->risk_model->getAllRisks();
-                // check if result is true
-                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-            }
-            
-            // select drop down
-            $data['select_category'] = $this->getCategories($data['risk_project_id']);
-            $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
-
-            // load page to show all registered risks
-            $this->template->load('dashboard', 'report/index', $data);
-        }
-        else
-        {
-            // if no session, redirect to login page
-            redirect('login', 'refresh');
-        }
     }
 
 
@@ -527,104 +483,6 @@ class Report extends RISK_Controller
         }
     }
 
-
-    // risk strategies
-    function getRiskStrategies()
-    {
-        $strategies = $this->risk_model->getRiskStrategies();
-        
-        if($strategies)
-        {
-            $options = array();
-
-            foreach ($strategies as $row) 
-            {
-                $strategy_id = $row->strategy_id;
-                $strategy_name = $row->strategy_name;
-                $options[$strategy_id] = $strategy_name;  
-            }
-
-            return $options;
-        }
-        else 
-        {
-            return 'No Data!';
-        }
-    }
-
-
-    // status
-    function getStatus()
-    {
-        $status = $this->risk_model->getStatus();
-        
-        if($status)
-        {
-            $options = array();
-
-            foreach ($status as $row) 
-            {
-                $status_id = $row->status_id;
-                $status_name = $row->status_name;
-                $options[$status_id] = $status_name;  
-            }
-
-            return $options;
-        }
-        else 
-        {
-            return 'No Data!';
-        }
-    }
-
-
-    // safety
-    function getSystemSafety()
-    {
-        $safety = $this->risk_model->getSystemSafety();
-        
-        if($safety)
-        {
-            $options = array();
-
-            foreach ($safety as $row) 
-            {
-                $safety_id = $row->safety_id;
-                $safety_name = $row->safety_name;
-                $options[$safety_id] = $safety_name;  
-            }
-
-            return $options;
-        }
-        else 
-        {
-            return 'No Data!';
-        }
-    }
-
-    // realization
-    function getRealization()
-    {
-        $realization = $this->risk_model->getRealization();
-        
-        if($realization)
-        {
-            $options = array();
-
-            foreach ($realization as $row) 
-            {
-                $realization_id = $row->realization_id;
-                $realization_name = $row->realization_name;
-                $options[$realization_id] = $realization_name;  
-            }
-
-            return $options;
-        }
-        else 
-        {
-            return 'No Data!';
-        }
-    }
 
     // categories
     function getCategories($project_id)

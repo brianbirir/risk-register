@@ -16,16 +16,30 @@
     <fieldset>
         <label for="risk_register">Risk Register</label>
         <?php 
-            $select_subproject_attributes = '';
-            $select_subproject['None'] = "Select Option";
-            echo form_dropdown('risk_register',$select_subproject,"None",$select_subproject_attributes);
+            $select_register_attributes = '';
+            if($selected_register != "None")
+            {
+                echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
+            }
+            else 
+            {
+                $select_register['None'] = "Select Option";
+                echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
+            }
         ?>
 
         <label for="risk_category">Risk Category</label>
         <?php 
             $select_main_category_attributes = '';
-            $select_category['None'] = "Select Option";
-            echo form_dropdown('risk_category',$select_category,"None",$select_main_category_attributes);
+            if($selected_category != "None")
+            {
+                echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
+            }
+            else 
+            {
+                $select_category['None'] = "Select Option";
+                echo form_dropdown('risk_category',$select_category,"None",$select_main_category_attributes);
+            }
         ?>
         <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" />
     </fieldset>
