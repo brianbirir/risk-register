@@ -219,8 +219,9 @@ class Report extends RISK_Controller
         {
             // get filter criteria from post input
             $category_id = $this->input->post('risk_category'); // get category id
-            //$register_id = $this->input->post('risk_register'); // get register 
+            $register_id = $this->input->post('risk_register'); // get register 
             $session_data['category_id'] = $category_id;
+            $session_data['register_id'] = $register_id;
             $this->session->set_userdata('logged_in', $session_data);
         }
 
@@ -244,28 +245,13 @@ class Report extends RISK_Controller
 
         ($start_index == 0) ? $offset = 0 : $offset = $start_index;
 
-        //else
-        //{
-            // override existing category ID session data
-            //$session_data['category_id'] = $category_id;
-        //}
-
-        // set risk register ID in session
-        // if (!array_key_exists('register_id',$session_data))
-        // {
-        //     $session_data['register_id'] = $register_id;
-        //     // $this->session->set_userdata('logged_in', $session_data);
-        // }
-
-        // $this->session->set_userdata('logged_in', $session_data);
-
         // get current page results
         $risk = $this->report_model->getRisks(array(
             'limit'=>$settings['per_page'],
             'start'=>$offset,
             'user_id'=>$data['user_id'],
-            'category_id'=>$session_data['category_id']
-            //'register_id'=>$session_data['register_id']
+            'category_id'=>$session_data['category_id'],
+            'register_id'=>$session_data['register_id']
         ));
 
         ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
