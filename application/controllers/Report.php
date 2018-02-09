@@ -164,7 +164,7 @@ class Report extends RISK_Controller
         $settings['total_rows'] = $total_records;
         $settings['base_url'] = base_url() . 'report/index';
 
-        if ( $data['role_id'] == 8 ) 
+        if ( $data['role_id'] == 8 ) // if general user
         {
             $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
             $assigned_register_id = $register_row->subproject_id;
@@ -180,14 +180,103 @@ class Report extends RISK_Controller
         }
         else 
         {
-             // get current page results
+            // get current page results
             $risk = $this->report_model->getRisks(array('limit'=>$settings['per_page'],'start'=>$start_index,'user_id'=>$data['user_id']));
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
         }
 
         // initialize pagination    
         $this->pagination->initialize($settings);
-            
+        // build paging links
+        $data["pagination_links"] = $this->pagination->create_links();
+
+        // PROJECT ID
+        // add assigned project ID to session data
+        // $data['risk_project_id'] = $this->input->post('risk_project');
+        $risk_project_id = 7;
+        $session_data = $this->session->userdata('logged_in');
+        $session_data['report_project_id'] = $risk_project_id;
+        $this->session->set_userdata('logged_in', $session_data);
+
+        // data for filter drop down
+        $data['select_category'] = $this->getCategories($risk_project_id);
+        $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
+        $data['selected_category'] = "None"; 
+        // load view
+        $this->template->load('dashboard', 'report/index', $data);
+    }
+    
+
+    function getFilterResults()
+    {   
+        // title
+        $data = array('title' => 'Reports');
+
+        // get current session data 
+        $session_data = $this->session->userdata('logged_in');
+        
+        if($this->input->post('btn_filter'))
+        {
+            // get filter criteria from post input
+            $category_id = $this->input->post('risk_category'); // get category id
+            //$register_id = $this->input->post('risk_register'); // get register 
+            $session_data['category_id'] = $category_id;
+            $this->session->set_userdata('logged_in', $session_data);
+        }
+
+        // get global data
+        $data = array_merge($data,$this->get_global_data());
+
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+
+        // PAGINATION
+        // init pagination params
+        $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+
+        // load pagination configurations
+        $this->config->load('pagination', TRUE);
+        $settings = $this->config->item('pagination');
+        $settings['total_rows'] = $total_records;
+        $settings['base_url'] = base_url() . 'report/getFilterResults';
+
+        ($start_index == 0) ? $offset = 0 : $offset = $start_index;
+
+        //else
+        //{
+            // override existing category ID session data
+            //$session_data['category_id'] = $category_id;
+        //}
+
+        // set risk register ID in session
+        // if (!array_key_exists('register_id',$session_data))
+        // {
+        //     $session_data['register_id'] = $register_id;
+        //     // $this->session->set_userdata('logged_in', $session_data);
+        // }
+
+        // $this->session->set_userdata('logged_in', $session_data);
+
+        // get current page results
+        $risk = $this->report_model->getRisks(array(
+            'limit'=>$settings['per_page'],
+            'start'=>$offset,
+            'user_id'=>$data['user_id'],
+            'category_id'=>$session_data['category_id']
+            //'register_id'=>$session_data['register_id']
+        ));
+
+        ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+
+        // data for filter drop down
+        $data['select_category'] = $this->getCategories($session_data['report_project_id']);
+        // $data['selected_category'] = $session_data['category_id'];
+        // $data['select_subproject'] = $this->getSubProject($data['user_id'], $data['role_id']);
+
+        // initialize pagination    
+        $this->pagination->initialize($settings);
         // build paging links
         $data["pagination_links"] = $this->pagination->create_links();
 

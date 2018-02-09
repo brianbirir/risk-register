@@ -8,6 +8,39 @@
 
 <div id="report-form">
 
+    <?php
+        $attributes = array("class" => "pure-form" ,"id" => "report-form", "name" => "report-form");
+        echo form_open("report/getFilterResults", $attributes);
+    ?>
+
+    <fieldset>
+        <!-- <label for="risk_register">Risk Register</label> -->
+        <?php 
+            // $select_subproject_attributes = '';
+            // $select_subproject['None'] = "Select Option";
+            // echo form_dropdown('risk_register',$select_subproject,"None",$select_subproject_attributes);
+        ?>
+
+        <label for="risk_category">Risk Category</label>
+        <?php 
+            $select_main_category_attributes = '';
+
+            //if($selected_category != "None")
+            //{
+              //  echo form_dropdown('risk_category',$select_category,$selected_category,$select_main_category_attributes);
+            //}
+            //else
+            //{
+                $select_category['None'] = "Select Option";
+                echo form_dropdown('risk_category',$select_category,"None",$select_main_category_attributes);
+            //}
+            
+        ?>
+        <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" />
+    </fieldset>
+
+    <?php echo form_close(); ?>
+
     <?php if ($this->session->flashdata('msg')){ ?>
         <div class="alert alert-danger alert-dismissible" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
