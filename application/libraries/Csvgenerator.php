@@ -134,9 +134,13 @@ class Csvgenerator extends CI_Controller
         exit;
     }
 
-    function fetch_manager_data( $main_category, $risk_level, $risk_register )
+    function fetch_manager_data($params = array())
     {
-        $db_data = $this->ci->report_model->getManagerFilteredRisk( $main_category, $risk_level, $risk_register );
+        $db_data = $this->ci->report_model->getManagerData(array(
+            'category_id' => $params['risk_category'],
+            'register_id' => $params['risk_register'],
+            'user_id' => $params['user_id']
+        ));
         
         if($db_data)
         {

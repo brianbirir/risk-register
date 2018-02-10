@@ -224,7 +224,6 @@ class Report extends RISK_Controller
             $session_data['category_id'] = $category_id;
             $session_data['register_id'] = $register_id;
             $this->session->set_userdata('logged_in', $session_data);
-        
         }
             // get global data
             $data = array_merge($data,$this->get_global_data());
@@ -273,7 +272,42 @@ class Report extends RISK_Controller
             $this->template->load('dashboard', 'report/index', $data);
 
     }
+    
+    function export_report()
+    {
+        // load csv generator library
+        $this->load->library('csvgenerator');
+        
+        // get current session data 
+        $session_data = $this->session->userdata('logged_in');
 
+        // use filter session values to generate report
+        $category_id = $session_data['category_id'];
+        $register_id = $session_data['register_id'];
+
+        // get global data
+        $data = array();
+        $data = array_merge($data,$this->get_global_data());
+
+        if ($data['role_id'] == 8)
+        {
+            // get assigned risk register and its ID
+            $register_row = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+            $assigned_register_id = $register_row->subproject_id;
+            $this->csvgenerator->fetch_data( $user_id, $main_category, $risk_level, $risk_register, $assigned_register_id );
+        }
+        else
+        {
+            // $this->csvgenerator->fetch_manager_data( $main_category, $risk_level, $risk_register );
+            $this->csvgenerator->fetch_manager_data(array(
+                'risk_category' => $category_id,
+                'risk_register' => $register_id,
+                'user_id' => $data['user_id']
+            ));
+        }
+        
+        redirect('dashboard/reports'); 
+    }
 
     function ajaxPaginationData()
     {
@@ -378,7 +412,6 @@ class Report extends RISK_Controller
     // generate and export report
     function export()
     {   
-        // load InfluxDB Client library
         $this->load->library('csvgenerator');
         $data = array('title' => 'Reports');
 

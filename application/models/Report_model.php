@@ -49,6 +49,36 @@
         }
         
 
+        function getManagerData($params = array())
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->order_by('item_id','asc'); // order by item ID
+            $this->db->where('archived',false); // do not export archived data
+            $this->db->where('User_user_id', $params['user_id']); // get by user ID
+
+            if(array_key_exists('category_id',$params))
+            {
+                if($params['category_id'] != 'None')
+                {
+                    $this->db->where('RiskCategories_category_id',$params['category_id']);
+                }
+                
+            }
+
+            if(array_key_exists('register_id',$params))
+            {
+                if($params['register_id'] != 'None')
+                {
+                    $this->db->where('Subproject_subproject_id',$params['register_id']);
+                }
+            }
+            
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ?  $query->result() : false;
+        }
+        
+
         function getData()
         {
             $this->db->select('*');
