@@ -83,8 +83,8 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Unique ID</th>
+                                    <!-- <th>ID</th>
+                                    <th>Unique ID</th> -->
                                     <th>Title</th>
                                     <th>Main Category</th>
                                     <th>Identified Hazard/ IdentifiedRisk</th>
@@ -123,8 +123,8 @@
                                 <?php
                                     foreach ($risk_data as $risk_row) {
                                         echo "<tr>";
-                                        echo "<td>".$risk_row->item_id."</td>";
-                                        echo "<td>".$risk_row->risk_uuid."</td>";
+                                        // echo "<td>".$risk_row->item_id."</td>";
+                                        // echo "<td>".$risk_row->risk_uuid."</td>";
                                         echo "<td>".$risk_row->risk_title."</td>";
                                         echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                         echo "<td>".$risk_row->identified_hazard_risk."</td>";
