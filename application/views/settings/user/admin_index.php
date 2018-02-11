@@ -1,6 +1,5 @@
 <?php 
     $CI =& get_instance();
-    //$CI->load->model('project_model');
     $CI->load->model('role_model');
 ?>
 <div class="row">
@@ -53,7 +52,7 @@
                                 echo "<td>
                                         <a class='fa-icon' title='change-password' href='/settings/user/change-password/".$user_row->user_id."'><i class='fa fa-lock' aria-hidden='true'></i>
                                         <a class='fa-icon' title='edit' href='/settings/user/".$user_row->user_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a class='fa-icon' title='delete' href='/settings/user/delete/".$user_row->user_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' class='delete-action' data-toggle='confirmation' data-title='Delete Manager?' href='/settings/user/delete/".$user_row->user_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

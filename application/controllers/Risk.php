@@ -356,7 +356,7 @@ class Risk extends RISK_Controller
         // archive risk record
         if($this->risk_model->archiveRisk($archive_data,$id))
         {
-            $this->session->set_flashdata('positive-msg','You have archived the risk item successfully!');
+            $this->session->set_flashdata('positive_msg','You have archived the risk item successfully!');
 
             // load page for viewing all roles
             redirect('dashboard/risks');
@@ -364,7 +364,7 @@ class Risk extends RISK_Controller
         else
         {
             // error
-            $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
+            $this->session->set_flashdata('negative_msg','Oops! Error.  Please try again later!');
             redirect('dashboard/risks');
         }
     }
