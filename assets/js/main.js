@@ -257,3 +257,16 @@ function archive_confirmation()
         alertify.error('Cancel');
     });
 }
+
+// console.log('Bootstrap ' + $.fn.tooltip.Constructor.VERSION);
+
+// console.log('Bootstrap Confirmation ' + $.fn.confirmation.Constructor.VERSION);
+
+$(document).ready(function(){
+
+    $('[data-toggle=confirmation]').confirmation({
+        rootSelector: '[data-toggle=confirmation]',
+        container: 'body'
+    });
+
+});
