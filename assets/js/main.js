@@ -244,3 +244,16 @@ function delete_row(elementId)
     //element.parentNode.removeChild(element);
     element.remove();
 }
+
+// delete confirmation when deleting or archiving elements
+function archive_confirmation()
+{
+    // alertify js dialog box
+    alertify.confirm("Are you sure you want to archive this risk item?",
+    function(){
+        alertify.success('Yes');
+    },
+    function(){
+        alertify.error('Cancel');
+    });
+}
