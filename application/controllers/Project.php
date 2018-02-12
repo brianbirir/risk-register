@@ -294,9 +294,7 @@ class Project extends RISK_Controller
 
             // get global data
             $data = array_merge($data, $this->get_global_data());
-
             $uri_id = $this->uri->segment(4); // get id from fourth segment of uri
-
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
 
             // get the last row's ID from registry table
@@ -354,16 +352,16 @@ class Project extends RISK_Controller
 
             // get original register to duplicate all risk items for that particular register
             $original_register_id = $this->input->post('register_id');
-
             $original_project_id = $this->input->post('Project_project_id');
-
             $new_project_id = $this->input->post('project_name');
+            $general_user_id = $this->input->post('general_user');
             
             // get risk ids associated with the register id
             $risk_ids = $this->risk_model->getRiskIDs($original_register_id);
 
-            if( $new_project_id == "none") 
+            if( $new_project_id == "none" ) 
             {
+
                 // get the register details from the form
                 $data = array(
                     'name' => $this->input->post('subproject_name'),
@@ -372,9 +370,9 @@ class Project extends RISK_Controller
                     'Project_project_id' => $original_project_id,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp
-                );
+                );                
             } 
-            else 
+            else
             {
                 // get the register details from the form
                 $data = array(
@@ -384,19 +382,8 @@ class Project extends RISK_Controller
                     'Project_project_id' => $new_project_id,
                     'created_at' => $timestamp,
                     'updated_at' => $timestamp
-                );
+                );  
             }
-
-
-            // get the register details from the form
-            $data = array(
-                'name' => $this->input->post('subproject_name'),
-                'description' => $this->input->post('subproject_description'),
-                'duplicate' => TRUE,
-                'Project_project_id' => $original_project_id,
-                'created_at' => $timestamp,
-                'updated_at' => $timestamp
-            );
 
             $table = 'RiskRegistry';
 
