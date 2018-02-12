@@ -66,9 +66,9 @@
                                             echo "<td width=300>".$risk_row->risk_title."</td>";
                                             echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                             echo "<td>
-                                                <span><a title='view' href='/dashboard/risk/".$risk_row->item_id."'><i class='fa fa-eye' aria-hidden='true'></i></a></span>
-                                                <span><a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fa fa-pencil' aria-hidden='true'></i></a></span>
-                                                <span><a class='delete-action' data-toggle='confirmation' data-title='Archive Risk?' href='/dashboard/risk/archive/".$risk_row->item_id."'><i class='fa fa-trash' aria-hidden='true'></i></a></span>
+                                                <span><a title='view' href='/dashboard/risk/".$risk_row->item_id."'><i class='fas fa-eye' aria-hidden='true'></i></a></span>
+                                                <span><a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fas fa-edit' aria-hidden='true'></i></a></span>
+                                                <span><a class='delete-action' data-toggle='confirmation' data-title='Archive Risk?' href='/dashboard/risk/archive/".$risk_row->item_id."'><i class='fas fa-trash' aria-hidden='true'></i></a></span>
                                                     </td>";
                                             echo "</tr>";
                                         } 

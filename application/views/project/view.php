@@ -62,7 +62,7 @@
                                 echo "<td>".$subproject_row->name."</td>";
                                 echo "<td><a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>View Risk Register</a></td>";
                                 echo "<td><a href='/dashboard/riskregister/duplicate/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-add'>Duplicate</a></td>";
-                                echo "<td><span class='glyphicon glyphicon-align-left' aria-hidden='true'></span></td>";
+                                echo "<td><a href='/dashboard/riskregister/assign_user/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-add'><i class='fas fa-user fa-xs'></i> Assign User</a></td>";
                                 echo "</tr>";
                             } 
                         } ?>
