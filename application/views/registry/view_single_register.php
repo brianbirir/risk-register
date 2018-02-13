@@ -27,6 +27,14 @@
     </div>
 
     <div class="col-md-9">
+
+        <?php if ($this->session->flashdata('positive_msg')){ ?>
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div><?php echo $this->session->flashdata('positive_msg'); ?></div>
+            </div>
+        <?php } ?>
+        
         <div class="reg-btn">
             <!-- <a href="/dashboard/risk/add" class="btn btn-success btn-xs btn-add">Add Risk Item</a> -->
             <?php echo "<a href='/dashboard/risk/add/".$register_id."' class='btn btn-success btn-xs btn-add'>Add Risk Item</a>"; ?>

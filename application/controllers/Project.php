@@ -279,6 +279,72 @@ class Project extends RISK_Controller
         }
     }
 
+    // assign user to register view
+    function assign_user_view()
+    {
+        $data = array('title' => 'Assign User to Register');
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            $uri_id = $this->uri->segment(4); // get id from fourth segment of uri
+            $single_register = $this->project_model->getSingleRiskRegister($uri_id);
+
+            // get project id
+            $data['Project_project_id'] = $single_register->Project_project_id;
+
+            // get general users belonging to current manager user
+            $data['general_user'] = $this->userproject->getGeneralUsers($data['user_id']);
+
+            // get register name and ID
+            $data['register_id'] = $single_register->subproject_id;
+            $data['register_name'] = $single_register->name;
+
+            // load page to show duplicating page
+            $this->template->load('dashboard', 'project/assign_user', $data);
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    function assign_user()
+    {
+        // get data from forms
+        $general_user_id = $this->input->post('general_user');
+        $register_id = $this->input->post('register_id');
+        $project_id = $this->input->post('Project_project_id');
+
+        if($general_user_id != ''  and $register_id != '') 
+        {
+            // get the details from the form
+            $data = array(
+                'Subproject_subproject_id' => $register_id,
+                'User_user_id' => $general_user_id
+            );
+
+            if ($this->project_model->assignUser($data)) 
+            {    
+                $this->session->set_flashdata('positive_msg','You have successfully assigned a user to this register!');
+                redirect('dashboard/riskregister/'.$register_id);
+            } 
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative_msg','Unable to assign user. Please try again!');
+                redirect('dashboard/project/'.$project_id);
+            }
+        }
+    }
+
 
     // view for duplicating a register
     function add_duplicate_view()
@@ -354,7 +420,6 @@ class Project extends RISK_Controller
             $original_register_id = $this->input->post('register_id');
             $original_project_id = $this->input->post('Project_project_id');
             $new_project_id = $this->input->post('project_name');
-            $general_user_id = $this->input->post('general_user');
             
             // get risk ids associated with the register id
             $risk_ids = $this->risk_model->getRiskIDs($original_register_id);

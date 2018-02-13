@@ -26,7 +26,8 @@ $route['dashboard/project/(:num)'] = 'project/view_project/$1';
 $route['dashboard/riskregisters'] = 'project/view_risk_registers';
 $route['dashboard/riskregister/add'] = 'project/add_register_view';
 $route['dashboard/riskregister/(:num)'] = 'project/view_risk_register/$1';
-$route['dashboard/riskregister/duplicate/(:num)'] = 'project/add_duplicate_view';
+$route['dashboard/riskregister/duplicate/(:num)'] = 'project/add_duplicate_view/$1';
+$route['dashboard/riskregister/assign_user/(:num)'] = 'project/assign_user_view/$1';
 
 // risk items
 $route['dashboard/risks'] = 'risk/index';
@@ -38,7 +39,6 @@ $route['dashboard/risk/delete/(:num)'] = 'risk/delete/$1';
 $route['dashboard/risk/archive/(:num)'] = 'risk/archive/$1';
 $route['dashboard/risks/archived'] = 'risk/index_archive';
 $route['dashboard/risk/duplicate_risk'] = 'risk/duplicate_risk_view';
-
 
 // reports
 //$route['dashboard/reports'] = 'report/select_project';

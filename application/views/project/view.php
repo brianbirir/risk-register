@@ -23,7 +23,14 @@
     </div>
 
     <div class="col-md-9">
-        
+
+        <?php if ($this->session->flashdata('negative_msg')){ ?>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div><?php echo $this->session->flashdata('negative_msg'); ?></div>
+            </div>
+        <?php } ?>
+
         <div class="reg-btn">
             <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add">Add Risk Register</a>
         </div>

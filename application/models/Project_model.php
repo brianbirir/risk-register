@@ -158,6 +158,12 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // assign user to risk register
+        function assignUser($data)
+        {
+            return $this->db->insert('Subproject_has_User', $data);
+        }
+
 
         // get project name
         function getProjectName($user_id)
