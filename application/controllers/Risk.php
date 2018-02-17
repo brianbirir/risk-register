@@ -140,8 +140,8 @@ class Risk extends RISK_Controller
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);         
             $data['select_response_title'] = $this->getResponseTitle($data['register_id']);
             $data['select_user'] = $this->getRegisterUser($data['register_id']); 
-            
-            $data['response_title'] = FALSE;
+            // response title
+            $data['response_title'] = $this->getResponseTitle($data['register_id']);
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);
@@ -982,7 +982,6 @@ class Risk extends RISK_Controller
       if($register)
       {
         $options = array();
-
         foreach ($register as $row) 
         {
             $register_id = $row->register_id;
@@ -1012,12 +1011,11 @@ class Risk extends RISK_Controller
                 $response_title = $row->response_title;
                 $options[$response_id] = $response_title;  
             }
-
             return $options;
         }
         else
         {
-            return 'No Data!';
+            return FALSE;
         }
     }
 

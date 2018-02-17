@@ -46,7 +46,7 @@
         // get risk responses by date
         function getResponseByDate($start_date, $end_date)
         {
-
+            
         }
 
         // filter risk response by date and user
@@ -54,5 +54,4 @@
         {
             
         }
-
     }
