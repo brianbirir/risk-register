@@ -550,9 +550,6 @@ class Risk extends RISK_Controller
 
                 for ($i = 0; $i < $num_fields; $i++) 
                 {    
-                    // parse date from date input field
-                    // $date = new DateTime($_POST['risk_response']['date'][$i]);
-                    
                     $date = $_POST['risk_response']['date'][$i];
 
                     // Pack the field up in an array for ease-of-use.
