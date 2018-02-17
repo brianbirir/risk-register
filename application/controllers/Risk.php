@@ -4,16 +4,19 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
  
 class Risk extends RISK_Controller
 {  
-	public function __construct()
+    public function __construct()
     {
         parent::__construct();
         $this->load->helper('form');
+        $this->load->helper('url');
         $this->load->helper('url');
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
         $this->load->model('risk_model');
         $this->load->model('project_model');
+        $this->load->model('response_model');
+        $this->load->model('user_model');
     }
 
     // view all registered risks owned by a user
@@ -134,7 +137,11 @@ class Risk extends RISK_Controller
             $data['select_risk_owner'] = $this->getRiskOwner($data['user_project_id']);
             $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
-            $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);                  
+            $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);         
+            $data['select_response_title'] = $this->getResponseTitle($data['register_id']);
+            $data['select_user'] = $this->getRegisterUser($data['register_id']); 
+            
+            $data['response_title'] = FALSE;
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);
@@ -503,8 +510,6 @@ class Risk extends RISK_Controller
                 'effect' => $this->input->post('effect'),
                 'materialization_phase_materialization_id' => $this->input->post('materialization_phase'),
                 'likelihood' => $this->input->post('likelihood'),
-                //'time_impact' => $this->input->post('timeimpact'),
-                //'cost_impact' => $this->input->post('costimpact'),
                 'reputation_impact' => $this->input->post('reputationimpact'),
                 'hs_impact' => $this->input->post('hsimpact'),
                 'env_impact' => $this->input->post('environmentimpact'),
@@ -544,15 +549,25 @@ class Risk extends RISK_Controller
                 $num_fields = count($_POST['risk_response']['title']);
 
                 for ($i = 0; $i < $num_fields; $i++) 
-                {
+                {    
+                    // parse date from date input field
+                    // $date = new DateTime($_POST['risk_response']['date'][$i]);
+                    
+                    $date = $_POST['risk_response']['date'][$i];
+
                     // Pack the field up in an array for ease-of-use.
                     $field = array(
                         'risk_uuid'=> $risk_uuid,
                         'response_uuid'=> $this->uuid->generate_uuid(),
                         'response_title' => $_POST['risk_response']['title'][$i],
-                        'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
+                        'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
+                        'register_id' => $this->input->post('register_id'),
+                        'user_id' => $_POST['risk_response']['user'][$i],
+                        'created_at' => $date,
+                        'updated_at' => $date
                     );
-
+                    
+                    // insert risk response data first
                     $this->risk_model->insertResponse($field);
                 }
 
@@ -983,5 +998,51 @@ class Risk extends RISK_Controller
       {
         return 'No Data!';
       }
+    }
+
+    // get risk response titles
+    function getResponseTitle($register_id)
+    {
+        $response = $this->response_model->getResponseByRegister($register_id);
+        
+        if($response)
+        {
+            $options = array();
+
+            foreach ($response as $row) 
+            {
+                $response_id = $row->response_id;
+                $response_title = $row->response_title;
+                $options[$response_id] = $response_title;  
+            }
+
+            return $options;
+        }
+        else
+        {
+            return 'No Data!';
+        }
+    }
+
+    function getRegisterUser($register_id)
+    {
+        $user = $this->user_model->getRegisterUser($register_id);
+        
+        if($user)
+        {
+            $options = array();
+
+            foreach ($user as $row) 
+            {
+                $user_id = $row->user_id;
+                $user_name = $row->first_name . " " . $row->last_name;
+                $options[$user_id] = $user_name;  
+            }
+            return $options;
+        }
+        else
+        {
+            return 'No Data!';
+        }
     }
 }

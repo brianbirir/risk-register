@@ -320,16 +320,40 @@
                                     <tbody id="response-table-body">
                                         <tr>
                                             <!-- <th>Risk Response ID</th> -->
-                                            <th>Risk Response Title</th>
+                                            <th>Response Title</th>
                                             <th>Response Type</th>
-                                            <th></th>
+                                            <th>Register User</th>
+                                            <th>Target Date</th>
                                         </tr>
                                         <tr id="response-row">
+
+                                            <?php 
+                                                /** check if response titles exist for this given risk register
+                                                 * if not display input text field
+                                                 * if they do exist display select drop down of those response titles
+                                                 */
+                                                if(!$response_title)
+                                                {
+                                            ?>
                                             <td>
                                                 <div class="form-group">
                                                     <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
                                                 </div>
                                             </td>
+                                            <?php } else { ?>
+                                            <td>
+                                                <div class="form-group">
+                                                    <select name="risk_response[title][]" class="form-control">
+                                                        <?php 
+                                                            foreach ($select_response_title as $key => $value) 
+                                                            {
+                                                                echo "<option value=".$key.">".$value."</option>";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <?php } ?>
                                             <td>
                                                 <div class="form-group">
                                                     <select name="risk_response[strategy][]" class="form-control">
@@ -340,6 +364,28 @@
                                                             }
                                                         ?>
                                                     </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <select name="risk_response[user][]" class="form-control">
+                                                        <?php 
+                                                            foreach ($select_user as $key => $value) 
+                                                            {
+                                                                echo "<option value=".$key.">".$value."</option>";
+                                                            }
+                                                        ?>
+                                                    </select>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                <div class="form-group">
+                                                    <div class="input-group date">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar"></i>
+                                                        </div>
+                                                        <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo set_value('risk_reponse[date][]'); ?>" required/>
+                                                    </div>
                                                 </div>
                                             </td>
                                         </tr>

@@ -117,5 +117,16 @@ class User_model extends CI_Model
         $this->db->delete('Subproject_has_User',array('User_user_id'=>$user_id));
         return true;
     }
+
+    // get a user based on assigned risk register via register ID
+    function getRegisterUser($register_id)
+    {
+        $this->db->select("*");
+        $this->db->from("User");
+        $this->db->join("Subproject_has_User", "Subproject_has_User.User_user_id = User.user_id");
+        $this->db->where("Subproject_has_User.Subproject_subproject_id", $register_id);
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : false;
+    }
 }
 ?>
