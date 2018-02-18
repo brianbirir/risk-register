@@ -15,10 +15,16 @@
         }
 
         // get all risk responses
-        function getAllResponses()
+        function getAllResponses($params = array())
         {
             $this->db->select('*');
             $this->db->from('RiskResponse');
+
+            if(array_key_exists('user_id',$params))
+            {
+                $this->db->where('user_id',$params['user_id']);
+            }
+
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -39,6 +45,16 @@
             $this->db->select('*');
             $this->db->from('RiskResponse');
             $this->db->where('register_id',$register_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // get risk response by register id
+        function getResponseByUser($params = array())
+        {
+            $this->db->select('*');
+            $this->db->from('RiskResponse');
+            $this->db->where('user_id',$params['user_id']);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }

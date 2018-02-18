@@ -44,7 +44,8 @@ $route['dashboard/risk/duplicate_risk'] = 'risk/duplicate_risk_view';
 //$route['dashboard/reports'] = 'report/select_project';
 // $route['dashboard/reports/test'] = 'report/test';
 //$route['dashboard/reports/project'] = 'report/index';
-$route['dashboard/reports'] = 'report/index';
+$route['dashboard/report'] = 'report/index';
+$route['dashboard/report/response'] = 'report/response_view';
 $route['dashboard/reports/export'] = 'report/export_report';
 // $route['dashboard/reports/filter'] = 'report/export';
 

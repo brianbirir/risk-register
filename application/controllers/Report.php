@@ -16,6 +16,7 @@ class Report extends RISK_Controller
         $this->load->library('pagination');
         $this->load->model('report_model');
         $this->load->model('risk_model');
+        $this->load->model('response_model');
         $this->load->model('project_model');
         $this->perPage = 20;
     }
@@ -570,5 +571,74 @@ class Report extends RISK_Controller
         {
             return 'No Data!';
         }
+    }
+
+
+    // responses report view
+    function response_view()
+    {
+        $data = array('title' => 'Response Report');
+
+        // get global data
+        $data = array_merge($data,$this->get_global_data());
+
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+
+        // init params
+        $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
+
+
+        // load pagination config file
+        $this->config->load('pagination', TRUE);
+        $settings = $this->config->item('pagination');
+        $settings['total_rows'] = $total_records;
+        $settings['base_url'] = base_url() . 'report/response';
+
+        if ( $data['role_id'] == 8 ) // if general user
+        {
+            $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
+            $assigned_register_id = $register_row->subproject_id;
+            
+            // get risk data
+            $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        }
+        else if( $data['role_id'] == 1 ) // if manager or super admin
+        {
+            $risk = $this->risk_model->getAllRisks();
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+        }
+        else 
+        {
+            // get current page results
+            // $risk = $this->response_model->getRisks(array('limit'=>$settings['per_page'],'start'=>$start_index,'user_id'=>$data['user_id']));
+            $response = $this->response_model->getAllResponses(array());
+            ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
+        }
+
+        // initialize pagination    
+        $this->pagination->initialize($settings);
+        // build paging links
+        $data["pagination_links"] = $this->pagination->create_links();
+
+        // PROJECT ID
+        // add assigned project ID to session data
+        // $data['risk_project_id'] = $this->input->post('risk_project');
+        $risk_project_id = 7;
+        $session_data = $this->session->userdata('logged_in');
+        $session_data['report_project_id'] = $risk_project_id;
+        $this->session->set_userdata('logged_in', $session_data);
+
+        // data for filter drop down
+        $data['select_category'] = $this->getCategories($risk_project_id);
+        $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
+        $data['selected_category'] = "None"; 
+        $data['selected_register'] = "None";
+
+        // load view
+        $this->template->load('dashboard', 'report/response', $data);
     }
 }

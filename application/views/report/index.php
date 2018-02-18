@@ -68,7 +68,7 @@
 
     // check if risk data exists
     if (!$risk_data) {
-        $msg = 'There are no risk fitting this criteria';
+        $msg = 'There are no risks fitting this criteria';
         echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
     } 
     else 
