@@ -251,7 +251,6 @@ class Risk extends RISK_Controller
             'quality_impact' => $this->input->post('qualityimpact'),
             'risk_rating' => $this->input->post('risk_rating'),
             'risk_level' => $this->input->post('risk_level'),
-            'comments' => $this->input->post('comments'),
             'control_mitigation' => $this->input->post('control_mitigation'),
             'action_owner_fname' => $this->input->post('action_owner_fname'),
             'action_owner_lname' => $this->input->post('action_owner_lname'),
@@ -271,7 +270,27 @@ class Risk extends RISK_Controller
             'description_change' => $this->input->post('description_change'),
             'effective_date' => $timestamp,
             'CostMetric_cost_id' => $this->input->post('costimpact'),
-            'ScheduleMetric_schedule_id' => $this->input->post('timeimpact')
+            'ScheduleMetric_schedule_id' => $this->input->post('timeimpact'),
+            'likelihood_current' => $this->input->post('likelihood_current'),
+            'reputation_impact_current' => $this->input->post('reputationimpact_current'),
+            'hs_impact__currentcurrent' => $this->input->post('hsimpact_current'),
+            'env_impact_current' => $this->input->post('environmentimpact_current'),
+            'legal_impact_current' => $this->input->post('legalimpact_current'),
+            'quality_impact_current' => $this->input->post('qualityimpact_current'),
+            'time_impact_current' => $this->input->post('timeimpact_current'),
+            'cost_impact_current' => $this->input->post('costimpact_current'),
+            'risk_rating_current' => $this->input->post('currentrisk_rating'),
+            'risk_level_current' => $this->input->post('currentrisk_level'),
+            'likelihood_target' => $this->input->post('likelihood_target'),
+            'reputation_impact_target' => $this->input->post('reputationimpact_target'),
+            'hs_impact__targettarget' => $this->input->post('hsimpact_target'),
+            'env_impact_target' => $this->input->post('environmentimpact_target'),
+            'legal_impact_target' => $this->input->post('legalimpact_target'),
+            'quality_impact_target' => $this->input->post('qualityimpact_target'),
+            'time_impact_target' => $this->input->post('timeimpact_target'),
+            'cost_impact_target' => $this->input->post('costimpact_target'),
+            'risk_rating_target' => $this->input->post('targetrisk_rating'),
+            'risk_level_target' => $this->input->post('targetrisk_level')
         );
 
         /**
@@ -517,7 +536,6 @@ class Risk extends RISK_Controller
                 'quality_impact' => $this->input->post('qualityimpact'),
                 'risk_rating' => $this->input->post('risk_rating'),
                 'risk_level' => $this->input->post('risk_level'),
-                'comments' => $this->input->post('comments'),
                 'control_mitigation' => $this->input->post('control_mitigation'),
                 'action_owner_fname' => $this->input->post('action_owner_fname'),
                 'action_owner_lname' => $this->input->post('action_owner_lname'),
@@ -540,7 +558,27 @@ class Risk extends RISK_Controller
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
                 'risk_uuid' => $risk_uuid,
-                'description_change' => $this->input->post('description_change')
+                'description_change' => $this->input->post('description_change'),
+                'likelihood_current' => $this->input->post('likelihood_current'),
+                'reputation_impact_current' => $this->input->post('reputationimpact_current'),
+                'hs_impact__currentcurrent' => $this->input->post('hsimpact_current'),
+                'env_impact_current' => $this->input->post('environmentimpact_current'),
+                'legal_impact_current' => $this->input->post('legalimpact_current'),
+                'quality_impact_current' => $this->input->post('qualityimpact_current'),
+                'time_impact_current' => $this->input->post('timeimpact_current'),
+                'cost_impact_current' => $this->input->post('costimpact_current'),
+                'risk_rating_current' => $this->input->post('currentrisk_rating'),
+                'risk_level_current' => $this->input->post('currentrisk_level'),
+                'likelihood_target' => $this->input->post('likelihood_target'),
+                'reputation_impact_target' => $this->input->post('reputationimpact_target'),
+                'hs_impact__targettarget' => $this->input->post('hsimpact_target'),
+                'env_impact_target' => $this->input->post('environmentimpact_target'),
+                'legal_impact_target' => $this->input->post('legalimpact_target'),
+                'quality_impact_target' => $this->input->post('qualityimpact_target'),
+                'time_impact_target' => $this->input->post('timeimpact_target'),
+                'cost_impact_target' => $this->input->post('costimpact_target'),
+                'risk_rating_target' => $this->input->post('targetrisk_rating'),
+                'risk_level_target' => $this->input->post('targetrisk_level')
             );
             
             // insert form data into database
