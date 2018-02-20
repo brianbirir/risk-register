@@ -19,6 +19,7 @@
             $select_register_attributes = '';
             if($selected_register != "None")
             {
+                $select_register['None'] = "Select Option";
                 echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
             }
             else 
@@ -33,6 +34,7 @@
             $select_main_category_attributes = '';
             if($selected_category != "None")
             {
+                $select_category['None'] = "Select Option";
                 echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
             }
             else 

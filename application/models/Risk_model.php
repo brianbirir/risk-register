@@ -183,6 +183,17 @@
             $row = $query->row();
             return ($query->num_rows() == 1) ? $row : false;
         }
+        
+        // get risk name by uuid
+        function getRiskNameByUUID($risk_uuid)
+        {
+            $this->db->select('risk_title');
+            $this->db->from('RiskRegistry');
+            $this->db->where('risk_uuid', $risk_uuid);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row->risk_title : false;
+        }
 
 
         // update risk item

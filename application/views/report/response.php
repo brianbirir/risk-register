@@ -4,39 +4,64 @@
     <?php // echo "<p>". $risk_project_id; ."</p>" ?>
 </div>
 
+<div id="response-report-form">
 
-<fieldset>
-    <label for="risk_register">Risk Register</label>
-    <?php 
-        $select_register_attributes = '';
-        if($selected_register != "None")
-        {
-            echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
-        }
-        else 
-        {
-            $select_register['None'] = "Select Option";
-            echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
-        }
+    <?php
+        $attributes = array("class" => "pure-form" ,"id" => "response=report-form", "name" => "response-report-form");
+        echo form_open("report/getResponseFilterResults", $attributes);
     ?>
+    
+    <fieldset>
+        <label for="risk_register">Risk Register</label>
+        <?php 
+            $select_register_attributes = '';
+            if($selected_register != "None")
+            {
+                $select_register['None'] = "Select Option";
+                echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
+            }
+            else 
+            {
+                $select_register['None'] = "Select Option";
+                echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
+            }
+        ?>
 
-    <label for="general_user">Users</label>
-    <?php 
-        $select_user_attributes = '';
-        if($selected_user != "None")
-        {
-            echo form_dropdown('risk_category', $select_user, $selected_user, $select_user_attributes);
-        }
-        else 
-        {
-            $select_user['None'] = "Select Option";
-            echo form_dropdown('risk_category',$select_user,"None",$select_user_attributes);
-        }
-    ?>
+        <label for="general_user">Users</label>
+        <?php 
+            $select_user_attributes = '';
+            if($selected_user != "None")
+            {
+                $select_user['None'] = "Select Option";
+                echo form_dropdown('general_user', $select_user, $selected_user, $select_user_attributes);
+            }
+            else 
+            {
+                $select_user['None'] = "Select Option";
+                echo form_dropdown('general_user',$select_user,"None",$select_user_attributes);
+            }
+        ?>
         <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" />
-</fieldset>
+    </fieldset>
 
+    <?php echo form_close(); ?>
+
+    <buttton id="generate-response-report" class="pure-button pure-button-primary btn-report">Generate Response Report</buttton>
+
+    <?php if ($this->session->flashdata('msg')){ ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div><?php echo $this->session->flashdata('msg'); ?></div>
+        </div>
+    <?php } ?>
+</div>
 <?php 
+
+    //  load risk model and trim library
+    $CI =& get_instance();
+    $CI->load->model('risk_model');
+    $CI->load->model('user_model');
+    
     // check if risk data exists
     if (!$response_data) 
     {
@@ -71,11 +96,11 @@
                                     {
                                         echo "<tr>";
                                         echo "<td>".$response_row->response_id."</td>";
-                                        echo "<td>".$response_row->risk_uuid."</td>";
+                                        echo "<td>".$CI->risk_model->getRiskNameByUUID($response_row->risk_uuid)."</td>";
                                         echo "<td>".$response_row->response_title."</td>";
-                                        echo "<td>".$response_row->RiskStrategies_strategy_id."</td>";  
-                                        echo "<td>".$response_row->user_id."</td>";
-                                        echo "<td>".$response_row->register_id."</td>";
+                                        echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";  
+                                        echo "<td>".$CI->user_model->getUserNames($response_row->user_id)."</td>";
+                                        echo "<td>".$CI->risk_model->getSubProjectName($response_row->register_id)."</td>";
                                         echo "<td>".$response_row->created_at."</td>";
                                     } 
                                 ?>

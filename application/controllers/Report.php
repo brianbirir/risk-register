@@ -310,6 +310,40 @@ class Report extends RISK_Controller
         
         redirect('dashboard/reports'); 
     }
+    
+    function export_response_report()
+    {
+        // load csv generator library
+        $this->load->library('csvgenerator');
+        
+        // get current session data 
+        $session_data = $this->session->userdata('logged_in');
+
+        // use filter session values to generate report
+        $response_user_id = $session_data['response_user_id'];
+        $response_register_id = $session_data['response_register_id'];
+
+        // get global data
+        $data = array();
+        $data = array_merge($data,$this->get_global_data());
+
+        if ($data['role_id'] == 8)
+        {
+            // get assigned risk register and its ID
+            $register_row = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+            $assigned_register_id = $register_row->subproject_id;
+            $this->csvgenerator->fetch_data($user_id, $main_category, $risk_level, $risk_register, $assigned_register_id);
+        }
+        else
+        {
+            $this->csvgenerator->fetch_response_data(array(
+                'user_id' => $response_user_id,
+                'register_id' => $response_register_id
+            ));
+        }
+        
+        redirect('dashboard/report/response'); 
+    }
 
     function ajaxPaginationData()
     {
@@ -673,5 +707,71 @@ class Report extends RISK_Controller
 
         // load view
         $this->template->load('dashboard', 'report/response', $data);
+    }
+
+    
+    function getResponseFilterResults()
+    {   
+        // title
+        $data = array('title' => 'Reponse Report');
+
+        // get current session data 
+        $session_data = $this->session->userdata('logged_in');
+        
+        if($this->input->post('btn_filter'))
+        {
+            // get filter criteria from post input
+            $user_id = $this->input->post('general_user'); // get user id
+            $register_id = $this->input->post('risk_register'); // get register id
+            $session_data['response_user_id'] = $user_id;
+            $session_data['response_register_id'] = $register_id;
+            $this->session->set_userdata('logged_in', $session_data);
+        }
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // PAGINATION
+            // init pagination params
+            $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
+
+            // load pagination configurations
+            $this->config->load('pagination', TRUE);
+            $settings = $this->config->item('pagination');
+            $settings['total_rows'] = $total_records;
+            $settings['base_url'] = base_url() . 'report/getResponseFilterResults';
+
+            ($start_index == 0) ? $offset = 0 : $offset = $start_index;
+
+            // get current page results
+            $response = $this->response_model->getResponses(array(
+                'limit'=>$settings['per_page'],
+                'start'=>$offset,
+                'user_id'=>$data['user_id'],
+                'user_id'=>$session_data['response_user_id'],
+                'register_id'=>$session_data['response_register_id']
+            ));
+
+            ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
+
+            // data for filter drop down
+            $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']);;
+            $data['selected_user'] = $session_data['response_user_id'];
+            
+            $data['select_register'] = $this->getSubProject($data['user_id'], $data['role_id']);
+            $data['selected_register'] = $session_data['response_register_id'];
+
+            // initialize pagination    
+            $this->pagination->initialize($settings);
+            
+            // build paging links
+            $data["pagination_links"] = $this->pagination->create_links();
+
+            // load view
+            $this->template->load('dashboard', 'report/response', $data);
     }
 }

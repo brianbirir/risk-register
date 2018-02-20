@@ -12,6 +12,19 @@ $(document).ready(function(){
             }
         });
     });
+    
+    
+    $("#generate-response-report").click(function(e) {
+        e.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '/dashboard/reports/response_export',
+            success:function(html){
+                alertify.notify('Report Download Successful', 'success', 5, function(){  console.log('dismissed'); });
+                window.location = '/dashboard/reports/response_export';
+            }
+        });
+    });
 
 
     function download_notification()
@@ -36,8 +49,6 @@ $(document).ready(function(){
           }
           //launch it.
           alertify.myAlert("Browser dialogs made easy!");
-
-          
     }
 
 });

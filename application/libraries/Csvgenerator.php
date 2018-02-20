@@ -7,8 +7,9 @@ class Csvgenerator extends CI_Controller
     {
         $CI =& get_instance();
 
-        // load database report module
-        $CI->load->model( 'report_model' );
+        $CI->load->model('report_model');
+        $CI->load->model('risk_model');
+        $CI->load->model('user_model');
 
         // load response library
         $CI->load->library( 'responses' );
@@ -258,5 +259,63 @@ class Csvgenerator extends CI_Controller
     {
         $db_data = $this->ci->report_model->getData();
     }
+    
+    
+    function fetch_response_data($params = array())
+    {
+        $db_data = $this->ci->response_model->getResponseData(array(
+            'user_id' => $params['user_id'],
+            'register_id' => $params['register_id']
+        ));
+        
+        if($db_data)
+        {
+            $delimiter = ",";
+            $filename = "respnse_report_" . date('Y-m-d H:i:s') . ".csv";
+            
+            // create file pointer
+            $f = fopen('php://memory', 'w');
+            
+            //set column headers
+            $fields = array(
+                'Response ID', 
+                'Risk Unique ID',
+                'Response UUID',
+                'Response Title', 
+                'Risk Strategy', 
+                'Register User',
+                'Register',
+                'Creation Date' 
+            );
 
+            fputcsv($f, $fields, $delimiter);
+
+            // output each row of the data, format line as csv and write to file pointer
+            foreach ($db_data as $data_row) 
+            {
+                $lineData = array(
+                    $data_row->response_id,
+                    $this->ci->risk_model->getRiskNameByUUID($data_row->risk_uuid),
+                    $data_row->response_title,
+                    $this->ci->risk_model->getRiskStrategiesName($data_row->RiskStrategies_strategy_id),
+                    $this->ci->user_model->getUserNames($data_row->user_id),
+                    $this->ci->risk_model->getSubProjectName($data_row->register_id),
+                    $data_row->created_at
+                );
+
+                fputcsv($f, $lineData, $delimiter);
+            }
+
+            // move back to beginning of file
+            fseek($f, 0);
+            
+            // set headers to download file rather than be displayed
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . $filename . '";');
+            
+            // output all remaining data on a file pointer
+            fpassthru($f);
+        }
+        exit;
+    }
 }
