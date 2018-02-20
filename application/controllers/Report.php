@@ -18,6 +18,7 @@ class Report extends RISK_Controller
         $this->load->model('risk_model');
         $this->load->model('response_model');
         $this->load->model('project_model');
+        $this->load->model('user_model');
         $this->perPage = 20;
     }
 
@@ -572,6 +573,38 @@ class Report extends RISK_Controller
             return 'No Data!';
         }
     }
+    
+    // get users
+    function getGeneralUsers($user_id, $role_id)
+    {
+        if ( $role_id == 8 ) 
+        {
+            $user = $this->user_model->getUsers( $user_id );
+        }
+        else
+        {
+            $user = $this->user_model->getUsers( $user_id );
+        }
+        
+        if( $user )
+        {
+            $options = array();
+
+            foreach ( $user as $row ) 
+            {
+                $user_id = $row->user_id;
+                $user_fname = $row->first_name;
+                $user_lname = $row->last_name;
+                $options[$user_id] = $user_fname ." ".$user_lname;  
+            }
+
+            return $options;
+        }
+        else
+        {
+            return 'No Data!';
+        }
+    }
 
 
     // responses report view
@@ -633,10 +666,10 @@ class Report extends RISK_Controller
         $this->session->set_userdata('logged_in', $session_data);
 
         // data for filter drop down
-        $data['select_category'] = $this->getCategories($risk_project_id);
-        $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
-        $data['selected_category'] = "None"; 
+        $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] ); // risk register
+        $data['selected_user'] = "None"; 
         $data['selected_register'] = "None";
+        $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']); // user
 
         // load view
         $this->template->load('dashboard', 'report/response', $data);

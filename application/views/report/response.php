@@ -4,6 +4,38 @@
     <?php // echo "<p>". $risk_project_id; ."</p>" ?>
 </div>
 
+
+<fieldset>
+    <label for="risk_register">Risk Register</label>
+    <?php 
+        $select_register_attributes = '';
+        if($selected_register != "None")
+        {
+            echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
+        }
+        else 
+        {
+            $select_register['None'] = "Select Option";
+            echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
+        }
+    ?>
+
+    <label for="general_user">Users</label>
+    <?php 
+        $select_user_attributes = '';
+        if($selected_user != "None")
+        {
+            echo form_dropdown('risk_category', $select_user, $selected_user, $select_user_attributes);
+        }
+        else 
+        {
+            $select_user['None'] = "Select Option";
+            echo form_dropdown('risk_category',$select_user,"None",$select_user_attributes);
+        }
+    ?>
+        <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" />
+</fieldset>
+
 <?php 
     // check if risk data exists
     if (!$response_data) 
