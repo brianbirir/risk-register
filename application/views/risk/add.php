@@ -186,7 +186,7 @@
             <div class="box box-info box-qualitative">
 
                 <div class="box-header">
-                    <h3 class="box-title">Pre-Qualitative Analysis</h3>
+                    <h3 class="box-title">Pre-Mitigation</h3>
                 </div>
 
                 <div class="box-body">
@@ -281,7 +281,7 @@
             <div class="box box-info box-qualitative">
 
                 <div class="box-header">
-                    <h3 class="box-title">Current Qualitative Analysis</h3>
+                    <h3 class="box-title">Current Mitigated Risk</h3>
                 </div>
 
                 <div class="box-body">
@@ -376,7 +376,7 @@
             <div class="box box-info box-qualitative">
 
                 <div class="box-header">
-                    <h3 class="box-title">Target Qualitative Analysis</h3>
+                    <h3 class="box-title">Targeted Risk</h3>
                 </div>
 
                 <div class="box-body">
