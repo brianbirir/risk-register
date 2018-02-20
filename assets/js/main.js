@@ -57,6 +57,8 @@ function calcQualitativeRisk()
     // set colour background for form input based in risk level
     var risk_level_input = document.querySelector("#risk_level");
     risk_level_input.style.backgroundColor = risk_level.color;
+    var risk_rating_input = document.querySelector("#risk_rating");
+    risk_rating_input.style.backgroundColor = risk_level.color;
 
 }
 
@@ -105,6 +107,9 @@ function calcCurrentQualitativeRisk()
     // set colour background for form input based in risk level
     var risk_level_input = document.querySelector("#currentrisk_level");
     risk_level_input.style.backgroundColor = risk_level.color;
+    
+    var risk_rating_input = document.querySelector("#currentrisk_rating");
+    risk_rating_input.style.backgroundColor = risk_level.color;
 }
 
 var likelihood_current = document.getElementById('likelihood_current');
@@ -151,6 +156,9 @@ function calcTargetQualitativeRisk()
     // set colour background for form input based in risk level
     var risk_level_input = document.querySelector("#targetrisk_level");
     risk_level_input.style.backgroundColor = risk_level.color;
+    
+    var risk_rating_input = document.querySelector("#targetrisk_rating");
+    risk_rating_input.style.backgroundColor = risk_level.color;
 }
 
 var likelihood_target = document.getElementById('likelihood_target');
