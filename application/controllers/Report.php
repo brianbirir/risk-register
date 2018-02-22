@@ -195,7 +195,8 @@ class Report extends RISK_Controller
         // PROJECT ID
         // add assigned project ID to session data
         // $data['risk_project_id'] = $this->input->post('risk_project');
-        $risk_project_id = 7;
+        $risk_project_id = $this->input->post('risk_project');
+        // $risk_project_id = 7;
         $session_data = $this->session->userdata('logged_in');
         $session_data['report_project_id'] = $risk_project_id;
         $this->session->set_userdata('logged_in', $session_data);
@@ -386,7 +387,7 @@ class Report extends RISK_Controller
 
 
     // view to select project
-    function select_project()
+    function select_risk_project()
     {
         $data = array('title' => 'Risk Report');
         
@@ -404,6 +405,34 @@ class Report extends RISK_Controller
 
             // load page to show all status
             $this->template->load('dashboard', 'report/select_project', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // view to select project
+    function select_response_project()
+    {
+        $data = array('title' => 'Response Report');
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge( $data, $this->get_global_data() );
+
+            // get project data
+            $data['select_project'] = $this->getProject( $data['user_id'], $data['role_id'] );
+
+            // load page to show all status
+            $this->template->load('dashboard', 'report/select_response_project', $data);
         }
         else
         {
@@ -693,8 +722,8 @@ class Report extends RISK_Controller
 
         // PROJECT ID
         // add assigned project ID to session data
-        // $data['risk_project_id'] = $this->input->post('risk_project');
-        $risk_project_id = 7;
+        $risk_project_id = $this->input->post('risk_project');
+        // $risk_project_id = 7;
         $session_data = $this->session->userdata('logged_in');
         $session_data['report_project_id'] = $risk_project_id;
         $this->session->set_userdata('logged_in', $session_data);

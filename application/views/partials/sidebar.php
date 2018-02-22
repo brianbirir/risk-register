@@ -13,7 +13,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="<?php echo base_url(); ?>dashboard/report"><i class="fa fa-folder"></i>Risks</a></li>
+            <li><a href="<?php echo base_url(); ?>dashboard/reports/risk_project"><i class="fa fa-folder"></i>Risks</a></li>
             <li><a href="<?php echo base_url(); ?>dashboard/report/response"><i class="fa fa-folder"></i>Risk Responses</a></li>
           </ul>
         </li>
