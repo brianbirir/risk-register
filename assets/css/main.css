@@ -156,8 +156,16 @@
     background-color: #a8e2dc;
 }
 
-.box-qualitative {
+.box-pre-mitigated {
     background-color: #c7effb;
+}
+
+.box-current-risks {
+    background-color: #B3D7E1;
+}
+
+.box-targeted-risks {
+    background-color: #9FBFC8;
 }
 
 .box-responses {

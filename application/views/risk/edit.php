@@ -212,7 +212,7 @@
             <div class="box box-info box-qualitative">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">Qualitative Analysis</h3>
+                    <h3 class="box-title">Pre-Mitigation Risks</h3>
                 </div>
 
                 <div class="box-body">
@@ -303,6 +303,218 @@
                                 <label for="risk_level">Risk Level</label>
                                 <input id="risk_level" class="form-control" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo $risk->risk_level; ?>" required/>
                                 <?php echo form_error('risk_level','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            <div class="box box-info box-qualitative">
+
+                <div class="box-header">
+                    <h3 class="box-title">Current Mitigated Risk</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label for="likelihood_current">Likelihood</label>
+                            <?php
+                                $select_option = array(
+                                    '1' => '1',
+                                    '2' => '2',
+                                    '3' => '3',
+                                    '4' => '4',
+                                    '5' => '5'
+                                );
+                                $select_current_likelihood_impact = 'id="likelihood_current" class="form-control input-sm select-input"';
+                                $likelihood_current_id = $risk->likelihood_current;
+                                echo form_dropdown('likelihood_current',$select_option,$likelihood_current_id,$select_current_likelihood_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="timeimpact_current">Time Impact</label>
+                            <?php 
+                                $select_current_time_impact = 'id="timeimpact_current" class="form-control input-sm select-input"';
+
+                                $time_impact_current_id = $risk->time_impact_current;
+                                // echo form_dropdown('timeimpact',$select_option,"1",$select_time_impact);
+                                echo form_dropdown('timeimpact_current', $select_risk_schedule, $time_impact_current_id, $select_current_time_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="costimpact_current">Cost Impact</label>
+                            <?php 
+                                $select_current_cost_impact = 'id="costimpact_current" class="form-control input-sm select-input"';
+
+                                $cost_impact_current_id = $risk->cost_impact_current; 
+                                // echo form_dropdown('costimpact',$select_option,"1",$select_cost_impact);
+                                echo form_dropdown('costimpact_current', $select_risk_cost, $cost_impact_current_id, $select_current_cost_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="reputationimpact_current">Reputation Impact</label>
+                            <?php
+
+                                $reputation_impact_current_id = $risk->reputation_impact_current; 
+                                $select_current_reputation_impact = 'id="reputationimpact_current" class="form-control input-sm select-input"';
+                                echo form_dropdown('reputationimpact_current',$select_option,$reputation_impact_current_id,$select_current_reputation_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="hsimpact_current">H & S Impact</label>
+                            <?php 
+                                $hs_impact_current_id = $risk->hs_impact_current;
+                                $select_current_hs_impact = 'id="hsimpact_current" class="form-control input-sm select-input"';
+                                echo form_dropdown('hsimpact_current',$select_option,$hs_impact_current_id,$select_current_hs_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="environmentimpact_current">Environment Impact</label>
+                            <?php 
+                                $env_impact_current_id = $risk->env_impact_current;
+                                $select_current_env_impact = 'id="envimpact_current" class="form-control input-sm select-input"';
+                                echo form_dropdown('environmentimpact_current',$select_option,$env_impact_current_id,$select_current_env_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="legalimpact_current">Legal Impact</label>
+                            <?php
+                                $legal_impact_current_id = $risk->legal_impact_current;
+                                $select_current_legal_impact = 'id="legalimpact_current" class="form-control input-sm select-input"';
+                                echo form_dropdown('legalimpact_current',$select_option,$legal_impact_current_id,$select_current_legal_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="qualityimpact_current">Quality Impact</label>
+                            <?php 
+                                $quality_impact_current_id = $risk->quality_impact_current;
+                                $select_current_quality_impact = 'id="qualityimpact_current" class="form-control input-sm select-input"';
+                                echo form_dropdown('qualityimpact_current',$select_option,$quality_impact_current_id,$select_current_quality_impact);
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="currentrisk_rating">Risk Rating</label>
+                                <input id="currentrisk_rating" class="form-control" name="currentrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo $risk->risk_rating_current; ?>" required/>
+                                <?php echo form_error('currentrisk_rating','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="currentrisk_level">Risk Level</label>
+                                <input id="currentrisk_level" class="form-control" name="currentrisk_level" placeholder="Risk Level" type="text" value="<?php echo $risk->risk_level_current; ?>" required/>
+                                <?php echo form_error('currentrisk_level','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+
+            <div class="box box-info box-qualitative">
+
+                <div class="box-header">
+                    <h3 class="box-title">Targeted Risk</h3>
+                </div>
+
+                <div class="box-body">
+                    <div class="row">
+                        <div class="col-md-2">
+                            <label for="likelihood_target">Likelihood</label>
+                            <?php
+                                $select_option = array(
+                                    '1' => '1',
+                                    '2' => '2',
+                                    '3' => '3',
+                                    '4' => '4',
+                                    '5' => '5'
+                                );
+                                $select_target_likelihood_impact = 'id="likelihood_target" class="form-control input-sm select-input"';
+                                $likelihood_target_id = $risk->likelihood_target;
+                                echo form_dropdown('likelihood_target',$select_option,$likelihood_target_id,$select_target_likelihood_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="timeimpact_target">Time Impact</label>
+                            <?php 
+                                $select_target_time_impact = 'id="timeimpact_target" class="form-control input-sm select-input"';
+
+                                $time_impact_target_id = $risk->time_impact_target;
+                                // echo form_dropdown('timeimpact',$select_option,"1",$select_time_impact);
+                                echo form_dropdown('timeimpact_target', $select_risk_schedule, $time_impact_target_id, $select_target_time_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="costimpact_target">Cost Impact</label>
+                            <?php 
+                                $select_target_cost_impact = 'id="costimpact_target" class="form-control input-sm select-input"';
+
+                                $cost_impact_target_id = $risk->cost_impact_target; 
+                                // echo form_dropdown('costimpact',$select_option,"1",$select_cost_impact);
+                                echo form_dropdown('costimpact_target', $select_risk_cost, $cost_impact_target_id, $select_target_cost_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="reputationimpact_target">Reputation Impact</label>
+                            <?php
+
+                                $reputation_impact_target_id = $risk->reputation_impact_target; 
+                                $select_target_reputation_impact = 'id="reputationimpact_target" class="form-control input-sm select-input"';
+                                echo form_dropdown('reputationimpact_target',$select_option,$reputation_impact_target_id,$select_target_reputation_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="hsimpact_target">H & S Impact</label>
+                            <?php 
+                                $hs_impact_target_id = $risk->hs_impact_target;
+                                $select_target_hs_impact = 'id="hsimpact_target" class="form-control input-sm select-input"';
+                                echo form_dropdown('hsimpact_target',$select_option,$hs_impact_target_id,$select_target_hs_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="environmentimpact_target">Environment Impact</label>
+                            <?php 
+                                $env_impact_target_id = $risk->env_impact_target;
+                                $select_target_env_impact = 'id="envimpact_target" class="form-control input-sm select-input"';
+                                echo form_dropdown('environmentimpact_target',$select_option,$env_impact_target_id,$select_target_env_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="legalimpact_target">Legal Impact</label>
+                            <?php
+                                $legal_impact_target_id = $risk->legal_impact_target;
+                                $select_target_legal_impact = 'id="legalimpact_target" class="form-control input-sm select-input"';
+                                echo form_dropdown('legalimpact_target',$select_option,$legal_impact_target_id,$select_target_legal_impact);
+                            ?>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="qualityimpact_target">Quality Impact</label>
+                            <?php 
+                                $quality_impact_target_id = $risk->quality_impact_target;
+                                $select_target_quality_impact = 'id="qualityimpact_target" class="form-control input-sm select-input"';
+                                echo form_dropdown('qualityimpact_target',$select_option,$quality_impact_target_id,$select_target_quality_impact);
+                            ?>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="targetrisk_rating">Risk Rating</label>
+                                <input id="targetrisk_rating" class="form-control" name="targetrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo $risk->risk_rating_target; ?>" required/>
+                                <?php echo form_error('targetrisk_rating','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="targetrisk_level">Risk Level</label>
+                                <input id="targetrisk_level" class="form-control" name="targetrisk_level" placeholder="Risk Level" type="text" value="<?php echo $risk->risk_level_target; ?>" required/>
+                                <?php echo form_error('targetrisk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                     </div>
@@ -410,56 +622,6 @@
                     </div>
 
                 </div>
-            </div>
-
-            <div class="box box-primary box-residual-risk">
-
-                <div class="box-header with-border">
-                    <h3 class="box-title">Controlling Residual Risk</h3>
-                </div>
-
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_likelihood">Likelihood</label>
-                                <?php
-                                    $residual_risk_likelihood = $risk->residual_risk_likelihood; 
-                                    $select_residual_likelihood = 'id="residual-risk-select" class="form-control input-sm select-input"';
-                                    echo form_dropdown('residual_likelihood',$select_option,$residual_risk_likelihood,$select_residual_likelihood);
-                                ?>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_impact">Impact</label>
-                                <?php 
-                                    $residual_risk_impact = $risk->residual_risk_impact; 
-                                    $select_residual_impact = 'id="residual-impact-select" class="form-control input-sm select-input"';
-                                    echo form_dropdown('residual_impact',$select_option,$residual_risk_impact,$select_residual_impact);
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_risk_rating">Residual Risk Rating</label>
-                                <input id="residual_risk_rating" class="form-control" name="residual_risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo $risk->residual_risk_rating; ?>" required/>
-                                <?php echo form_error('residual_risk_rating','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>         
-                        <div class="col-md-6">   
-                            <div class="form-group">
-                                <label for="residual_risk_level">Residual Risk Level</label>
-                                <input id="residual_risk_level" class="form-control" name="residual_risk_level" placeholder="Residual Risk Level" type="text" value="<?php echo $risk->residual_risk_level; ?>" required/>
-                                <?php echo form_error('residual_risk_level','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
 
             <div class="box box-yellow box-controlling">

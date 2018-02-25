@@ -130,9 +130,9 @@
   </div>
 </div>
 
-<div class="box box-info box-qualitative">
+<div class="box box-info box-pre-mitigated">
     <div class="box-header with-border">
-        <h3 class="box-title">Qualitative Analysis</h3>
+        <h3 class="box-title">Pre-Mitigated Risks</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
@@ -140,6 +140,12 @@
     <div class="box-body">
     <?php
         echo "<table class='table'>";
+
+        echo "<tr>";
+        echo "<td><label>Likelihood:</label></td>";
+        echo "<td><p>".$risk_data->likelihood."</p></td>";
+        echo "</tr>";
+
         echo "<tr>";
         echo "<td><label>Time Impact:</label>";
         echo "<td><p>".$risk_data->ScheduleMetric_schedule_id."</p></td>";
@@ -188,6 +194,139 @@
         echo "<tr>";
         echo "<td><label>Risk Level:</label></td>";
         echo "<td><p>".$risk_data->risk_level."</p></td>";
+        echo "</tr>";
+
+        echo "</table>";
+    ?>
+    </div>
+</div>
+
+<div class="box box-info box-current-risks">
+    <div class="box-header with-border">
+        <h3 class="box-title">Current Mitigated Risks</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    <div class="box-body">
+    <?php
+
+        echo "<table class='table'>";
+
+        echo "<tr>";
+        echo "<td><label>Likelihood:</label></td>";
+        echo "<td><p>".$risk_data->likelihood_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Time Impact:</label>";
+        echo "<td><p>".$risk_data->time_impact_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Cost Impact:</label>";
+        echo "<td><p>".$risk_data->cost_impact_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Reputation Impact:</label></td>";
+        echo "<td><p>".$risk_data->reputation_impact_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>H & S Impact:</label></td>";
+        echo "<td><p>".$risk_data->hs_impact_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Environment Impact:</label></td>";
+        echo "<td><p>".$risk_data->env_impact_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Legal Impact:</label></td>";
+        echo "<td><p>".$risk_data->legal_impact_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Quality Impact:</label></td>";
+        echo "<td><p>".$risk_data->quality_impact_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Risk Rating:</label></td>";
+        echo "<td><p>".$risk_data->risk_rating_current."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Risk Level:</label></td>";
+        echo "<td><p>".$risk_data->risk_level_current."</p></td>";
+        echo "</tr>";
+
+        echo "</table>";
+    ?>
+    </div>
+</div>
+
+<div class="box box-info box-targeted-risks">
+    <div class="box-header with-border">
+        <h3 class="box-title">Targeted Risks</h3>
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+        </div>
+    </div>
+    <div class="box-body">
+    <?php
+        echo "<table class='table'>";
+
+        echo "<tr>";
+        echo "<td><label>Likelihood:</label></td>";
+        echo "<td><p>".$risk_data->likelihood_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Time Impact:</label>";
+        echo "<td><p>".$risk_data->time_impact_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Cost Impact:</label>";
+        echo "<td><p>".$risk_data->cost_impact_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Reputation Impact:</label></td>";
+        echo "<td><p>".$risk_data->reputation_impact_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>H & S Impact:</label></td>";
+        echo "<td><p>".$risk_data->hs_impact_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Environment Impact:</label></td>";
+        echo "<td><p>".$risk_data->env_impact_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Legal Impact:</label></td>";
+        echo "<td><p>".$risk_data->legal_impact_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Quality Impact:</label></td>";
+        echo "<td><p>".$risk_data->quality_impact_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Risk Rating:</label></td>";
+        echo "<td><p>".$risk_data->risk_rating_target."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
+        echo "<td><label>Risk Level:</label></td>";
+        echo "<td><p>".$risk_data->risk_level_target."</p></td>";
         echo "</tr>";
 
         echo "</table>";
@@ -257,41 +396,6 @@
                 ?>
             </div>
         </div>
-    </div>
-</div>
-
-<div class="box box-primary box-residual-risk">
-    <div class="box-header with-border">
-        <h3 class="box-title">Controlling Residual Risk</h3>
-        <div class="box-tools pull-right">
-            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-        </div>
-    </div>
-    <div class="box-body">
-    <?php
-        echo "<table class='table'>";
-        echo "<tr>";
-        echo "<td><label>Likelihood:</label>";
-        echo "<td><p>".$risk_data->residual_risk_likelihood."</p></td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td><label>Impact:</label>";
-        echo "<td><p>".$risk_data->residual_risk_impact."</p></td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td><label>Risk Rating:</label></td>";
-        echo "<td><p>".$risk_data->residual_risk_rating."</p></td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td><label>Risk Level:</label></td>";
-        echo "<td><p>".$risk_data->residual_risk_level."</p></td>";
-        echo "</tr>";
-
-        echo "</table>";
-    ?>
     </div>
 </div>
 
