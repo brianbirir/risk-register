@@ -533,7 +533,7 @@
                                             <?php } else { ?>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[title][]" class="form-control">
+                                                    <select name="risk_response[title][]" class="form-control select2 response-title">
                                                         <?php 
                                                             foreach ($select_response_title as $key => $value) 
                                                             {

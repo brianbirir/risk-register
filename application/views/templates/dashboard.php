@@ -51,6 +51,7 @@
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/alertify.min.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/bootstrap-confirmation.min.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
+        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
         
         <!-- Custom js -->
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/main.js"></script>
@@ -59,4 +60,5 @@
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/validate.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/register-tabs.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/confirmation.js"></script>
+        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/select.js"></script>
     </body>
