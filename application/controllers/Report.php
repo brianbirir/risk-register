@@ -194,9 +194,7 @@ class Report extends RISK_Controller
 
         // PROJECT ID
         // add assigned project ID to session data
-        // $data['risk_project_id'] = $this->input->post('risk_project');
         $risk_project_id = $this->input->post('risk_project');
-        // $risk_project_id = 7;
         $session_data = $this->session->userdata('logged_in');
         $session_data['report_project_id'] = $risk_project_id;
         $this->session->set_userdata('logged_in', $session_data);
@@ -223,9 +221,15 @@ class Report extends RISK_Controller
         {
             // get filter criteria from post input
             $category_id = $this->input->post('risk_category'); // get category id
-            $register_id = $this->input->post('risk_register'); // get register 
+            $register_id = $this->input->post('risk_register'); // get register
+            $date_from = $this->input->post('date_from');
+            $date_to = $this->input->post('date_to');
+
             $session_data['category_id'] = $category_id;
             $session_data['register_id'] = $register_id;
+            $session_data['date_from'] = $date_from;
+            $session_data['date_to'] = $date_to;
+
             $this->session->set_userdata('logged_in', $session_data);
         }
             // get global data
@@ -254,7 +258,9 @@ class Report extends RISK_Controller
                 'start'=>$offset,
                 'user_id'=>$data['user_id'],
                 'category_id'=>$session_data['category_id'],
-                'register_id'=>$session_data['register_id']
+                'register_id'=>$session_data['register_id'],
+                'date_from'=>$session_data['date_from'],
+                'date_to'=>$session_data['date_to']
             ));
 
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
@@ -287,7 +293,9 @@ class Report extends RISK_Controller
         // use filter session values to generate report
         $category_id = $session_data['category_id'];
         $register_id = $session_data['register_id'];
-
+        $date_from = $session_data['date_from'];
+        $date_to = $session_data['date_to'];
+        
         // get global data
         $data = array();
         $data = array_merge($data,$this->get_global_data());
@@ -305,6 +313,8 @@ class Report extends RISK_Controller
             $this->csvgenerator->fetch_manager_data(array(
                 'risk_category' => $category_id,
                 'risk_register' => $register_id,
+                'date_from' => $date_from,
+                'date_to' => $date_to,
                 'user_id' => $data['user_id']
             ));
         }

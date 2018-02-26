@@ -1,7 +1,6 @@
 <div class="bs-callout bs-callout-info">
     <h4>Generate a risk report</h4>
     <p>The risk report will be generated based on the given filters and downloaded as a CSV file that is readable using Microsoft Excel.</p>
-    <?php // echo "<p>". $risk_project_id; ."</p>" ?>
 </div>
 
 <!-- report generation form -->
@@ -9,46 +8,74 @@
 <div id="report-form">
 
     <?php
-        $attributes = array("class" => "pure-form" ,"id" => "report-form", "name" => "report-form");
+        $attributes = array("class" => "form-inline" ,"id" => "report-form", "name" => "report-form");
         echo form_open("report/getFilterResults", $attributes);
     ?>
 
     <fieldset>
-        <label for="risk_register">Risk Register</label>
-        <?php 
-            $select_register_attributes = '';
-            if($selected_register != "None")
-            {
-                $select_register['None'] = "Select Option";
-                echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
-            }
-            else 
-            {
-                $select_register['None'] = "Select Option";
-                echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
-            }
-        ?>
 
-        <label for="risk_category">Risk Category</label>
-        <?php 
-            $select_main_category_attributes = '';
-            if($selected_category != "None")
-            {
-                $select_category['None'] = "Select Option";
-                echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
-            }
-            else 
-            {
-                $select_category['None'] = "Select Option";
-                echo form_dropdown('risk_category',$select_category,"None",$select_main_category_attributes);
-            }
-        ?>
-        <input name="btn_filter" type="submit" class="pure-button pure-button-primary btn-filter" value="Filter" />
+        <div class="form-group">
+            <!-- date range -->
+            <label for="dat">From:</label>
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input data-date-orientation="bottom" data-date-format="yyyy-mm-dd" name="date_from" type="text" class="form-control datepicker" id="datepicker-from">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <!-- date range -->
+            <label for="date_to">To:</label>
+            <div class="input-group date">
+                <div class="input-group-addon">
+                    <i class="fa fa-calendar"></i>
+                </div>
+                <input data-date-orientation="bottom" data-date-format="yyyy-mm-dd" name="date_to" type="text" class="form-control datepicker" id="datepicker-to">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="risk_register">Risk Register</label>
+            <?php 
+                $select_register_attributes = 'class="form-control"';
+                if($selected_register != "None")
+                {
+                    $select_register['None'] = "Select Option";
+                    echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
+                }
+                else 
+                {
+                    $select_register['None'] = "Select Option";
+                    echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
+                }
+            ?>
+        </div>
+
+
+        <div class="form-group">
+            <label for="risk_category">Risk Category</label>
+            <?php 
+                $select_main_category_attributes = 'class="form-control"';
+                if($selected_category != "None")
+                {
+                    $select_category['None'] = "Select Option";
+                    echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
+                }
+                else 
+                {
+                    $select_category['None'] = "Select Option";
+                    echo form_dropdown('risk_category',$select_category,"None",$select_main_category_attributes);
+                }
+            ?>
+            <input name="btn_filter" type="submit" class="btn btn-sm btn-filter" value="Filter" />
+        </div>
     </fieldset>
 
     <?php echo form_close(); ?>
 
-    <buttton id="generate-report" class="pure-button pure-button-primary btn-report">Generate Report</buttton>
+    <buttton id="generate-report" class="btn btn-sm btn-report">Generate Report</buttton>
 
     <?php if ($this->session->flashdata('msg')){ ?>
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -85,8 +112,6 @@
                         <table class="table table-hover">
                             <thead>
                                 <tr>
-                                    <!-- <th>ID</th>
-                                    <th>Unique ID</th> -->
                                     <th>Title</th>
                                     <th>Main Category</th>
                                     <th>Identified Hazard/ IdentifiedRisk</th>
@@ -125,8 +150,6 @@
                                 <?php
                                     foreach ($risk_data as $risk_row) {
                                         echo "<tr>";
-                                        // echo "<td>".$risk_row->item_id."</td>";
-                                        // echo "<td>".$risk_row->risk_uuid."</td>";
                                         echo "<td>".$risk_row->risk_title."</td>";
                                         echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                         echo "<td>".$risk_row->identified_hazard_risk."</td>";
@@ -154,7 +177,6 @@
                                             echo $value;
                                         }
                                         echo "</td>";
-                                        // echo "<td>".$CI->responses->collectResponses($risk_row->risk_uuid)."</td>";
                                         echo "<td>".$CI->risk_model->getSystemSafetyName($risk_row->SystemSafety_safety_id)."</td>";
                                         echo "<td>".$CI->risk_model->getRealizationName($risk_row->Realization_realization_id)."</td>";
                                         echo "<td>".$risk_row->residual_risk_likelihood."</td>";

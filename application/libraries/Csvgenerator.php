@@ -138,6 +138,8 @@ class Csvgenerator extends CI_Controller
         $db_data = $this->ci->report_model->getManagerData(array(
             'category_id' => $params['risk_category'],
             'register_id' => $params['risk_register'],
+            'date_to' => $params['date_to'],
+            'date_from' => $params['date_from'],
             'user_id' => $params['user_id']
         ));
         
@@ -171,7 +173,6 @@ class Csvgenerator extends CI_Controller
                 'Environment Impact',
                 'Legal Impact', 
                 'Quality Impact', 
-                'Comments', 
                 'Risk Rating', 
                 'Risk Level',
                 'Risk Responses',
@@ -218,8 +219,7 @@ class Csvgenerator extends CI_Controller
                         $data_row->hs_impact, 
                         $data_row->env_impact, 
                         $data_row->legal_impact, 
-                        $data_row->quality_impact,
-                        $data_row->comments,  
+                        $data_row->quality_impact, 
                         $data_row->risk_rating,
                         $data_row->risk_level,
                         $value,

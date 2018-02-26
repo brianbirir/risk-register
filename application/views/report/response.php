@@ -12,6 +12,7 @@
     ?>
     
     <fieldset>
+
         <label for="risk_register">Risk Register</label>
         <?php 
             $select_register_attributes = '';

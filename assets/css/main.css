@@ -145,6 +145,10 @@
     padding: 5px;
 }
 
+/*DATE PICKER*/
+.datepicker-dropdown {
+    background-color: #f1c40f;
+}
 
 /* BOXES */
 .box.box-yellow {

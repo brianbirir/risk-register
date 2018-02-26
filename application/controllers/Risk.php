@@ -217,7 +217,8 @@ class Risk extends RISK_Controller
         // load UUID library for use in generating respone UUID
         $this->load->library('uuid');
 
-        $timestamp = date('Y-m-d G:i:s');
+        //$timestamp = date('Y-m-d G:i:s');
+        $timestamp = date('Y-m-d');
 
         // get risk id from hidden field
         $risk_id = $this->input->post('risk_id');
@@ -368,7 +369,7 @@ class Risk extends RISK_Controller
     // archive a risk item
     function archive()
     {
-        $timestamp = date('Y-m-d G:i:s');
+        $timestamp = date('Y-m-d');
         $archived = true;
 
         // get id from fourth segment of uri
@@ -436,7 +437,7 @@ class Risk extends RISK_Controller
 
         // set validation rules
         // $this->form_validation->set_rules('risk_reponse[]', 'Identified Hazard Risk', 'trim|required');
-        $timestamp = date('Y-m-d G:i:s');
+        $timestamp = date('Y-m-d');
         
         // get global data
         $global_data = $this->get_global_data();
@@ -512,7 +513,8 @@ class Risk extends RISK_Controller
         // }
         // else
         // {
-            $timestamp = date('Y-m-d G:i:s');
+            // $timestamp = date('Y-m-d G:i:s');
+            $timestamp = date('Y-m-d');
 
             // get global data
             $global_data = $this->get_global_data();
@@ -557,6 +559,7 @@ class Risk extends RISK_Controller
                 'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
+                'effective_date' => $timestamp,
                 'risk_uuid' => $risk_uuid,
                 'description_change' => $this->input->post('description_change'),
                 'likelihood_current' => $this->input->post('likelihood_current'),
