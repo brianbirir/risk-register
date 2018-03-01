@@ -34,7 +34,7 @@
                     <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id; ?>"/>
 
                     <div class="row">             
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="identified_hazard_risk">Identified Hazard Risk</label>
                                 <input class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" value="<?php echo set_value('identified_hazard_risk'); ?>" required/>
@@ -42,7 +42,12 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-1">
+                            <span></span>
+                            <span><strong>Due to</strong></span>
+                        </div>
+
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="cause_trigger">Cause Trigger</label>
                                 <input class="form-control" name="cause_trigger" placeholder="Cause Trigger" value="<?php echo set_value('cause_trigger'); ?>" required/>
@@ -50,7 +55,13 @@
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+
+                        <div class="col-md-1">
+                            <span></span>
+                            <span><strong>Leads to</strong></span>
+                        </div>
+
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="effect">Effect</label>
                                 <input class="form-control" name="effect" placeholder="Effect" value="<?php echo set_value('effect'); ?>" required/>
