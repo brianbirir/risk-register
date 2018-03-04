@@ -389,6 +389,17 @@
             $row = $query->row();
             return (isset($row)) ? $row->status_name : false;
         }
+        
+
+        // get response title
+        function getResponseTitleName($id){
+            $this->db->select('*');
+            $this->db->from('ResponseTitle');
+            $this->db->where('response_id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->response_name : false;
+        }
 
 
         // get realization

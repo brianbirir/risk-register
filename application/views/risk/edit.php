@@ -610,7 +610,7 @@
                                     foreach ($risk_response as $response_row) {
                                         echo "<tr>";
                                         echo "<td>".$response_row->response_uuid."</td>";
-                                        echo "<td>".$response_row->response_title."</td>";
+                                        echo "<td>".$CI->risk_model->getResponseTitleName($response_row->Responsetitle_id)."</td>";
                                         echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
                                         echo "</tr>";
                                     }

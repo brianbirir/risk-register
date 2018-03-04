@@ -135,4 +135,15 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ?  $query->result() : false;
         }
+
+
+        // get risk response title from ResponseTitle table
+        function getResponseTitle($project_id)
+        {
+            $this->db->select('*');
+            $this->db->from('ResponseTitle');
+            $this->db->where('Project_project_id', $project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
     }

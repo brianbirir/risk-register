@@ -124,10 +124,15 @@ class Response extends RISK_Controller
         }
         else
         {
+            $timestamp = date('Y-m-d');
+
             $project_id = $this->input->post('project_name');
+            
             $data = array(
                 'response_name' => $this->input->post('response_name'),
-                'Project_project_id' => $this->input->post('project_name')
+                'Project_project_id' => $this->input->post('project_name'),
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
             );
 
             // insert form data into database
@@ -207,8 +212,11 @@ class Response extends RISK_Controller
             // get response id from hidden field
             $response_id =  $this->input->post('response_id');
             
+            $timestamp = date('Y-m-d G:i:s');
+            
             $data = array(
                 'response_name' => $this->input->post('response_name'),
+                'updated_at' => $timestamp
             );
 
             // update table

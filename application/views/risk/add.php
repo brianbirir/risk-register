@@ -533,7 +533,7 @@
                                                  * if not display input text field
                                                  * if they do exist display select drop down of those response titles
                                                  */
-                                                if(!$response_title)
+                                                if(!$select_response_name)
                                                 {
                                             ?>
                                             <td>
@@ -546,7 +546,7 @@
                                                 <div class="form-group">
                                                     <select name="risk_response[title][]" class="form-control select2 response-title">
                                                         <?php 
-                                                            foreach ($select_response_title as $key => $value) 
+                                                            foreach ($select_response_name as $key => $value) 
                                                             {
                                                                 echo "<option value=".$key.">".$value."</option>";
                                                             }

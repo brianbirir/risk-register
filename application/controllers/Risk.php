@@ -138,10 +138,8 @@ class Risk extends RISK_Controller
             $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);         
-            $data['select_response_title'] = $this->getResponseTitle($data['register_id']);
-            $data['select_user'] = $this->getRegisterUser($data['register_id']); 
-            // response title
-            $data['response_title'] = $this->getResponseTitle($data['register_id']);
+            $data['select_user'] = $this->getRegisterUser($data['register_id']);
+            $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);
@@ -594,7 +592,7 @@ class Risk extends RISK_Controller
                     $field = array(
                         'risk_uuid'=> $risk_uuid,
                         'response_uuid'=> $this->uuid->generate_uuid(),
-                        'response_title' => $_POST['risk_response']['title'][$i],
+                        'ResponseTitle_id' => $_POST['risk_response']['title'][$i],
                         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
                         'register_id' => $this->input->post('register_id'),
                         'user_id' => $_POST['risk_response']['user'][$i],
@@ -819,7 +817,32 @@ class Risk extends RISK_Controller
     }
 
 
-    // risk entity
+    // risk response title
+    function getRiskResponseTitle($project_id)
+    {
+        $response = $this->response_model->getResponseTitle($project_id);
+        
+        if($response)
+        {
+            $options = array();
+
+            foreach ($response as $row) 
+            {
+                $response_id = $row->response_id;
+                $response_name = $row->response_name;
+                $options[$response_id] = $response_name;  
+            }
+            
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
+
+    // risk cost
     function getRiskCost($project_id)
     {
         $cost = $this->risk_model->getRiskCost($project_id);
@@ -844,7 +867,7 @@ class Risk extends RISK_Controller
     }
 
 
-    // risk entity
+    // risk schedule
     function getRiskSchedule($project_id)
     {
         $schedule = $this->risk_model->getRiskSchedule($project_id);
