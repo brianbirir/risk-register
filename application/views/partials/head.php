@@ -22,6 +22,7 @@
 	<!-- Theme style -->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/AdminLTE.min.css">
 	<!-- <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/skins/skin-aldea.css"> -->
+	
 	<!-- Vendor CSS -->
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/bower_components/jquery-ui/themes/ui-lightness/jquery-ui.min.css">
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/bower_components/iCheck/skins/all.css">
@@ -29,6 +30,8 @@
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/bower_components/bootstrap-datepicker/dist/css/bootstrap-datepicker.min.css">
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/css/alertify.min.css">
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/css/themes/default.min.css">
+	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+
 	<!-- Custom CSS -->
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/css/main.css">
 </head>
