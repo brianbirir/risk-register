@@ -118,6 +118,11 @@ $route['settings/data/realization/add'] = 'realization/add_realization_view';
 $route['settings/data/realization/edit/(:num)'] = 'realization/edit_realization_view/$1';
 $route['settings/data/realization/delete/(:num)'] = 'realization/delete/$1';
 
+$route['settings/data/response/(:num)'] = 'response/index_response/$1';
+$route['settings/data/response/add'] = 'response/add_response_view';
+$route['settings/data/response/edit/(:num)'] = 'response/edit_response_view/$1';
+$route['settings/data/response/delete/(:num)'] = 'response/delete/$1';
+
 // test pages
 $route['test/reponse'] = 'risk/response_view';
 $route['test'] = 'risk/register_response';
