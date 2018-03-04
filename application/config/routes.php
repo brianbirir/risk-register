@@ -121,3 +121,6 @@ $route['settings/data/realization/delete/(:num)'] = 'realization/delete/$1';
 // test pages
 $route['test/reponse'] = 'risk/response_view';
 $route['test'] = 'risk/register_response';
+
+// email routes
+$route['email/response'] = 'email/send_response_notification';

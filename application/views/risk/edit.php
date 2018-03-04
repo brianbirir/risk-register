@@ -627,29 +627,19 @@
             <div class="box box-yellow box-controlling">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">Controlling</h3>
+                    <h3 class="box-title">Risk Overseer</h3>
                 </div>
 
                 <div class="box-body">
                     <div class="col-md-6">
-                        <fieldset>
-                            <legend>Action Owner</legend>
-                            <div class="form-group">
-                                <label for="action_owner_fname">First Name</label>
-                                <input class="form-control" name="action_owner_fname" placeholder="First Name" type="text" value="<?php echo $risk->action_owner_fname; ?>" required/>
-                                <?php echo form_error('action_owner_fname','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="action_owner_lname">Last Name</label>
-                                <input class="form-control" name="action_owner_lname" placeholder="Last Name" type="text" value="<?php echo $risk->action_owner_lname; ?>" required/>
-                                <?php echo form_error('action_owner_lname','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="action_owner_email">Email</label>
-                                <input class="form-control" name="action_owner_email" placeholder="Email" type="text" value="<?php echo $risk->action_owner_email; ?>" required/>
-                                <?php echo form_error('action_owner_email','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </fieldset>
+                        <div class="form-group">
+                            <label for="action_owner">Action Owner</label>
+                            <?php 
+                                    $select_action_owner_attributes = 'class="form-control"';
+                                    $action_owner_id = $risk->action_owner;
+                                    echo form_dropdown('status',$select_user,$action_owner_id,$select_action_owner_attributes);
+                            ?>
+                        </div>
                     </div>
 
                     <div class="col-md-6">

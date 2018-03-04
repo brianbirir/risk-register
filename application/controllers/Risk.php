@@ -184,7 +184,7 @@ class Risk extends RISK_Controller
             // get risk data based on id from uri
             $data['risk'] = $this->risk_model->getRisk($id);
                 
-            // get risk responses
+            // get risk responses data
             $data['risk_response'] = $this->risk_model->getRiskResponse($data['risk']->risk_uuid);
 
             // select drop down
@@ -199,6 +199,7 @@ class Risk extends RISK_Controller
             $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);
+            $data['select_user'] = $this->getRegisterUser($data['register_id']);
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
@@ -253,9 +254,7 @@ class Risk extends RISK_Controller
             'risk_rating' => $this->input->post('risk_rating'),
             'risk_level' => $this->input->post('risk_level'),
             'control_mitigation' => $this->input->post('control_mitigation'),
-            'action_owner_fname' => $this->input->post('action_owner_fname'),
-            'action_owner_lname' => $this->input->post('action_owner_lname'),
-            'action_owner_email' => $this->input->post('action_owner_email'),
+            'action_owner' => $this->input->post('action_owner'),
             'milestone_target_date' => $this->input->post('milestone_target_date'),
             'RiskCategories_category_id' => $this->input->post('main_category'),
             'SystemSafety_safety_id' => $this->input->post('system_safety'),
@@ -539,9 +538,7 @@ class Risk extends RISK_Controller
                 'risk_rating' => $this->input->post('risk_rating'),
                 'risk_level' => $this->input->post('risk_level'),
                 'control_mitigation' => $this->input->post('control_mitigation'),
-                'action_owner_fname' => $this->input->post('action_owner_fname'),
-                'action_owner_lname' => $this->input->post('action_owner_lname'),
-                'action_owner_email' => $this->input->post('action_owner_email'),
+                'action_owner' => $this->input->post('action_owner'),
                 'milestone_target_date' => $this->input->post('milestone_target_date'),
                 'RiskCategories_category_id' => $this->input->post('main_category'),
                 'SystemSafety_safety_id' => $this->input->post('system_safety'),
@@ -607,15 +604,19 @@ class Risk extends RISK_Controller
                     
                     // insert risk response data first
                     $this->risk_model->insertResponse($field);
+
+                    // send email notifications for risk response due date
+                    $this->load->library('risk_email');
+                    $this->risk_email->send_response_notification($field['response_title'], $this->user_model->getUserEmail($field['user_id']), $field['created_at']);
                 }
 
-                $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
+                $this->session->set_flashdata('positive_msg','Risk has been successfully added.');
                 redirect('dashboard/risks');
             }
             else
             {
                 // error
-                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
                 redirect('dashboard/risks');
             }
         // }

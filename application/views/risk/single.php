@@ -1,6 +1,7 @@
 <?php 
     $CI =& get_instance();
     $CI->load->model('risk_model');
+    $CI->load->model('user_model');
     echo "<div>";
     echo "<h2 style='display:inline-block;' class='page-header'>Risk ID <span class='label label-info'>".$risk_data->item_id."</span></h2>";
     echo "<div class='pull-right'>Latest Revision: <span class='label label-info'>".$risk_data->effective_date."</span></div>";
@@ -411,17 +412,7 @@
         echo "<table class='table'>";
         echo "<tr>";
         echo "<td><label>Action Owner First Name:</label>";
-        echo "<td><p>".$risk_data->action_owner_fname."</p></td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td><label>Action Owner Last Name:</label>";
-        echo "<td><p>".$risk_data->action_owner_lname."</p></td>";
-        echo "</tr>";
-
-        echo "<tr>";
-        echo "<td><label>Action Owner Email:</label>";
-        echo "<td><p>".$risk_data->action_owner_email."</p></td>";
+        echo "<td><p>".$CI->user_model->getUserNames($risk_data->action_owner)."</p></td>";
         echo "</tr>";
 
         echo "<tr>";
