@@ -599,7 +599,8 @@ class Risk extends RISK_Controller
                         'register_id' => $this->input->post('register_id'),
                         'user_id' => $_POST['risk_response']['user'][$i],
                         'created_at' => $date,
-                        'updated_at' => $date
+                        'updated_at' => $date,
+                        'due_date' => $this->getResponseDueDate($date)
                     );
                     
                     // insert risk response data first
@@ -1081,5 +1082,12 @@ class Risk extends RISK_Controller
         {
             return 'No Data!';
         }
+    }
+
+
+    # get reponse due date of which is after 7 days of the target date
+    function getResponseDueDate($date)
+    {
+        return date("Y-m-d",strtotime("+7 days",strtotime($date)));
     }
 }
