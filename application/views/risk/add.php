@@ -599,54 +599,6 @@
                 </div>
             </div>
 
-            <!-- <div class="box box-primary box-residual-risk">
-
-                <div class="box-header">
-                    <h3 class="box-title">Controlling Residual Risk</h3>
-                </div>
-
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_likelihood">Likelihood</label>
-                                <?php
-                                    $select_residual_likelihood = 'id="residual-risk-select" class="form-control input-sm select-input"';
-                                    echo form_dropdown('residual_likelihood',$select_option,"1",$select_residual_likelihood);
-                                ?>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_impact">Impact</label>
-                                <?php 
-                                    $select_residual_impact = 'id="residual-impact-select" class="form-control input-sm select-input"';
-                                    echo form_dropdown('residual_impact',$select_option,"1",$select_residual_impact);
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_risk_rating">Residual Risk Rating</label>
-                                <input id="residual_risk_rating" class="form-control" name="residual_risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo set_value('residual_risk_rating'); ?>" required/>
-                                <?php echo form_error('residual_risk_rating','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>         
-                        <div class="col-md-6">   
-                            <div class="form-group">
-                                <label for="residual_risk_level">Residual Risk Level</label>
-                                <input id="residual_risk_level" class="form-control" name="residual_risk_level" placeholder="Residual Risk Level" type="text" value="<?php echo set_value('residual_risk_level'); ?>" required/>
-                                <?php echo form_error('residual_risk_level','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div> -->
-
             <div class="box box-yellow box-controlling">
 
                 <div class="box-header">
