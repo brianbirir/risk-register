@@ -506,9 +506,6 @@
                             ?>
                         </div>
                     </div>
-                    <!-- <div class="col-md-12">
-                        <div id="add-response-btn" class="btn btn-primary pull-right" onclick="new_row()">Add Response</div>
-                    </div> -->
 
                     <div class="col-md-12">
                         <div class="box">
@@ -552,6 +549,8 @@
                                                             }
                                                         ?>
                                                     </select>
+                                                    <!-- button for adding response title to drop down -->
+                                                    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
                                                 </div>
                                             </td>
                                             <?php } ?>
@@ -638,5 +637,41 @@
             <?php echo form_close(); ?>
 
         </div>
+
+        <!-- modal for displaying form to add response title -->
+        <div class="modal fade" id="response-title-modal" tabindex="-1" role="dialog" aria-labelledby="ResponseModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add Response Title</h4>
+              </div>
+              <div class="modal-body">
+                <?php
+                    $attributes = array("class" => "ui form", "id" => "response-title-form", "name" => "response-title-form");
+                    echo form_open("risk/register_response_title", $attributes);
+                ?>
+                    
+                    <div class="form-group">
+                        <label for="response_title_modal">Response Title</label>
+                        <input class="form-control" name="response_title_modal" type="text" value="<?php echo set_value('response_title_modal'); ?>" required/>
+                    </div>
+    
+                <?php echo form_close(); ?>   
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Add</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- JS code to register the response title asynchronously -->
+        <script type="text/javascript">
+            
+            
+        </script>
     </div>       
 </div>
