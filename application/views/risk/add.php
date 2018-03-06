@@ -550,7 +550,7 @@
                                                         ?>
                                                     </select>
                                                     <!-- button for adding response title to drop down -->
-                                                    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
+                                                    <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
                                                 </div>
                                             </td>
                                             <?php } ?>
@@ -707,14 +707,23 @@
                             url:  "<?php echo base_url(); ?>" + "response/ajax_response",
                             type: "POST",
                             data: {response_name: response_title, project_name: response_project_id},
-                            cache: false,
-                            success: function(result){
-                                $("#response-modal-alert-success").html(result.message).show();
-                            },
-                            error: function() {
-                              $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
-                            },
-                        });
+                            dataType: "JSON"
+                        })
+                        .done(function(response) {
+                            $("#response-modal-alert-success").show();
+                            
+                            // remove options from response title select drop down
+                            $('.response-title option').remove();
+                           
+                            // add new options from data
+                            $.each( response, function( key, value ) {
+                                $('.response-title').append('<option value="' + key + '">' + value + '</option>');
+                            });
+                        })
+                        .fail(function(xhr) {
+                            $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
+                            console.log(xhr);
+                        }); 
                     }
                 })
             });

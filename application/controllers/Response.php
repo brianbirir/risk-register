@@ -168,18 +168,24 @@ class Response extends RISK_Controller
 
         if ($insert_data)
         {  
-            //$db_response['message'] = 'Saved to database successfully!';
-            //echo json_encode(db_response);
-            echo "It works";
-        }
-        else
-        {
-            //$db_response['message'] = 'Unable to save to database!';
-            //echo json_encode(db_response);
-            echo "It does not work";
-        }   
-    }
+            $this->load->model('response_model');
 
+            $response = $this->response_model->getResponseTitle($data['Project_project_id']);
+            
+            if($response)
+            {
+                $options = array();
+
+                foreach ($response as $row) 
+                {
+                    $response_id = $row->response_id;
+                    $response_name = $row->response_name;
+                    $options[$response_id] = $response_name;  
+                }
+                echo json_encode($options);
+            }
+        } 
+    }
 
     function edit_response_view()
     {
