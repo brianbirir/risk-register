@@ -416,6 +416,11 @@
         echo "</tr>";
 
         echo "<tr>";
+        echo "<td><label>Action Item:</label>";
+        echo "<td><p>".$risk_data->action_item."</p></td>";
+        echo "</tr>";
+
+        echo "<tr>";
         echo "<td><label>Milestone Target Date:</label>";
         echo "<td><p>".$risk_data->milestone_target_date."</p></td>";
         echo "</tr>";

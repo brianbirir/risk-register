@@ -631,7 +631,7 @@
                 </div>
 
                 <div class="box-body">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="action_owner">Action Owner</label>
                             <?php 
@@ -642,7 +642,15 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="action_item">Action Item for Risk Mitigation</label>
+                            <textarea class="form-control" name="action_item" placeholder="Action Item" rows="5" required><?php echo $risk->action_item;?></textarea>
+                            <?php echo form_error('action_item','<div class="alert alert-danger">','</div>'); ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="milestone_target_date">Milestone Target Date</label>
                             <input class="form-control" name="milestone_target_date" placeholder="Milestone Target Date" type="text" value="<?php echo $risk->milestone_target_date; ?>" required/>

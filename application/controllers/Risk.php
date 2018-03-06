@@ -291,7 +291,8 @@ class Risk extends RISK_Controller
             'time_impact_target' => $this->input->post('timeimpact_target'),
             'cost_impact_target' => $this->input->post('costimpact_target'),
             'risk_rating_target' => $this->input->post('targetrisk_rating'),
-            'risk_level_target' => $this->input->post('targetrisk_level')
+            'risk_level_target' => $this->input->post('targetrisk_level'),
+            'action_item' => $this->input->post('action_item')
         );
 
         /**
@@ -579,7 +580,8 @@ class Risk extends RISK_Controller
                 'time_impact_target' => $this->input->post('timeimpact_target'),
                 'cost_impact_target' => $this->input->post('costimpact_target'),
                 'risk_rating_target' => $this->input->post('targetrisk_rating'),
-                'risk_level_target' => $this->input->post('targetrisk_level')
+                'risk_level_target' => $this->input->post('targetrisk_level'),
+                'action_item' => $this->input->post('action_item')
             );
             
             // insert form data into database
