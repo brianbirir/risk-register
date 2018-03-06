@@ -34,4 +34,9 @@
 
 	<!-- Custom CSS -->
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/css/main.css">
+
+	<!-- REQUIRED JS SCRIPTS -->
+    <!-- jQuery -->
+    <script src="<?php echo base_url(); ?>assets/bower_components/jquery/dist/jquery.min.js"></script>
+ 	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
 </head>

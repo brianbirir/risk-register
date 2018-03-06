@@ -647,14 +647,34 @@
                 <h4 class="modal-title">Add Response Title</h4>
               </div>
               <div class="modal-body">
+                
+                <div style="display: none;" id="response-modal-alert-warning" class="alert alert-warning fade in" role="alert">
+                    <strong>Warning!</strong> Please fill the response title field!
+                </div>
+
+                <div style="display: none;" id="response-modal-alert-success" class="alert alert-success fade in" role="alert">
+                    <strong>Success!</strong> The response title has been registered successfully!
+                </div>
+
+                <div style="display: none;" id="response-modal-alert-danger" class="alert alert-danger fade in" role="alert">
+                </div>
+
                 <?php
                     $attributes = array("class" => "ui form", "id" => "response-title-form", "name" => "response-title-form");
-                    echo form_open("risk/register_response_title", $attributes);
+                    echo form_open("", $attributes);
                 ?>
                     
                     <div class="form-group">
                         <label for="response_title_modal">Response Title</label>
-                        <input class="form-control" name="response_title_modal" type="text" value="<?php echo set_value('response_title_modal'); ?>" required/>
+                        <input id="response-modal-title" class="form-control" name="response_title_modal" type="text" value="<?php echo set_value('response_title_modal'); ?>" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project_name">Select Project</label>
+                        <?php 
+                            $select_project_attributes = 'id="response-modal-project-id" class="form-control" required';
+                            echo form_dropdown('project_name',$select_project,"1",$select_project_attributes);
+                        ?>
                     </div>
     
                 <?php echo form_close(); ?>   
@@ -662,7 +682,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Add</button>
+                <button id="add-response-title" type="button" class="btn btn-primary btn-reg">Add Title</button>
               </div>
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
@@ -670,8 +690,35 @@
 
         <!-- JS code to register the response title asynchronously -->
         <script type="text/javascript">
-            
-            
+            $(document).ready(function(){
+                // on click of button
+                $('#add-response-title').click(function(event){
+
+                    event.preventDefault();
+
+                    var response_title = $('#response-modal-title').val();
+                    var response_project_id = $('#response-modal-project-id').val();
+
+                    if(response_title == '')
+                    {
+                        $("#response-modal-alert-warning").show();
+                    } else {
+                        $.ajax({
+                            url:  "<?php echo base_url(); ?>" + "response/ajax_response",
+                            type: "POST",
+                            data: {response_name: response_title, project_name: response_project_id},
+                            cache: false,
+                            success: function(result){
+                                $("#response-modal-alert-success").html(result.message).show();
+                            },
+                            error: function() {
+                              $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
+                            },
+                        });
+                    }
+                })
+            });
         </script>
+
     </div>       
 </div>

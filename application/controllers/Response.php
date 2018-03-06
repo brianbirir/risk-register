@@ -101,8 +101,8 @@ class Response extends RISK_Controller
 
     function add_response()
     {
-        //set validation rules
-        $this->form_validation->set_rules('response_name', 'Response Name', 'trim|required');
+        // set validation rules
+        // $this->form_validation->set_rules('response_name', 'Response Name', 'trim|required');
 
         $data = array('title' => 'Add Response');
 
@@ -110,20 +110,20 @@ class Response extends RISK_Controller
         $data = array_merge($data, $this->get_global_data());
         
         //validate form input
-        if ($this->form_validation->run() == FALSE)
-        {
-            // get role names from database & add them to select form element in sign up form
-            $roles = $this->user_model->getRoles();
+        // if ($this->form_validation->run() == FALSE)
+        // {
+        //     // get role names from database & add them to select form element in sign up form
+        //     $roles = $this->user_model->getRoles();
 
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
+        //     // breadcrumb
+        //     $this->breadcrumb->add($data['title']);
+        //     $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // load page to show all response
-            $this->template->load('dashboard', 'settings/data/response/add', $data);
-        }
-        else
-        {
+        //     // load page to show all response
+        //     $this->template->load('dashboard', 'settings/data/response/add', $data);
+        // }
+        // else
+        // {
             $timestamp = date('Y-m-d');
 
             $project_id = $this->input->post('project_name');
@@ -147,7 +147,37 @@ class Response extends RISK_Controller
                 $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
                 redirect('settings/user/add');
             }   
+        //}
+    }
+
+    function ajax_response()
+    {
+    
+        $timestamp = date('Y-m-d');
+
+        $db_response = array();
+        
+        $data = array(
+            'response_name' => $this->input->post('response_name'),
+            'Project_project_id' => $this->input->post('project_name'),
+            'created_at' => $timestamp,
+            'updated_at' => $timestamp
+        );
+
+        $insert_data = $this->responsetitle_model->insertResponse($data);
+
+        if ($insert_data)
+        {  
+            //$db_response['message'] = 'Saved to database successfully!';
+            //echo json_encode(db_response);
+            echo "It works";
         }
+        else
+        {
+            //$db_response['message'] = 'Unable to save to database!';
+            //echo json_encode(db_response);
+            echo "It does not work";
+        }   
     }
 
 

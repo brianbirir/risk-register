@@ -31,9 +31,6 @@
               </div>
         </div>
         <!-- REQUIRED JS SCRIPTS -->
-
-        <!-- jQuery -->
-        <script src="<?php echo base_url(); ?>assets/bower_components/jquery/dist/jquery.min.js"></script>
         
         <!-- Bootstrap -->
         <script src="<?php echo base_url(); ?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
@@ -42,7 +39,6 @@
         <script src="<?php echo base_url(); ?>assets/js/adminlte.min.js"></script>
         
         <!-- Vendor JS -->
-        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/jquery-ui/jquery-ui.min.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/moment/moment.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/raphael/raphael.min.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/chart.js/Chart.min.js"></script>

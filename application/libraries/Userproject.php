@@ -39,7 +39,7 @@ class Userproject
 
     function getGeneralUsers( $user_id )
     {
-        // get project that belong to user (manager)
+        // get users that assigned to a manager
         $user = $this->ci->user_model->getUsers( $user_id );
         
         if($user)
