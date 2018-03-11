@@ -292,7 +292,8 @@ class Risk extends RISK_Controller
             'cost_impact_target' => $this->input->post('costimpact_target'),
             'risk_rating_target' => $this->input->post('targetrisk_rating'),
             'risk_level_target' => $this->input->post('targetrisk_level'),
-            'action_item' => $this->input->post('action_item')
+            'action_item' => $this->input->post('action_item'),
+            'RiskSubCategories_subcategory_id' => $this->input->post('subcategory')
         );
 
         /**
@@ -523,6 +524,10 @@ class Risk extends RISK_Controller
             // get risk uuid
             $risk_uuid = $this->input->post('risk_uuid');
 
+            // generate risk harzard ID
+            $this->load->library('riskid');
+            $original_risk_id = $this->riskid->generateRiskID($this->input->post('main_category'),$this->input->post('sub_category'));
+
             //insert the risk data into database
             $risk_data = array(
                 'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
@@ -581,7 +586,9 @@ class Risk extends RISK_Controller
                 'cost_impact_target' => $this->input->post('costimpact_target'),
                 'risk_rating_target' => $this->input->post('targetrisk_rating'),
                 'risk_level_target' => $this->input->post('targetrisk_level'),
-                'action_item' => $this->input->post('action_item')
+                'action_item' => $this->input->post('action_item'),
+                'RiskSubCategories_subcategory_id' => $this->input->post('sub_category'),
+                'original_risk_id' => $original_risk_id
             );
             
             // insert form data into database
@@ -610,8 +617,8 @@ class Risk extends RISK_Controller
                     $this->risk_model->insertResponse($field);
 
                     // send email notifications for risk response due date
-                    $this->load->library('risk_email');
-                    $this->risk_email->send_response_notification($field['response_title'], $this->user_model->getUserEmail($field['user_id']), $field['created_at']);
+                    $this->load->library('riskemail');
+                    $this->riskemail->send_response_notification($field['response_title'], $this->user_model->getUserEmail($field['user_id']), $field['created_at']);
                 }
 
                 $this->session->set_flashdata('positive_msg','Risk has been successfully added.');
