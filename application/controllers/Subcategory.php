@@ -284,5 +284,9 @@ class Subcategory extends RISK_Controller
             }
             echo json_encode($options);
         }
+        else {
+            $db_error = array("error" => "No Data Available");
+            echo json_encode($db_error);
+        }
     }
 }
