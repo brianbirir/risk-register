@@ -263,4 +263,26 @@ class Subcategory extends RISK_Controller
             redirect('settings/data/subcategory');
         }
     }
+
+
+    // get sub category list
+    function get_subcategory_list()
+    {
+        $category_id =  $this->input->post('category_id');
+        
+        // get data from database
+        $subcategory_data = $this->subcategory_model->getSubcategory($category_id);
+
+        if($subcategory_data)
+        {
+            $options = array();
+            foreach ($subcategory_data as $row) 
+            {
+                $subcategory_id = $row->subcategory_id;
+                $subcategory_name = $row->subcategory_name;
+                $options[$subcategory_id] = $subcategory_name;  
+            }
+            echo json_encode($options);
+        }
+    }
 }

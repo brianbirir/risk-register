@@ -120,7 +120,7 @@
 
                     <div class="row">
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <?php 
@@ -130,14 +130,14 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="latest_update">Latest Update</label>
                                 <input class="form-control" name="latest_update" placeholder="Latest Update" type="text" value=""/>
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="entity">Entity</label>
                                 <?php
@@ -146,13 +146,27 @@
                                 ?>
                             </div>
                         </div>
-                        
-                        <div class="col-md-3">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="main_category">Risk Category</label>
                                 <?php 
                                     $select_main_category_attributes = 'class="form-control" required';
-                                    echo form_dropdown('main_category',$select_category,"1",$select_main_category_attributes);
+                                    $select_category['select_option'] = 'Select Option';
+                                    echo form_dropdown('main_category',$select_category,"select_option",$select_main_category_attributes);
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sub_category">Risk Subcategory</label>
+                                <?php 
+                                    $select_subcategory_attributes = 'id="subcategory-select" class="form-control" required';
+                                    $subcategory_options = array('none' => 'None');
+                                    echo form_dropdown('sub_category',$subcategory_options,'none',$select_subcategory_attributes);
                                 ?>
                             </div>
                         </div>
@@ -699,7 +713,8 @@
         <!-- JS code to register the response title asynchronously -->
         <script type="text/javascript">
             $(document).ready(function(){
-                // on click of button
+
+                // register the response title asynchronously
                 $('#add-response-title').click(function(event){
 
                     event.preventDefault();
@@ -733,6 +748,33 @@
                             console.log(xhr);
                         }); 
                     }
+                });
+
+                // get risk subcategory dropdown based on selected risk category
+                $('select[name="main_category"]').change(function(){
+
+                    // get value from selected option
+                    var category_value = $(this).val();
+
+                    // use ajax call to get subcategories
+                    $.ajax({
+                        url:  "<?php echo base_url(); ?>" + "subcategory/get_subcategory_list",
+                        type: "POST",
+                        data: {category_id: category_value},
+                        dataType: "JSON"
+                    })
+                    .done(function(response) {
+                        // remove options from subcategory drop down
+                        $('#subcategory-select option').remove();
+                        
+                        // add new options from response
+                        $.each( response, function( key, value ) {
+                            $('#subcategory-select').append('<option value="' + key + '">' + value + '</option>');
+                        });
+                    })
+                    .fail(function(xhr) {
+                        alert("Unable to retrieve subcategory data");
+                    });
                 })
             });
         </script>
