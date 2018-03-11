@@ -123,6 +123,11 @@ $route['settings/data/response/add'] = 'response/add_response_view';
 $route['settings/data/response/edit/(:num)'] = 'response/edit_response_view/$1';
 $route['settings/data/response/delete/(:num)'] = 'response/delete/$1';
 
+$route['settings/data/subcategory/(:num)'] = 'subcategory/index_subcategory/$1';
+$route['settings/data/subcategory/add/(:num)'] = 'subcategory/add_subcategory_view/$1';
+$route['settings/data/subcategory/edit/(:num)'] = 'subcategory/edit_subcategory_view/$1';
+$route['settings/data/subcategory/delete/(:num)'] = 'subcategory/delete/$1';
+
 // test pages
 $route['test/reponse'] = 'risk/response_view';
 $route['test'] = 'risk/register_response';
