@@ -58,10 +58,11 @@
 </div>
 <?php 
 
-    //  load risk model and trim library
+    //  load risk model
     $CI =& get_instance();
     $CI->load->model('risk_model');
     $CI->load->model('user_model');
+    $CI->load->model('response_model');
     
     // check if risk data exists
     if (!$response_data) 
@@ -88,7 +89,8 @@
                                     <th>Risk Strategy</th>
                                     <th>Assigned User</th>
                                     <th>Register Name</th>
-                                    <th>Date Created</th>    
+                                    <th>Date Created</th>
+                                    <th>Associated Risk</th>    
                                 </tr>
                             </thead>
                             <tbody id="response-report-data">
@@ -98,11 +100,12 @@
                                         echo "<tr>";
                                         echo "<td>".$response_row->response_id."</td>";
                                         echo "<td>".$CI->risk_model->getRiskNameByUUID($response_row->risk_uuid)."</td>";
-                                        echo "<td>".$response_row->response_title."</td>";
+                                        echo "<td>".$CI->response_model->getResponseName($response_row->ResponseTitle_id)."</td>";
                                         echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";  
                                         echo "<td>".$CI->user_model->getUserNames($response_row->user_id)."</td>";
                                         echo "<td>".$CI->risk_model->getSubProjectName($response_row->register_id)."</td>";
                                         echo "<td>".$response_row->created_at."</td>";
+                                        echo "<td><a href='/dashboard/response/risks/".$response_row->ResponseTitle_id."' class='btn btn-xs btn-primary btn-view'>View Risks</a></td>";
                                     } 
                                 ?>
                             </tbody>

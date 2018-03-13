@@ -813,4 +813,39 @@ class Report extends RISK_Controller
             // load view
             $this->template->load('dashboard', 'report/response', $data);
     }
+
+
+    // get associated risks of the response
+    function associated_risks()
+    {
+        $data = array('title' => 'Response Associated Risks');
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+
+            $response_title_id = $this->uri->segment(4); // get id from fourth segment of uri
+
+            // get risk items
+            $risk_items = $this->response_model->getResponseRisks($response_title_id);
+
+            //check if result is true
+            ($risk_items) ? $data['risk_items'] = $risk_items : $data['risk_items'] = false;
+
+            $data['response_title_id'] = $response_title_id;
+
+            // load page to show all response
+            $this->template->load('dashboard', 'report/response_risks', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
 }
