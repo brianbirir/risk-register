@@ -582,7 +582,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[user][]" class="form-control">
+                                                    <select multiple="multiple" name="risk_response[user][]" class="form-control select-users">
                                                         <?php 
                                                             foreach ($select_user as $key => $value) 
                                                             {

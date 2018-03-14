@@ -101,8 +101,17 @@
                                         echo "<td>".$response_row->response_id."</td>";
                                         echo "<td>".$CI->risk_model->getRiskNameByUUID($response_row->risk_uuid)."</td>";
                                         echo "<td>".$CI->response_model->getResponseName($response_row->ResponseTitle_id)."</td>";
-                                        echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";  
-                                        echo "<td>".$CI->user_model->getUserNames($response_row->user_id)."</td>";
+                                        echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
+                                        
+                                        $users = unserialize($response_row->user_id);
+                                        
+                                        echo "<td>";
+                                        foreach ($users as $value) 
+                                        {
+                                            echo "<li>".$CI->user_model->getUserNames($value)."</li>";
+                                        }
+                                        echo '</td>';
+
                                         echo "<td>".$CI->risk_model->getSubProjectName($response_row->register_id)."</td>";
                                         echo "<td>".$response_row->created_at."</td>";
                                         echo "<td><a href='/dashboard/response/risks/".$response_row->ResponseTitle_id."' class='btn btn-xs btn-primary btn-view'>View Risks</a></td>";

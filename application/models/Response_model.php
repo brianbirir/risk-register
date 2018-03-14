@@ -11,7 +11,7 @@
         // add risk response
         function insertResponse($data)
         {
-            return $this->db->insert('RiskRegistry', $data);
+            return $this->db->insert('RiskResponse', $data);
         }
 
         // get all risk responses

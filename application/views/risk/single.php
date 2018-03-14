@@ -383,13 +383,24 @@
                     echo "<th>Response ID</th>";
                     echo "<th>Response Title</th>";
                     echo "<th>Response Strategy</th>";
+                    echo "<th>Response Users</th>";
                     echo "</tr>";
 
-                    foreach ($risk_response as $response_row) {
+                    foreach ($risk_response as $response_row)
+                    {
                         echo "<tr>";
-                        echo "<td>".$response_row->response_uuid."</td>";
-                        echo "<td>".$CI->risk_model->getResponseTitleName($response_row->Responsetitle_id)."</td>";
+                        echo "<td>".$response_row->response_id."</td>";
+                        echo "<td>".$CI->response_model->getResponseName($response_row->ResponseTitle_id)."</td>";
                         echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
+                        
+                        $users = unserialize($response_row->user_id);
+                                        
+                        echo "<td>";
+                        foreach ($users as $value)
+                        {
+                            echo "<li>".$CI->user_model->getUserNames($value)."</li>";
+                        }
+                        echo '</td>';
                         echo "</tr>";
                     }
 
