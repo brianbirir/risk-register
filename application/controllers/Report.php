@@ -194,20 +194,43 @@ class Report extends RISK_Controller
 
         // PROJECT ID
         // add assigned project ID to session data
-        $risk_project_id = $this->input->post('risk_project');
         $session_data = $this->session->userdata('logged_in');
-        $session_data['report_project_id'] = $risk_project_id;
-        $this->session->set_userdata('logged_in', $session_data);
+        
+        if(!isset($session_data['report_project_id']))
+        {
+            $risk_project_id = $this->input->post('risk_project');
+            $session_data['report_project_id'] = $risk_project_id;
+            $this->session->set_userdata('logged_in', $session_data);
+        }
+
+        // clear session data for filter data
+        $this->clear_filter_session();
 
         // data for filter drop down
-        $data['select_category'] = $this->getCategories($risk_project_id);
+        $data['select_category'] = $this->getCategories($session_data['report_project_id']);
         $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
         $data['selected_category'] = "None"; 
         $data['selected_register'] = "None";
+        
         // load view
         $this->template->load('dashboard', 'report/index', $data);
     }
     
+
+    // clear session data for filter data
+    function clear_filter_session()
+    {
+        $session_data = $this->session->userdata('logged_in');
+
+        if(isset($session_data['category_id']) || isset($session_data['register_id']) || isset($session_data['date_from']) || isset($session_data['date_to']))
+        {
+            $session_data['category_id'] = '';
+            $session_data['register_id'] = '';
+            $session_data['date_from'] = '';
+            $session_data['date_to'] = '';
+        }
+    }
+
 
     function getFilterResults()
     {   
@@ -222,8 +245,8 @@ class Report extends RISK_Controller
             // get filter criteria from post input
             $category_id = $this->input->post('risk_category'); // get category id
             $register_id = $this->input->post('risk_register'); // get register
-            $date_from = $this->input->post('date_from');
-            $date_to = $this->input->post('date_to');
+            $date_from = $this->input->post('date_from'); // date from
+            $date_to = $this->input->post('date_to'); // date to
 
             $session_data['category_id'] = $category_id;
             $session_data['register_id'] = $register_id;
