@@ -30,11 +30,8 @@
                 <!-- /.content -->
               </div>
         </div>
+        
         <!-- REQUIRED JS SCRIPTS -->
-        
-        <!-- Bootstrap -->
-        <script src="<?php echo base_url(); ?>assets/bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
-        
         <!-- AdminLTE App -->
         <script src="<?php echo base_url(); ?>assets/js/adminlte.min.js"></script>
         
@@ -48,8 +45,6 @@
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/bootstrap-confirmation.min.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/select2/dist/js/select2.full.min.js"></script>
-        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
-        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
         
         <!-- Custom js -->
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/main.js"></script>

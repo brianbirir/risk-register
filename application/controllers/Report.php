@@ -207,7 +207,7 @@ class Report extends RISK_Controller
         $this->clear_filter_session();
 
         // data for filter drop down
-        $data['select_category'] = $this->getCategories($session_data['report_project_id']);
+        $data['select_category'] = $this->getAjaxCategories($session_data['report_project_id']);
         $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
         $data['selected_category'] = "None"; 
         $data['selected_register'] = "None";
@@ -216,6 +216,68 @@ class Report extends RISK_Controller
         $this->template->load('dashboard', 'report/index', $data);
     }
     
+
+    function ajax_report()
+    {
+
+        // Datatables Variables
+        $draw = intval($this->input->get("draw"));
+        $start = intval($this->input->get("start"));
+        $length = intval($this->input->get("length"));
+
+        // get user id
+        $session_data = $this->session->userdata('logged_in');
+        $user_id = $session_data['user_id'];
+
+        $db_data = array();
+
+        // get row results
+        $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id));
+
+        // get number of total rows by user ID
+        $total_risks = $this->report_model->get_total_risks(array('user_id'=>$user_id));
+
+        foreach ($risk_result as $data_row) {
+            $db_data[] = array(
+                $data_row->risk_title,
+                $this->report_model->getRiskCategoriesName($data_row->RiskCategories_category_id), 
+                $data_row->cause_trigger, 
+                $data_row->identified_hazard_risk, 
+                $data_row->effect,
+                $data_row->project_location, 
+                $data_row->description_change, 
+                $this->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
+                $this->report_model->getSubProjectName($data_row->Subproject_subproject_id),
+                $data_row->likelihood, 
+                $data_row->time_impact, 
+                $data_row->cost_impact, 
+                $data_row->reputation_impact,
+                $data_row->hs_impact, 
+                $data_row->env_impact, 
+                $data_row->legal_impact, 
+                $data_row->quality_impact,
+                $data_row->risk_rating,
+                $data_row->risk_level,
+                $this->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
+                $this->report_model->getRealizationName($data_row->Realization_realization_id),
+                $data_row->action_owner,
+                $data_row->action_item,
+                $data_row->milestone_target_date,
+                $this->report_model->getStatusName($data_row->Status_status_id),
+                $this->report_model->getRiskEntityName($data_row->Entity_entity_id)
+            );
+        }
+
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => $total_risks,
+            "recordsFiltered" => $total_risks,
+            "data" => $db_data
+        );
+
+        echo json_encode($output);
+        exit();
+    }
 
     // clear session data for filter data
     function clear_filter_session()
@@ -629,6 +691,29 @@ class Report extends RISK_Controller
                 $category_id = $row->category_id;
                 $category_name = $row->category_name;
                 $options[$category_id] = $category_name;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
+    function getAjaxCategories($project_id)
+    {
+        $categories = $this->risk_model->getRiskCategories($project_id);
+        
+        if($categories)
+        {
+            $options = array();
+
+            foreach ($categories as $row) 
+            {
+                $category_id = $row->category_id;
+                $category_name = $row->category_name;
+                $options[$category_name] = $category_name;  
             }
 
             return $options;
