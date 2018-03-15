@@ -31,6 +31,7 @@
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/css/alertify.min.css">
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/css/themes/default.min.css">
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css">
+	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/bower_components/jquery.bootgrid/dist/jquery.bootgrid.css">
 
 	<!-- Custom CSS -->
 	<link rel = "stylesheet" type = "text/css" href = "<?php echo base_url(); ?>assets/css/main.css">
@@ -44,4 +45,8 @@
 
 	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
 	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+
+	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/jquery.bootgrid/dist/jquery.bootgrid.js"></script>
+
+
 </head>
