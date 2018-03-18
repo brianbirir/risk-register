@@ -22,27 +22,45 @@
     } 
     else 
     { ?>
-
+        
         <div class="row">
-            <div class="col-md-4">
-            <div class="form-group">
-                <label for="risk_category">Risk Category</label>
-                <?php 
-                    $select_main_category_attributes = 'id="select-category" class="form-control"';
-                    if($selected_category != "None")
-                    {
-                        $select_category['None'] = "Select Option";
-                        echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
-                    }
-                    else 
-                    {
-                        $select_category['None'] = "Select Option";
-                        echo form_dropdown('risk_category',$select_category,"None",$select_main_category_attributes);
-                    }
-                ?>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="risk_register">Risk Register</label>
+                    <?php 
+                        $select_register_attributes = 'id="select-register" class="form-control"';
+                        if($selected_register != "None")
+                        {
+                            $select_register['None'] = "Select Option";
+                            echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
+                        }
+                        else 
+                        {
+                            $select_register['None'] = "Select Option";
+                            echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
+                        }
+                    ?>
+                </div>
+            </div>    
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label for="risk_category">Risk Category</label>
+                    <?php 
+                        $select_main_category_attributes = 'id="select-category" class="form-control"';
+                        if($selected_category != "None")
+                        {
+                            $select_category['None'] = "Select Option";
+                            echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
+                        }
+                        else 
+                        {
+                            $select_category['none'] = "Select Option";
+                            echo form_dropdown('risk_category',$select_category,"none",$select_main_category_attributes);
+                        }
+                    ?>
+                </div>
             </div>
-
-            </div>
+            <button id="filter-report-btn" name="btn_filter" class="btn btn-sm btn-filter">Filter</button>
         </div>
         
         <div class="row">
@@ -96,33 +114,48 @@
     <script>
 
     $(document).ready(function() {
+        
+        var riskCategory = $('#select-category option:checked').val();
+        var riskRegister = $('#select-register option:checked').val();
 
-        var table = $('#risk-report-table').DataTable({
+        console.log(riskCategory);
+
+        // generate table from AJAX request
+        var reportTable = $('#risk-report-table').DataTable({
             "pageLength" : 5,
             "dom" : 'lrtip',
             "processing": true,
             "serverSide": true,
             "ajax": {
-                url : "<?php echo base_url(); ?>" + "report/ajax_report",
-                type : 'GET'
+                "url": "<?php echo base_url(); ?>" + "report/ajax_report",
+                "type": "POST",
+                "data": function(d){
+                    d.category = riskCategory;
+                    d.register = riskRegister;
+                }  
             }
         });
+        
+        $( "#filter-report-btn" ).click(function() {
+            
+            $('#risk-report-table').DataTable().destroy();
 
-        $('#select-category').on('change', function(){
-            table.search(this.value).draw();   
+            // generate table from AJAX request
+            var reportTable = $('#risk-report-table').DataTable({
+                "pageLength" : 5,
+                "dom" : 'lrtip',
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "<?php echo base_url(); ?>" + "report/ajax_report",
+                    "type": "POST",
+                    "data": function(d){
+                        d.category = $('#select-category option:checked').val();
+                        d.register = $('#select-register option:checked').val();
+                    }  
+                }
+            });
         });
-
-        // $.ajax({
-        //     url:  "<?php echo base_url(); ?>" + "report/ajax_report",
-        //     type: "GET",
-        //     dataType: "JSON"
-        // })
-        // .done(function(response) {
-        //     console.log(response);
-        // })
-        // .fail(function(xhr) {
-        //     console.log(xhr);
-        // }); 
 
     });
 

@@ -207,7 +207,8 @@ class Report extends RISK_Controller
         $this->clear_filter_session();
 
         // data for filter drop down
-        $data['select_category'] = $this->getAjaxCategories($session_data['report_project_id']);
+        //$data['select_category'] = $this->getAjaxCategories($session_data['report_project_id']);
+        $data['select_category'] = $this->getCategories($session_data['report_project_id']);
         $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
         $data['selected_category'] = "None"; 
         $data['selected_register'] = "None";
@@ -220,10 +221,12 @@ class Report extends RISK_Controller
     function ajax_report()
     {
 
-        // Datatables Variables
-        $draw = intval($this->input->get("draw"));
-        $start = intval($this->input->get("start"));
-        $length = intval($this->input->get("length"));
+        // Datatables POST Variables
+        $draw = intval($this->input->post("draw"));
+        $start = intval($this->input->post("start"));
+        $length = intval($this->input->post("length"));
+        $category = intval($this->input->post("category"));
+        $register = intval($this->input->post("register"));
 
         // get user id
         $session_data = $this->session->userdata('logged_in');
@@ -232,10 +235,10 @@ class Report extends RISK_Controller
         $db_data = array();
 
         // get row results
-        $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id));
+        $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category));
 
         // get number of total rows by user ID
-        $total_risks = $this->report_model->get_total_risks(array('user_id'=>$user_id));
+        $total_risks = $this->report_model->getTotalRisks(array('user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register));
 
         foreach ($risk_result as $data_row) {
             $db_data[] = array(

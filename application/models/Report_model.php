@@ -77,13 +77,31 @@
         }
 
 
-        // get row count of risk data
+        // get risk data for AJAX request
         function getAjaxRisks($params = array())
         {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->where('archived',false); // do not export archived data
             $this->db->where('User_user_id', $params['user_id']); // get by user ID
+
+            // category filter
+            if(array_key_exists('category_id',$params))
+            {
+                if($params['category_id'] != 'None')
+                {
+                    $this->db->where('RiskCategories_category_id',$params['category_id']);
+                }
+            }
+
+            // register filter
+            if(array_key_exists('register_id',$params))
+            {
+                if($params['register_id'] != 'None')
+                {
+                    $this->db->where('Subproject_subproject_id',$params['register_id']);
+                }
+            }
 
             if(array_key_exists("start",$params) && array_key_exists("limit",$params))
             {
@@ -98,13 +116,32 @@
             return ($query->num_rows() > 0) ?  $query->result() : false;
         }
 
-        // get total number of rows
-        function get_total_risks($params = array())
+        // get total number of rows based in user id and filter conditions
+        function getTotalRisks($params = array())
         {
             $this->db->select("COUNT(*) as num");
             $this->db->from('RiskRegistry');
             $this->db->where('archived',false);
             $this->db->where('User_user_id', $params['user_id']);
+            
+            // category filter
+            if(array_key_exists('category_id',$params))
+            {
+                if($params['category_id'] != 'None')
+                {
+                    $this->db->where('RiskCategories_category_id',$params['category_id']);
+                }
+            }
+
+            // register filter
+            if(array_key_exists('register_id',$params))
+            {
+                if($params['register_id'] != 'None')
+                {
+                    $this->db->where('Subproject_subproject_id',$params['register_id']);
+                }
+            }
+
             $query = $this->db->get();
             $result = $query->row();
             if(isset($result)) return $result->num;
