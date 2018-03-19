@@ -201,7 +201,7 @@
 
             if(array_key_exists('category_id',$params))
             {
-                if($params['category_id'] != 'None')
+                if($params['category_id'] != 'none')
                 {
                     $this->db->where('RiskCategories_category_id',$params['category_id']);
                 }
@@ -210,7 +210,7 @@
 
             if(array_key_exists('register_id',$params))
             {
-                if($params['register_id'] != 'None')
+                if($params['register_id'] != 'none')
                 {
                     $this->db->where('Subproject_subproject_id',$params['register_id']);
                 }
@@ -225,8 +225,6 @@
                 if(!empty($params['date_from']))
                 {
                     $post_at = $params['date_from'];
-                    // list($fiy,$fim,$fid) = explode("-",$post_at);
-                    // $post_at = '$fiy-$fim-$fid';
                     $post_at_to_date = date('Y-m-d');
 
                     if(array_key_exists('date_to',$params)) 
@@ -234,8 +232,6 @@
                         if(!empty($params['date_to']))
                         {
                             $post_at_to_date = $params['date_to'];
-                            // list($tiy,$tim,$tid) = explode("-",$post_at_to_date);
-                            // $post_at_to_date = '$tiy-$tim-$tid';
                         }
                     }
                     

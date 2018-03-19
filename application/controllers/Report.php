@@ -380,6 +380,18 @@ class Report extends RISK_Controller
         // get current session data 
         $session_data = $this->session->userdata('logged_in');
 
+         // get filter criteria from post input
+         $category_id = $this->input->post('risk_category'); // get category id
+         $register_id = $this->input->post('risk_register'); // get register
+         $date_from = $this->input->post('date_from'); // date from
+         $date_to = $this->input->post('date_to'); // date to
+
+         $session_data['category_id'] = $category_id;
+         $session_data['register_id'] = $register_id;
+         $session_data['date_from'] = $date_from;
+         $session_data['date_to'] = $date_to;
+
+
         // use filter session values to generate report
         $category_id = $session_data['category_id'];
         $register_id = $session_data['register_id'];
@@ -399,7 +411,6 @@ class Report extends RISK_Controller
         }
         else
         {
-            // $this->csvgenerator->fetch_manager_data( $main_category, $risk_level, $risk_register );
             $this->csvgenerator->fetch_manager_data(array(
                 'risk_category' => $category_id,
                 'risk_register' => $register_id,
@@ -409,9 +420,31 @@ class Report extends RISK_Controller
             ));
         }
         
-        redirect('dashboard/reports'); 
+        // redirect('dashboard/reports'); 
     }
     
+
+    function ajax_report_export()
+    {
+        // load csv generator library
+        $this->load->library('csvgenerator');
+
+        // get current session data 
+        $session_data = $this->session->userdata('logged_in');
+        
+        $data = array(
+            'risk_category' => $this->input->post('category'),
+            'risk_register' => $this->input->post('register'),
+            'date_from' => $this->input->post('date_from'),
+            'date_to' => $this->input->post('date_to'),
+            'user_id' => $session_data['user_id']
+        );
+
+        $this->csvgenerator->fetch_manager_data($data);
+        // redirect('dashboard/reports/risk_project'); 
+    }
+
+
     function export_response_report()
     {
         // load csv generator library

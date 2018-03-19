@@ -57,13 +57,13 @@
                         $select_register_attributes = 'id="select-register" class="form-control"';
                         if($selected_register != "None")
                         {
-                            $select_register['None'] = "Select Option";
+                            $select_register['none'] = "Select Option";
                             echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
                         }
                         else 
                         {
-                            $select_register['None'] = "Select Option";
-                            echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
+                            $select_register['none'] = "Select Option";
+                            echo form_dropdown('risk_register',$select_register,"none",$select_register_attributes);
                         }
                     ?>
                 </div>
@@ -75,7 +75,7 @@
                         $select_main_category_attributes = 'id="select-category" class="form-control"';
                         if($selected_category != "None")
                         {
-                            $select_category['None'] = "Select Option";
+                            $select_category['none'] = "Select Option";
                             echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
                         }
                         else 
@@ -88,6 +88,8 @@
             </div>
             <button id="filter-report-btn" name="btn_filter" class="btn btn-sm btn-filter">Filter</button>
         </div>
+
+        <buttton id="generate-report" class="btn btn-sm btn-report">Generate Report</buttton>
         
         <div class="row">
             <div class="col-xs-12">
@@ -149,7 +151,7 @@
         // generate table from AJAX request
         var reportTable = $('#risk-report-table').DataTable({
             "pageLength" : 10,
-            "processing": true,
+            "processing": false,
             "serverSide": true,
             "ajax": {
                 "url": "<?php echo base_url(); ?>" + "report/ajax_report",
@@ -157,7 +159,14 @@
                 "data": function(d){
                     d.category = riskCategory;
                     d.register = riskRegister;
-                }  
+                },
+                "columns": [
+                    null,
+                    null,
+                    null,
+                    null,
+                    { orderable: false},
+                ],  
             }
         });
 
@@ -169,7 +178,7 @@
             // generate table from AJAX request
             var reportTable = $('#risk-report-table').DataTable({
                 "pageLength" : 10,
-                "processing": true,
+                "processing": false,
                 "serverSide": true,
                 "ajax": {
                     "url": "<?php echo base_url(); ?>" + "report/ajax_report",

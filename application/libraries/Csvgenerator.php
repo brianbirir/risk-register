@@ -10,6 +10,7 @@ class Csvgenerator extends CI_Controller
         $CI->load->model('report_model');
         $CI->load->model('risk_model');
         $CI->load->model('user_model');
+        $CI->load->helper('url');
 
         // load response library
         $CI->load->library( 'responses' );
@@ -120,6 +121,7 @@ class Csvgenerator extends CI_Controller
             //  output all remaining data on a file pointer
             fpassthru($f);
         }
+        redirect('dashboard/reports/risk_project'); 
         exit;
     }
 
@@ -193,8 +195,7 @@ class Csvgenerator extends CI_Controller
                         $data_row->identified_hazard_risk, 
                         $data_row->effect,
                         $data_row->project_location, 
-                        $data_row->description_change, 
-                        // $data_row->materialization_phase,
+                        $data_row->description_change,
                         $this->ci->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
                         $this->ci->report_model->getSubProjectName($data_row->Subproject_subproject_id),
                         $data_row->likelihood, 
