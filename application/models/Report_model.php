@@ -103,6 +103,27 @@
                 }
             }
 
+            // date from and date to
+            if(array_key_exists('date_from',$params))
+            {
+                $post_at = "";
+                $post_at_to_date = "";
+                
+                if(!empty($params['date_from']))
+                {
+                    $post_at = $params['date_from'];
+                    $post_at_to_date = date('Y-m-d');
+
+                    if(array_key_exists('date_to',$params)) 
+                    {
+                        if(!empty($params['date_to'])) { $post_at_to_date = $params['date_to']; }
+                    }
+                    
+                    $this->db->where('effective_date >=', $post_at);
+                    $this->db->where('effective_date <=', $post_at_to_date);
+                }
+            }
+
             if(array_key_exists("start",$params) && array_key_exists("limit",$params))
             {
                 $this->db->limit($params['limit'],$params['start']);
@@ -139,6 +160,27 @@
                 if($params['register_id'] != 'None')
                 {
                     $this->db->where('Subproject_subproject_id',$params['register_id']);
+                }
+            }
+
+            // date from and date to
+            if(array_key_exists('date_from',$params))
+            {
+                $post_at = "";
+                $post_at_to_date = "";
+                
+                if(!empty($params['date_from']))
+                {
+                    $post_at = $params['date_from'];
+                    $post_at_to_date = date('Y-m-d');
+
+                    if(array_key_exists('date_to',$params)) 
+                    {
+                        if(!empty($params['date_to'])) { $post_at_to_date = $params['date_to']; }
+                    }
+                    
+                    $this->db->where('effective_date >=', $post_at);
+                    $this->db->where('effective_date <=', $post_at_to_date);
                 }
             }
 

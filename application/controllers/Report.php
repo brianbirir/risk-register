@@ -221,12 +221,14 @@ class Report extends RISK_Controller
     function ajax_report()
     {
 
-        // Datatables POST Variables
+        // Data tables POST Variables
         $draw = intval($this->input->post("draw"));
         $start = intval($this->input->post("start"));
         $length = intval($this->input->post("length"));
         $category = intval($this->input->post("category"));
         $register = intval($this->input->post("register"));
+        $date_from = intval($this->input->post("date_from"));
+        $date_to = intval($this->input->post("date_to"));
 
         // get user id
         $session_data = $this->session->userdata('logged_in');
@@ -235,10 +237,10 @@ class Report extends RISK_Controller
         $db_data = array();
 
         // get row results
-        $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category));
+        $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category,'date_from'=>$date_from,'date_to'=>$date_to));
 
         // get number of total rows by user ID
-        $total_risks = $this->report_model->getTotalRisks(array('user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register));
+        $total_risks = $this->report_model->getTotalRisks(array('user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));
 
         foreach ($risk_result as $data_row) {
             $db_data[] = array(

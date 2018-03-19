@@ -24,6 +24,32 @@
     { ?>
         
         <div class="row">
+            <div class="col-md-2">
+                <div class="form-group">
+                    <!-- date range -->
+                    <label for="date_from">From:</label>
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input data-date-orientation="bottom" data-date-format="yyyy-mm-dd" name="date_from" type="text" class="form-control datepicker" id="datepicker-from">
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-2">
+                <div class="form-group">
+                    <!-- date range -->
+                    <label for="date_to">To:</label>
+                    <div class="input-group date">
+                        <div class="input-group-addon">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <input data-date-orientation="bottom" data-date-format="yyyy-mm-dd" name="date_to" type="text" class="form-control datepicker" id="datepicker-to">
+                    </div>
+                </div>
+            </div>
+
             <div class="col-md-3">
                 <div class="form-group">
                     <label for="risk_register">Risk Register</label>
@@ -122,8 +148,7 @@
 
         // generate table from AJAX request
         var reportTable = $('#risk-report-table').DataTable({
-            "pageLength" : 5,
-            "dom" : 'lrtip',
+            "pageLength" : 10,
             "processing": true,
             "serverSide": true,
             "ajax": {
@@ -135,15 +160,15 @@
                 }  
             }
         });
-        
+
+        // filter button click
         $( "#filter-report-btn" ).click(function() {
             
             $('#risk-report-table').DataTable().destroy();
 
             // generate table from AJAX request
             var reportTable = $('#risk-report-table').DataTable({
-                "pageLength" : 5,
-                "dom" : 'lrtip',
+                "pageLength" : 10,
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
@@ -152,6 +177,8 @@
                     "data": function(d){
                         d.category = $('#select-category option:checked').val();
                         d.register = $('#select-register option:checked').val();
+                        d.date_from = $('#datepicker-from').val();
+                        d.date_to = $('#date_to').val();
                     }  
                 }
             });

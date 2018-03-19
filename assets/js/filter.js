@@ -1,5 +1,6 @@
 $(document).ready(function(){
     
+    // export of risk report
     $("#generate-report").click(function(e) {
         e.preventDefault();
         $.ajax({
@@ -13,7 +14,7 @@ $(document).ready(function(){
         });
     });
     
-    
+    // export of response report
     $("#generate-response-report").click(function(e) {
         e.preventDefault();
         $.ajax({

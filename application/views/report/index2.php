@@ -16,7 +16,7 @@
 
         <div class="form-group">
             <!-- date range -->
-            <label for="dat">From:</label>
+            <label for="date_from">From:</label>
             <div class="input-group date">
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
