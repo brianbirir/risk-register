@@ -152,7 +152,7 @@
         var reportTable = $('#risk-report-table').DataTable({
             "pageLength" : 10,
             "processing": false,
-            "serverSide": true,
+            "serverSide": false,
             "ajax": {
                 "url": "<?php echo base_url(); ?>" + "report/ajax_report",
                 "type": "POST",
@@ -179,7 +179,7 @@
             var reportTable = $('#risk-report-table').DataTable({
                 "pageLength" : 10,
                 "processing": false,
-                "serverSide": true,
+                "serverSide": false,
                 "ajax": {
                     "url": "<?php echo base_url(); ?>" + "report/ajax_report",
                     "type": "POST",
