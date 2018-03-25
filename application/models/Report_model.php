@@ -204,7 +204,7 @@
 
             if(array_key_exists('category_id',$params))
             {
-                if($params['category_id'] != 'none')
+                if($params['category_id'] != 'None')
                 {
                     $this->db->where('RiskCategories_category_id',$params['category_id']);
                 }
@@ -213,7 +213,7 @@
 
             if(array_key_exists('register_id',$params))
             {
-                if($params['register_id'] != 'none')
+                if($params['register_id'] != 'None')
                 {
                     $this->db->where('Subproject_subproject_id',$params['register_id']);
                 }
