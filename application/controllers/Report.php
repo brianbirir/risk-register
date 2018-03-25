@@ -230,8 +230,15 @@ class Report extends RISK_Controller
         $date_from = intval($this->input->post("date_from"));
         $date_to = intval($this->input->post("date_to"));
 
-        // get user id
+
+        // get current session data and assign new sessions data from filter form fields
         $session_data = $this->session->userdata('logged_in');
+        $session_data['category_id'] = $this->input->post("category");
+        $session_data['register_id'] = $this->input->post("register");
+        $session_data['date_from'] = $this->input->post("date_from");
+        $session_data['date_to'] = $this->input->post("date_to");
+
+        // get user id from session data
         $user_id = $session_data['user_id'];
 
         $db_data = array();
@@ -332,7 +339,8 @@ class Report extends RISK_Controller
             // PAGINATION
             // init pagination params
             $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+            // $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+            $total_records = $this->report_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'category_id'=>$session_data['category_id'],'register_id'=>$session_data['register_id'],'date_from'=>$session_data['date_from'],'date_to'=>$session_data['date_to']));
 
             // load pagination configurations
             $this->config->load('pagination', TRUE);
@@ -431,17 +439,19 @@ class Report extends RISK_Controller
 
         // get current session data 
         $session_data = $this->session->userdata('logged_in');
-        
+
+        // use filter session values to generate report
         $data = array(
-            'risk_category' => $this->input->post('category'),
-            'risk_register' => $this->input->post('register'),
-            'date_from' => $this->input->post('date_from'),
-            'date_to' => $this->input->post('date_to'),
+            'risk_category' => $session_data['category_id'],
+            'risk_register' => $session_data['register_id'],
+            'date_from' => $session_data['date_from'],
+            'date_to' => $session_data['date_to'],
             'user_id' => $session_data['user_id']
         );
 
         $this->csvgenerator->fetch_manager_data($data);
-        // redirect('dashboard/reports/risk_project'); 
+        
+        redirect('dashboard/reports/risk_project');
     }
 
 

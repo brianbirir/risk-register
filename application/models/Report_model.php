@@ -185,8 +185,11 @@
             }
 
             $query = $this->db->get();
+            
             $result = $query->row();
+            
             if(isset($result)) return $result->num;
+            
             return 0;
         }
         
