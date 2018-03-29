@@ -499,7 +499,7 @@
                     <h3 class="box-title">Risk Responses</h3>
                 </div>
 
-                <div class="box-body table-responsive no-padding">
+                <div class="box-body">
                     
                     <div class="col-md-4">
                         <div class="form-group">
@@ -525,18 +525,19 @@
                         <div class="box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Risk Response</h3>
-                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right" onclick="new_row()">Add Response</div>
+                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div>
                             </div>
                             <div class="box-body">
                                 <table class="table table-hover">
-                                    <tbody id="response-table-body">
+                                    <thead>
                                         <tr>
-                                            <!-- <th>Risk Response ID</th> -->
                                             <th>Response Title</th>
                                             <th>Response Type</th>
                                             <th>Register User</th>
                                             <th>Target Date</th>
                                         </tr>
+                                    </thead>
+                                    <tbody id="response-table-body">
                                         <tr id="response-row">
 
                                             <?php 
@@ -555,7 +556,7 @@
                                             <?php } else { ?>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[title][]" class="form-control select2 response-title">
+                                                    <select name="risk_response[title][]" class="form-control response response-title">
                                                         <?php 
                                                             foreach ($select_response_name as $key => $value) 
                                                             {
@@ -570,7 +571,7 @@
                                             <?php } ?>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[strategy][]" class="form-control">
+                                                    <select name="risk_response[strategy][]" class="form-control response response-strategy">
                                                         <?php 
                                                             foreach ($select_strategy as $key => $value) 
                                                             {
@@ -582,7 +583,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <select multiple="multiple" name="risk_response[user][]" class="form-control select-users">
+                                                    <select multiple="multiple" name="risk_response[user][]" class="form-control response response-user">
                                                         <?php 
                                                             foreach ($select_user as $key => $value) 
                                                             {
