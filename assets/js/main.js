@@ -1,36 +1,6 @@
-// Add Options to the integer dropdown fields
-
 /** Risk Calculator
  * uses risk matrix to determine risk rating and level
  */
-
-// residual risk
-//  function calcResidualRisk()
-// {
-//     var likelihood_value = document.getElementById('residual-risk-select').value;
-    
-//     var impact_value = document.getElementById('residual-impact-select').value;
-
-//     var residual_risk_rating = parseInt(likelihood_value) * parseInt(impact_value);   
-
-//     var residual_risk_level = riskMatrix(residual_risk_rating);
-
-//     // append values to form input
-//     document.getElementById('residual_risk_rating').value = residual_risk_rating;
-    
-//     document.getElementById('residual_risk_level').value = residual_risk_level.level;
-
-//     // set colour background for form input based in risk level
-//     var risk_level_input = document.querySelector("#residual_risk_level");
-    
-//     risk_level_input.style.backgroundColor = residual_risk_level.color;
-// }
-
-//  var residual_likelihood = document.getElementById('residual-risk-select');
-//  var impact_likelihood = document.getElementById('residual-impact-select');
-//  residual_likelihood.onchange  = function(){calcResidualRisk()};
-//  impact_likelihood.onchange  = function(){calcResidualRisk()};
-
 
 // risk for qualitative assessment
 function calcQualitativeRisk() 
@@ -295,39 +265,40 @@ window.onload = appendCurrentDate;
 var counter = 0;
 
 // add new row function	
-function new_row()
-{
-	var parent_element = "response-table-body";
+// function new_row()
+// {
 
-	counter++;
+// 	var parent_element = "response-table-body";
+
+// 	counter++;
 	
-	// create a new row
-	var new_row = document.createElement('tr');
+// 	// create a new row
+// 	var new_row = document.createElement('tr');
 
-	// set id for the new row
-	new_row.id = "response-row-" + counter; 
+// 	// set id for the new row
+// 	new_row.id = "response-row-" + counter;
 
-	// add innerhtml elements from existing first row
-	new_row.innerHTML = document.getElementById("response-row").innerHTML;
+// 	// add innerhtml elements from existing first row
+// 	new_row.innerHTML = document.getElementById("response-row").innerHTML;
 
-	// create new table cell to hold link that will remove one of the added rows
-	var new_cell = document.createElement('td');
+// 	// create new table cell to hold link that will remove one of the added rows
+// 	var new_cell = document.createElement('td');
 
-	// assign ID to new table cell
-	new_cell.id = "remove-row-" + counter;
+// 	// assign ID to new table cell
+// 	new_cell.id = "remove-row-" + counter;
 
-	// add content to new cell
-	// var row_counter  = "response-row-" + counter
-	new_cell.innerHTML = "<i onclick='delete_row(&quot;"+new_row.id+"&quot;)' class='fa fa-times' aria-hidden='true'></i>";
+// 	// add content to new cell
+// 	// var row_counter  = "response-row-" + counter
+// 	new_cell.innerHTML = "<i onclick='delete_row(&quot;"+new_row.id+"&quot;)' class='fa fa-times' aria-hidden='true'></i>";
 
-	// new_cell.innerHTML = "<a href='' onclick=''><i class='fa fa-times' aria-hidden='true'></i></a>";
+// 	// new_cell.innerHTML = "<a href='' onclick=''><i class='fa fa-times' aria-hidden='true'></i></a>";
 
-	// append new cell to new row
-	new_row.appendChild(new_cell);
+// 	// append new cell to new row
+// 	new_row.appendChild(new_cell);
 
-	// append new row to parent element
-	document.getElementById(parent_element).appendChild(new_row);
-}
+// 	// append new row to parent element
+// 	document.getElementById(parent_element).appendChild(new_row);
+// }
 
 
 // delete row
@@ -351,3 +322,76 @@ function archive_confirmation()
         alertify.error('Cancel');
     });
 }
+
+
+// jQuery
+$(document).ready(function() {
+
+    
+    var counter = 0;
+
+    // initialize chosen select library
+    $(".response").chosen();
+
+    $(".action-owner").chosen();
+
+    // duplicate response row
+    $('#add-response-btn').click( function() {
+        // parent element i.e. tbody
+        var parent_element = "response-table-body";
+
+        // append new row to parent element
+        document.getElementById(parent_element).appendChild(buildTableRow(counter));
+
+        // clone options of the first row select fields
+        var $optionsTitle = $(".response-title > option").clone();
+        var $optionsStrategy = $(".response-strategy > option").clone();
+        var $optionsUser = $(".response-user > option").clone();
+
+        $('.response-title-copy').append($optionsTitle);
+        $('.response-title-strategy').append($optionsStrategy);
+        $('.response-user-copy').append($optionsUser);
+
+        // initialize chosen select library
+        $('.response').chosen();
+    });
+    
+    
+    function buildTableRow(counter)
+    {
+        counter++;
+        
+        var createRow = document.createElement('tr');
+      
+        // set id for the new row
+        createRow.id = "response-row-" + counter;
+        
+        var createSelectOne = '<td><div class="form-group"><select name="risk_response[title][]" class="form-control response response-title-copy"></select></td>';
+        
+        var createSelectTwo = '<td><div class="form-group"><select name="risk_response[strategy][]" class="form-control response response-title-strategy"></select></td>';
+        
+        var createSelectThree = '<td><div class="form-group"><select multiple="multiple" name="risk_response[user][]" class="form-control response response-user-copy"></select></td>';
+
+        var createSelectFour = '<div class="form-group"></div><div class="input-group date"><div class="input-group-addon"><i class="fa fa-calendar"></i></div><input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" required/></div>';
+        
+        var responseRow = createSelectOne + createSelectTwo + createSelectThree + createSelectFour;
+        
+        createRow.innerHTML = responseRow;
+        
+        // create new table cell to hold link that will remove one of the added rows
+        var createCell = document.createElement('td');
+
+        // assign ID to new table cell
+        createCell.id = "remove-row-" + counter;
+
+        // add content to new cell
+        createCell.innerHTML = "<i class='fa fa-times' aria-hidden='true'></i>";
+
+        // append new cell to new row
+        createRow.appendChild(createCell);
+        
+        return createRow;
+    }
+
+
+});

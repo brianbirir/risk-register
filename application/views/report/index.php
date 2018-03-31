@@ -16,7 +16,7 @@
 
         <div class="form-group">
             <!-- date range -->
-            <label for="dat">From:</label>
+            <label for="date_from">From:</label>
             <div class="input-group date">
                 <div class="input-group-addon">
                     <i class="fa fa-calendar"></i>
@@ -75,7 +75,7 @@
 
     <?php echo form_close(); ?>
 
-    <buttton id="generate-report" class="btn btn-sm btn-report">Generate Report</buttton>
+    <button id="generate-report" class="btn btn-sm btn-report">Generate Report</button>
 
     <?php if ($this->session->flashdata('msg')){ ?>
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -133,11 +133,6 @@
                                     <th>Risk Level</th>
                                     <th>Risk Responses</th>
                                     <th>System Safety</th> 
-                                    <th>Residual Risk Realization</th> 
-                                    <th>Residual Risk Likelihood</th> 
-                                    <th>Residual Risk Impact</th> 
-                                    <th>Residual Risk Rating</th>
-                                    <th>Residual Risk Level</th>
                                     <th>Action Owner</th>
                                     <th>Action Item</th>
                                     <th>Milestone Target Date</th>
@@ -178,10 +173,6 @@
                                         echo "</td>";
                                         echo "<td>".$CI->risk_model->getSystemSafetyName($risk_row->SystemSafety_safety_id)."</td>";
                                         echo "<td>".$CI->risk_model->getRealizationName($risk_row->Realization_realization_id)."</td>";
-                                        echo "<td>".$risk_row->residual_risk_likelihood."</td>";
-                                        echo "<td>".$risk_row->residual_risk_impact."</td>";
-                                        echo "<td>".$risk_row->residual_risk_rating."</td>";
-                                        echo "<td>".$risk_row->residual_risk_level."</td>";
                                         echo "<td>".$risk_row->action_owner."</td>";
                                         echo "<td>".$risk_row->action_item."</td>";
                                         echo "<td>".$risk_row->milestone_target_date."</td>";

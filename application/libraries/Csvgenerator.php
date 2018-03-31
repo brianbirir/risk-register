@@ -10,6 +10,7 @@ class Csvgenerator extends CI_Controller
         $CI->load->model('report_model');
         $CI->load->model('risk_model');
         $CI->load->model('user_model');
+        $CI->load->helper('url');
 
         // load response library
         $CI->load->library( 'responses' );
@@ -56,14 +57,9 @@ class Csvgenerator extends CI_Controller
                 'Risk Level',
                 'Risk Responses',
                 'System Safety', 
-                'Realization', 
-                'Likelihood', 
-                'Impact', 
-                'Risk Rating',
-                'Risk Level', 
-                'A.O. First Name',
-                'A.O. Last Name', 
-                'A.O. Email',
+                'Realization',  
+                'Action Owner',
+                'Action Item',
                 'Milestone Target Date', 
                 'Status',
                 'Entity'      
@@ -104,13 +100,8 @@ class Csvgenerator extends CI_Controller
                         $value,
                         $this->ci->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
                         $this->ci->report_model->getRealizationName($data_row->Realization_realization_id),
-                        $data_row->residual_risk_likelihood,
-                        $data_row->residual_risk_impact, 
-                        $data_row->residual_risk_rating, 
-                        $data_row->residual_risk_level,
-                        $data_row->action_owner_fname,
-                        $data_row->action_owner_lname, 
-                        $data_row->action_owner_email, 
+                        $data_row->action_owner,
+                        $data_row->action_item,
                         $data_row->milestone_target_date,
                         $this->ci->report_model->getStatusName($data_row->Status_status_id),
                         $this->ci->report_model->getRiskEntityName($data_row->Entity_entity_id)
@@ -130,6 +121,7 @@ class Csvgenerator extends CI_Controller
             //  output all remaining data on a file pointer
             fpassthru($f);
         }
+        redirect('dashboard/reports/risk_project'); 
         exit;
     }
 
@@ -178,13 +170,8 @@ class Csvgenerator extends CI_Controller
                 'Risk Responses',
                 'System Safety', 
                 'Realization', 
-                'Likelihood', 
-                'Impact', 
-                'Risk Rating',
-                'Risk Level', 
-                'A.O. First Name',
-                'A.O. Last Name', 
-                'A.O. Email', 
+                'Action Owner',
+                'Action Item', 
                 'Milestone Target Date', 
                 'Status',
                 'Entity'      
@@ -208,8 +195,7 @@ class Csvgenerator extends CI_Controller
                         $data_row->identified_hazard_risk, 
                         $data_row->effect,
                         $data_row->project_location, 
-                        $data_row->description_change, 
-                        // $data_row->materialization_phase,
+                        $data_row->description_change,
                         $this->ci->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
                         $this->ci->report_model->getSubProjectName($data_row->Subproject_subproject_id),
                         $data_row->likelihood, 
@@ -225,13 +211,8 @@ class Csvgenerator extends CI_Controller
                         $value,
                         $this->ci->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
                         $this->ci->report_model->getRealizationName($data_row->Realization_realization_id),
-                        $data_row->residual_risk_likelihood,
-                        $data_row->residual_risk_impact, 
-                        $data_row->residual_risk_rating, 
-                        $data_row->residual_risk_level,
-                        $data_row->action_owner_fname,
-                        $data_row->action_owner_lname, 
-                        $data_row->action_owner_email,
+                        $data_row->action_owner,
+                        $data_row->action_item,
                         $data_row->milestone_target_date,
                         $this->ci->report_model->getStatusName($data_row->Status_status_id),
                         $this->ci->report_model->getRiskEntityName($data_row->Entity_entity_id)

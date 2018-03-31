@@ -120,7 +120,7 @@
 
                     <div class="row">
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <?php 
@@ -130,14 +130,14 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="latest_update">Latest Update</label>
                                 <input class="form-control" name="latest_update" placeholder="Latest Update" type="text" value=""/>
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="entity">Entity</label>
                                 <?php
@@ -146,13 +146,27 @@
                                 ?>
                             </div>
                         </div>
-                        
-                        <div class="col-md-3">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="main_category">Risk Category</label>
                                 <?php 
                                     $select_main_category_attributes = 'class="form-control" required';
-                                    echo form_dropdown('main_category',$select_category,"1",$select_main_category_attributes);
+                                    $select_category['select_option'] = 'Select Option';
+                                    echo form_dropdown('main_category',$select_category,"select_option",$select_main_category_attributes);
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sub_category">Risk Subcategory</label>
+                                <?php 
+                                    $select_subcategory_attributes = 'id="subcategory-select" class="form-control" required';
+                                    $subcategory_options = array('none' => 'None');
+                                    echo form_dropdown('sub_category',$subcategory_options,'none',$select_subcategory_attributes);
                                 ?>
                             </div>
                         </div>
@@ -485,7 +499,7 @@
                     <h3 class="box-title">Risk Responses</h3>
                 </div>
 
-                <div class="box-body table-responsive no-padding">
+                <div class="box-body">
                     
                     <div class="col-md-4">
                         <div class="form-group">
@@ -511,18 +525,19 @@
                         <div class="box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Risk Response</h3>
-                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right" onclick="new_row()">Add Response</div>
+                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div>
                             </div>
                             <div class="box-body">
                                 <table class="table table-hover">
-                                    <tbody id="response-table-body">
+                                    <thead>
                                         <tr>
-                                            <!-- <th>Risk Response ID</th> -->
                                             <th>Response Title</th>
                                             <th>Response Type</th>
                                             <th>Register User</th>
                                             <th>Target Date</th>
                                         </tr>
+                                    </thead>
+                                    <tbody id="response-table-body">
                                         <tr id="response-row">
 
                                             <?php 
@@ -541,7 +556,7 @@
                                             <?php } else { ?>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[title][]" class="form-control select2 response-title">
+                                                    <select name="risk_response[title][]" class="form-control response response-title">
                                                         <?php 
                                                             foreach ($select_response_name as $key => $value) 
                                                             {
@@ -556,7 +571,7 @@
                                             <?php } ?>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[strategy][]" class="form-control">
+                                                    <select name="risk_response[strategy][]" class="form-control response response-strategy">
                                                         <?php 
                                                             foreach ($select_strategy as $key => $value) 
                                                             {
@@ -568,7 +583,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[user][]" class="form-control">
+                                                    <select multiple="multiple" name="risk_response[user][]" class="form-control response response-user">
                                                         <?php 
                                                             foreach ($select_user as $key => $value) 
                                                             {
@@ -699,7 +714,8 @@
         <!-- JS code to register the response title asynchronously -->
         <script type="text/javascript">
             $(document).ready(function(){
-                // on click of button
+
+                // register the response title asynchronously
                 $('#add-response-title').click(function(event){
 
                     event.preventDefault();
@@ -733,6 +749,33 @@
                             console.log(xhr);
                         }); 
                     }
+                });
+
+                // get risk subcategory dropdown based on selected risk category
+                $('select[name="main_category"]').change(function(){
+
+                    // get value from selected option
+                    var category_value = $(this).val();
+
+                    // use ajax call to get subcategories
+                    $.ajax({
+                        url:  "<?php echo base_url(); ?>" + "subcategory/get_subcategory_list",
+                        type: "POST",
+                        data: {category_id: category_value},
+                        dataType: "JSON"
+                    })
+                    .done(function(response) {
+                        // remove options from subcategory drop down
+                        $('#subcategory-select option').remove();
+                        
+                        // add new options from response
+                        $.each( response, function( key, value ) {
+                            $('#subcategory-select').append('<option value="' + key + '">' + value + '</option>');
+                        });
+                    })
+                    .fail(function(xhr) {
+                        alert("Unable to retrieve subcategory data");
+                    });
                 })
             });
         </script>

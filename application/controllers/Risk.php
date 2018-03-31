@@ -9,7 +9,6 @@ class Risk extends RISK_Controller
         parent::__construct();
         $this->load->helper('form');
         $this->load->helper('url');
-        $this->load->helper('url');
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
@@ -170,7 +169,7 @@ class Risk extends RISK_Controller
             $data = array_merge($data, $this->get_global_data());
 
             // get id from fourth segment of uri
-            $id = $this->uri->segment(4);
+            $data['register_id'] = $this->uri->segment(4);
 
             // get register data
             // if ( $data['role_id'] == 8 ) 
@@ -183,7 +182,7 @@ class Risk extends RISK_Controller
             $data['user_project_id'] = $session_data['user_project_id'];
 
             // get risk data based on id from uri
-            $data['risk'] = $this->risk_model->getRisk($id);
+            $data['risk'] = $this->risk_model->getRisk($data['register_id']);
                 
             // get risk responses data
             $data['risk_response'] = $this->risk_model->getRiskResponse($data['risk']->risk_uuid);
@@ -262,10 +261,6 @@ class Risk extends RISK_Controller
             'Status_status_id' => $this->input->post('status'),
             'Realization_realization_id' => $this->input->post('realization'),
             'RiskOwner_riskowner_id' => $this->input->post('risk_owner'),
-            'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
-            'residual_risk_impact' => $this->input->post('residual_impact'),
-            'residual_risk_rating' => $this->input->post('residual_risk_rating'),
-            'residual_risk_level' => $this->input->post('residual_risk_level'),
             'Subproject_subproject_id' => $this->input->post('register_id'),
             'Entity_entity_id' => $this->input->post('entity'),
             'description_change' => $this->input->post('description_change'),
@@ -292,7 +287,8 @@ class Risk extends RISK_Controller
             'cost_impact_target' => $this->input->post('costimpact_target'),
             'risk_rating_target' => $this->input->post('targetrisk_rating'),
             'risk_level_target' => $this->input->post('targetrisk_level'),
-            'action_item' => $this->input->post('action_item')
+            'action_item' => $this->input->post('action_item'),
+            'RiskSubCategories_subcategory_id' => $this->input->post('subcategory')
         );
 
         /**
@@ -523,6 +519,10 @@ class Risk extends RISK_Controller
             // get risk uuid
             $risk_uuid = $this->input->post('risk_uuid');
 
+            // generate risk harzard ID
+            $this->load->library('riskid');
+            $original_risk_id = $this->riskid->generateRiskID($this->input->post('main_category'),$this->input->post('sub_category'));
+
             //insert the risk data into database
             $risk_data = array(
                 'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
@@ -547,10 +547,6 @@ class Risk extends RISK_Controller
                 'Status_status_id' => $this->input->post('status'),
                 'Realization_realization_id' => $this->input->post('realization'),
                 'RiskOwner_riskowner_id' => $this->input->post('risk_owner'),
-                'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
-                'residual_risk_impact' => $this->input->post('residual_impact'),
-                'residual_risk_rating' => $this->input->post('residual_risk_rating'),
-                'residual_risk_level' => $this->input->post('residual_risk_level'),
                 'Subproject_subproject_id' => $this->input->post('register_id'),
                 'Entity_entity_id' => $this->input->post('entity'),
                 'CostMetric_cost_id' => $this->input->post('costimpact'),
@@ -581,12 +577,17 @@ class Risk extends RISK_Controller
                 'cost_impact_target' => $this->input->post('costimpact_target'),
                 'risk_rating_target' => $this->input->post('targetrisk_rating'),
                 'risk_level_target' => $this->input->post('targetrisk_level'),
-                'action_item' => $this->input->post('action_item')
+                'action_item' => $this->input->post('action_item'),
+                'RiskSubCategories_subcategory_id' => $this->input->post('sub_category'),
+                'original_risk_id' => $original_risk_id
             );
             
             // insert form data into database
             if ($this->risk_model->insertRegistry($risk_data))
             {
+
+                $post_date = date('Y-m-d');
+
                 $num_fields = count($_POST['risk_response']['title']);
 
                 for ($i = 0; $i < $num_fields; $i++) 
@@ -600,9 +601,9 @@ class Risk extends RISK_Controller
                         'ResponseTitle_id' => $_POST['risk_response']['title'][$i],
                         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
                         'register_id' => $this->input->post('register_id'),
-                        'user_id' => $_POST['risk_response']['user'][$i],
-                        'created_at' => $date,
-                        'updated_at' => $date,
+                        'user_id' => serialize($_POST['risk_response']['user']),
+                        'created_at' => $post_date,
+                        'updated_at' => $post_date,
                         'due_date' => $this->getResponseDueDate($date)
                     );
                     
@@ -610,8 +611,8 @@ class Risk extends RISK_Controller
                     $this->risk_model->insertResponse($field);
 
                     // send email notifications for risk response due date
-                    $this->load->library('risk_email');
-                    $this->risk_email->send_response_notification($field['response_title'], $this->user_model->getUserEmail($field['user_id']), $field['created_at']);
+                    // $this->load->library('riskemail');
+                    // $this->riskemail->send_response_notification($field['response_title'], $this->user_model->getUserEmail($field['user_id']), $field['created_at']);
                 }
 
                 $this->session->set_flashdata('positive_msg','Risk has been successfully added.');

@@ -567,4 +567,16 @@
 
             return $this->db->insert($table);
         }
+
+        function getLastRiskID()
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->order_by("item_id","desc");
+            $this->db->limit(1);
+            $this->db->where('RiskRegistry.archived',false); // not archived
+            $query = $this->db->get();
+            $row = $query->row();
+            return $row->item_id;
+        }
     }

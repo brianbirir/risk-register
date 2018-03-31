@@ -11,7 +11,7 @@
         // add risk response
         function insertResponse($data)
         {
-            return $this->db->insert('RiskRegistry', $data);
+            return $this->db->insert('RiskResponse', $data);
         }
 
         // get all risk responses
@@ -145,5 +145,29 @@
             $this->db->where('Project_project_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // risks associated with response by response title
+        function getResponseRisks($response_title_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->join('RiskResponse','RiskResponse.risk_uuid = RiskRegistry.risk_uuid');
+            $this->db->where('RiskResponse.ResponseTitle_id', $response_title_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // get response name by title ID
+        function getResponseName($title_id)
+        {
+            $this->db->select('response_name');
+            $this->db->from('ResponseTitle');
+            $this->db->where('response_id', $title_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row->response_name : false;
         }
     }
