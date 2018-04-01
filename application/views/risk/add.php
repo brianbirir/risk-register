@@ -549,13 +549,13 @@
                                                 {
                                             ?>
                                             <td>
-                                                <div class="form-group">
+                                                <div id="form-response-title" class="form-group">
                                                     <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
                                                 </div>
                                             </td>
                                             <?php } else { ?>
                                             <td>
-                                                <div class="form-group">
+                                                <div id="form-response-title" class="form-group">
                                                     <select name="risk_response[title][]" class="form-control response response-title">
                                                         <?php 
                                                             foreach ($select_response_name as $key => $value) 
@@ -734,15 +734,27 @@
                             dataType: "JSON"
                         })
                         .done(function(response) {
-                            $("#response-modal-alert-success").show();
+                            $("#response-modal-alert-success").show(); // display success alert
+
+                            // create select field for response title
+                            var titleSelect = '<select name="risk_response[title][]" class="form-control response response-title"></select>';
                             
                             // remove options from response title select drop down
-                            $('.response-title option').remove();
-                           
+                            // $('.response-title option').remove();
+
+                            // remove response title select field
+                            $('#form-response-title .response-title').remove();
+
+                            // recreate response title select field
+                            $('#form-response-title').html(titleSelect);
+                                                   
                             // add new options from data
                             $.each( response, function( key, value ) {
                                 $('.response-title').append('<option value="' + key + '">' + value + '</option>');
                             });
+
+                            // initialize chosen library on response drop down to display newly added option
+                            $('.response-title').chosen();
                         })
                         .fail(function(xhr) {
                             $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
