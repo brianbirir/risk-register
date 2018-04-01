@@ -532,6 +532,7 @@
                                     <thead>
                                         <tr>
                                             <th>Response Title</th>
+                                            <th></th>
                                             <th>Response Type</th>
                                             <th>Register User</th>
                                             <th>Target Date</th>
@@ -564,9 +565,11 @@
                                                             }
                                                         ?>
                                                     </select>
-                                                    <!-- button for adding response title to drop down -->
-                                                    <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
                                                 </div>
+                                            </td>
+                                            <td>
+                                                <!-- button for adding response title to drop down -->
+                                                <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
                                             </td>
                                             <?php } ?>
                                             <td>
