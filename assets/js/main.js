@@ -331,7 +331,9 @@ $(document).ready(function() {
     var counter = 0;
 
     // initialize chosen select library
-    $(".response").chosen();
+    $(".response-title").chosen();
+    $(".response-user").chosen();
+    $(".response-strategy").chosen();
 
     $(".action-owner").chosen();
 
