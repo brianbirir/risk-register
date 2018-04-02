@@ -650,8 +650,13 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="milestone_target_date">Milestone Target Date</label>
-                            <input class="form-control" name="milestone_target_date" placeholder="Milestone Target Date" type="text" value="<?php echo set_value('milestone_target_date'); ?>" required/>
-                            <?php echo form_error('milestone_target_date','<div class="alert alert-danger">','</div>'); ?>
+
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="milestone_target_date" type="text" value="<?php echo set_value('milestone_target_date'); ?>" required/>
+                            </div>
                         </div>
                     </div>
                 </div>
