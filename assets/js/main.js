@@ -369,6 +369,8 @@ $(document).ready(function() {
         createRow.id = "response-row-" + counter;
         
         var createSelectOne = '<td><div class="form-group"><select name="risk_response[title][]" class="form-control response response-title-copy"></select></td>';
+
+        var createEmptyCell = '<td></td>';
         
         var createSelectTwo = '<td><div class="form-group"><select name="risk_response[strategy][]" class="form-control response response-title-strategy"></select></td>';
         
@@ -376,7 +378,7 @@ $(document).ready(function() {
 
         var createSelectFour = '<div class="form-group"></div><div class="input-group date"><div class="input-group-addon"><i class="fa fa-calendar"></i></div><input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" required/></div>';
         
-        var responseRow = createSelectOne + createSelectTwo + createSelectThree + createSelectFour;
+        var responseRow = createSelectOne + createEmptyCell + createSelectTwo + createSelectThree + createSelectFour;
         
         createRow.innerHTML = responseRow;
         
