@@ -252,7 +252,7 @@ class Csvgenerator extends CI_Controller
         if($db_data)
         {
             $delimiter = ",";
-            $filename = "respnse_report_" . date('Y-m-d H:i:s') . ".csv";
+            $filename = "response_report_" . date('Y-m-d_H-i-s') . ".csv";
             
             // create file pointer
             $f = fopen('php://memory', 'w');
