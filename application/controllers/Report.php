@@ -218,6 +218,38 @@ class Report extends RISK_Controller
     }
     
 
+    function report_view()
+    {
+        if($this->session->userdata('logged_in'))
+        {
+            $data = array('title' => 'Generate Riks Report');
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get current session data
+            $session_data = $this->session->userdata('logged_in');
+
+            // get data for select fields
+            $data['select_category'] = $this->getCategories($session_data['report_project_id']);
+            $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
+            $data['selected_category'] = "None"; 
+            $data['selected_register'] = "None";
+
+            // load view
+            $this->template->load('dashboard', 'report/report', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
     function ajax_report()
     {
 
@@ -391,16 +423,27 @@ class Report extends RISK_Controller
         $session_data = $this->session->userdata('logged_in');
 
         // use filter session values to generate report
-        $category_id = $session_data['category_id'];
-        $register_id = $session_data['register_id'];
-        $date_from = $session_data['date_from'];
-        $date_to = $session_data['date_to'];
-        
-        // get global data
-        $data = array();
-        $data = array_merge($data,$this->get_global_data());
+        // $category_id = $session_data['category_id'];
+        // $register_id = $session_data['register_id'];
+        // $date_from = $session_data['date_from'];
+        // $date_to = $session_data['date_to'];
 
-        if ($data['role_id'] == 8)
+        // get filter criteria from post input
+        $category_id = $this->input->post('risk_category'); // get category id
+        $register_id = $this->input->post('risk_register'); // get register
+        $date_from = $this->input->post('date_from'); // date from
+        $date_to = $this->input->post('date_to'); // date to
+
+        $data = array(
+            'risk_category' => $category_id,
+            'risk_register' => $register_id,
+            'date_from' => $date_from,
+            'date_to' => $date_to,
+            'user_id' => $session_data['user_id']
+        );
+
+
+        if ($session_data['role_id'] == 8)
         {
             // get assigned risk register and its ID
             $register_row = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
@@ -409,16 +452,10 @@ class Report extends RISK_Controller
         }
         else
         {
-            $this->csvgenerator->fetch_manager_data(array(
-                'risk_category' => $category_id,
-                'risk_register' => $register_id,
-                'date_from' => $date_from,
-                'date_to' => $date_to,
-                'user_id' => $data['user_id']
-            ));
+            $this->csvgenerator->fetch_manager_data($data);
         }
         
-        redirect('dashboard/reports/risk_project'); 
+        redirect('dashboard/report/generate'); 
     }
     
 

@@ -45,9 +45,10 @@ $route['dashboard/reports/risk_project'] = 'report/select_risk_project';
 $route['dashboard/reports/response_project'] = 'report/select_response_project';
 $route['dashboard/report/risk'] = 'report/index';
 $route['dashboard/report/response'] = 'report/response_view';
-$route['dashboard/reports/export'] = 'report/export_report';
+$route['dashboard/reports/report_export'] = 'report/export_report';
 $route['dashboard/reports/response_export'] = 'report/export_response_report';
 $route['dashboard/response/risks/(:num)' ] = 'report/associated_risks/$1';
+$route['dashboard/report/generate' ] = 'report/report_view';
 
 
 // settings routes
