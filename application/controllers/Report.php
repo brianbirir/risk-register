@@ -910,15 +910,21 @@ class Report extends RISK_Controller
 
         // initialize pagination    
         $this->pagination->initialize($settings);
+
         // build paging links
         $data["pagination_links"] = $this->pagination->create_links();
 
         // PROJECT ID
         // add assigned project ID to session data
         $risk_project_id = $this->input->post('risk_project');
-        // $risk_project_id = 7;
         $session_data = $this->session->userdata('logged_in');
         $session_data['report_project_id'] = $risk_project_id;
+
+        // initialize session data for response user id and response register id
+        $session_data['response_user_id'] = 'None';
+        $session_data['response_register_id'] = 'None';
+
+        // set session data
         $this->session->set_userdata('logged_in', $session_data);
 
         // data for filter drop down
@@ -949,52 +955,53 @@ class Report extends RISK_Controller
             $session_data['response_register_id'] = $register_id;
             $this->session->set_userdata('logged_in', $session_data);
         }
-            // get global data
-            $data = array_merge($data,$this->get_global_data());
 
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
+        // get global data
+        $data = array_merge($data,$this->get_global_data());
 
-            // PAGINATION
-            // init pagination params
-            $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // load pagination configurations
-            $this->config->load('pagination', TRUE);
-            $settings = $this->config->item('pagination');
-            $settings['total_rows'] = $total_records;
-            $settings['base_url'] = base_url() . 'report/getResponseFilterResults';
+        // PAGINATION
+        // init pagination params
+        $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
 
-            ($start_index == 0) ? $offset = 0 : $offset = $start_index;
+        // load pagination configurations
+        $this->config->load('pagination', TRUE);
+        $settings = $this->config->item('pagination');
+        $settings['total_rows'] = $total_records;
+        $settings['base_url'] = base_url() . 'report/getResponseFilterResults';
 
-            // get current page results
-            $response = $this->response_model->getResponses(array(
-                'limit'=>$settings['per_page'],
-                'start'=>$offset,
-                'user_id'=>$data['user_id'],
-                'user_id'=>$session_data['response_user_id'],
-                'register_id'=>$session_data['response_register_id']
-            ));
+        ($start_index == 0) ? $offset = 0 : $offset = $start_index;
 
-            ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
+        // get current page results
+        $response = $this->response_model->getResponses(array(
+            'limit'=>$settings['per_page'],
+            'start'=>$offset,
+            'user_id'=>$data['user_id'],
+            'user_id'=>$session_data['response_user_id'],
+            'register_id'=>$session_data['response_register_id']
+        ));
 
-            // data for filter drop down
-            $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']);;
-            $data['selected_user'] = $session_data['response_user_id'];
-            
-            $data['select_register'] = $this->getSubProject($data['user_id'], $data['role_id']);
-            $data['selected_register'] = $session_data['response_register_id'];
+        ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
 
-            // initialize pagination    
-            $this->pagination->initialize($settings);
-            
-            // build paging links
-            $data["pagination_links"] = $this->pagination->create_links();
+        // data for filter drop down
+        $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']);;
+        $data['selected_user'] = $session_data['response_user_id'];
+        
+        $data['select_register'] = $this->getSubProject($data['user_id'], $data['role_id']);
+        $data['selected_register'] = $session_data['response_register_id'];
 
-            // load view
-            $this->template->load('dashboard', 'report/response', $data);
+        // initialize pagination    
+        $this->pagination->initialize($settings);
+        
+        // build paging links
+        $data["pagination_links"] = $this->pagination->create_links();
+
+        // load view
+        $this->template->load('dashboard', 'report/response', $data);
     }
 
 
