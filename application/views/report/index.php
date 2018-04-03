@@ -210,7 +210,36 @@
                         d.date_from = $('#datepicker-from').val();
                         d.date_to = $('#date_to').val();
                     }  
-                }
+                },
+                "order": [[1, 'asc']],
+                "columns": [
+                    { "name": "risk_title"},
+                    { "name": "RiskCategories_category_id" },
+                    { "name": "cause_trigger",orderable: false },
+                    { "name": "identified_hazard_risk",orderable: false },
+                    { "name": "effect",orderable: false },
+                    { "name": "project_location",orderable: false },
+                    { "name": "description_change",orderable: false },
+                    { "name": "materialization_phase_materialization_id",orderable: false },
+                    { "name": "Subproject_subproject_id",orderable: false },
+                    { "name": "likelihood",orderable: false },
+                    { "name": "time_impact",orderable: false },
+                    { "name": "cost_impact",orderable: false },
+                    { "name": "reputation_impact",orderable: false },
+                    { "name": "hs_impact",orderable: false },
+                    { "name": "env_impact" ,orderable: false },
+                    { "name": "legal_impact",orderable: false },
+                    { "name": "quality_impact",orderable: false },
+                    { "name": "risk_rating" },
+                    { "name": "risk_level" },
+                    { "name": "SystemSafety_safety_id",orderable: false },
+                    { "name": "Realization_realization_id",orderable: false },
+                    { "name": "action_owner"},
+                    { "name": "action_item",orderable: false },
+                    { "name": "milestone_target_date",orderable: false },
+                    { "name": "Status_status_id",orderable: false },
+                    { "name": "Entity_entity_id",orderable: false }
+                ]
             });
         });
 
