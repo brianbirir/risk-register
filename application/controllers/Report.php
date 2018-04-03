@@ -292,9 +292,30 @@ class Report extends RISK_Controller
         $columns_valid = array(
             "risk_title",
             "RiskCategories_category_id",
+            "cause_trigger",
+            "identified_hazard_risk",
+            "effect",
+            "project_location",
+            "description_change",
+            "materialization_phase_materialization_id",
+            "Subproject_subproject_id",
+            "likelihood",
+            "time_impact",
+            "cost_impact",
+            "reputation_impact",
+            "hs_impact",
+            "env_impact",
+            "legal_impact",
+            "quality_impact",
             "risk_rating",
             "risk_level",
-            "action_owner"
+            "SystemSafety_safety_id",
+            "Realization_realization_id",
+            "action_owner",
+            "action_item",
+            "milestone_target_date",
+            "Status_status_id",
+            "Entity_entity_id"
         );
 
         if(!isset($columns_valid[$col])) 
