@@ -261,6 +261,7 @@ class Report extends RISK_Controller
         $register = intval($this->input->post("register"));
         $date_from = intval($this->input->post("date_from"));
         $date_to = intval($this->input->post("date_to"));
+        $order = $this->input->post("order"); // get order array
 
 
         // get current session data and assign new sessions data from filter form fields
@@ -270,13 +271,48 @@ class Report extends RISK_Controller
         $session_data['date_from'] = $this->input->post("date_from");
         $session_data['date_to'] = $this->input->post("date_to");
 
+        // ordering configuration
+        $col = 0;
+        $dir = "";
+
+        if(!empty($order)) 
+        {
+            foreach($order as $o) 
+            {
+                $col = $o['column'];
+                $dir= $o['dir'];
+            }
+        }
+
+        if($dir != "asc" && $dir != "desc") 
+        {
+            $dir = "asc";
+        }
+
+        $columns_valid = array(
+            "risk_title",
+            "RiskCategories_category_id",
+            "risk_rating",
+            "risk_level",
+            "action_owner"
+        );
+
+        if(!isset($columns_valid[$col])) 
+        {
+           $orderCol = null;
+        } 
+        else 
+        {
+           $orderCol = $columns_valid[$col];
+        }
+
         // get user id from session data
         $user_id = $session_data['user_id'];
 
         $db_data = array();
 
         // get row results
-        $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category,'date_from'=>$date_from,'date_to'=>$date_to));
+        $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category,'date_from'=>$date_from,'date_to'=>$date_to,'order'=>$orderCol,'sortType'=>$dir));
 
         // get number of total rows by user ID
         $total_risks = $this->report_model->getTotalRisks(array('user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));

@@ -1,6 +1,5 @@
 <div class="bs-callout bs-callout-info">
-    <h4>Generate a risk report</h4>
-    <p>The risk report will be generated based on the given filters and downloaded as a CSV file that is readable using Microsoft Excel.</p>
+    <h4>Filter Report</h4>
 </div>
 
 <!-- report generation form -->
