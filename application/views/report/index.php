@@ -2,9 +2,6 @@
     <h4>Filter Report</h4>
 </div>
 
-<!-- report generation form -->
-
-
 <?php
 
     //  load risk model and trim library
