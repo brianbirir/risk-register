@@ -67,7 +67,7 @@
             echo "</tr>";
 
             echo "<tr>";
-            echo "<td><label>Title:</label></td>";
+            echo "<td><label>Risk Description:</label></td>";
             echo "<td><p>".$risk_data->risk_title."</p></td>";
             echo "</tr>";
 
@@ -97,7 +97,7 @@
             echo "</tr>";
 
             echo "<tr>";
-            echo "<td><label>Description and Change:</label></td>";
+            echo "<td><label>Description and Notes:</label></td>";
             echo "<td><p>".$risk_data->description_change."</p></td>";
             echo "</tr>";
 

@@ -44,8 +44,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="risk_title">Risk Title</label>
-                                <input class="form-control" name="risk_title" placeholder="Risk Title" type="text" value="<?php echo $risk->risk_title; ?>" required/>
+                                <label for="risk_title">Risk Description</label>
+                                <input class="form-control" name="risk_title" type="text" value="<?php echo $risk->risk_title; ?>" required/>
                             </div>
                         </div>
 
@@ -135,8 +135,8 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="description_change">Description and Change</label>
-                                <textarea class="form-control" name="description_change" placeholder="Description and Change" rows="5" required><?php echo $risk->description_change; ?></textarea>
+                                <label for="description_change">Description and Notes</label>
+                                <textarea class="form-control" name="description_change" rows="5" required><?php echo $risk->description_change; ?></textarea>
                                 <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
