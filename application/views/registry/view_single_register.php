@@ -170,6 +170,7 @@
 
 $(document).ready(function() {
 
+    // get value from hidden field holding register ID
     var registerID = $('#register_id').val();
 
     // generate table from AJAX request for risk items
@@ -190,60 +191,8 @@ $(document).ready(function() {
                 { "name": "risk_title"},
                 { "name": "RiskCategories_category_id" },
                 { "name": "risk_rating" },
-                { "name": "actions" }
+                { "name": "actions", orderable: false }
             ]
-    });
-
-    // filter button click
-    $( "#filter-report-btn" ).click(function() {
-        
-        $('#risk-report-table').DataTable().destroy();
-
-        // generate table from AJAX request
-        var reportTable = $('#risk-report-table').DataTable({
-            "pageLength" : 10,
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "<?php echo base_url(); ?>" + "report/ajax_report",
-                "type": "POST",
-                "data": function(d){
-                    d.category = $('#select-category option:checked').val();
-                    d.register = $('#select-register option:checked').val();
-                    d.date_from = $('#datepicker-from').val();
-                    d.date_to = $('#date_to').val();
-                }  
-            },
-            "order": [[1, 'asc']],
-            "columns": [
-                { "name": "risk_title"},
-                { "name": "RiskCategories_category_id" },
-                { "name": "cause_trigger",orderable: false },
-                { "name": "identified_hazard_risk",orderable: false },
-                { "name": "effect",orderable: false },
-                { "name": "project_location",orderable: false },
-                { "name": "description_change",orderable: false },
-                { "name": "materialization_phase_materialization_id",orderable: false },
-                { "name": "Subproject_subproject_id",orderable: false },
-                { "name": "likelihood",orderable: false },
-                { "name": "time_impact",orderable: false },
-                { "name": "cost_impact",orderable: false },
-                { "name": "reputation_impact",orderable: false },
-                { "name": "hs_impact",orderable: false },
-                { "name": "env_impact" ,orderable: false },
-                { "name": "legal_impact",orderable: false },
-                { "name": "quality_impact",orderable: false },
-                { "name": "risk_rating" },
-                { "name": "risk_level" },
-                { "name": "SystemSafety_safety_id",orderable: false },
-                { "name": "Realization_realization_id",orderable: false },
-                { "name": "action_owner"},
-                { "name": "action_item",orderable: false },
-                { "name": "milestone_target_date",orderable: false },
-                { "name": "Status_status_id",orderable: false },
-                { "name": "Entity_entity_id",orderable: false }
-            ]
-        });
     });
 
 });

@@ -134,6 +134,15 @@
             {
                 $this->db->limit($params['limit']);
             }
+
+            // order by
+            if(array_key_exists("order",$params) && array_key_exists("sortType",$params))
+            {
+            	if($params['order'] != null) 
+            	{
+	            	$this->db->order_by($params['order'], $params['sortType']);
+	        	}
+            }
             
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;

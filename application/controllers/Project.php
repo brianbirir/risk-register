@@ -212,17 +212,17 @@ class Project extends RISK_Controller
 
         if(!isset($columns_valid[$col])) 
         {
-           $orderCol = null;
+           $order_col = null;
         } 
         else 
         {
-           $orderCol = $columns_valid[$col];
+           $order_col = $columns_valid[$col];
         }
 
         $db_data = array();
 
         // get risks
-        $risk_result = $this->risk_model->getUserRisk(array('start'=>$start,'limit'=>$length,'user_id'=>$session_data['user_id'], 'register_id'=>$registerID));
+        $risk_result = $this->risk_model->getUserRisk(array('start'=>$start,'limit'=>$length,'user_id'=>$session_data['user_id'], 'register_id'=>$registerID,'order'=>$order_col,'sortType'=>$dir));
 
         // get number of total rows by user ID
         $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID));
