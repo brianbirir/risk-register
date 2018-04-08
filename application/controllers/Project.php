@@ -150,7 +150,7 @@ class Project extends RISK_Controller
             $data['register_description'] = $single_register->description;
             
             // get all risks of user and assigned register
-            $risk = $this->risk_model->getUserRisk( $data['user_id'], $data['register_id'] );
+            // $risk = $this->risk_model->getUserRisk( $data['user_id'], $data['register_id'] );
 
             // get all risks that belong to a manager's users and assigned register
             $users_risk = $this->risk_model->getManagerRisk( $data['user_id'], $data['register_id'] );
@@ -159,7 +159,7 @@ class Project extends RISK_Controller
             // $unapproved_risk = $this->risk_model->getUnapprovedRevisions( $data['user_id'], $data['register_id'] );
 
             // check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+            // ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
             ($users_risk) ? $data['user_risk_data'] = $users_risk : $data['user_risk_data'] = false;
 
@@ -171,6 +171,86 @@ class Project extends RISK_Controller
             //If no session, redirect to login page
             redirect('login', 'refresh');
         }
+    }
+
+    function single_register_risks()
+    {
+        // Data tables POST Variables
+        $draw = intval($this->input->post("draw"));
+        $start = intval($this->input->post("start"));
+        $length = intval($this->input->post("length"));
+        $registerID = intval($this->input->post("registerID"));
+        $order = $this->input->post("order");
+
+        // get session data
+        $session_data = $this->session->userdata('logged_in');
+
+        // ordering configuration
+        $col = 0;
+        $dir = "";
+
+        if(!empty($order)) 
+        {
+            foreach($order as $o) 
+            {
+                $col = $o['column'];
+                $dir= $o['dir'];
+            }
+        }
+
+        if($dir != "asc" && $dir != "desc") 
+        {
+            $dir = "asc";
+        }
+
+        $columns_valid = array(
+            "original_risk_id",
+            "risk_title",
+            "RiskCategories_category_id",
+            "risk_rating"
+        );
+
+        if(!isset($columns_valid[$col])) 
+        {
+           $orderCol = null;
+        } 
+        else 
+        {
+           $orderCol = $columns_valid[$col];
+        }
+
+        $db_data = array();
+
+        // get risks
+        $risk_result = $this->risk_model->getUserRisk(array('start'=>$start,'limit'=>$length,'user_id'=>$session_data['user_id'], 'register_id'=>$registerID));
+
+        // get number of total rows by user ID
+        $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID));
+
+        // action row content for risk table
+        foreach ($risk_result as $data_row) {
+
+            $action_row = "<span><a title='view' href='/dashboard/risk/".$data_row->item_id."'><i class='fas fa-eye' aria-hidden='true'></i></a></span><span><a title='edit' href='/dashboard/risk/edit/".$data_row->item_id."'><i class='fas fa-edit' aria-hidden='true'></i></a></span><span><a class='delete-action' data-toggle='confirmation' data-title='Archive Risk?' href='/dashboard/risk/archive/".$data_row->item_id."'><i class='fas fa-trash' aria-hidden='true'></i></a></span>";
+
+            $db_data[] = array(
+                $data_row->original_risk_id,
+                $data_row->risk_title,
+                $this->risk_model->getRiskCategoryName($data_row->RiskCategories_category_id), 
+                $data_row->risk_rating,
+                $action_row,
+            );
+        }
+
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => $total_risks,
+            "recordsFiltered" => $total_risks,
+            "data" => $db_data
+        );
+
+        echo json_encode($output);
+
+        exit();
     }
 
 
