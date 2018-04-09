@@ -108,7 +108,7 @@
                 </div>
             </div>
         
-        <?php } else { ?>
+        <?php } else { ?> <!-- load general user tab -->
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs" role="tablist" id="register-tabs">
@@ -118,47 +118,18 @@
                 </ul>
 
                 <div class="tab-content">
-
-                    <div role="tabpanel" class="tab-pane active" id="tab_1">
-                        <?php if (!$risk_data) { ?>
-
-                            <div style="margin: 10px;">
-                                <div class="alert alert-warning alert-aldea" role="alert">You have no risks for this register!</div>
-                            </div>
-
-                        <?php } else { ?>
-                            
-                            <table class="table table-hover">
-                                <tbody>
-                                    <tr>
-                                        <!-- <th>UUID</th> -->
-                                        <th>Title</th>
-                                        <th>Main Category</th>
-                                        <th>Revisions</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    <?php
-                                        foreach ($risk_data as $risk_row) 
-                                        {
-                                            echo "<tr>";
-                                            // echo "<td width=300>".$risk_row->risk_uuid."</td>";
-                                            echo "<td width=300>".$risk_row->risk_title."</td>";
-                                            echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
-                                            echo "<td width=150><span class='badge bg-yellow'>".$CI->risk_model->getNumberOfRiskRevisions($risk_row->item_id)."</span></td>";
-                                            echo "<td>
-                                                <span><a title='view' href='/dashboard/risk/".$risk_row->item_id."'><i class='fa fa-eye' aria-hidden='true'></i></a></span>
-                                                <span><a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fa fa-pencil' aria-hidden='true'></i></a></span>
-                                                <span><a title='archive' href='/dashboard/risk/archive/".$risk_row->item_id."'><i class='fa fa-trash' aria-hidden='true'></i></a></span>
-                                                    </td>";
-                                            echo "</tr>";
-                                        } 
-                                ?>
-                                </tbody>
-                            </table>
-                            
-                        <?php } ?>
+                    <div role="tabpanel" class="tab-pane active" id="tab_1">    
+                        <table id="risk-table" class="table table-hover">
+                            <thead>
+                                <th>Risk ID</th>
+                                <th>Risk Description</th>
+                                <th>Risk Category</th>
+                                <th>Risk Rating</th>
+                                <th>Actions</th>    
+                            <thead>
+                            <tbody></tbody>
+                        </table>
                     </div>   
-
                 </div>
             </div>
         <?php } ?>
