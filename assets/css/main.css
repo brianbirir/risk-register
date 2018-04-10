@@ -1,24 +1,29 @@
 /* MAIN NAVIGATION */
-.main-header {
+.main-header 
+{
     background-color: #ffffff;
 }
 
 /* DASHBOARD */
-.bg-aldea {
+.bg-aldea 
+{
     background-color: #f1c40f !important;
 }
 
-.info-box-aldea a {
+.info-box-aldea a 
+{
     color: #1b1b1b;
 }
 
 /* SIDEBAR */
-.main-sidebar {
+.main-sidebar
+{
     background-color: #1b1b1b;
     padding-top: 80px;
 }
 
-.sidebar-menu li > a {
+.sidebar-menu li > a 
+{
     color: #f1c40f;
 }
 
@@ -36,12 +41,28 @@
     color: #000000;
 }
 
+/* session data*/
+.sidebar-menu>li>span 
+{
+    padding: 12px 5px 12px 15px;
+    display: block;
+    color: #ffffff;
+}
+
+.sidebar-menu>li>span.session-name 
+{
+    padding: 0px 5px 0px 15px;
+    display: block;
+    color: #ffffff;
+}
 /* SETTINGS PAGE */
-#settings-page h3 a {
+#settings-page h3 a 
+{
     color: #000000;
 }
 
-#settings-page h3 a:hover {
+#settings-page h3 a:hover 
+{
     text-decoration: underline;
 }
 
