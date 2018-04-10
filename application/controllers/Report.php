@@ -195,13 +195,18 @@ class Report extends RISK_Controller
         // PROJECT ID
         // add assigned project ID to session data
         $session_data = $this->session->userdata('logged_in');
+
+        $risk_project_id = $this->input->post('risk_project');
         
         if(!isset($session_data['report_project_id']))
         {
-            $risk_project_id = $this->input->post('risk_project');
             $session_data['report_project_id'] = $risk_project_id;
-            $this->session->set_userdata('logged_in', $session_data);
         }
+
+        $single_project = $this->project_model->getSingleProject($risk_project_id); // get project name from ID
+        $session_data['project_name'] = $single_project->project_name;
+        $session_data['register_name'] = null;
+        $this->session->set_userdata('logged_in', $session_data);
 
         // clear session data for filter data
         $this->clear_filter_session();

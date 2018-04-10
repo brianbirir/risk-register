@@ -80,11 +80,6 @@ class Project extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
             
             $uri_project_id = $this->uri->segment(3); // get id from third segment of uri
-
-            // add uri id i.e. project id to session data
-            $session_data = $this->session->userdata('logged_in');
-            $session_data['user_project_id'] = $uri_project_id;
-            $this->session->set_userdata('logged_in', $session_data); 
             
             $single_project = $this->project_model->getSingleProject($uri_project_id);
 
@@ -92,8 +87,14 @@ class Project extends RISK_Controller
 
             $data['project_description'] = $single_project->project_description;
 
-            // get all risk registers for specific user
+            // add uri id i.e. project id to session data
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['user_project_id'] = $uri_project_id; // project ID
+            $session_data['project_name'] = $single_project->project_name; // project name
+            $session_data['register_name'] = null; // set register name to null when selecting project
+            $this->session->set_userdata('logged_in', $session_data); 
 
+            // get all risk registers for specific user
             if ($data['role_id'] != 8) 
             {
 
@@ -139,15 +140,16 @@ class Project extends RISK_Controller
             $uri_id = $this->uri->segment(3);
             $single_register = $this->project_model->getSingleRiskRegister($uri_id);
 
-
-            // get user project id from session data
-            $session_data = $this->session->userdata('logged_in');
-            $data['user_project_id'] = $session_data['user_project_id'];
-
             // data for a single register
             $data['register_id'] = $single_register->subproject_id;
             $data['register_name'] = $single_register->name;
             $data['register_description'] = $single_register->description;
+
+            // get user project id from session data
+            $session_data = $this->session->userdata('logged_in');
+            $data['user_project_id'] = $session_data['user_project_id'];
+            $session_data['register_name'] = $single_register->name; // register name
+            $this->session->set_userdata('logged_in', $session_data);
             
             // get all risks of user and assigned register
             // $risk = $this->risk_model->getUserRisk( $data['user_id'], $data['register_id'] );

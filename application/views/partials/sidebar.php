@@ -1,20 +1,35 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
+    <?php 
+      $session_data = $this->session->userdata('logged_in');
+
+    ?>
+
       
       <!-- Session Data -->
       <div class="session-data">
         <ul class="sidebar-menu">
           <li>
             <span>Current Project:</span>
-            <span class="session-name"><small class="label bg-red">Project Name</small></span>
+            <?php if (isset($session_data['project_name'])){?>
+              <span class="session-name"><small class="label bg-red"><?php echo $session_data['project_name']; ?></small></span>
+            <?php } else { ?>
+              <span class="session-name"><small class="label bg-red">No selected project!</small></span>
+            <?php } ?>
           </li>
           <li>
             <span>Current Register:</span>
-            <span class="session-name"><small class="label bg-red">Register Name</small></span>
+            <?php if (isset($session_data['register_name'])){?>
+            <span class="session-name"><small class="label bg-red"><?php echo $session_data['register_name']; ?></small></span>
+            <?php } else { ?>
+              <span class="session-name"><small class="label bg-red">No selected register!</small></span>
+            <?php } ?>
           </li>
         </ul>
       </div>
+
+      <hr>
 
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
