@@ -191,6 +191,7 @@ class Risk extends RISK_Controller
             $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
             $data['select_status'] = $this->getStatus($data['user_project_id']);
             $data['select_category'] = $this->getCategories($data['user_project_id']);
+            $data['select_subcategory'] = $this->getSubCategories($data['risk']->RiskCategories_category_id); // get subcategory from category ID
             $data['select_strategy'] = $this->getRiskStrategies($data['user_project_id']);
             $data['select_safety'] = $this->getSystemSafety($data['user_project_id']);
             $data['select_realization'] = $this->getRealization($data['user_project_id']);
@@ -199,7 +200,7 @@ class Risk extends RISK_Controller
             $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);
-            $data['select_user'] = $this->getRegisterUser($data['register_id']);
+            $data['select_user'] = $this->getRegisterUser($data['risk']->Subproject_subproject_id);
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
@@ -279,7 +280,7 @@ class Risk extends RISK_Controller
             'risk_level_current' => $this->input->post('currentrisk_level'),
             'likelihood_target' => $this->input->post('likelihood_target'),
             'reputation_impact_target' => $this->input->post('reputationimpact_target'),
-            'hs_impact__target' => $this->input->post('hsimpact_target'),
+            'hs_impact_target' => $this->input->post('hsimpact_target'),
             'env_impact_target' => $this->input->post('environmentimpact_target'),
             'legal_impact_target' => $this->input->post('legalimpact_target'),
             'quality_impact_target' => $this->input->post('qualityimpact_target'),
@@ -288,7 +289,7 @@ class Risk extends RISK_Controller
             'risk_rating_target' => $this->input->post('targetrisk_rating'),
             'risk_level_target' => $this->input->post('targetrisk_level'),
             'action_item' => $this->input->post('action_item'),
-            'RiskSubCategories_subcategory_id' => $this->input->post('subcategory')
+            'RiskSubCategories_subcategory_id' => $this->input->post('sub_category')
         );
 
         /**
@@ -307,24 +308,24 @@ class Risk extends RISK_Controller
         // check first if there are any response fields that have been added
         // if ( !empty($_POST['risk_response']['title']) && !empty($_POST['risk_response']['strategy']) )
         // {
-            $num_fields = count($_POST['risk_response']['title']);
+            // $num_fields = count($_POST['risk_response']['title']);
 
-            for ($i = 0; $i < $num_fields; $i++) 
-            {
-                if(empty($_POST['risk_response']['title'][$i]))
-                {
-                   break;
-                }
+            // for ($i = 0; $i < $num_fields; $i++) 
+            // {
+            //     if(empty($_POST['risk_response']['title'][$i]))
+            //     {
+            //        break;
+            //     }
 
-                $field = array(
-                    'risk_uuid'=> $risk_uuid,
-                    'response_uuid'=> $this->uuid->generate_uuid(),
-                    'response_title' => $_POST['risk_response']['title'][$i],
-                    'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
-                );
+            //     $field = array(
+            //         'risk_uuid'=> $risk_uuid,
+            //         'response_uuid'=> $this->uuid->generate_uuid(),
+            //         'response_title' => $_POST['risk_response']['title'][$i],
+            //         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
+            //     );
 
-                $this->risk_model->insertResponse($field);
-            }
+            //     $this->risk_model->insertResponse($field);
+            // }
         // }
             
         // insert form data into database
@@ -765,6 +766,29 @@ class Risk extends RISK_Controller
                 $options[$category_id] = $category_name;  
             }
 
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
+    // subcategories
+    function getSubCategories($category_id)
+    {
+        $subcategories = $this->risk_model->getRiskSubCategories($category_id);
+        
+        if($subcategories)
+        {
+            $options = array();
+
+            foreach ($subcategories as $row) 
+            {
+                $subcategory_id = $row->subcategory_id;
+                $subcategory_name = $row->subcategory_name;
+                $options[$subcategory_id] = $subcategory_name;  
+            }
             return $options;
         }
         else 

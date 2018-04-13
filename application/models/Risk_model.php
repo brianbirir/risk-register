@@ -299,10 +299,21 @@
 
         
         // get risk categories
-        function getRiskCategories($project_id){
+        function getRiskCategories($project_id)
+        {
             $this->db->select('*');
             $this->db->from('RiskCategories');
             $this->db->where('Project_project_id', $project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // get risk categories
+        function getRiskSubCategories($project_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskSubCategories');
+            $this->db->where('RiskCategories_category_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
