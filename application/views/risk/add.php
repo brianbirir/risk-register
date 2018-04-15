@@ -211,7 +211,7 @@
             <div class="box box-info box-pre-mitigated">
 
                 <div class="box-header">
-                    <h3 class="box-title">Pre-Mitigation</h3>
+                    <h3 class="box-title">Pre-Mitigation Risk Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -306,7 +306,7 @@
             <div class="box box-info box-current-risks">
 
                 <div class="box-header">
-                    <h3 class="box-title">Current Mitigated Risk</h3>
+                    <h3 class="box-title">Current Risk Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -401,7 +401,7 @@
             <div class="box box-info box-targeted-risks">
 
                 <div class="box-header">
-                    <h3 class="box-title">Targeted Risk</h3>
+                    <h3 class="box-title">Predicted Post Mitigation Assessment</h3>
                 </div>
 
                 <div class="box-body">

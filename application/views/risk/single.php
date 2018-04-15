@@ -133,7 +133,7 @@
 
 <div class="box box-info box-pre-mitigated">
     <div class="box-header with-border">
-        <h3 class="box-title">Pre-Mitigated Risks</h3>
+        <h3 class="box-title">Pre-Mitigated Risk Assessment</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
@@ -204,7 +204,7 @@
 
 <div class="box box-info box-current-risks">
     <div class="box-header with-border">
-        <h3 class="box-title">Current Mitigated Risks</h3>
+        <h3 class="box-title">Current Risk Assessment</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
@@ -271,7 +271,7 @@
 
 <div class="box box-info box-targeted-risks">
     <div class="box-header with-border">
-        <h3 class="box-title">Targeted Risks</h3>
+        <h3 class="box-title">Predicted Post Mitigation Assessment</h3>
         <div class="box-tools pull-right">
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
