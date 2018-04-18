@@ -53,5 +53,5 @@
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/validate.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/register-tabs.js"></script>
         <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/confirmation.js"></script>
-        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/select.js"></script>
+        <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/risk.js"></script>
     </body>
