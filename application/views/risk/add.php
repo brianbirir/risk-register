@@ -58,8 +58,9 @@
                             </div>
                         </div>
 
-                        <div class="col-md-1">
-                            <button id="add-description" class="btn btn-default">Add Description</button>
+                        <div class="col-md-3">
+                            <a id="add-description" class="btn btn-default">Add Description</a>
+                            <a id="clear-description" class="btn btn-default">Clear Description</a>
                         </div>
                     </div>
 

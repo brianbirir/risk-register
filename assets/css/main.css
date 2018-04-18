@@ -137,7 +137,8 @@
     color: #1b1b1b;
 }
 
-#add-description
+#add-description,
+#clear-description
 {
     margin-top: 25px;
     background-color: #f1c40f;
