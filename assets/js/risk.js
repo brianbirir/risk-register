@@ -9,7 +9,7 @@ $(document).ready(function() {
         var effect = $("#effect").val();
 
         // combine values
-        var descriptionText = harzardRisk + " LEADS TO " + trigger + " DUE TO "+ effect
+        var descriptionText = harzardRisk + " DUE TO " + trigger + " LEADS TO "+ effect
 
         // set text
         $( "#description-text" ).val( descriptionText );
