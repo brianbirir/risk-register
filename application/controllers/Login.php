@@ -14,13 +14,18 @@ class Login extends RISK_Controller
   }
 
   function index()
-  {
-    
+  { 
     $data = array('title' => 'Login');
-    
-    // load default template with login view
-    $this->template->load('default', 'login/index', $data);
-    
+
+    if($this->session->userdata('logged_in'))
+    {
+      redirect('dashboard');
+    }
+    else
+    {
+      // load default template with login view
+      $this->template->load('default', 'login/index', $data);
+    } 
   }
 
 
