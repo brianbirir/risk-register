@@ -34,7 +34,7 @@
       <!-- Sidebar Menu -->
       <ul class="sidebar-menu" data-widget="tree">
         <li><a href="<?php echo base_url(); ?>dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>  
-        <li><a href="<?php echo base_url(); ?>dashboard/project"><i class="fas fa-folder"></i> Projects</a></li>
+        <li><a href="<?php echo base_url(); ?>dashboard/project"><i class="fas fa-chart-line"></i> Projects</a></li>
         <li class="treeview">
           <a href="#">
             <i class="far fa-newspaper"></i> <span>Reports</span>
