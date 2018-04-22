@@ -41,7 +41,7 @@ $route['dashboard/risks/archived'] = 'risk/index_archive';
 $route['dashboard/risk/duplicate_risk'] = 'risk/duplicate_risk_view';
 
 // reports
-$route['dashboard/reports/risk_project'] = 'report/select_risk_project';
+$route['dashboard/reports/risk_project'] = 'report/select_project';
 $route['dashboard/reports/response_project'] = 'report/select_response_project';
 $route['dashboard/report/risk'] = 'report/index';
 $route['dashboard/report/response'] = 'report/response_view';

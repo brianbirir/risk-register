@@ -83,7 +83,12 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->where('archived',false); // do not export archived data
-            $this->db->where('User_user_id', $params['user_id']); // get by user ID
+            
+            if(array_key_exists('user_id',$params))
+            {
+                $this->db->where('User_user_id', $params['user_id']); // get by user ID
+
+            }
 
             // category filter
             if(array_key_exists('category_id',$params))
@@ -153,7 +158,12 @@
             $this->db->select("COUNT(*) as num");
             $this->db->from('RiskRegistry');
             $this->db->where('archived',false);
-            $this->db->where('User_user_id', $params['user_id']);
+
+            if(array_key_exists('user_id',$params))
+            {
+                $this->db->where('User_user_id', $params['user_id']); // get by user ID
+
+            }
             
             // category filter
             if(array_key_exists('category_id',$params))
