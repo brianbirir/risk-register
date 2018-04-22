@@ -25,7 +25,6 @@ class RISK_Controller extends CI_Controller
 	function get_role_data()
 	{
         // get role names from database
-        // and push to roles select form element in sign up form
         $roles = $this->user_model->getRoles();
 
         if($roles)
