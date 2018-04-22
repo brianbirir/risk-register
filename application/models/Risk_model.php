@@ -72,13 +72,20 @@
         //     return ($query->num_rows() > 0) ? $query->result() : false;
         // }
 
-        // get total number of rows based in user id and register id
+        // get total number of rows based on user id and register id
         function getTotalRisks($params = array())
         {
             $this->db->select("COUNT(*) as num");
             $this->db->from('RiskRegistry');
             $this->db->where('archived',false);
-            $this->db->where('User_user_id', $params['user_id']);
+
+            // check if user id exists; it does not in the case of the SuperAdmin since this role
+            // can view all risk items
+            if(array_key_exists("user_id",$params))
+            {
+                $this->db->where('User_user_id', $params['user_id']);
+            }
+            
             $this->db->where('Subproject_subproject_id', $params['register_id']);
             $query = $this->db->get();
             $result = $query->row();
@@ -92,6 +99,7 @@
         {
             return $this->db->insert('RiskResponse', $data);
         }
+
 
         // get all risks
         function getAllRisks()
@@ -121,7 +129,12 @@
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id', $params['user_id']);
+
+            if(array_key_exists("user_id",$params))
+            {
+                $this->db->where('User_user_id', $params['user_id']);
+            }
+            
             $this->db->where('Subproject_subproject_id', $params['register_id']);
             $this->db->where('archived', false); // not archived
             
