@@ -127,9 +127,6 @@ $route['settings/data/subcategory/add/(:num)'] = 'subcategory/add_subcategory_vi
 $route['settings/data/subcategory/edit/(:num)'] = 'subcategory/edit_subcategory_view/$1';
 $route['settings/data/subcategory/delete/(:num)'] = 'subcategory/delete/$1';
 
-// test pages
-$route['test/reponse'] = 'risk/response_view';
-$route['test'] = 'risk/register_response';
 
 // email routes
 $route['email/response'] = 'email/send_response_notification';
