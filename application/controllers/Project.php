@@ -120,6 +120,7 @@ class Project extends RISK_Controller
         }
     }
 
+
     
     // view a single risk register
     function view_risk_register()
@@ -343,6 +344,86 @@ class Project extends RISK_Controller
         }
     }
 
+
+    // view for editing a project
+    function edit_project()
+    {
+        $data = array('title' => 'Edit Project');
+
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            // get id from fourth segment of uri
+            $project_id = $this->uri->segment(4);
+
+            // get data for the project
+            $data['project'] = $this->project_model->getSingleProject($project_id);
+
+            // load page to show all devices
+            $this->template->load('dashboard', 'project/edit_project', $data);
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // function for updating project
+    function update_project()
+    {
+        //set validation rules
+        $this->form_validation->set_rules('project_name', 'Project Name', 'trim|required');
+        $this->form_validation->set_rules('project_description', 'Project Description', 'trim|required');
+
+        //validate form input
+        if ($this->form_validation->run() == FALSE)
+        {
+            $data = array('title' => 'Update Project');
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+            $this->template->load('dashboard', 'project/edit_project', $data);
+        }
+        else
+        {
+            $timestamp = date('Y-m-d G:i:s');
+
+            $project_id = $this->input->post('project_id');
+            $project_name = $this->input->post('project_name');
+
+            // insert the project details into database
+            $project_data = array(
+                'project_name' => $project_name,
+                'project_description' => $this->input->post('project_description'),
+                'updated_at' => $timestamp
+            );
+
+            // insert form data into database
+            if ($this->project_model->updateProject($project_data, $project_id))
+            {
+                $this->session->set_flashdata('positive_msg','You have successfully updated the '.$project_name.' project! Please login.');
+                redirect('dashboard/project');
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
+                redirect('dashboard/project/add');
+            }
+        }
+    }
 
     // view for adding a risk register
     function add_register_view()

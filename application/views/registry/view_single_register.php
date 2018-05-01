@@ -13,10 +13,6 @@
                 <h3 class="box-title">About Risk Register</h3>
             </div>
 
-            <?php 
-                var_dump($this->session->userdata('logged_in'));
-            ?>
-
             <div class="box-body">
                 <strong><i class="fa fa-book margin-r-5"></i> Risk Register Name</strong>
                 <p class="text-muted"><?php echo $register_name; ?></p>

@@ -21,6 +21,7 @@ $route['dashboard'] = 'dashboard/index';
 $route['dashboard/project'] = 'project/index';
 $route['dashboard/project/add'] = 'project/reg_project_view';
 $route['dashboard/project/(:num)'] = 'project/view_project/$1';
+$route['dashboard/project/edit/(:num)'] = 'project/edit_project/$1';
 
 // risk register
 $route['dashboard/riskregisters'] = 'project/view_risk_registers';
@@ -127,9 +128,6 @@ $route['settings/data/subcategory/add/(:num)'] = 'subcategory/add_subcategory_vi
 $route['settings/data/subcategory/edit/(:num)'] = 'subcategory/edit_subcategory_view/$1';
 $route['settings/data/subcategory/delete/(:num)'] = 'subcategory/delete/$1';
 
-// test pages
-$route['test/reponse'] = 'risk/response_view';
-$route['test'] = 'risk/register_response';
 
 // email routes
 $route['email/response'] = 'email/send_response_notification';

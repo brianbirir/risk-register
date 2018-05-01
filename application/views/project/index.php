@@ -72,7 +72,7 @@
                                     echo "<td>".$count."</td>";
                                     echo "<td>".$project_row->project_name."</td>";
                                     echo "<td>".$project_row->project_description."</td>";
-                                    echo "<td><a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View Project</a></td>";
+                                    echo "<td><a style='margin-right: 10px;' href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View Project</a><a href='/dashboard/project/edit/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Edit Project</a></td>";
                                     echo "</tr>";
                                 } 
                             } ?>
