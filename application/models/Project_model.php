@@ -22,6 +22,16 @@
         }
 
 
+        // update project
+        function updateProject($data, $id)
+        {
+            $this->db->set($data);
+            $this->db->where('project_id',$id);
+            $this->db->update('Project',$data);
+            return true;
+        }
+
+
         // view all projects
         function getAllProjects()
         {

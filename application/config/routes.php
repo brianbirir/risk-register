@@ -21,6 +21,7 @@ $route['dashboard'] = 'dashboard/index';
 $route['dashboard/project'] = 'project/index';
 $route['dashboard/project/add'] = 'project/reg_project_view';
 $route['dashboard/project/(:num)'] = 'project/view_project/$1';
+$route['dashboard/project/edit/(:num)'] = 'project/edit_project/$1';
 
 // risk register
 $route['dashboard/riskregisters'] = 'project/view_risk_registers';
