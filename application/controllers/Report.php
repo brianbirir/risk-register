@@ -23,6 +23,7 @@ class Report extends RISK_Controller
     }
     
 
+
     function index()
     {
         $data = array('title' => 'Reports');
@@ -214,11 +215,22 @@ class Report extends RISK_Controller
 
         $db_data = array();
 
-        // get row results
-        $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category,'date_from'=>$date_from,'date_to'=>$date_to,'order'=>$orderCol,'sortType'=>$dir));
+        if($session_data['role_name'] == 'Super Administrator')
+        {
+            // get row results
+            $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to,'order'=>$orderCol,'sortType'=>$dir));
 
-        // get number of total rows by user ID
-        $total_risks = $this->report_model->getTotalRisks(array('user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));
+            // get number of total rows by user ID
+            $total_risks = $this->report_model->getTotalRisks(array('category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));
+        }
+        else
+        {
+            // get row results
+            $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to,'order'=>$orderCol,'sortType'=>$dir));
+
+            // get number of total rows by user ID
+            $total_risks = $this->report_model->getTotalRisks(array('user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));
+        }
 
         foreach ($risk_result as $data_row) {
             $db_data[] = array(
@@ -496,7 +508,7 @@ class Report extends RISK_Controller
 
 
     // view to select project
-    function select_risk_project()
+    function select_project()
     {
         $data = array('title' => 'Risk Report');
         
@@ -509,8 +521,15 @@ class Report extends RISK_Controller
             // get global data
             $data = array_merge( $data, $this->get_global_data() );
 
-            // get project data
-            $data['select_project'] = $this->getProject( $data['user_id'], $data['role_id'] );
+            // get project data based on role type
+            if($data['role_name'] == "Super Administrator") // super admin should see all projects
+            {
+                $data['select_project'] = $this->getProject(array());
+            }
+            else
+            {
+                $data['select_project'] = $this->getProject(array("user_id"=>$data['user_id']));
+            }
 
             // load page to show all status
             $this->template->load('dashboard', 'report/select_project', $data);
@@ -537,8 +556,15 @@ class Report extends RISK_Controller
             // get global data
             $data = array_merge( $data, $this->get_global_data() );
 
-            // get project data
-            $data['select_project'] = $this->getProject( $data['user_id'], $data['role_id'] );
+            // get project data based on role type
+            if($data['role_name'] == "Super Administrator") // super admin should see all projects
+            {
+                $data['select_project'] = $this->getProject(array());
+            }
+            else
+            {
+                $data['select_project'] = $this->getProject(array("user_id"=>$data['user_id']));
+            }
 
             // load page to show all status
             $this->template->load('dashboard', 'report/select_response_project', $data);
@@ -552,15 +578,25 @@ class Report extends RISK_Controller
 
 
     // get project
-    function getProject( $user_id, $role_id )
+    function getProject($params = array())
     {
-        if ($role_id == 8)
-        {
-            $project = $this->project_model->getAssignedProject( $user_id );
+        if(array_key_exists("user_id",$params))
+        {   
+            if($params['role_name'] == 'Program Manager' || $params['role_name'] == 'Project Manager')
+            {
+                // get all projects by user ID if user is manager
+                $project = $this->project_model->getProjects($params['user_id']);
+            } 
+            else
+            {
+                // get all projects by user ID if user is general user
+                $project = $this->project_model->getAssignedProject($params['user_id']);
+            } 
         }
         else
         {
-            $project = $this->project_model->getProjects( $user_id );
+            // get all projects if user is super admin
+            $project = $this->project_model->getAllProjects();
         }
         
         if($project)
@@ -573,7 +609,6 @@ class Report extends RISK_Controller
                 $project_name = $row->project_name;
                 $options[$project_id] = $project_name;  
             }
-
             return $options;
         }
         else 

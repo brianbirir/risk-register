@@ -90,33 +90,31 @@ class Project extends RISK_Controller
             // add uri id i.e. project id to session data
             $session_data = $this->session->userdata('logged_in');
             $session_data['user_project_id'] = $uri_project_id; // project ID
-            $session_data['project_name'] = $single_project->project_name; // project name
+            $session_data['project_name'] = $single_project->project_name;// project name
             $session_data['register_name'] = null; // set register name to null when selecting project
-            $this->session->set_userdata('logged_in', $session_data); 
+            $this->session->set_userdata('logged_in', $session_data);
 
             // get all risk registers for specific user
-            if ($data['role_id'] != 8) 
+            if ($session_data['role_name'] == 'Project Manager' || $session_data['role_name'] == 'Program Manager') 
             {
-
-                $risk_register = $this->project_model->getRiskRegisters( $uri_project_id, $data['user_id'] );
-
-                //  check if result is true
-                ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
+                $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
             }
-            else 
+            else if($session_data['role_name'] == 'General User')
             {
                 $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
-                
-                //  check if result is true
-                ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
-            }
+            } 
+            else
+            {
+                $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id));
+            } 
 
             // check if result is true
             ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
 
             $this->template->load('dashboard', 'project/view', $data);
         }
-        else {
+        else 
+        {
             //If no session, redirect to login page
             redirect('login', 'refresh');
         }
@@ -150,6 +148,9 @@ class Project extends RISK_Controller
             $data['user_project_id'] = $session_data['user_project_id'];
             $session_data['register_name'] = $single_register->name; // register name
             $this->session->set_userdata('logged_in', $session_data);
+
+            // assign role name in session
+            $data['role_name'] = $session_data['role_name'];
             
             // get all risks of user and assigned register
             // $risk = $this->risk_model->getUserRisk( $data['user_id'], $data['register_id'] );
@@ -175,6 +176,8 @@ class Project extends RISK_Controller
         }
     }
 
+
+    // get risk items for a single risk register
     function single_register_risks()
     {
         // Data tables POST Variables
@@ -223,11 +226,22 @@ class Project extends RISK_Controller
 
         $db_data = array();
 
-        // get risks
-        $risk_result = $this->risk_model->getUserRisk(array('start'=>$start,'limit'=>$length,'user_id'=>$session_data['user_id'], 'register_id'=>$registerID,'order'=>$order_col,'sortType'=>$dir));
+        if($session_data['role_name'] == 'Super Administrator')
+        {
+            // get risks without user id
+            $risk_result = $this->risk_model->getUserRisk(array('start'=>$start,'limit'=>$length, 'register_id'=>$registerID,'order'=>$order_col,'sortType'=>$dir));
 
-        // get number of total rows by user ID
-        $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID));
+            // get number of total rows without user id
+            $total_risks = $this->risk_model->getTotalRisks(array('register_id'=>$registerID));
+        }
+        else if($session_data['role_name'] == 'Project Manager' || $session_data['role_name'] == 'Program Manager')
+        {
+            // get risks with user id
+            $risk_result = $this->risk_model->getUserRisk(array('start'=>$start,'limit'=>$length,'user_id'=>$session_data['user_id'], 'register_id'=>$registerID,'order'=>$order_col,'sortType'=>$dir));
+
+            // get number of total rows by user ID
+            $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID));
+        }
 
         // action row content for risk table
         foreach ($risk_result as $data_row) {
@@ -294,7 +308,7 @@ class Project extends RISK_Controller
                 //check if result is true
                 ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
             }
-            // load page to show all devices
+            
             $this->template->load('dashboard', 'registry/index', $data);
         }
         else

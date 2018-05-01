@@ -14,19 +14,27 @@ class Login extends RISK_Controller
   }
 
   function index()
-  {
-    
+  { 
     $data = array('title' => 'Login');
-    
-    // load default template with login view
-    $this->template->load('default', 'login/index', $data);
-    
+
+    if($this->session->userdata('logged_in'))
+    {
+      redirect('dashboard');
+    }
+    else
+    {
+      // load default template with login view
+      $this->template->load('default', 'login/index', $data);
+    } 
   }
 
 
   // login function
   function login()
   {
+    // load role model
+    $this->load->model('role_model');
+
     //get the posted values
     $username = $this->input->post("txt_username");
     $password = $this->input->post("txt_password");
@@ -64,7 +72,8 @@ class Login extends RISK_Controller
                 'username' => $row->username,
                 'first_name' => $row->first_name,
                 'last_name'=> $row->last_name,
-                'role_id'=> $row->Role_role_id
+                'role_id'=> $row->Role_role_id,
+                'role_name'=> $this->role_model->getRoleName($row->Role_role_id)
               );
               $this->session->set_userdata('logged_in', $sess_array);
             }

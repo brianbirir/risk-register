@@ -61,9 +61,9 @@
                                 }
                                 
                                 echo "<td>
-                                        <a class='fa-icon' title='change-password' href='/settings/user/change-password/".$user_row->user_id."'><i class='fa fa-lock' aria-hidden='true'></i>
-                                        <a class='fa-icon' title='edit' href='/settings/user/".$user_row->user_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a class='fa-icon' class='delete-action' data-toggle='confirmation' data-title='Delete General User?' href='/settings/user/delete/".$user_row->user_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='change-password' href='/settings/user/change-password/".$user_row->user_id."'><i class='fas fa-lock' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='edit' href='/settings/user/".$user_row->user_id."'><i class='fas fa-edit' aria-hidden='true'></i>
+                                        <a class='fa-icon' class='delete-action' data-toggle='confirmation' data-title='Delete General User?' href='/settings/user/delete/".$user_row->user_id."'><i class='fas fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

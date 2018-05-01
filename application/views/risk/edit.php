@@ -90,7 +90,7 @@
 
                     <div class="row">
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <?php 
@@ -101,14 +101,14 @@
                             </div>    
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="latest_update">Latest Update</label>
                                 <div class="well well-sm"><?php echo $risk->effective_date; ?></div>
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="entity">Entity</label>
                                 <?php
@@ -118,18 +118,30 @@
                                 ?>
                             </div>
                         </div>
-                        
-                        <div class="col-md-3">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="main_category">Risk Category</label>
                                 <?php 
-                                    $select_main_category_attributes = 'class="form-control" required';
+                                    $select_main_category_attributes = 'class="form-control" readonly';
                                     $category_id = $risk->RiskCategories_category_id;
                                     echo form_dropdown('main_category',$select_category,$category_id,$select_main_category_attributes);
                                 ?>
                             </div>
                         </div>
 
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="sub_category">Risk Subcategory</label>
+                                <?php 
+                                    $select_subcategory_attributes = 'class="form-control"';
+                                    $subcategory_id = $risk->RiskSubCategories_subcategory_id;
+                                    echo form_dropdown('sub_category',$select_subcategory,$subcategory_id,$select_subcategory_attributes);
+                                ?>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="row">
@@ -212,7 +224,7 @@
             <div class="box box-info box-pre-mitigated">
 
                 <div class="box-header with-border">
-                    <h3 class="box-title">Pre-Mitigation Risks</h3>
+                    <h3 class="box-title">Pre-Mitigation Risk Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -313,7 +325,7 @@
             <div class="box box-info box-current-risks">
 
                 <div class="box-header">
-                    <h3 class="box-title">Current Mitigated Risk</h3>
+                    <h3 class="box-title">Current Risk Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -419,7 +431,7 @@
             <div class="box box-info box-targeted-risks">
 
                 <div class="box-header">
-                    <h3 class="box-title">Targeted Risk</h3>
+                    <h3 class="box-title">Predicted Post Mitigation Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -646,9 +658,9 @@
                         <div class="form-group">
                             <label for="action_owner">Action Owner</label>
                             <?php 
-                                    $select_action_owner_attributes = 'class="form-control"';
-                                    $action_owner_id = $risk->action_owner;
-                                    echo form_dropdown('status',$select_user,$action_owner_id,$select_action_owner_attributes);
+                                $select_action_owner_attributes = 'class="form-control"';
+                                $action_owner_id = $risk->action_owner;
+                                echo form_dropdown('action_owner',$select_user,$action_owner_id,$select_action_owner_attributes);
                             ?>
                         </div>
                     </div>

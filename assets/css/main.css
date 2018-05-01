@@ -137,6 +137,16 @@
     color: #1b1b1b;
 }
 
+#add-description,
+#clear-description
+{
+    margin-top: 25px;
+    background-color: #f1c40f;
+    border-color: #f1c40f;
+    color: #1b1b1b;
+    font-size: 10px;
+}
+
 
 /* Aldea Alerts */
 .alert-aldea,

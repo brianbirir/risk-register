@@ -37,36 +37,40 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="identified_hazard_risk">Identified Hazard Risk</label>
-                                <input class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" value="<?php echo set_value('identified_hazard_risk'); ?>" required/>
+                                <input id="harzard-risk" class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" value="<?php echo set_value('identified_hazard_risk'); ?>" required/>
                                 <?php echo form_error('identified_hazard_risk','<div class="alert alert-danger">','</div>'); ?>
                             </div>
-                        </div>
-
-                        <div class="col-md-1">
-                            <span></span>
-                            <span><strong>Due to</strong></span>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="cause_trigger">Cause Trigger</label>
-                                <input class="form-control" name="cause_trigger" placeholder="Cause Trigger" value="<?php echo set_value('cause_trigger'); ?>" required/>
+                                <input id="cause-trigger" class="form-control" name="cause_trigger" placeholder="Cause Trigger" value="<?php echo set_value('cause_trigger'); ?>" required/>
                                 <?php echo form_error('cause_trigger','<div class="alert alert-danger">','</div>'); ?>
                             </div>
-                        </div>
-
-
-                        <div class="col-md-1">
-                            <span></span>
-                            <span><strong>Leads to</strong></span>
                         </div>
 
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="effect">Effect</label>
-                                <input class="form-control" name="effect" placeholder="Effect" value="<?php echo set_value('effect'); ?>" required/>
+                                <input id="effect" class="form-control" name="effect" placeholder="Effect" value="<?php echo set_value('effect'); ?>" required/>
                                 <?php echo form_error('effect','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
                         </div>
+
+                        <div class="col-md-3">
+                            <a id="add-description" class="btn btn-default btn-sm">Add Description</a>
+                            <a id="clear-description" class="btn btn-default btn-sm">Clear Description</a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="description_change">Description and Notes</label>
+                                <textarea id="description-text" class="form-control" name="description_change" rows="5" required><?php echo set_value('description_change');?></textarea>
+                                <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
                         </div>
                     </div>
 
@@ -173,16 +177,6 @@
 
                     </div>
                     
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="description_change">Description and Notes</label>
-                                <textarea class="form-control" name="description_change" rows="5" required><?php echo set_value('description_change');?></textarea>
-                                <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>
-                    </div>
-                    
                     <div class="row">             
                         <div class="col-md-4">
                             <div class="form-group">
@@ -211,7 +205,7 @@
             <div class="box box-info box-pre-mitigated">
 
                 <div class="box-header">
-                    <h3 class="box-title">Pre-Mitigation</h3>
+                    <h3 class="box-title">Pre-Mitigation Risk Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -306,7 +300,7 @@
             <div class="box box-info box-current-risks">
 
                 <div class="box-header">
-                    <h3 class="box-title">Current Mitigated Risk</h3>
+                    <h3 class="box-title">Current Risk Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -401,7 +395,7 @@
             <div class="box box-info box-targeted-risks">
 
                 <div class="box-header">
-                    <h3 class="box-title">Targeted Risk</h3>
+                    <h3 class="box-title">Predicted Post Mitigation Assessment</h3>
                 </div>
 
                 <div class="box-body">
