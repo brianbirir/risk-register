@@ -9,7 +9,6 @@ class Risk extends RISK_Controller
         parent::__construct();
         $this->load->helper('form');
         $this->load->helper('url');
-        $this->load->helper('url');
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
@@ -138,10 +137,11 @@ class Risk extends RISK_Controller
             $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);         
-            $data['select_response_title'] = $this->getResponseTitle($data['register_id']);
-            $data['select_user'] = $this->getRegisterUser($data['register_id']); 
-            // response title
-            $data['response_title'] = $this->getResponseTitle($data['register_id']);
+            $data['select_user'] = $this->getRegisterUser($data['register_id']);
+            $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
+
+            $this->load->library('userproject');
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);
@@ -169,7 +169,7 @@ class Risk extends RISK_Controller
             $data = array_merge($data, $this->get_global_data());
 
             // get id from fourth segment of uri
-            $id = $this->uri->segment(4);
+            $data['register_id'] = $this->uri->segment(4);
 
             // get register data
             // if ( $data['role_id'] == 8 ) 
@@ -182,15 +182,16 @@ class Risk extends RISK_Controller
             $data['user_project_id'] = $session_data['user_project_id'];
 
             // get risk data based on id from uri
-            $data['risk'] = $this->risk_model->getRisk($id);
+            $data['risk'] = $this->risk_model->getRisk($data['register_id']);
                 
-            // get risk responses
+            // get risk responses data
             $data['risk_response'] = $this->risk_model->getRiskResponse($data['risk']->risk_uuid);
 
             // select drop down
             $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
             $data['select_status'] = $this->getStatus($data['user_project_id']);
             $data['select_category'] = $this->getCategories($data['user_project_id']);
+            $data['select_subcategory'] = $this->getSubCategories($data['risk']->RiskCategories_category_id); // get subcategory from category ID
             $data['select_strategy'] = $this->getRiskStrategies($data['user_project_id']);
             $data['select_safety'] = $this->getSystemSafety($data['user_project_id']);
             $data['select_realization'] = $this->getRealization($data['user_project_id']);
@@ -199,6 +200,7 @@ class Risk extends RISK_Controller
             $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);
+            $data['select_user'] = $this->getRegisterUser($data['risk']->Subproject_subproject_id);
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
@@ -217,7 +219,8 @@ class Risk extends RISK_Controller
         // load UUID library for use in generating respone UUID
         $this->load->library('uuid');
 
-        $timestamp = date('Y-m-d G:i:s');
+        //$timestamp = date('Y-m-d G:i:s');
+        $timestamp = date('Y-m-d');
 
         // get risk id from hidden field
         $risk_id = $this->input->post('risk_id');
@@ -252,19 +255,13 @@ class Risk extends RISK_Controller
             'risk_rating' => $this->input->post('risk_rating'),
             'risk_level' => $this->input->post('risk_level'),
             'control_mitigation' => $this->input->post('control_mitigation'),
-            'action_owner_fname' => $this->input->post('action_owner_fname'),
-            'action_owner_lname' => $this->input->post('action_owner_lname'),
-            'action_owner_email' => $this->input->post('action_owner_email'),
+            'action_owner' => $this->input->post('action_owner'),
             'milestone_target_date' => $this->input->post('milestone_target_date'),
             'RiskCategories_category_id' => $this->input->post('main_category'),
             'SystemSafety_safety_id' => $this->input->post('system_safety'),
             'Status_status_id' => $this->input->post('status'),
             'Realization_realization_id' => $this->input->post('realization'),
             'RiskOwner_riskowner_id' => $this->input->post('risk_owner'),
-            'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
-            'residual_risk_impact' => $this->input->post('residual_impact'),
-            'residual_risk_rating' => $this->input->post('residual_risk_rating'),
-            'residual_risk_level' => $this->input->post('residual_risk_level'),
             'Subproject_subproject_id' => $this->input->post('register_id'),
             'Entity_entity_id' => $this->input->post('entity'),
             'description_change' => $this->input->post('description_change'),
@@ -273,7 +270,7 @@ class Risk extends RISK_Controller
             'ScheduleMetric_schedule_id' => $this->input->post('timeimpact'),
             'likelihood_current' => $this->input->post('likelihood_current'),
             'reputation_impact_current' => $this->input->post('reputationimpact_current'),
-            'hs_impact__currentcurrent' => $this->input->post('hsimpact_current'),
+            'hs_impact_current' => $this->input->post('hsimpact_current'),
             'env_impact_current' => $this->input->post('environmentimpact_current'),
             'legal_impact_current' => $this->input->post('legalimpact_current'),
             'quality_impact_current' => $this->input->post('qualityimpact_current'),
@@ -283,14 +280,16 @@ class Risk extends RISK_Controller
             'risk_level_current' => $this->input->post('currentrisk_level'),
             'likelihood_target' => $this->input->post('likelihood_target'),
             'reputation_impact_target' => $this->input->post('reputationimpact_target'),
-            'hs_impact__targettarget' => $this->input->post('hsimpact_target'),
+            'hs_impact_target' => $this->input->post('hsimpact_target'),
             'env_impact_target' => $this->input->post('environmentimpact_target'),
             'legal_impact_target' => $this->input->post('legalimpact_target'),
             'quality_impact_target' => $this->input->post('qualityimpact_target'),
             'time_impact_target' => $this->input->post('timeimpact_target'),
             'cost_impact_target' => $this->input->post('costimpact_target'),
             'risk_rating_target' => $this->input->post('targetrisk_rating'),
-            'risk_level_target' => $this->input->post('targetrisk_level')
+            'risk_level_target' => $this->input->post('targetrisk_level'),
+            'action_item' => $this->input->post('action_item'),
+            'RiskSubCategories_subcategory_id' => $this->input->post('sub_category')
         );
 
         /**
@@ -309,24 +308,24 @@ class Risk extends RISK_Controller
         // check first if there are any response fields that have been added
         // if ( !empty($_POST['risk_response']['title']) && !empty($_POST['risk_response']['strategy']) )
         // {
-            $num_fields = count($_POST['risk_response']['title']);
+            // $num_fields = count($_POST['risk_response']['title']);
 
-            for ($i = 0; $i < $num_fields; $i++) 
-            {
-                if(empty($_POST['risk_response']['title'][$i]))
-                {
-                   break;
-                }
+            // for ($i = 0; $i < $num_fields; $i++) 
+            // {
+            //     if(empty($_POST['risk_response']['title'][$i]))
+            //     {
+            //        break;
+            //     }
 
-                $field = array(
-                    'risk_uuid'=> $risk_uuid,
-                    'response_uuid'=> $this->uuid->generate_uuid(),
-                    'response_title' => $_POST['risk_response']['title'][$i],
-                    'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
-                );
+            //     $field = array(
+            //         'risk_uuid'=> $risk_uuid,
+            //         'response_uuid'=> $this->uuid->generate_uuid(),
+            //         'response_title' => $_POST['risk_response']['title'][$i],
+            //         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
+            //     );
 
-                $this->risk_model->insertResponse($field);
-            }
+            //     $this->risk_model->insertResponse($field);
+            // }
         // }
             
         // insert form data into database
@@ -368,7 +367,7 @@ class Risk extends RISK_Controller
     // archive a risk item
     function archive()
     {
-        $timestamp = date('Y-m-d G:i:s');
+        $timestamp = date('Y-m-d');
         $archived = true;
 
         // get id from fourth segment of uri
@@ -436,7 +435,7 @@ class Risk extends RISK_Controller
 
         // set validation rules
         // $this->form_validation->set_rules('risk_reponse[]', 'Identified Hazard Risk', 'trim|required');
-        $timestamp = date('Y-m-d G:i:s');
+        $timestamp = date('Y-m-d');
         
         // get global data
         $global_data = $this->get_global_data();
@@ -512,13 +511,18 @@ class Risk extends RISK_Controller
         // }
         // else
         // {
-            $timestamp = date('Y-m-d G:i:s');
+            // $timestamp = date('Y-m-d G:i:s');
+            $timestamp = date('Y-m-d');
 
             // get global data
             $global_data = $this->get_global_data();
 
             // get risk uuid
             $risk_uuid = $this->input->post('risk_uuid');
+
+            // generate risk harzard ID
+            $this->load->library('riskid');
+            $original_risk_id = $this->riskid->generateRiskID($this->input->post('main_category'),$this->input->post('sub_category'));
 
             //insert the risk data into database
             $risk_data = array(
@@ -537,19 +541,13 @@ class Risk extends RISK_Controller
                 'risk_rating' => $this->input->post('risk_rating'),
                 'risk_level' => $this->input->post('risk_level'),
                 'control_mitigation' => $this->input->post('control_mitigation'),
-                'action_owner_fname' => $this->input->post('action_owner_fname'),
-                'action_owner_lname' => $this->input->post('action_owner_lname'),
-                'action_owner_email' => $this->input->post('action_owner_email'),
+                'action_owner' => $this->input->post('action_owner'),
                 'milestone_target_date' => $this->input->post('milestone_target_date'),
                 'RiskCategories_category_id' => $this->input->post('main_category'),
                 'SystemSafety_safety_id' => $this->input->post('system_safety'),
                 'Status_status_id' => $this->input->post('status'),
                 'Realization_realization_id' => $this->input->post('realization'),
                 'RiskOwner_riskowner_id' => $this->input->post('risk_owner'),
-                'residual_risk_likelihood' => $this->input->post('residual_likelihood'),
-                'residual_risk_impact' => $this->input->post('residual_impact'),
-                'residual_risk_rating' => $this->input->post('residual_risk_rating'),
-                'residual_risk_level' => $this->input->post('residual_risk_level'),
                 'Subproject_subproject_id' => $this->input->post('register_id'),
                 'Entity_entity_id' => $this->input->post('entity'),
                 'CostMetric_cost_id' => $this->input->post('costimpact'),
@@ -557,6 +555,7 @@ class Risk extends RISK_Controller
                 'archived' => false,
                 'User_user_id' => $global_data['user_id'],
                 'created_at' => $timestamp,
+                'effective_date' => $timestamp,
                 'risk_uuid' => $risk_uuid,
                 'description_change' => $this->input->post('description_change'),
                 'likelihood_current' => $this->input->post('likelihood_current'),
@@ -578,12 +577,18 @@ class Risk extends RISK_Controller
                 'time_impact_target' => $this->input->post('timeimpact_target'),
                 'cost_impact_target' => $this->input->post('costimpact_target'),
                 'risk_rating_target' => $this->input->post('targetrisk_rating'),
-                'risk_level_target' => $this->input->post('targetrisk_level')
+                'risk_level_target' => $this->input->post('targetrisk_level'),
+                'action_item' => $this->input->post('action_item'),
+                'RiskSubCategories_subcategory_id' => $this->input->post('sub_category'),
+                'original_risk_id' => $original_risk_id
             );
             
             // insert form data into database
             if ($this->risk_model->insertRegistry($risk_data))
             {
+
+                $post_date = date('Y-m-d');
+
                 $num_fields = count($_POST['risk_response']['title']);
 
                 for ($i = 0; $i < $num_fields; $i++) 
@@ -594,25 +599,30 @@ class Risk extends RISK_Controller
                     $field = array(
                         'risk_uuid'=> $risk_uuid,
                         'response_uuid'=> $this->uuid->generate_uuid(),
-                        'response_title' => $_POST['risk_response']['title'][$i],
+                        'ResponseTitle_id' => $_POST['risk_response']['title'][$i],
                         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
                         'register_id' => $this->input->post('register_id'),
-                        'user_id' => $_POST['risk_response']['user'][$i],
-                        'created_at' => $date,
-                        'updated_at' => $date
+                        'user_id' => serialize($_POST['risk_response']['user']),
+                        'created_at' => $post_date,
+                        'updated_at' => $post_date,
+                        'due_date' => $this->getResponseDueDate($date)
                     );
                     
                     // insert risk response data first
                     $this->risk_model->insertResponse($field);
+
+                    // send email notifications for risk response due date
+                    // $this->load->library('riskemail');
+                    // $this->riskemail->send_response_notification($field['response_title'], $this->user_model->getUserEmail($field['user_id']), $field['created_at']);
                 }
 
-                $this->session->set_flashdata('positive-msg','Risk has been successfully added.');
+                $this->session->set_flashdata('positive_msg','Risk has been successfully added.');
                 redirect('dashboard/risks');
             }
             else
             {
                 // error
-                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
                 redirect('dashboard/risks');
             }
         // }
@@ -764,6 +774,29 @@ class Risk extends RISK_Controller
         }
     }
 
+    // subcategories
+    function getSubCategories($category_id)
+    {
+        $subcategories = $this->risk_model->getRiskSubCategories($category_id);
+        
+        if($subcategories)
+        {
+            $options = array();
+
+            foreach ($subcategories as $row) 
+            {
+                $subcategory_id = $row->subcategory_id;
+                $subcategory_name = $row->subcategory_name;
+                $options[$subcategory_id] = $subcategory_name;  
+            }
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
 
     // risk owners
     function getRiskOwner($project_id)
@@ -814,7 +847,32 @@ class Risk extends RISK_Controller
     }
 
 
-    // risk entity
+    // risk response title
+    function getRiskResponseTitle($project_id)
+    {
+        $response = $this->response_model->getResponseTitle($project_id);
+        
+        if($response)
+        {
+            $options = array();
+
+            foreach ($response as $row) 
+            {
+                $response_id = $row->response_id;
+                $response_name = $row->response_name;
+                $options[$response_id] = $response_name;  
+            }
+            
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
+
+    // risk cost
     function getRiskCost($project_id)
     {
         $cost = $this->risk_model->getRiskCost($project_id);
@@ -839,7 +897,7 @@ class Risk extends RISK_Controller
     }
 
 
-    // risk entity
+    // risk schedule
     function getRiskSchedule($project_id)
     {
         $schedule = $this->risk_model->getRiskSchedule($project_id);
@@ -1077,5 +1135,12 @@ class Risk extends RISK_Controller
         {
             return 'No Data!';
         }
+    }
+
+
+    # get reponse due date of which is after 7 days of the target date
+    function getResponseDueDate($date)
+    {
+        return date("Y-m-d",strtotime("+7 days",strtotime($date)));
     }
 }

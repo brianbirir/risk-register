@@ -34,36 +34,51 @@
                     <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id; ?>"/>
 
                     <div class="row">             
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="identified_hazard_risk">Identified Hazard Risk</label>
-                                <input class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" value="<?php echo set_value('identified_hazard_risk'); ?>" required/>
+                                <input id="harzard-risk" class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" value="<?php echo set_value('identified_hazard_risk'); ?>" required/>
                                 <?php echo form_error('identified_hazard_risk','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="cause_trigger">Cause Trigger</label>
-                                <input class="form-control" name="cause_trigger" placeholder="Cause Trigger" value="<?php echo set_value('cause_trigger'); ?>" required/>
+                                <input id="cause-trigger" class="form-control" name="cause_trigger" placeholder="Cause Trigger" value="<?php echo set_value('cause_trigger'); ?>" required/>
                                 <?php echo form_error('cause_trigger','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <div class="form-group">
                                 <label for="effect">Effect</label>
-                                <input class="form-control" name="effect" placeholder="Effect" value="<?php echo set_value('effect'); ?>" required/>
+                                <input id="effect" class="form-control" name="effect" placeholder="Effect" value="<?php echo set_value('effect'); ?>" required/>
                                 <?php echo form_error('effect','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
                         </div>
+
+                        <div class="col-md-3">
+                            <a id="add-description" class="btn btn-default btn-sm">Add Description</a>
+                            <a id="clear-description" class="btn btn-default btn-sm">Clear Description</a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="description_change">Description and Notes</label>
+                                <textarea id="description-text" class="form-control" name="description_change" rows="5" required><?php echo set_value('description_change');?></textarea>
+                                <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
+                            </div>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="risk_title">Risk Title</label>
-                                <input class="form-control" name="risk_title" placeholder="Risk Title" type="text" value="<?php echo set_value('risk_title'); ?>" required/>
+                                <label for="risk_title">Risk Description</label>
+                                <input class="form-control" name="risk_title" type="text" value="<?php echo set_value('risk_title'); ?>" required/>
                             </div>
                         </div>
 
@@ -109,7 +124,7 @@
 
                     <div class="row">
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="status">Status</label>
                                 <?php 
@@ -119,14 +134,14 @@
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="latest_update">Latest Update</label>
                                 <input class="form-control" name="latest_update" placeholder="Latest Update" type="text" value=""/>
                             </div>
                         </div>
 
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="entity">Entity</label>
                                 <?php
@@ -135,27 +150,31 @@
                                 ?>
                             </div>
                         </div>
-                        
-                        <div class="col-md-3">
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label for="main_category">Risk Category</label>
                                 <?php 
                                     $select_main_category_attributes = 'class="form-control" required';
-                                    echo form_dropdown('main_category',$select_category,"1",$select_main_category_attributes);
+                                    $select_category['select_option'] = 'Select Option';
+                                    echo form_dropdown('main_category',$select_category,"select_option",$select_main_category_attributes);
                                 ?>
                             </div>
                         </div>
 
-                    </div>
-                    
-                    <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <div class="form-group">
-                                <label for="description_change">Description and Change</label>
-                                <textarea class="form-control" name="description_change" placeholder="Description and Change" rows="5" required><?php echo set_value('description_change');?></textarea>
-                                <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
+                                <label for="sub_category">Risk Subcategory</label>
+                                <?php 
+                                    $select_subcategory_attributes = 'id="subcategory-select" class="form-control" required';
+                                    $subcategory_options = array('none' => 'None');
+                                    echo form_dropdown('sub_category',$subcategory_options,'none',$select_subcategory_attributes);
+                                ?>
                             </div>
                         </div>
+
                     </div>
                     
                     <div class="row">             
@@ -183,10 +202,10 @@
                 </div>
             </div>
 
-            <div class="box box-info box-qualitative">
+            <div class="box box-info box-pre-mitigated">
 
                 <div class="box-header">
-                    <h3 class="box-title">Pre-Mitigation</h3>
+                    <h3 class="box-title">Pre-Mitigation Risk Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -278,10 +297,10 @@
             
             </div>
 
-            <div class="box box-info box-qualitative">
+            <div class="box box-info box-current-risks">
 
                 <div class="box-header">
-                    <h3 class="box-title">Current Mitigated Risk</h3>
+                    <h3 class="box-title">Current Risk Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -373,10 +392,10 @@
             
             </div>
 
-            <div class="box box-info box-qualitative">
+            <div class="box box-info box-targeted-risks">
 
                 <div class="box-header">
-                    <h3 class="box-title">Targeted Risk</h3>
+                    <h3 class="box-title">Predicted Post Mitigation Assessment</h3>
                 </div>
 
                 <div class="box-body">
@@ -474,7 +493,7 @@
                     <h3 class="box-title">Risk Responses</h3>
                 </div>
 
-                <div class="box-body table-responsive no-padding">
+                <div class="box-body">
                     
                     <div class="col-md-4">
                         <div class="form-group">
@@ -495,26 +514,25 @@
                             ?>
                         </div>
                     </div>
-                    <!-- <div class="col-md-12">
-                        <div id="add-response-btn" class="btn btn-primary pull-right" onclick="new_row()">Add Response</div>
-                    </div> -->
 
                     <div class="col-md-12">
                         <div class="box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Risk Response</h3>
-                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right" onclick="new_row()">Add Response</div>
+                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div>
                             </div>
                             <div class="box-body">
                                 <table class="table table-hover">
-                                    <tbody id="response-table-body">
+                                    <thead>
                                         <tr>
-                                            <!-- <th>Risk Response ID</th> -->
                                             <th>Response Title</th>
+                                            <th></th>
                                             <th>Response Type</th>
                                             <th>Register User</th>
                                             <th>Target Date</th>
                                         </tr>
+                                    </thead>
+                                    <tbody id="response-table-body">
                                         <tr id="response-row">
 
                                             <?php 
@@ -522,20 +540,20 @@
                                                  * if not display input text field
                                                  * if they do exist display select drop down of those response titles
                                                  */
-                                                if(!$response_title)
+                                                if(!$select_response_name)
                                                 {
                                             ?>
                                             <td>
-                                                <div class="form-group">
+                                                <div id="form-response-title" class="form-group">
                                                     <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
                                                 </div>
                                             </td>
                                             <?php } else { ?>
                                             <td>
-                                                <div class="form-group">
-                                                    <select name="risk_response[title][]" class="form-control">
+                                                <div id="form-response-title" class="form-group">
+                                                    <select name="risk_response[title][]" class="form-control response response-title">
                                                         <?php 
-                                                            foreach ($select_response_title as $key => $value) 
+                                                            foreach ($select_response_name as $key => $value) 
                                                             {
                                                                 echo "<option value=".$key.">".$value."</option>";
                                                             }
@@ -543,10 +561,14 @@
                                                     </select>
                                                 </div>
                                             </td>
+                                            <td>
+                                                <!-- button for adding response title to drop down -->
+                                                <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
+                                            </td>
                                             <?php } ?>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[strategy][]" class="form-control">
+                                                    <select name="risk_response[strategy][]" class="form-control response response-strategy">
                                                         <?php 
                                                             foreach ($select_strategy as $key => $value) 
                                                             {
@@ -558,7 +580,7 @@
                                             </td>
                                             <td>
                                                 <div class="form-group">
-                                                    <select name="risk_response[user][]" class="form-control">
+                                                    <select multiple="multiple" name="risk_response[user][]" class="form-control response response-user">
                                                         <?php 
                                                             foreach ($select_user as $key => $value) 
                                                             {
@@ -588,87 +610,47 @@
                 </div>
             </div>
 
-            <!-- <div class="box box-primary box-residual-risk">
-
-                <div class="box-header">
-                    <h3 class="box-title">Controlling Residual Risk</h3>
-                </div>
-
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_likelihood">Likelihood</label>
-                                <?php
-                                    $select_residual_likelihood = 'id="residual-risk-select" class="form-control input-sm select-input"';
-                                    echo form_dropdown('residual_likelihood',$select_option,"1",$select_residual_likelihood);
-                                ?>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_impact">Impact</label>
-                                <?php 
-                                    $select_residual_impact = 'id="residual-impact-select" class="form-control input-sm select-input"';
-                                    echo form_dropdown('residual_impact',$select_option,"1",$select_residual_impact);
-                                ?>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="residual_risk_rating">Residual Risk Rating</label>
-                                <input id="residual_risk_rating" class="form-control" name="residual_risk_rating" placeholder="Residual Risk Rating" type="text" value="<?php echo set_value('residual_risk_rating'); ?>" required/>
-                                <?php echo form_error('residual_risk_rating','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>         
-                        <div class="col-md-6">   
-                            <div class="form-group">
-                                <label for="residual_risk_level">Residual Risk Level</label>
-                                <input id="residual_risk_level" class="form-control" name="residual_risk_level" placeholder="Residual Risk Level" type="text" value="<?php echo set_value('residual_risk_level'); ?>" required/>
-                                <?php echo form_error('residual_risk_level','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            </div> -->
-
             <div class="box box-yellow box-controlling">
 
                 <div class="box-header">
-                    <h3 class="box-title">Controlling</h3>
+                    <h3 class="box-title">Risk Overseer</h3>
                 </div>
 
                 <div class="box-body">
-                    <div class="col-md-6">
-                        <fieldset>
-                            <legend>Action Owner</legend>
+                    <div class="col-md-4">
                             <div class="form-group">
-                                <label for="action_owner_fname">First Name</label>
-                                <input class="form-control" name="action_owner_fname" placeholder="First Name" type="text" value="<?php echo set_value('action_owner_fname'); ?>" required/>
-                                <?php echo form_error('action_owner_fname','<div class="alert alert-danger">','</div>'); ?>
+                                <label for="action_owner">Action Owner</label>
+                                <div class="form-group">
+                                    <select name="action_owner" class="form-control select2 action-owner">
+                                        <?php 
+                                            foreach ($select_user as $key => $value) 
+                                            {
+                                                echo "<option value=".$key.">".$value."</option>";
+                                            }
+                                        ?>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="action_owner_lname">Last Name</label>
-                                <input class="form-control" name="action_owner_lname" placeholder="Last Name" type="text" value="<?php echo set_value('action_owner_lname'); ?>" required/>
-                                <?php echo form_error('action_owner_lname','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                            <div class="form-group">
-                                <label for="action_owner_email">Email</label>
-                                <input class="form-control" name="action_owner_email" placeholder="Email" type="text" value="<?php echo set_value('action_owner_email'); ?>" required/>
-                                <?php echo form_error('action_owner_email','<div class="alert alert-danger">','</div>'); ?>
-                            </div>
-                        </fieldset>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="action_item">Action Item for Risk Mitigation</label>
+                            <textarea class="form-control" name="action_item" placeholder="Action Item" rows="5" required><?php echo set_value('action_item');?></textarea>
+                            <?php echo form_error('action_item','<div class="alert alert-danger">','</div>'); ?>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label for="milestone_target_date">Milestone Target Date</label>
-                            <input class="form-control" name="milestone_target_date" placeholder="Milestone Target Date" type="text" value="<?php echo set_value('milestone_target_date'); ?>" required/>
-                            <?php echo form_error('milestone_target_date','<div class="alert alert-danger">','</div>'); ?>
+
+                            <div class="input-group date">
+                                <div class="input-group-addon">
+                                    <i class="fa fa-calendar"></i>
+                                </div>
+                                <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="milestone_target_date" type="text" value="<?php echo set_value('milestone_target_date'); ?>" required/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -680,5 +662,137 @@
             <?php echo form_close(); ?>
 
         </div>
+
+        <!-- modal for displaying form to add response title -->
+        <div class="modal fade" id="response-title-modal" tabindex="-1" role="dialog" aria-labelledby="ResponseModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add Response Title</h4>
+              </div>
+              <div class="modal-body">
+                
+                <div style="display: none;" id="response-modal-alert-warning" class="alert alert-warning fade in" role="alert">
+                    <strong>Warning!</strong> Please fill the response title field!
+                </div>
+
+                <div style="display: none;" id="response-modal-alert-success" class="alert alert-success fade in" role="alert">
+                    <strong>Success!</strong> The response title has been registered successfully!
+                </div>
+
+                <div style="display: none;" id="response-modal-alert-danger" class="alert alert-danger fade in" role="alert">
+                </div>
+
+                <?php
+                    $attributes = array("class" => "ui form", "id" => "response-title-form", "name" => "response-title-form");
+                    echo form_open("", $attributes);
+                ?>
+                    
+                    <div class="form-group">
+                        <label for="response_title_modal">Response Title</label>
+                        <input id="response-modal-title" class="form-control" name="response_title_modal" type="text" value="<?php echo set_value('response_title_modal'); ?>" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project_name">Select Project</label>
+                        <?php 
+                            $select_project_attributes = 'id="response-modal-project-id" class="form-control" required';
+                            echo form_dropdown('project_name',$select_project,"1",$select_project_attributes);
+                        ?>
+                    </div>
+    
+                <?php echo form_close(); ?>   
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="add-response-title" type="button" class="btn btn-primary btn-reg">Add Title</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <!-- JS code to register the response title asynchronously -->
+        <script type="text/javascript">
+            $(document).ready(function(){
+
+                // register the response title asynchronously
+                $('#add-response-title').click(function(event){
+
+                    event.preventDefault();
+
+                    var response_title = $('#response-modal-title').val();
+                    var response_project_id = $('#response-modal-project-id').val();
+
+                    if(response_title == '')
+                    {
+                        $("#response-modal-alert-warning").show();
+                    } else {
+                        $.ajax({
+                            url:  "<?php echo base_url(); ?>" + "response/ajax_response",
+                            type: "POST",
+                            data: {response_name: response_title, project_name: response_project_id},
+                            dataType: "JSON"
+                        })
+                        .done(function(response) {
+                            $("#response-modal-alert-success").show(); // display success alert
+
+                            // create select field for response title
+                            var titleSelect = '<select name="risk_response[title][]" class="form-control response response-title"></select>';
+                            
+                            // remove options from response title select drop down
+                            // $('.response-title option').remove();
+
+                            // remove response title select field
+                            $('#form-response-title .response-title').remove();
+
+                            // recreate response title select field
+                            $('#form-response-title').html(titleSelect);
+                                                   
+                            // add new options from data
+                            $.each( response, function( key, value ) {
+                                $('.response-title').append('<option value="' + key + '">' + value + '</option>');
+                            });
+
+                            // initialize chosen library on response drop down to display newly added option
+                            $('.response-title').chosen();
+                        })
+                        .fail(function(xhr) {
+                            $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
+                            console.log(xhr);
+                        }); 
+                    }
+                });
+
+                // get risk subcategory dropdown based on selected risk category
+                $('select[name="main_category"]').change(function(){
+
+                    // get value from selected option
+                    var category_value = $(this).val();
+
+                    // use ajax call to get subcategories
+                    $.ajax({
+                        url:  "<?php echo base_url(); ?>" + "subcategory/get_subcategory_list",
+                        type: "POST",
+                        data: {category_id: category_value},
+                        dataType: "JSON"
+                    })
+                    .done(function(response) {
+                        // remove options from subcategory drop down
+                        $('#subcategory-select option').remove();
+                        
+                        // add new options from response
+                        $.each( response, function( key, value ) {
+                            $('#subcategory-select').append('<option value="' + key + '">' + value + '</option>');
+                        });
+                    })
+                    .fail(function(xhr) {
+                        alert("Unable to retrieve subcategory data");
+                    });
+                })
+            });
+        </script>
+
     </div>       
 </div>

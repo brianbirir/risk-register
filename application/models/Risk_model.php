@@ -72,12 +72,34 @@
         //     return ($query->num_rows() > 0) ? $query->result() : false;
         // }
 
+        // get total number of rows based on user id and register id
+        function getTotalRisks($params = array())
+        {
+            $this->db->select("COUNT(*) as num");
+            $this->db->from('RiskRegistry');
+            $this->db->where('archived',false);
+
+            // check if user id exists; it does not in the case of the SuperAdmin since this role
+            // can view all risk items
+            if(array_key_exists("user_id",$params))
+            {
+                $this->db->where('User_user_id', $params['user_id']);
+            }
+            
+            $this->db->where('Subproject_subproject_id', $params['register_id']);
+            $query = $this->db->get();
+            $result = $query->row();
+            if(isset($result)) return $result->num;
+            return 0;
+        }
+
 
         // add risk response
         function insertResponse($data)
         {
             return $this->db->insert('RiskResponse', $data);
         }
+
 
         // get all risks
         function getAllRisks()
@@ -103,16 +125,42 @@
 
 
         // get risk items registered by specific user and belongs to specific register
-        function getUserRisk($user_id, $register_id)
+        function getUserRisk($params = array())
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id', $user_id);
-            $this->db->where('Subproject_subproject_id',$register_id);
+
+            if(array_key_exists("user_id",$params))
+            {
+                $this->db->where('User_user_id', $params['user_id']);
+            }
+            
+            $this->db->where('Subproject_subproject_id', $params['register_id']);
             $this->db->where('archived', false); // not archived
+            
+            // limit for pagination
+            if(array_key_exists("start",$params) && array_key_exists("limit",$params))
+            {
+                $this->db->limit($params['limit'],$params['start']);
+            }
+            elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params))
+            {
+                $this->db->limit($params['limit']);
+            }
+
+            // order by
+            if(array_key_exists("order",$params) && array_key_exists("sortType",$params))
+            {
+            	if($params['order'] != null) 
+            	{
+	            	$this->db->order_by($params['order'], $params['sortType']);
+	        	}
+            }
+            
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+        
 
         function getAllUserRisk( $user_id )
         {
@@ -264,10 +312,21 @@
 
         
         // get risk categories
-        function getRiskCategories($project_id){
+        function getRiskCategories($project_id)
+        {
             $this->db->select('*');
             $this->db->from('RiskCategories');
             $this->db->where('Project_project_id', $project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // get risk categories
+        function getRiskSubCategories($project_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskSubCategories');
+            $this->db->where('RiskCategories_category_id', $project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -388,6 +447,17 @@
             $query = $this->db->get();
             $row = $query->row();
             return (isset($row)) ? $row->status_name : false;
+        }
+        
+
+        // get response title
+        function getResponseTitleName($id){
+            $this->db->select('*');
+            $this->db->from('ResponseTitle');
+            $this->db->where('response_id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return (isset($row)) ? $row->response_name : false;
         }
 
 
@@ -555,5 +625,17 @@
             } // endforeach 
 
             return $this->db->insert($table);
+        }
+
+        function getLastRiskID()
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->order_by("item_id","desc");
+            $this->db->limit(1);
+            $this->db->where('RiskRegistry.archived',false); // not archived
+            $query = $this->db->get();
+            $row = $query->row();
+            return $row->item_id;
         }
     }

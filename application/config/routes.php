@@ -41,14 +41,14 @@ $route['dashboard/risks/archived'] = 'risk/index_archive';
 $route['dashboard/risk/duplicate_risk'] = 'risk/duplicate_risk_view';
 
 // reports
-//$route['dashboard/reports'] = 'report/select_project';
-// $route['dashboard/reports/test'] = 'report/test';
-//$route['dashboard/reports/project'] = 'report/index';
-$route['dashboard/report'] = 'report/index';
+$route['dashboard/reports/risk_project'] = 'report/select_project';
+$route['dashboard/reports/response_project'] = 'report/select_response_project';
+$route['dashboard/report/risk'] = 'report/index';
 $route['dashboard/report/response'] = 'report/response_view';
-$route['dashboard/reports/export'] = 'report/export_report';
+$route['dashboard/reports/report_export'] = 'report/export_report';
 $route['dashboard/reports/response_export'] = 'report/export_response_report';
-// $route['dashboard/reports/filter'] = 'report/export';
+$route['dashboard/response/risks/(:num)' ] = 'report/associated_risks/$1';
+$route['dashboard/report/generate' ] = 'report/report_view';
 
 
 // settings routes
@@ -117,6 +117,19 @@ $route['settings/data/realization/add'] = 'realization/add_realization_view';
 $route['settings/data/realization/edit/(:num)'] = 'realization/edit_realization_view/$1';
 $route['settings/data/realization/delete/(:num)'] = 'realization/delete/$1';
 
+$route['settings/data/response/(:num)'] = 'response/index_response/$1';
+$route['settings/data/response/add'] = 'response/add_response_view';
+$route['settings/data/response/edit/(:num)'] = 'response/edit_response_view/$1';
+$route['settings/data/response/delete/(:num)'] = 'response/delete/$1';
+
+$route['settings/data/subcategory/(:num)'] = 'subcategory/index_subcategory/$1';
+$route['settings/data/subcategory/add/(:num)'] = 'subcategory/add_subcategory_view/$1';
+$route['settings/data/subcategory/edit/(:num)'] = 'subcategory/edit_subcategory_view/$1';
+$route['settings/data/subcategory/delete/(:num)'] = 'subcategory/delete/$1';
+
 // test pages
 $route['test/reponse'] = 'risk/response_view';
 $route['test'] = 'risk/register_response';
+
+// email routes
+$route['email/response'] = 'email/send_response_notification';

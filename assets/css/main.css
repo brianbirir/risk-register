@@ -1,24 +1,29 @@
 /* MAIN NAVIGATION */
-.main-header {
+.main-header 
+{
     background-color: #ffffff;
 }
 
 /* DASHBOARD */
-.bg-aldea {
+.bg-aldea 
+{
     background-color: #f1c40f !important;
 }
 
-.info-box-aldea a {
+.info-box-aldea a 
+{
     color: #1b1b1b;
 }
 
 /* SIDEBAR */
-.main-sidebar {
+.main-sidebar
+{
     background-color: #1b1b1b;
     padding-top: 80px;
 }
 
-.sidebar-menu li > a {
+.sidebar-menu li > a 
+{
     color: #f1c40f;
 }
 
@@ -36,12 +41,34 @@
     color: #000000;
 }
 
+/* session data*/
+.sidebar-menu>li>span 
+{
+    padding: 12px 5px 12px 15px;
+    display: block;
+    color: #ffffff;
+}
+
+.sidebar hr
+{
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.sidebar-menu>li>span.session-name 
+{
+    padding: 0px 5px 0px 15px;
+    display: block;
+    color: #ffffff;
+}
 /* SETTINGS PAGE */
-#settings-page h3 a {
+#settings-page h3 a 
+{
     color: #000000;
 }
 
-#settings-page h3 a:hover {
+#settings-page h3 a:hover 
+{
     text-decoration: underline;
 }
 
@@ -110,6 +137,16 @@
     color: #1b1b1b;
 }
 
+#add-description,
+#clear-description
+{
+    margin-top: 25px;
+    background-color: #f1c40f;
+    border-color: #f1c40f;
+    color: #1b1b1b;
+    font-size: 10px;
+}
+
 
 /* Aldea Alerts */
 .alert-aldea,
@@ -145,6 +182,10 @@
     padding: 5px;
 }
 
+/*DATE PICKER*/
+.datepicker-dropdown {
+    background-color: #f1c40f;
+}
 
 /* BOXES */
 .box.box-yellow {
@@ -156,8 +197,16 @@
     background-color: #a8e2dc;
 }
 
-.box-qualitative {
+.box-pre-mitigated {
     background-color: #c7effb;
+}
+
+.box-current-risks {
+    background-color: #B3D7E1;
+}
+
+.box-targeted-risks {
+    background-color: #9FBFC8;
 }
 
 .box-responses {

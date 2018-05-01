@@ -21,130 +21,8 @@ class Report extends RISK_Controller
         $this->load->model('user_model');
         $this->perPage = 20;
     }
+    
 
-
-    // view for report page
-    function test1()
-    {
-        $data = array('title' => 'Reports');
-
-        // total row counts
-        $total_rows = count($this->report_model->getRisks());
-
-
-        //pagination configuration
-        $config['target']      = '#postList';
-        $config['base_url']    = base_url().'posts/ajaxPaginationData';
-        $config['total_rows']  = $total_rows;
-        $config['per_page']    = $this->perPage;
-        $this->ajax_pagination->initialize($config);
-        
-        // breadcrumb
-        $this->breadcrumb->add($data['title']);
-        $data['breadcrumb'] = $this->breadcrumb->output();
-        
-        // get global data
-        $data = array_merge($data,$this->get_global_data());
-
-        // get project ID
-        $data['risk_project_id'] = $this->input->post('risk_project');
-
-        // get risk register id
-        // if general user
-        if ( $data['role_id'] == 8 ) 
-        {
-            $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
-            $assigned_register_id = $register_row->subproject_id;
-            
-            // get risk data
-            $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
-
-            // check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-        }
-        else if( $data['role_id'] == 1 ) // if manager or super admin
-        {
-            $risk = $this->risk_model->getAllRisks();
-            
-            // check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-        }
-        else
-        {
-            // $risk = $this->risk_model->getRisks( $data['user_id'] );
-
-            //get the risk data
-            $risk = $this->report_model->getRisks(array('limit'=>$this->perPage, 'user_id'=>$data['user_id']));
-            
-            // check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-        }
-
-        // add project ID to session logged in data
-        $session_data = $this->session->userdata('logged_in');
-        $session_data['report_project_id'] = $data['risk_project_id'];
-        $this->session->set_userdata('logged_in', $session_data); 
-
-        // select drop down
-        $data['select_category'] = $this->getCategories( $data['risk_project_id'] );
-        $data['select_subproject'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
-
-        $this->template->load('dashboard', 'report/index', $data);
-    }
-
-
-    function test()
-    {
-        $data = array('title' => 'Reports');
-
-        // get global data
-        $data = array_merge($data,$this->get_global_data());
-
-        // total row counts
-        $total_rows = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
-
-
-        //pagination configuration
-        $config['target']      = '#report-data';
-        $config['base_url']    = base_url().'report/ajaxPaginationData';
-        $config['total_rows']  = $total_rows;
-        $config['per_page']    = $this->perPage;
-        $this->ajax_pagination->initialize($config);
-        
-        // breadcrumb
-        $this->breadcrumb->add($data['title']);
-        $data['breadcrumb'] = $this->breadcrumb->output();
-
-        // if general user
-        if ( $data['role_id'] == 8 ) 
-        {
-            $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
-            $assigned_register_id = $register_row->subproject_id;
-            
-            // get risk data
-            $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
-
-            // check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-        }
-        else if( $data['role_id'] == 1 ) // if manager or super admin
-        {
-            $risk = $this->risk_model->getAllRisks();
-            
-            // check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-        }
-        else
-        {
-            //get the risk data
-            $risk = $this->report_model->getRisks(array('limit'=>$this->perPage,'user_id'=>$data['user_id']));
-            
-            // check if result is true
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-        }
-
-        $this->template->load('dashboard', 'report/test', $data);
-    }
 
     function index()
     {
@@ -194,21 +72,222 @@ class Report extends RISK_Controller
 
         // PROJECT ID
         // add assigned project ID to session data
-        // $data['risk_project_id'] = $this->input->post('risk_project');
-        $risk_project_id = 7;
         $session_data = $this->session->userdata('logged_in');
-        $session_data['report_project_id'] = $risk_project_id;
+
+        $risk_project_id = $this->input->post('risk_project');
+        
+        if(!isset($session_data['report_project_id']))
+        {
+            $session_data['report_project_id'] = $risk_project_id;
+        }
+
+        $single_project = $this->project_model->getSingleProject($risk_project_id); // get project name from ID
+        $session_data['project_name'] = $single_project->project_name;
+        $session_data['register_name'] = null;
         $this->session->set_userdata('logged_in', $session_data);
 
+        // clear session data for filter data
+        $this->clear_filter_session();
+
         // data for filter drop down
-        $data['select_category'] = $this->getCategories($risk_project_id);
+        //$data['select_category'] = $this->getAjaxCategories($session_data['report_project_id']);
+        $data['select_category'] = $this->getCategories($session_data['report_project_id']);
         $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
         $data['selected_category'] = "None"; 
         $data['selected_register'] = "None";
+        
         // load view
         $this->template->load('dashboard', 'report/index', $data);
     }
     
+
+    function report_view()
+    {
+        if($this->session->userdata('logged_in'))
+        {
+            $data = array('title' => 'Generate Riks Report');
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get current session data
+            $session_data = $this->session->userdata('logged_in');
+
+            // get data for select fields
+            $data['select_category'] = $this->getCategories($session_data['report_project_id']);
+            $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
+            $data['selected_category'] = "None"; 
+            $data['selected_register'] = "None";
+
+            // load view
+            $this->template->load('dashboard', 'report/report', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    function ajax_report()
+    {
+
+        // Data tables POST Variables
+        $draw = intval($this->input->post("draw"));
+        $start = intval($this->input->post("start"));
+        $length = intval($this->input->post("length"));
+        $category = intval($this->input->post("category"));
+        $register = intval($this->input->post("register"));
+        $date_from = intval($this->input->post("date_from"));
+        $date_to = intval($this->input->post("date_to"));
+        $order = $this->input->post("order"); // get order array
+
+
+        // get current session data and assign new sessions data from filter form fields
+        $session_data = $this->session->userdata('logged_in');
+        $session_data['category_id'] = $this->input->post("category");
+        $session_data['register_id'] = $this->input->post("register");
+        $session_data['date_from'] = $this->input->post("date_from");
+        $session_data['date_to'] = $this->input->post("date_to");
+
+        // ordering configuration
+        $col = 0;
+        $dir = "";
+
+        if(!empty($order)) 
+        {
+            foreach($order as $o) 
+            {
+                $col = $o['column'];
+                $dir= $o['dir'];
+            }
+        }
+
+        if($dir != "asc" && $dir != "desc") 
+        {
+            $dir = "asc";
+        }
+
+        $columns_valid = array(
+            "risk_title",
+            "RiskCategories_category_id",
+            "cause_trigger",
+            "identified_hazard_risk",
+            "effect",
+            "project_location",
+            "description_change",
+            "materialization_phase_materialization_id",
+            "Subproject_subproject_id",
+            "likelihood",
+            "time_impact",
+            "cost_impact",
+            "reputation_impact",
+            "hs_impact",
+            "env_impact",
+            "legal_impact",
+            "quality_impact",
+            "risk_rating",
+            "risk_level",
+            "SystemSafety_safety_id",
+            "Realization_realization_id",
+            "action_owner",
+            "action_item",
+            "milestone_target_date",
+            "Status_status_id",
+            "Entity_entity_id"
+        );
+
+        if(!isset($columns_valid[$col])) 
+        {
+           $orderCol = null;
+        } 
+        else 
+        {
+           $orderCol = $columns_valid[$col];
+        }
+
+        // get user id from session data
+        $user_id = $session_data['user_id'];
+
+        $db_data = array();
+
+        if($session_data['role_name'] == 'Super Administrator')
+        {
+            // get row results
+            $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to,'order'=>$orderCol,'sortType'=>$dir));
+
+            // get number of total rows by user ID
+            $total_risks = $this->report_model->getTotalRisks(array('category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));
+        }
+        else
+        {
+            // get row results
+            $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to,'order'=>$orderCol,'sortType'=>$dir));
+
+            // get number of total rows by user ID
+            $total_risks = $this->report_model->getTotalRisks(array('user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));
+        }
+
+        foreach ($risk_result as $data_row) {
+            $db_data[] = array(
+                $data_row->risk_title,
+                $this->report_model->getRiskCategoriesName($data_row->RiskCategories_category_id), 
+                $data_row->cause_trigger, 
+                $data_row->identified_hazard_risk, 
+                $data_row->effect,
+                $data_row->project_location, 
+                $data_row->description_change, 
+                $this->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
+                $this->report_model->getSubProjectName($data_row->Subproject_subproject_id),
+                $data_row->likelihood, 
+                $data_row->time_impact, 
+                $data_row->cost_impact, 
+                $data_row->reputation_impact,
+                $data_row->hs_impact, 
+                $data_row->env_impact, 
+                $data_row->legal_impact, 
+                $data_row->quality_impact,
+                $data_row->risk_rating,
+                $data_row->risk_level,
+                $this->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
+                $this->report_model->getRealizationName($data_row->Realization_realization_id),
+                $data_row->action_owner,
+                $data_row->action_item,
+                $data_row->milestone_target_date,
+                $this->report_model->getStatusName($data_row->Status_status_id),
+                $this->report_model->getRiskEntityName($data_row->Entity_entity_id)
+            );
+        }
+
+        $output = array(
+            "draw" => $draw,
+            "recordsTotal" => $total_risks,
+            "recordsFiltered" => $total_risks,
+            "data" => $db_data
+        );
+
+        echo json_encode($output);
+        exit();
+    }
+
+    // clear session data for filter data
+    function clear_filter_session()
+    {
+        $session_data = $this->session->userdata('logged_in');
+
+        if(isset($session_data['category_id']) || isset($session_data['register_id']) || isset($session_data['date_from']) || isset($session_data['date_to']))
+        {
+            $session_data['category_id'] = '';
+            $session_data['register_id'] = '';
+            $session_data['date_from'] = '';
+            $session_data['date_to'] = '';
+        }
+    }
+
 
     function getFilterResults()
     {   
@@ -222,9 +301,15 @@ class Report extends RISK_Controller
         {
             // get filter criteria from post input
             $category_id = $this->input->post('risk_category'); // get category id
-            $register_id = $this->input->post('risk_register'); // get register 
+            $register_id = $this->input->post('risk_register'); // get register
+            $date_from = $this->input->post('date_from'); // date from
+            $date_to = $this->input->post('date_to'); // date to
+
             $session_data['category_id'] = $category_id;
             $session_data['register_id'] = $register_id;
+            $session_data['date_from'] = $date_from;
+            $session_data['date_to'] = $date_to;
+
             $this->session->set_userdata('logged_in', $session_data);
         }
             // get global data
@@ -237,7 +322,8 @@ class Report extends RISK_Controller
             // PAGINATION
             // init pagination params
             $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+            // $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
+            $total_records = $this->report_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'category_id'=>$session_data['category_id'],'register_id'=>$session_data['register_id'],'date_from'=>$session_data['date_from'],'date_to'=>$session_data['date_to']));
 
             // load pagination configurations
             $this->config->load('pagination', TRUE);
@@ -253,7 +339,9 @@ class Report extends RISK_Controller
                 'start'=>$offset,
                 'user_id'=>$data['user_id'],
                 'category_id'=>$session_data['category_id'],
-                'register_id'=>$session_data['register_id']
+                'register_id'=>$session_data['register_id'],
+                'date_from'=>$session_data['date_from'],
+                'date_to'=>$session_data['date_to']
             ));
 
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
@@ -274,7 +362,9 @@ class Report extends RISK_Controller
             $this->template->load('dashboard', 'report/index', $data);
 
     }
-    
+
+
+    // generate report in CSV format
     function export_report()
     {
         // load csv generator library
@@ -284,14 +374,27 @@ class Report extends RISK_Controller
         $session_data = $this->session->userdata('logged_in');
 
         // use filter session values to generate report
-        $category_id = $session_data['category_id'];
-        $register_id = $session_data['register_id'];
+        // $category_id = $session_data['category_id'];
+        // $register_id = $session_data['register_id'];
+        // $date_from = $session_data['date_from'];
+        // $date_to = $session_data['date_to'];
 
-        // get global data
-        $data = array();
-        $data = array_merge($data,$this->get_global_data());
+        // get filter criteria from post input
+        $category_id = $this->input->post('risk_category'); // get category id
+        $register_id = $this->input->post('risk_register'); // get register
+        $date_from = $this->input->post('date_from'); // date from
+        $date_to = $this->input->post('date_to'); // date to
 
-        if ($data['role_id'] == 8)
+        $data = array(
+            'risk_category' => $category_id,
+            'risk_register' => $register_id,
+            'date_from' => $date_from,
+            'date_to' => $date_to,
+            'user_id' => $session_data['user_id']
+        );
+
+
+        if ($session_data['role_id'] == 8)
         {
             // get assigned risk register and its ID
             $register_row = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
@@ -300,17 +403,36 @@ class Report extends RISK_Controller
         }
         else
         {
-            // $this->csvgenerator->fetch_manager_data( $main_category, $risk_level, $risk_register );
-            $this->csvgenerator->fetch_manager_data(array(
-                'risk_category' => $category_id,
-                'risk_register' => $register_id,
-                'user_id' => $data['user_id']
-            ));
+            $this->csvgenerator->fetch_manager_data($data);
         }
         
-        redirect('dashboard/reports'); 
+        redirect('dashboard/report/generate'); 
     }
     
+
+    function ajax_report_export()
+    {
+        // load csv generator library
+        $this->load->library('csvgenerator');
+
+        // get current session data 
+        $session_data = $this->session->userdata('logged_in');
+
+        // use filter session values to generate report
+        $data = array(
+            'risk_category' => $session_data['category_id'],
+            'risk_register' => $session_data['register_id'],
+            'date_from' => $session_data['date_from'],
+            'date_to' => $session_data['date_to'],
+            'user_id' => $session_data['user_id']
+        );
+
+        $this->csvgenerator->fetch_manager_data($data);
+        
+        redirect('dashboard/reports/risk_project');
+    }
+
+
     function export_response_report()
     {
         // load csv generator library
@@ -399,8 +521,15 @@ class Report extends RISK_Controller
             // get global data
             $data = array_merge( $data, $this->get_global_data() );
 
-            // get project data
-            $data['select_project'] = $this->getProject( $data['user_id'], $data['role_id'] );
+            // get project data based on role type
+            if($data['role_name'] == "Super Administrator") // super admin should see all projects
+            {
+                $data['select_project'] = $this->getProject(array());
+            }
+            else
+            {
+                $data['select_project'] = $this->getProject(array("user_id"=>$data['user_id']));
+            }
 
             // load page to show all status
             $this->template->load('dashboard', 'report/select_project', $data);
@@ -413,16 +542,61 @@ class Report extends RISK_Controller
     }
 
 
-    // get project
-    function getProject( $user_id, $role_id )
+    // view to select project
+    function select_response_project()
     {
-        if ($role_id == 8)
+        $data = array('title' => 'Response Report');
+        
+        if($this->session->userdata('logged_in'))
         {
-            $project = $this->project_model->getAssignedProject( $user_id );
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge( $data, $this->get_global_data() );
+
+            // get project data based on role type
+            if($data['role_name'] == "Super Administrator") // super admin should see all projects
+            {
+                $data['select_project'] = $this->getProject(array());
+            }
+            else
+            {
+                $data['select_project'] = $this->getProject(array("user_id"=>$data['user_id']));
+            }
+
+            // load page to show all status
+            $this->template->load('dashboard', 'report/select_response_project', $data);
         }
         else
         {
-            $project = $this->project_model->getProjects( $user_id );
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // get project
+    function getProject($params = array())
+    {
+        if(array_key_exists("user_id",$params))
+        {   
+            if($params['role_name'] == 'Program Manager' || $params['role_name'] == 'Project Manager')
+            {
+                // get all projects by user ID if user is manager
+                $project = $this->project_model->getProjects($params['user_id']);
+            } 
+            else
+            {
+                // get all projects by user ID if user is general user
+                $project = $this->project_model->getAssignedProject($params['user_id']);
+            } 
+        }
+        else
+        {
+            // get all projects if user is super admin
+            $project = $this->project_model->getAllProjects();
         }
         
         if($project)
@@ -435,7 +609,6 @@ class Report extends RISK_Controller
                 $project_name = $row->project_name;
                 $options[$project_id] = $project_name;  
             }
-
             return $options;
         }
         else 
@@ -577,6 +750,29 @@ class Report extends RISK_Controller
         }
     }
 
+    function getAjaxCategories($project_id)
+    {
+        $categories = $this->risk_model->getRiskCategories($project_id);
+        
+        if($categories)
+        {
+            $options = array();
+
+            foreach ($categories as $row) 
+            {
+                $category_id = $row->category_id;
+                $category_name = $row->category_name;
+                $options[$category_name] = $category_name;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Data!';
+        }
+    }
+
     // risk registers
     function getSubProject( $user_id, $role_id )
     {
@@ -688,15 +884,21 @@ class Report extends RISK_Controller
 
         // initialize pagination    
         $this->pagination->initialize($settings);
+
         // build paging links
         $data["pagination_links"] = $this->pagination->create_links();
 
         // PROJECT ID
         // add assigned project ID to session data
-        // $data['risk_project_id'] = $this->input->post('risk_project');
-        $risk_project_id = 7;
+        $risk_project_id = $this->input->post('risk_project');
         $session_data = $this->session->userdata('logged_in');
         $session_data['report_project_id'] = $risk_project_id;
+
+        // initialize session data for response user id and response register id
+        $session_data['response_user_id'] = 'None';
+        $session_data['response_register_id'] = 'None';
+
+        // set session data
         $this->session->set_userdata('logged_in', $session_data);
 
         // data for filter drop down
@@ -727,51 +929,87 @@ class Report extends RISK_Controller
             $session_data['response_register_id'] = $register_id;
             $this->session->set_userdata('logged_in', $session_data);
         }
-            // get global data
-            $data = array_merge($data,$this->get_global_data());
 
+        // get global data
+        $data = array_merge($data,$this->get_global_data());
+
+        // breadcrumb
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+
+        // PAGINATION
+        // init pagination params
+        $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+        $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
+
+        // load pagination configurations
+        $this->config->load('pagination', TRUE);
+        $settings = $this->config->item('pagination');
+        $settings['total_rows'] = $total_records;
+        $settings['base_url'] = base_url() . 'report/getResponseFilterResults';
+
+        ($start_index == 0) ? $offset = 0 : $offset = $start_index;
+
+        // get current page results
+        $response = $this->response_model->getResponses(array(
+            'limit'=>$settings['per_page'],
+            'start'=>$offset,
+            'user_id'=>$data['user_id'],
+            'user_id'=>$session_data['response_user_id'],
+            'register_id'=>$session_data['response_register_id']
+        ));
+
+        ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
+
+        // data for filter drop down
+        $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']);;
+        $data['selected_user'] = $session_data['response_user_id'];
+        
+        $data['select_register'] = $this->getSubProject($data['user_id'], $data['role_id']);
+        $data['selected_register'] = $session_data['response_register_id'];
+
+        // initialize pagination    
+        $this->pagination->initialize($settings);
+        
+        // build paging links
+        $data["pagination_links"] = $this->pagination->create_links();
+
+        // load view
+        $this->template->load('dashboard', 'report/response', $data);
+    }
+
+
+    // get associated risks of the response
+    function associated_risks()
+    {
+        $data = array('title' => 'Response Associated Risks');
+        
+        if($this->session->userdata('logged_in'))
+        {
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // PAGINATION
-            // init pagination params
-            $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
 
-            // load pagination configurations
-            $this->config->load('pagination', TRUE);
-            $settings = $this->config->item('pagination');
-            $settings['total_rows'] = $total_records;
-            $settings['base_url'] = base_url() . 'report/getResponseFilterResults';
+            $response_title_id = $this->uri->segment(4); // get id from fourth segment of uri
 
-            ($start_index == 0) ? $offset = 0 : $offset = $start_index;
+            // get risk items
+            $risk_items = $this->response_model->getResponseRisks($response_title_id);
 
-            // get current page results
-            $response = $this->response_model->getResponses(array(
-                'limit'=>$settings['per_page'],
-                'start'=>$offset,
-                'user_id'=>$data['user_id'],
-                'user_id'=>$session_data['response_user_id'],
-                'register_id'=>$session_data['response_register_id']
-            ));
+            //check if result is true
+            ($risk_items) ? $data['risk_items'] = $risk_items : $data['risk_items'] = false;
 
-            ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
+            $data['response_title_id'] = $response_title_id;
 
-            // data for filter drop down
-            $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']);;
-            $data['selected_user'] = $session_data['response_user_id'];
-            
-            $data['select_register'] = $this->getSubProject($data['user_id'], $data['role_id']);
-            $data['selected_register'] = $session_data['response_register_id'];
-
-            // initialize pagination    
-            $this->pagination->initialize($settings);
-            
-            // build paging links
-            $data["pagination_links"] = $this->pagination->create_links();
-
-            // load view
-            $this->template->load('dashboard', 'report/response', $data);
+            // load page to show all response
+            $this->template->load('dashboard', 'report/response_risks', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
     }
 }

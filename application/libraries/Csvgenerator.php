@@ -10,6 +10,7 @@ class Csvgenerator extends CI_Controller
         $CI->load->model('report_model');
         $CI->load->model('risk_model');
         $CI->load->model('user_model');
+        $CI->load->helper('url');
 
         // load response library
         $CI->load->library( 'responses' );
@@ -56,14 +57,9 @@ class Csvgenerator extends CI_Controller
                 'Risk Level',
                 'Risk Responses',
                 'System Safety', 
-                'Realization', 
-                'Likelihood', 
-                'Impact', 
-                'Risk Rating',
-                'Risk Level', 
-                'A.O. First Name',
-                'A.O. Last Name', 
-                'A.O. Email',
+                'Realization',  
+                'Action Owner',
+                'Action Item',
                 'Milestone Target Date', 
                 'Status',
                 'Entity'      
@@ -104,13 +100,8 @@ class Csvgenerator extends CI_Controller
                         $value,
                         $this->ci->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
                         $this->ci->report_model->getRealizationName($data_row->Realization_realization_id),
-                        $data_row->residual_risk_likelihood,
-                        $data_row->residual_risk_impact, 
-                        $data_row->residual_risk_rating, 
-                        $data_row->residual_risk_level,
-                        $data_row->action_owner_fname,
-                        $data_row->action_owner_lname, 
-                        $data_row->action_owner_email, 
+                        $data_row->action_owner,
+                        $data_row->action_item,
                         $data_row->milestone_target_date,
                         $this->ci->report_model->getStatusName($data_row->Status_status_id),
                         $this->ci->report_model->getRiskEntityName($data_row->Entity_entity_id)
@@ -130,6 +121,7 @@ class Csvgenerator extends CI_Controller
             //  output all remaining data on a file pointer
             fpassthru($f);
         }
+        redirect('dashboard/reports/risk_project'); 
         exit;
     }
 
@@ -138,6 +130,8 @@ class Csvgenerator extends CI_Controller
         $db_data = $this->ci->report_model->getManagerData(array(
             'category_id' => $params['risk_category'],
             'register_id' => $params['risk_register'],
+            'date_to' => $params['date_to'],
+            'date_from' => $params['date_from'],
             'user_id' => $params['user_id']
         ));
         
@@ -145,7 +139,7 @@ class Csvgenerator extends CI_Controller
         {
             $delimiter = ",";
 
-            $filename = "risk_report_" . date('Y-m-d') . ".csv";
+            $filename = "risk_report_" . date('Y-m-d_H-i-s') . ".csv";
 
             // create file pointer
             $f = fopen('php://memory', 'w');
@@ -171,19 +165,13 @@ class Csvgenerator extends CI_Controller
                 'Environment Impact',
                 'Legal Impact', 
                 'Quality Impact', 
-                'Comments', 
                 'Risk Rating', 
                 'Risk Level',
                 'Risk Responses',
                 'System Safety', 
                 'Realization', 
-                'Likelihood', 
-                'Impact', 
-                'Risk Rating',
-                'Risk Level', 
-                'A.O. First Name',
-                'A.O. Last Name', 
-                'A.O. Email', 
+                'Action Owner',
+                'Action Item', 
                 'Milestone Target Date', 
                 'Status',
                 'Entity'      
@@ -207,8 +195,7 @@ class Csvgenerator extends CI_Controller
                         $data_row->identified_hazard_risk, 
                         $data_row->effect,
                         $data_row->project_location, 
-                        $data_row->description_change, 
-                        // $data_row->materialization_phase,
+                        $data_row->description_change,
                         $this->ci->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
                         $this->ci->report_model->getSubProjectName($data_row->Subproject_subproject_id),
                         $data_row->likelihood, 
@@ -218,20 +205,14 @@ class Csvgenerator extends CI_Controller
                         $data_row->hs_impact, 
                         $data_row->env_impact, 
                         $data_row->legal_impact, 
-                        $data_row->quality_impact,
-                        $data_row->comments,  
+                        $data_row->quality_impact, 
                         $data_row->risk_rating,
                         $data_row->risk_level,
                         $value,
                         $this->ci->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
                         $this->ci->report_model->getRealizationName($data_row->Realization_realization_id),
-                        $data_row->residual_risk_likelihood,
-                        $data_row->residual_risk_impact, 
-                        $data_row->residual_risk_rating, 
-                        $data_row->residual_risk_level,
-                        $data_row->action_owner_fname,
-                        $data_row->action_owner_lname, 
-                        $data_row->action_owner_email,
+                        $data_row->action_owner,
+                        $data_row->action_item,
                         $data_row->milestone_target_date,
                         $this->ci->report_model->getStatusName($data_row->Status_status_id),
                         $this->ci->report_model->getRiskEntityName($data_row->Entity_entity_id)
@@ -271,7 +252,7 @@ class Csvgenerator extends CI_Controller
         if($db_data)
         {
             $delimiter = ",";
-            $filename = "respnse_report_" . date('Y-m-d H:i:s') . ".csv";
+            $filename = "response_report_" . date('Y-m-d_H-i-s') . ".csv";
             
             // create file pointer
             $f = fopen('php://memory', 'w');

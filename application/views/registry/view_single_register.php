@@ -11,8 +11,11 @@
 
             <div class="box-header with-border">
                 <h3 class="box-title">About Risk Register</h3>
-                <?php echo $user_project_id; ?>
             </div>
+
+            <?php 
+                var_dump($this->session->userdata('logged_in'));
+            ?>
 
             <div class="box-body">
                 <strong><i class="fa fa-book margin-r-5"></i> Risk Register Name</strong>
@@ -23,6 +26,8 @@
                 <strong><i class="fa fa-map-marker margin-r-5"></i> Risk Register Description</strong>
                 <p class="text-muted"><?php echo $register_description; ?></p>
             </div>
+
+            <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id; ?>"/>
         </div>
     </div>
 
@@ -41,52 +46,39 @@
             <a href="/dashboard/risks/archived" class="btn btn-warning btn-xs btn-view">View Archived Risks</a>
         </div>
 
-        <?php if($role_id != 8) { ?>
+        <?php if($role_name != "General User") { ?>
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs" role="tablist" id="register-tabs">
+                
+                <?php if($role_name == "Super Administrator") { ?>
+                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Register Risks</a></li>
+                    <li><a href="#tab_2" data-toggle="tab" aria-expanded="true">Register Users' Risks</a></li>
+                <?php } else { ?>
                     <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">My Risks</a></li>
                     <li><a href="#tab_2" data-toggle="tab" aria-expanded="true">Users' Risks</a></li>
+                <?php } ?>
+                    
                 </ul>
 
                 <div class="tab-content">
-
+                    <!-- tab one -->
                     <div role="tabpanel" class="tab-pane active" id="tab_1">
-                        <?php if (!$risk_data) { ?>
-         
-                            <div style="margin: 10px;">
-                                <div class="alert alert-warning alert-aldea" role="alert">You have no risks for this register!</div>
-                            </div>
-
-                        <?php } else { ?>
-
-                            <table class="table table-hover">
-                                <tbody>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Main Category</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    <?php
-                                        foreach ($risk_data as $risk_row) 
-                                        {
-                                            echo "<tr>";
-                                            echo "<td width=300>".$risk_row->risk_title."</td>";
-                                            echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
-                                            echo "<td>
-                                                <span><a title='view' href='/dashboard/risk/".$risk_row->item_id."'><i class='fas fa-eye' aria-hidden='true'></i></a></span>
-                                                <span><a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fas fa-edit' aria-hidden='true'></i></a></span>
-                                                <span><a class='delete-action' data-toggle='confirmation' data-title='Archive Risk?' href='/dashboard/risk/archive/".$risk_row->item_id."'><i class='fas fa-trash' aria-hidden='true'></i></a></span>
-                                                    </td>";
-                                            echo "</tr>";
-                                        } 
-                                ?>
-                                </tbody>
-                            </table>
-
-                        <?php } ?>  
+                        <table id="risk-table" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Risk ID</th>
+                                    <th>Risk Description</th>
+                                    <th>Risk Category</th>
+                                    <th>Risk Rating</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody> <!-- where table data will be placed after AJAX request-->
+                        </table>
                     </div>
 
+                    <!-- tab two -->
                     <div role="tabpanel" class="tab-pane" id="tab_2">
                         <?php if (!$user_risk_data) { ?>
 
@@ -99,7 +91,6 @@
                             <table class="table table-hover">
                                 <tbody>
                                     <tr>
-                                        <!-- <th>UUID</th> -->
                                         <th>Title</th>
                                         <th>Main Category</th>
                                         <th>Owner</th>
@@ -128,7 +119,7 @@
                 </div>
             </div>
         
-        <?php } else { ?>
+        <?php } else { ?> <!-- load general user tab -->
 
             <div class="nav-tabs-custom">
                 <ul class="nav nav-tabs" role="tablist" id="register-tabs">
@@ -138,49 +129,54 @@
                 </ul>
 
                 <div class="tab-content">
-
-                    <div role="tabpanel" class="tab-pane active" id="tab_1">
-                        <?php if (!$risk_data) { ?>
-
-                            <div style="margin: 10px;">
-                                <div class="alert alert-warning alert-aldea" role="alert">You have no risks for this register!</div>
-                            </div>
-
-                        <?php } else { ?>
-                            
-                            <table class="table table-hover">
-                                <tbody>
-                                    <tr>
-                                        <!-- <th>UUID</th> -->
-                                        <th>Title</th>
-                                        <th>Main Category</th>
-                                        <th>Revisions</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                    <?php
-                                        foreach ($risk_data as $risk_row) 
-                                        {
-                                            echo "<tr>";
-                                            // echo "<td width=300>".$risk_row->risk_uuid."</td>";
-                                            echo "<td width=300>".$risk_row->risk_title."</td>";
-                                            echo "<td width=400>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
-                                            echo "<td width=150><span class='badge bg-yellow'>".$CI->risk_model->getNumberOfRiskRevisions($risk_row->item_id)."</span></td>";
-                                            echo "<td>
-                                                <span><a title='view' href='/dashboard/risk/".$risk_row->item_id."'><i class='fa fa-eye' aria-hidden='true'></i></a></span>
-                                                <span><a title='edit' href='/dashboard/risk/edit/".$risk_row->item_id."'><i class='fa fa-pencil' aria-hidden='true'></i></a></span>
-                                                <span><a title='archive' href='/dashboard/risk/archive/".$risk_row->item_id."'><i class='fa fa-trash' aria-hidden='true'></i></a></span>
-                                                    </td>";
-                                            echo "</tr>";
-                                        } 
-                                ?>
-                                </tbody>
-                            </table>
-                            
-                        <?php } ?>
+                    <div role="tabpanel" class="tab-pane active" id="tab_1">    
+                        <table id="risk-table" class="table table-hover">
+                            <thead>
+                                <th>Risk ID</th>
+                                <th>Risk Description</th>
+                                <th>Risk Category</th>
+                                <th>Risk Rating</th>
+                                <th>Actions</th>    
+                            <thead>
+                            <tbody></tbody>
+                        </table>
                     </div>   
-
                 </div>
             </div>
         <?php } ?>
     </div>
 </div>
+
+
+<script>
+
+$(document).ready(function() {
+
+    // get value from hidden field holding register ID
+    var registerID = $('#register_id').val();
+
+    // generate table from AJAX request for risk items
+    var riskTable = $('#risk-table').DataTable({
+        "pageLength" : 10,
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "<?php echo base_url(); ?>" + "project/single_register_risks",
+            "type": "POST",
+            "data": function(d){
+                d.registerID = registerID;
+            }
+        },
+        // "order": [[1, 'asc']],
+        "columns": [
+                { "name": "original_risk_id"},
+                { "name": "risk_title"},
+                { "name": "RiskCategories_category_id" },
+                { "name": "risk_rating" },
+                { "name": "actions", orderable: false }
+            ]
+    });
+
+});
+
+</script>

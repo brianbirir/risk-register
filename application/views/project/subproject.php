@@ -27,7 +27,8 @@
 
     <?php
         // check if device data exists
-        if (!$subproject_data) {
+        if (!$subproject_data) 
+        {
             $msg = 'You have no registered subprojects!';
             echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
         } else { ?>

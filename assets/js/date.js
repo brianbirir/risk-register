@@ -5,9 +5,11 @@ $(document).ready(function() {
     //     format: 'yyyy/mm/dd',
     // });
 
-    $( function() {
-        $( ".datepicker" ).datepicker({
-            dateFormat: "yy-mm-dd"
-        });
-    } );
+    $( '.datepicker' ).datepicker({
+        dateFormat: 'yyyy-mm-dd'
+    });
+
+
+    $( ".report-datepicker" ).datepicker();
+   
 });

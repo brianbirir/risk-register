@@ -12,6 +12,7 @@
             <a href="/settings/data/realization/<?php echo $risk_project?>" class="list-group-item">Realization</a>
             <a href="/settings/data/cost/<?php echo $risk_project?>" class="list-group-item">Cost Rating</a>
             <a href="/settings/data/schedule/<?php echo $risk_project?>" class="list-group-item">Schedule Rating</a>
+            <a href="/settings/data/response/<?php echo $risk_project?>" class="list-group-item">Response Title</a>
         </div>
     </div>
 </div>

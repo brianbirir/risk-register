@@ -14,19 +14,19 @@
 <?php 
     $CI =& get_instance();
     $CI->load->model('project_model');
-    $project_name = $CI->project_model->getSingleProjectName( $project_id );
+    // $project_name = $CI->project_model->getSingleProjectName( $project_id );
 ?>
 
 <div class="row">
     <div class="col-md-12">
         <div class="reg-btn">
-            <a href="/settings/data/category/add" class="btn btn-success btn-sm btn-add">Add Risk Category</a>
+            <a href="/settings/data/subcategory/add/<?php echo $category_id; ?>" class="btn btn-success btn-sm btn-add">Add Risk Subcategory</a>
         </div>
 
         <div class="box box-primary">
 
             <div class="box-header with-border">
-                <h3 class="box-title">Risk Category for <?php echo $project_name; ?> project</h3>
+                <h3 class="box-title">Risk Subcategory for <?php //echo $project_name; ?> project</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -34,8 +34,8 @@
 
             <div class="box-body table-responsive no-padding">
             <?php 
-                if (!$category_data) {
-                    $msg = 'You have no risk category to display for <strong>'.$project_name.'</strong> project!';
+                if (!$subcategory_data) {
+                    $msg = 'You have no risk subcategories to display.';
                     echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
                 } 
                 else 
@@ -45,23 +45,21 @@
                     <tbody>
                         <tr>
                             <th>ID</th>
-                            <th>Category Name</th>
-                            <th>Sub-Categories</th>
+                            <th>Subcategory Name</th>
                             <th>Action</th>
                         </tr>
                     
                         <?php
                             $count  = 0 ;
-                            foreach ($category_data as $category_row) 
+                            foreach ($subcategory_data as $subcategory_row) 
                             {
                                 $count = $count + 1;
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
-                                echo "<td>".$category_row->category_name."</td>";
-                                echo "<td><a href='/settings/data/subcategory/".$category_row->category_id."' class='btn btn-success btn-xs btn-view'>View</a></td>";
+                                echo "<td>".$subcategory_row->subcategory_name."</td>";
                                 echo "<td>
-                                        <a class='fa-icon' title='edit' href='/settings/data/category/edit/".$category_row->category_id."'><i class='fa fa-pencil' aria-hidden='true'></i>
-                                        <a class='fa-icon' title='delete' href='/settings/data/category/delete/".$category_row->category_id."'><i class='fa fa-trash' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='edit' href='/settings/data/subcategory/edit/".$subcategory_row->subcategory_id."'><i class='fas fa-edit' aria-hidden='true'></i>
+                                        <a class='fa-icon' title='delete' href='/settings/data/subcategory/delete/".$subcategory_row->subcategory_id."'><i class='fa fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
                             } 

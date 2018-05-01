@@ -91,6 +91,18 @@ class User_model extends CI_Model
      }
 
 
+    // get user's email address
+    function getUserEmail($id)
+    {
+        $this->db->select('*');
+        $this->db->from('User');
+        $this->db->where('user_id',$id);
+        $query = $this->db->get();
+        $row = $query->row();
+        return ($query->num_rows() == 1) ? $row->email : false;
+    }
+
+
     // update user
     function updateUser($data,$id)
     {
