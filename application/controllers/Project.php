@@ -723,11 +723,13 @@ class Project extends RISK_Controller
         {
             $timestamp = date('Y-m-d G:i:s');
 
+            $project_id = $this->input->post('project');
+
             //insert the user registration details into database
             $data = array(
                 'name' => $this->input->post('subproject_name'),
                 'description' => $this->input->post('subproject_description'),
-                'Project_project_id' => $this->input->post('project'),
+                'Project_project_id' => $project_id,
                 'duplicate' => FALSE,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
@@ -737,7 +739,7 @@ class Project extends RISK_Controller
             if ($this->project_model->insertSubProject($data))
             {
                 $this->session->set_flashdata('positive_msg','You have successfully registered the risk register!');
-                redirect('dashboard/project');
+                redirect('dashboard/project/'.$project_id);
             }
             else
             {
