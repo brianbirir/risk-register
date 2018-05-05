@@ -66,7 +66,7 @@ class Project extends RISK_Controller
     }
 
     
-    // view a single risk register
+    // view a single project
     function view_project()
     {
         $data = array('title' => 'Single Project');

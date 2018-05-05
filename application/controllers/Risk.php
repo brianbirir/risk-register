@@ -29,6 +29,10 @@ class Risk extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
+            // session data
+            $session_data = $this->session->userdata('logged_in');
+            $session_project_id = $session_data['user_project_id'];
+
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
@@ -38,11 +42,11 @@ class Risk extends RISK_Controller
             } 
             else if ($data['role_id'] == 8)
             {
-                $risk = $this->risk_model->getRisks( $data['user_id'] );
+                $risk = $this->risk_model->getRisks(array("user_id"=>$data['user_id'],"project_id"=>$session_project_id));
             }
             else
             {
-                $risk = $this->risk_model->getRisks( $data['user_id'] );
+                $risk = $this->risk_model->getRisks(array("user_id"=>$data['user_id'], "project_id"=>$session_project_id));
             }
             
             //check if result is true
