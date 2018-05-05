@@ -112,13 +112,21 @@
         }
 
 
-        // get risk items registered by specific user
-        function getRisks($user_id)
+        // get risk items by user id and/or project_id
+        function getRisks($params=array())
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id', $user_id);
+            $this->db->where('User_user_id', $params['user_id']);
             $this->db->where('archived',false); // not archived
+            
+            // check if project ID exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Project_project_id', $params['project_id']);
+            }
+           
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
