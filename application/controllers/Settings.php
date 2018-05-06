@@ -55,8 +55,20 @@ class Settings extends RISK_Controller
         // get global data
         $data = array_merge($data,$this->get_global_data());
         
+        // get project ID from drop down form input
         $data['risk_project'] = $this->input->post('risk_project');
 
+        // get project data by project ID
+        $single_project = $this->project_model->getSingleProject($data['risk_project']);
+
+        // add project id and project name to session data
+        $session_data = $this->session->userdata('logged_in');
+        $session_data['user_project_id'] = $data['risk_project']; // project ID
+        $session_data['project_name'] = $single_project->project_name;// project name
+        $session_data['register_name'] = null; // set register name to null when selecting project
+        $this->session->set_userdata('logged_in', $session_data); // set newly added session data
+
+        // load view to dashboard template
         $this->template->load('dashboard', 'settings/data/index', $data);
     }
 
