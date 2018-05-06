@@ -270,21 +270,6 @@ class Project extends RISK_Controller
 
             echo json_encode($output);
         }
-        else
-        {
-            $db_data[] = array ();
-
-            $output = array(
-                "draw" => $draw,
-                "recordsTotal" => $total_risks,
-                "recordsFiltered" => $total_risks,
-                "data" => $db_data
-            );
-
-            echo json_encode($output);
-
-            // echo json_encode(array("response"=>"No Data"));
-        }
        
         exit();
     }

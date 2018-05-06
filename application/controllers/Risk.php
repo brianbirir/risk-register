@@ -642,8 +642,8 @@ class Risk extends RISK_Controller
 
             foreach ($materialization as $row) 
             {
-                $materialization_id = $row->materialization_id;
-                $materialization_name = $row->materialization_name;
+                $materialization_id = $row->id;
+                $materialization_name = $row->name;
                 $options[$materialization_id] = $materialization_name;  
             }
 
@@ -667,8 +667,8 @@ class Risk extends RISK_Controller
 
             foreach ($strategies as $row) 
             {
-                $strategy_id = $row->strategy_id;
-                $strategy_name = $row->strategy_name;
+                $strategy_id = $row->id;
+                $strategy_name = $row->name;
                 $options[$strategy_id] = $strategy_name;  
             }
 
@@ -692,8 +692,8 @@ class Risk extends RISK_Controller
 
             foreach ($status as $row) 
             {
-                $status_id = $row->status_id;
-                $status_name = $row->status_name;
+                $status_id = $row->id;
+                $status_name = $row->name;
                 $options[$status_id] = $status_name;  
             }
 
@@ -717,8 +717,8 @@ class Risk extends RISK_Controller
 
             foreach ($safety as $row) 
             {
-                $safety_id = $row->safety_id;
-                $safety_name = $row->safety_name;
+                $safety_id = $row->id;
+                $safety_name = $row->name;
                 $options[$safety_id] = $safety_name;  
             }
 
@@ -741,8 +741,8 @@ class Risk extends RISK_Controller
 
             foreach ($realization as $row) 
             {
-                $realization_id = $row->realization_id;
-                $realization_name = $row->realization_name;
+                $realization_id = $row->id;
+                $realization_name = $row->name;
                 $options[$realization_id] = $realization_name;  
             }
 
@@ -765,8 +765,8 @@ class Risk extends RISK_Controller
 
             foreach ($categories as $row) 
             {
-                $category_id = $row->category_id;
-                $category_name = $row->category_name;
+                $category_id = $row->id;
+                $category_name = $row->name;
                 $options[$category_id] = $category_name;  
             }
 
@@ -813,8 +813,8 @@ class Risk extends RISK_Controller
 
             foreach ($owners as $row) 
             {
-                $owner_id = $row->riskowner_id;
-                $owner_name = $row->risk_owner;
+                $owner_id = $row->id;
+                $owner_name = $row->name;
                 $options[$owner_id] = $owner_name;  
             }
 
@@ -837,8 +837,8 @@ class Risk extends RISK_Controller
 
             foreach ($entity as $row) 
             {
-                $entity_id = $row->entity_id;
-                $entity_name = $row->entity_name;
+                $entity_id = $row->id;
+                $entity_name = $row->name;
                 $options[$entity_id] = $entity_name;  
             }
 
@@ -862,8 +862,8 @@ class Risk extends RISK_Controller
 
             foreach ($response as $row) 
             {
-                $response_id = $row->response_id;
-                $response_name = $row->response_name;
+                $response_id = $row->id;
+                $response_name = $row->name;
                 $options[$response_id] = $response_name;  
             }
             
