@@ -32,7 +32,7 @@
                 <label for="roles">Select Project</label>
                 <?php
                     $select_attributes = 'class="form-control"';
-                    echo form_dropdown('project',$select_project_option,"1",$select_attributes);
+                    echo form_dropdown('project',$select_project_option,$project_id,$select_attributes);
                 ?>
             </div>
 
