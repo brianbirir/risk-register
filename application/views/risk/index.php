@@ -25,9 +25,12 @@
       </div>
     <?php } ?>
 
+     <?php var_dump($this->session->userdata('logged_in')); ?>
+
     <?php
         // check if risk data exists
-        if (!$risk_data) {
+        if (!$risk_data) 
+        {
             $msg = 'You have no registered risks! Go to the <a href="/dashboard/riskregisters">risk register page</a> to add a new risk item.';
             echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
         } else { ?>
@@ -43,7 +46,7 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Risk Register</th>
-                                    <th>Main Category</th>
+                                    <th>Risk Category</th>
                                     <th>Identified Hazard/ Risk</th>
                                     <th>Actions</th>
                                     <!-- <th>Actions</th> -->
