@@ -105,7 +105,7 @@ class Riskdata extends RISK_Controller
 
             // get project ID from session data
             $session_data = $this->session->userdata('logged_in');
-            $data['project_id'] = $session_data['user_project_id'];
+            ($session_data['user_project_id']) ? $data['project_id'] = $session_data['user_project_id'] : $data['project_id'] = 1;
  
             $this->template->load('dashboard', 'settings/data/add', $data);
         }

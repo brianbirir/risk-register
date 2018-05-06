@@ -244,29 +244,48 @@ class Project extends RISK_Controller
             $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID));
         }
 
-        // action row content for risk table
-        foreach ($risk_result as $data_row) {
+        if ($risk_result)
+        {
+            // action row content for risk table
+            foreach ($risk_result as $data_row) 
+            {
 
-            $action_row = "<span><a title='view' href='/dashboard/risk/".$data_row->item_id."'><i class='fas fa-eye' aria-hidden='true'></i></a></span><span><a title='edit' href='/dashboard/risk/edit/".$data_row->item_id."'><i class='fas fa-edit' aria-hidden='true'></i></a></span><span><a class='delete-action' data-toggle='confirmation' data-title='Archive Risk?' href='/dashboard/risk/archive/".$data_row->item_id."'><i class='fas fa-trash' aria-hidden='true'></i></a></span>";
+                $action_row = "<span><a title='view' href='/dashboard/risk/".$data_row->item_id."'><i class='fas fa-eye' aria-hidden='true'></i></a></span><span><a title='edit' href='/dashboard/risk/edit/".$data_row->item_id."'><i class='fas fa-edit' aria-hidden='true'></i></a></span><span><a class='delete-action' data-toggle='confirmation' data-title='Archive Risk?' href='/dashboard/risk/archive/".$data_row->item_id."'><i class='fas fa-trash' aria-hidden='true'></i></a></span>";
 
-            $db_data[] = array(
-                $data_row->original_risk_id,
-                $data_row->risk_title,
-                $this->risk_model->getRiskCategoryName($data_row->RiskCategories_category_id), 
-                $data_row->risk_rating,
-                $action_row,
+                $db_data[] = array(
+                    $data_row->original_risk_id,
+                    $data_row->risk_title,
+                    $this->risk_model->getRiskCategoryName($data_row->RiskCategories_category_id), 
+                    $data_row->risk_rating,
+                    $action_row,
+                );
+            }
+
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total_risks,
+                "recordsFiltered" => $total_risks,
+                "data" => $db_data
             );
+
+            echo json_encode($output);
         }
+        else
+        {
+            $db_data[] = array ();
 
-        $output = array(
-            "draw" => $draw,
-            "recordsTotal" => $total_risks,
-            "recordsFiltered" => $total_risks,
-            "data" => $db_data
-        );
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total_risks,
+                "recordsFiltered" => $total_risks,
+                "data" => $db_data
+            );
 
-        echo json_encode($output);
+            echo json_encode($output);
 
+            // echo json_encode(array("response"=>"No Data"));
+        }
+       
         exit();
     }
 
@@ -445,6 +464,11 @@ class Project extends RISK_Controller
 
             //check if result is true
             ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+
+            // get project ID from session data
+            $session_data = $this->session->userdata('logged_in');
+
+            ($session_data['user_project_id']) ? $data['project_id'] = $session_data['user_project_id'] : $data['project_id'] = 1;
 
             // load page to show all devices
             $this->template->load('dashboard', 'registry/register_subproject', $data);
