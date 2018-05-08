@@ -372,7 +372,7 @@ class Risk extends RISK_Controller
     function archive()
     {
         $timestamp = date('Y-m-d');
-        $archived = true;
+        $archived = true; // set as true
 
         // get id from fourth segment of uri
         $id = $this->uri->segment(4);

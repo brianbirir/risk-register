@@ -137,7 +137,7 @@
         }
 
 
-        // get risk response title from ResponseTitle table
+        // get risk response title from ResponseTitle table by project ID
         function getResponseTitle($project_id)
         {
             $this->db->select('*');

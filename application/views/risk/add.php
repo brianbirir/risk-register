@@ -760,7 +760,6 @@
                         })
                         .fail(function(xhr) {
                             $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
-                            console.log(xhr);
                         }); 
                     }
                 });
