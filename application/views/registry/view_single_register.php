@@ -163,7 +163,6 @@ $(document).ready(function() {
                 d.registerID = registerID;
             }
         },
-        // "order": [[1, 'asc']],
         "columns": [
                 { "name": "original_risk_id"},
                 { "name": "risk_title"},
