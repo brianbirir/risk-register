@@ -25,7 +25,7 @@
       </div>
     <?php } ?>
 
-     <?php var_dump($this->session->userdata('logged_in')); ?>
+     <?php // var_dump($this->session->userdata('logged_in')); ?>
 
     <?php
         // check if risk data exists
