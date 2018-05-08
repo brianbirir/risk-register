@@ -163,11 +163,11 @@
         // get response name by title ID
         function getResponseName($title_id)
         {
-            $this->db->select('response_name');
+            $this->db->select('name');
             $this->db->from('ResponseTitle');
-            $this->db->where('response_id', $title_id);
+            $this->db->where('id', $title_id);
             $query = $this->db->get();
             $row = $query->row();
-            return ($query->num_rows() == 1) ? $row->response_name : false;
+            return ($query->num_rows() == 1) ? $row->name : false;
         }
     }

@@ -422,7 +422,7 @@
             $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->risk_owner : false;
+            return (isset($row)) ? $row->name : false;
         }
 
         // get Risk IDs
