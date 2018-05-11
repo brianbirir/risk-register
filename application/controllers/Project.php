@@ -713,13 +713,13 @@ class Project extends RISK_Controller
             // insert form data into database
             if ($this->project_model->insertProject($data))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully registered the project! Please login.');
-                redirect('dashboard/project');
+                $this->session->set_flashdata('positive_msg', 'You have successfully registered the project! Please login.');
+                redirect('projectsetup/data');
             }
             else
             {
                 // error
-                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                $this->session->set_flashdata('negative_msg', 'Oops! Error. Please try again later!');
                 redirect('dashboard/project/add');
             }
         }
@@ -816,4 +816,44 @@ class Project extends RISK_Controller
         return 'No Data!';
       }
     }
+
+
+    // setup data settings for project
+    // project setup view
+    function project_setup()
+    {
+        if($this->session->userdata('logged_in'))
+        {
+            // get title from uri
+            $data = array('title' => 'Project Data Settings');
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
+
+            // get latest project ID and set in session
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['latest_project_id'] = $this->project_model->latestProjectID();
+            $this->session->set_userdata('logged_in', $session_data);
+
+            // set latest project ID as data for page
+            ($session_data['latest_project_id']) ? $data['project_id'] = $session_data['latest_project_id'] : $data['project_id'] = 1;
+
+            // get project name
+            $single_project = $this->project_model->getSingleProject($this->project_model->latestProjectID());
+            $data['project_name'] = $single_project->project_name;
+
+            $this->template->load('dashboard', 'settings/data/project_view', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
 }

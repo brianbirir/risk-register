@@ -25,8 +25,8 @@ class Riskdata extends RISK_Controller
             "realization" => array("tbl_name"=>"Realization", "title"=>"Materialization Phase"),
             "status" => array("tbl_name"=>"Status", "title"=>"Status"),
             "risk_owner" => array("tbl_name"=>"RiskOwner", "title"=>"Risk Owner"),
-            "cost_metric" => array("tbl_name"=>"CostMetric", "title"=>"Cost Metric"),
-            "schedule_metric" => array("tbl_name"=>"ScheduleMetric", "title"=>"Schedule Metric"),
+            "cost_rating" => array("tbl_name"=>"CostMetric", "title"=>"Cost Metric"),
+            "schedule_rating" => array("tbl_name"=>"ScheduleMetric", "title"=>"Schedule Metric"),
             "risk_strategy" => array("tbl_name"=>"RiskStrategies", "title"=>"Risk Strategies"),
             "response_title" => array("tbl_name"=>"ResponseTitle", "title"=>"Response Title"),
             "entity" => array("tbl_name"=>"Entity", "title"=>"Entity")
@@ -158,6 +158,7 @@ class Riskdata extends RISK_Controller
     function insert()
     {
         $project_id = $this->input->post('project');
+        $timestamp = date('Y-m-d');
 
         // get data type from hidden field
         $data_type = $this->input->post('data_type');
@@ -165,10 +166,25 @@ class Riskdata extends RISK_Controller
         // get name of table to be updated
         $tbl_name = $this->risk_data[$data_type]['tbl_name'];
 
-        $data = array(
-            'name' => $this->input->post('name'),
-            'Project_project_id' => $project_id
-        );
+        if($data_type == 'cost_rating' || $data_type == 'schedule_rating')
+        {
+            $data = array(
+                'rating' => $this->input->post('name'),
+                'description' => $this->input->post('description'),
+                'Project_project_id' => $project_id,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            );
+        }
+        else
+        {
+            $data = array(
+                'name' => $this->input->post('name'),
+                'Project_project_id' => $project_id,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            );
+        }
 
         // insert form data into database
         if ($this->riskdata_model->insert($tbl_name, $data))
@@ -181,6 +197,61 @@ class Riskdata extends RISK_Controller
             // error
             $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
             redirect('settings/user/add');
+        }
+    }
+
+    // insert item via AJAX call
+    function ajax_insert()
+    {
+        // values to be inserted into table
+        $project_id = $this->input->post('project_id');
+        $data_name = $this->input->post('data_name');
+        $data_description = $this->input->post('data_desc');
+        $timestamp = date('Y-m-d');
+        $db_response = array();
+
+        // ajax response
+        $response = array();
+
+        // data type to determine table type
+        $data_type = $this->input->post('data_type');
+
+        // get name of table to be updated
+        $tbl_name = $this->risk_data[$data_type]['tbl_name'];
+
+        if($data_type == 'cost_rating' || $data_type == 'schedule_rating')
+        {
+            $data = array(
+                'rating' => $data_name,
+                'description' => $data_description,
+                'Project_project_id' => $project_id,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            );
+        }
+        else
+        {
+            $data = array(
+                'name' => $data_name,
+                'Project_project_id' => $project_id,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            );
+        }
+
+        // insert form data into database
+        if ($this->riskdata_model->insert($tbl_name, $data))
+        {   
+            // get row count
+            $row_count = $this->riskdata_model->getTotalRiskData($project_id, $tbl_name);
+
+            $db_response['data_count'] = $row_count;
+            
+            echo json_encode($db_response);
+        }
+        else
+        {
+            echo json_encode($response['value'] = false);
         }
     }
 

@@ -9,8 +9,8 @@
             <a href="/settings/data/entity" class="list-group-item">Entity</a>
             <a href="/settings/data/materialization_phase" class="list-group-item">Materialization Phase</a>
             <a href="/settings/data/realization" class="list-group-item">Realization</a>
-            <a href="/settings/data/cost_metric" class="list-group-item">Cost Rating</a>
-            <a href="/settings/data/schedule_metric" class="list-group-item">Schedule Rating</a>
+            <a href="/settings/data/cost_rating" class="list-group-item">Cost Rating</a>
+            <a href="/settings/data/schedule_rating" class="list-group-item">Schedule Rating</a>
             <a href="/settings/data/response_title" class="list-group-item">Response Title</a>
         </div>
     </div>

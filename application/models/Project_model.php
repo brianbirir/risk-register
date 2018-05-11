@@ -307,7 +307,7 @@
             return (isset($row)) ? $row->name : false;
         }
 
-        // get last register id
+        // get most recent register id
         function lastRegisterID()
         {
             $this->db->select('*');
@@ -323,5 +323,15 @@
             return $this->db->insert('RegisterCopy', $data);
         }
 
+
+        // get most recent project ID
+        function latestProjectID()
+        {
+            $this->db->select('project_id');
+            $this->db->from('Project');
+            $query = $this->db->get();
+            $row = $query->last_row();
+            return (isset($row)) ? $row->project_id : false;
+        }
     }
 ?>
