@@ -206,6 +206,27 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+
+        // get archived risks
+        function getArchivedRisks($params=array())
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            
+            // check if project ID exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Project_project_id', $params['project_id']);
+            }
+
+            $this->db->where('User_user_id',$params['user_id']);
+            $this->db->where('archived',true);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
         // get archived risk items
         function getUserArchivedRisk($user_id)
         {   
