@@ -6,7 +6,7 @@ $route['default_controller'] = 'login/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-// Registration Routes
+// registration routes
 $route['signup'] = 'register/index'; // initial registration
 
 // login and logout routes

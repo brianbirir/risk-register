@@ -294,13 +294,13 @@ class User extends RISK_Controller
                 // insert form data into database
                 if ($this->user_model->insertUser($data))
                 {
-                    $this->session->set_flashdata('positive-msg','You have successfully registered a user! Please assign them a register ');
+                    $this->session->set_flashdata('positive_msg','You have successfully registered a user! Please assign them a register');
                     redirect('settings/users');
                 }
                 else
                 {
                     // error
-                    $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                    $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
                     redirect('settings/user/add');
                 }
             } 
@@ -323,13 +323,13 @@ class User extends RISK_Controller
                 // insert form data into database
                 if ($this->user_model->insertUser($data))
                 {
-                    $this->session->set_flashdata('positive-msg','You have successfully registered your user!');
+                    $this->session->set_flashdata('positive_msg','You have successfully registered your user!');
                     redirect('settings/users');
                 }
                 else
                 {
                     // error
-                    $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                    $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
                     redirect('settings/user/add');
                 }
             }
