@@ -887,8 +887,8 @@ class Risk extends RISK_Controller
 
             foreach ($cost as $row) 
             {
-                $cost_id = $row->cost_id;
-                $cost_rating = $row->cost_rating;
+                $cost_id = $row->id;
+                $cost_rating = $row->rating;
                 $options[$cost_rating] = $cost_rating;  
             }
 
@@ -912,8 +912,8 @@ class Risk extends RISK_Controller
 
             foreach ($schedule as $row) 
             {
-                $schedule_id = $row->schedule_id;
-                $schedule_rating = $row->schedule_rating;
+                $schedule_id = $row->id;
+                $schedule_rating = $row->rating;
                 $options[$schedule_rating] = $schedule_rating;  
             }
 
