@@ -94,7 +94,7 @@ class Subcategory extends RISK_Controller
             $category_row = $this->category_model->getSingleCategory($category_id);
             
             // assign category name and id
-            $data['category_name'] = $category_row->category_name;
+            $data['category_name'] = $category_row->name;
             $data['category_id'] = $category_id;
 
             // load page to show all subcategory

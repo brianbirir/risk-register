@@ -47,6 +47,12 @@
                         <tr>
                             <th>ID</th>
                             <th><?php $title?> Name</th>
+                            <?php 
+                                if($data_type == 'risk_category')
+                                {
+                                    echo "<th>Subcategories</th>";
+                                }
+                            ?>
                             <th>Action</th>
                         </tr>
                     
@@ -58,6 +64,12 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$risk_data_row->name."</td>";
+
+                                if($data_type == 'risk_category')
+                                {
+                                    echo "<td><a href='/settings/data/subcategory/".$risk_data_row->id."' class='btn btn-success btn-xs btn-view'>View</a></td>";
+                                }
+
                                 echo "<td>
                                         <a class='fa-icon' title='edit' href='/settings/data/edit/".$data_type."/".$risk_data_row->id."'><i class='fas fa-edit' aria-hidden='true'></i>
                                         <a class='fa-icon' title='delete' href='/settings/data/delete/".$data_type."/".$risk_data_row->id."'><i class='fas fa-trash' aria-hidden='true'></i>

@@ -31,7 +31,7 @@
         {
             $this->db->select('*');
             $this->db->from('RiskCategories');
-            $this->db->where('category_id',$id);
+            $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
             return ($query->num_rows() == 1) ? $row : false;
