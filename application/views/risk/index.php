@@ -44,7 +44,7 @@
                         <table class="table table-hover">
                             <tbody>
                                 <tr>
-                                    <th>ID</th>
+                                    <th>Risk Harzard ID</th>
                                     <th>Risk Register</th>
                                     <th>Risk Category</th>
                                     <th>Identified Hazard/ Risk</th>
@@ -55,7 +55,7 @@
                                     foreach ($risk_data as $risk_row) 
                                     {
                                         echo "<tr>";
-                                        echo "<td>".$risk_row->item_id."</td>";
+                                        echo "<td>".$risk_row->original_risk_id."</td>";
                                         echo "<td>".$CI->risk_model->getSubProjectName($risk_row->Subproject_subproject_id)."</td>";
                                         echo "<td>".$CI->risk_model->getRiskCategoryName($risk_row->RiskCategories_category_id)."</td>";
                                         echo "<td>".$risk_row->identified_hazard_risk."</td>";

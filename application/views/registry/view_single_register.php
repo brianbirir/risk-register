@@ -63,7 +63,7 @@
                         <table id="risk-table" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Risk ID</th>
+                                    <th>Risk Harzard ID</th>
                                     <th>Risk Description</th>
                                     <th>Risk Category</th>
                                     <th>Risk Rating</th>
@@ -156,6 +156,7 @@ $(document).ready(function() {
         "pageLength" : 10,
         "processing": true,
         "serverSide": true,
+        "aaSorting": [],
         "ajax": {
             "url": "<?php echo base_url(); ?>" + "project/single_register_risks",
             "type": "POST",
@@ -164,11 +165,11 @@ $(document).ready(function() {
             }
         },
         "columns": [
-                { "name": "original_risk_id"},
-                { "name": "risk_title"},
-                { "name": "RiskCategories_category_id" },
+                { "name": "original_risk_id",orderable: true},
+                { "name": "risk_title", orderable:true},
+                { "name": "RiskCategories_category_id", orderable:true },
                 { "name": "risk_rating" },
-                { "name": "actions", orderable: false }
+                { "name": "actions"}
             ]
     });
 

@@ -192,7 +192,7 @@ class Project extends RISK_Controller
         $session_data = $this->session->userdata('logged_in');
 
         // ordering configuration
-        $col = 0;
+        $col = 1;
         $dir = "";
 
         if(!empty($order)) 
@@ -211,6 +211,7 @@ class Project extends RISK_Controller
 
         $columns_valid = array(
             "original_risk_id",
+            "item_id",
             "risk_title",
             "RiskCategories_category_id",
             "risk_rating"
@@ -726,7 +727,7 @@ class Project extends RISK_Controller
     }
 
 
-    // risk register registration process
+    // add risk register
     function reg_subproject()
     {
         //set validation rules
@@ -745,12 +746,26 @@ class Project extends RISK_Controller
 
             $project_id = $this->input->post('project');
 
+            // check if selected register has a risk item
+            if($this->project_model->getRegisterbyProjectID($project_id))
+            {
+                // increase identifier by one
+                $latest_register_identifier = $this->project_model->getLatestRegisterIdentifier();
+                $latest_register_identifier = $latest_register_identifier + 1;
+            } 
+            else
+            {
+                // reset identifier to one if register item for selected project does not exist
+                $latest_register_identifier = 1;
+            }
+
             //insert the user registration details into database
             $data = array(
                 'name' => $this->input->post('subproject_name'),
                 'description' => $this->input->post('subproject_description'),
                 'Project_project_id' => $project_id,
                 'duplicate' => FALSE,
+                'register_identifier' => $latest_register_identifier,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             );
