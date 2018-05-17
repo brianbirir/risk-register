@@ -373,17 +373,15 @@
                         </div>
                     </div>
 
-                    <div class="row">
+                    <div class="row" style="margin-top:20px;">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="currentrisk_rating">Risk Rating</label>
                                 <input id="currentrisk_rating" class="form-control" name="currentrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('currentrisk_rating'); ?>" required/>
                                 <?php echo form_error('currentrisk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <label for="currentrisk_level">Risk Level</label>
                                 <input id="currentrisk_level" class="form-control" name="currentrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('currentrisk_level'); ?>" required/>
                                 <?php echo form_error('currentrisk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
@@ -471,17 +469,15 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="targetrisk_rating">Risk Rating</label>
                                 <input id="targetrisk_rating" class="form-control" name="targetrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('targetrisk_rating'); ?>" required/>
                                 <?php echo form_error('targetrisk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="targetrisk_level">Risk Level</label>
                                 <input id="targetrisk_level" class="form-control" name="targetrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('targetrisk_level'); ?>" required/>
                                 <?php echo form_error('targetrisk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
