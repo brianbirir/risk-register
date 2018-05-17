@@ -523,9 +523,29 @@ class Risk extends RISK_Controller
             // get risk uuid
             $risk_uuid = $this->input->post('risk_uuid');
 
-            // generate risk harzard ID
-            $this->load->library('riskid');
-            $original_risk_id = $this->riskid->generateRiskID($this->input->post('main_category'),$this->input->post('sub_category'));
+            // get risk register from post
+            $risk_subcategory_id = $this->input->post('sub_category');
+
+            // get risk category from post
+            $risk_category_id = $this->input->post('main_category');
+
+
+            // check if selected register has a risk item
+            $this->load->model('category_model'); // load category model
+
+            if($this->risk_model->getRiskbyRegisterID($this->input->post('register_id')))
+            {
+                // increase identifier by one
+                $latest_risk_identifier = $this->risk_model->getLatestRiskIdentifier();
+                $latest_risk_identifier = $latest_risk_identifier + 1;
+                $risk_hazard_id = strval($this->category_model->getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+            } 
+            else
+            {
+                // reset identifier to one if risk item for selected register does not exist
+                $latest_risk_identifier = 1;
+                $risk_hazard_id = strval(getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+            }
 
             //insert the risk data into database
             $risk_data = array(
@@ -546,7 +566,7 @@ class Risk extends RISK_Controller
                 'control_mitigation' => $this->input->post('control_mitigation'),
                 'action_owner' => $this->input->post('action_owner'),
                 'milestone_target_date' => $this->input->post('milestone_target_date'),
-                'RiskCategories_category_id' => $this->input->post('main_category'),
+                'RiskCategories_category_id' => $risk_category_id,
                 'SystemSafety_safety_id' => $this->input->post('system_safety'),
                 'Status_status_id' => $this->input->post('status'),
                 'Realization_realization_id' => $this->input->post('realization'),
@@ -582,8 +602,9 @@ class Risk extends RISK_Controller
                 'risk_rating_target' => $this->input->post('targetrisk_rating'),
                 'risk_level_target' => $this->input->post('targetrisk_level'),
                 'action_item' => $this->input->post('action_item'),
-                'RiskSubCategories_subcategory_id' => $this->input->post('sub_category'),
-                'original_risk_id' => $original_risk_id
+                'RiskSubCategories_subcategory_id' => $risk_subcategory_id,
+                'original_risk_id' => $risk_hazard_id,
+                'risk_identifier' => $latest_risk_identifier
             );
             
             // insert form data into database

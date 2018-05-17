@@ -20,6 +20,7 @@ class Riskdata extends RISK_Controller
         // array for risk data tables
         $this->risk_data = array(
             "risk_category" => array("tbl_name"=>"RiskCategories","title"=>"Risk Category"),
+            "risk_subcategory" => array("tbl_name"=>"RiskSubCategories","title"=>"Risk Sub-Category"),
             "system_safety" => array("tbl_name"=>"SystemSafety", "title"=>"System Safety"),
             "materialization_phase" => array("tbl_name"=>"MaterializationPhase", "title"=>"Materialization Phase"),
             "realization" => array("tbl_name"=>"Realization", "title"=>"Materialization Phase"),

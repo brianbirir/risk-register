@@ -333,5 +333,31 @@
             $row = $query->last_row();
             return (isset($row)) ? $row->project_id : false;
         }
+
+
+        // get latest register identifier
+        function getLatestRegisterIdentifier()
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->order_by("subproject_id","desc");
+            $this->db->limit(1);
+            $query = $this->db->get();
+            $row = $query->row();
+
+            return $row->register_identifier;
+        }
+        
+
+        // check if register exists for specified project
+        function getRegisterbyProjectID($project_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->where('Project_project_id', $project_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() >= 1) ? $row : false;
+        }
     }
 ?>

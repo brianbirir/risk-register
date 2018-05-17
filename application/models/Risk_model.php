@@ -633,6 +633,8 @@
             return $this->db->insert($table);
         }
 
+
+        // get latest risk ID
         function getLastRiskID()
         {
             $this->db->select('*');
@@ -643,5 +645,31 @@
             $query = $this->db->get();
             $row = $query->row();
             return $row->item_id;
+        }
+
+        // get latest risk identifier
+        function getLatestRiskIdentifier()
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->order_by("item_id","desc");
+            $this->db->limit(1);
+            $this->db->where('RiskRegistry.archived', false); // not archived
+            $query = $this->db->get();
+            $row = $query->row();
+
+            return $row->risk_identifier;
+        }
+
+        // check if risk item exists for specified register
+        function getRiskbyRegisterID($register_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('RiskRegistry.archived', false); // not archived
+            $this->db->where('Subproject_subproject_id', $register_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() >= 1) ? $row : false;
         }
     }

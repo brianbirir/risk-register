@@ -54,4 +54,15 @@
             $this->db->delete('RiskCategories',array('category_id'=>$category_id));
             return true;
         }
+
+        // get category identifier
+        function getCategoryIdentifier($id)
+        {
+            $this->db->select('category_id');
+            $this->db->from('RiskCategories');
+            $this->db->where('id',$id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() == 1) ? $row->category_id : false;
+        }
     }
