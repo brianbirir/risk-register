@@ -544,7 +544,7 @@ class Risk extends RISK_Controller
             {
                 // reset identifier to one if risk item for selected register does not exist
                 $latest_risk_identifier = 1;
-                $risk_hazard_id = strval(getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+                $risk_hazard_id = strval($this->category_model->getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
             }
 
             //insert the risk data into database
