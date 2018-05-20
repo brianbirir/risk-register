@@ -14,12 +14,18 @@
             </div>
 
             <div class="box-body">
-                <strong><i class="fa fa-book margin-r-5"></i> Risk Register Name</strong>
+                <strong><i class="fas fa-book margin-r-5"></i> Risk Register Name</strong>
                 <p class="text-muted"><?php echo $register_name; ?></p>
 
                 <hr>
 
-                <strong><i class="fa fa-map-marker margin-r-5"></i> Risk Register Description</strong>
+                <strong><i class="fas fa-map-marker margin-r-5"></i> Risk Register Description</strong>
+                <p class="text-muted"><?php echo $register_description; ?></p>
+
+                <hr>
+                
+                <strong><i class="fas fa-users margin-r-5"></i> Users of this Register</strong>
+                <div><a class="btn btn-default btn-reg btn-xs" href="/settings/user/riskregister/<?php echo $register_id; ?>">Assign User</a></div>
                 <p class="text-muted"><?php echo $register_description; ?></p>
             </div>
 
@@ -33,6 +39,13 @@
             <div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <div><?php echo $this->session->flashdata('positive_msg'); ?></div>
+            </div>
+        <?php } ?>
+
+        <?php if ($this->session->flashdata('negative_msg')){ ?>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div><?php echo $this->session->flashdata('negative_msg'); ?></div>
             </div>
         <?php } ?>
         
