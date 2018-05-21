@@ -13,6 +13,7 @@ class Project extends RISK_Controller
         $this->load->library('template');
         $this->load->model('project_model');
         $this->load->model('risk_model');
+        $this->load->model('team_model');
         $this->load->library('breadcrumb');
         $this->load->library('userproject'); 
     }
@@ -152,6 +153,9 @@ class Project extends RISK_Controller
 
             // assign role name in session
             $data['role_name'] = $session_data['role_name'];
+
+            // get assigned users
+            $data['register_users'] = $this->team_model->getRegisterUsers($data['register_id']);
             
             // get all risks of user and assigned register
             // $risk = $this->risk_model->getUserRisk( $data['user_id'], $data['register_id'] );

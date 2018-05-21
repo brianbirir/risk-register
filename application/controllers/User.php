@@ -215,6 +215,8 @@ class User extends RISK_Controller
     {
         $timestamp = date('Y-m-d G:i:s');
 
+        $assigned = $this->team_model->is_assigned($this->input->post('register_user'), $this->input->post('register_id'));
+
         $data = array(
             'Subproject_subproject_id' => $this->input->post('register_id'),
             'User_user_id' => $this->input->post('register_user'),
@@ -222,17 +224,27 @@ class User extends RISK_Controller
             'updated_at' => $timestamp
         );
 
-        // insert form data into database
-        if ($this->team_model->insertTeamMember($data))
+
+        // check if user has been assigned specified register
+        if($assigned)
         {
-            $this->session->set_flashdata('positive_msg','You have successfully assigned your user a risk register!');
-            redirect('dashboard/riskregister/'. $this->input->post('register_id'));
+            $this->session->set_flashdata('negative_msg','The user has already been assigned to this register!');
+            redirect('/settings/user/riskregister/'. $this->input->post('register_id'));
         }
         else
         {
-            // error
-            $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
-            redirect('dashboard/riskregister/'. $this->input->post('register_id'));
+            // insert form data into database
+            if ($this->team_model->insertTeamMember($data))
+            {
+                $this->session->set_flashdata('positive_msg','You have successfully assigned your user a risk register!');
+                redirect('dashboard/riskregister/'. $this->input->post('register_id'));
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
+                redirect('dashboard/riskregister/'. $this->input->post('register_id'));
+            }
         }
     }
 

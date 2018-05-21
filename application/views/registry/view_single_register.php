@@ -23,10 +23,31 @@
                 <p class="text-muted"><?php echo $register_description; ?></p>
 
                 <hr>
+
+                
                 
                 <strong><i class="fas fa-users margin-r-5"></i> Users of this Register</strong>
-                <div><a class="btn btn-default btn-reg btn-xs" href="/settings/user/riskregister/<?php echo $register_id; ?>">Assign User</a></div>
-                <p class="text-muted"><?php echo $register_description; ?></p>
+                
+                <a class="btn btn-default btn-reg btn-xs pull-right" href="/settings/user/riskregister/<?php echo $register_id; ?>">Assign User</a>
+                
+                <?php 
+
+                    if($register_users)
+                    {
+                        echo "<ul class='list-group' style='margin-top:20px;'>";
+                        foreach ($register_users as $user)
+                        {
+                            
+                            echo "<li class='list-group-item'>".$user->first_name." ".$user->last_name."</li>";
+                        }
+                        echo "</ul>";
+                    }
+                    else
+                    {
+                        echo "<div style='margin-top:20px;' class='alert alert-warning' role='alert'>There are no users assigned to this register!</div>";
+                    }
+                ?>
+
             </div>
 
             <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id; ?>"/>

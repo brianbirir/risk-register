@@ -1,7 +1,17 @@
 <!-- assign risk register form -->
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
         <div id="user-risk-register-form">
+
+            <div>
+                <?php if ($this->session->flashdata('negative_msg')){ ?>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div><?php echo $this->session->flashdata('negative_msg'); ?></div>
+                    </div>
+                <?php } ?>
+            </div>
 
             <?php 
                 $attributes = array("class" => "ui form", "id" => "signupform", "name" => "signupform");
@@ -26,13 +36,6 @@
             <input name="btn_assign_register" type="submit" class="btn btn-default btn-reg" value="Assign" />
 
             <?php echo form_close(); ?>
-
-            <?php if ($this->session->flashdata('msg')){ ?>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div><?php echo $this->session->flashdata('msg'); ?></div>
-                </div>
-            <?php } ?>
 
         </div>
     </div>
