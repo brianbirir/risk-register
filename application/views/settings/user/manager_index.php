@@ -51,15 +51,6 @@
                                 echo "<td>".$user_row->email."</td>";
                                 echo "<td>".$user_row->username."</td>";
                                 echo "<td>".$CI->role_model->getRoleName($user_row->Role_role_id)."</td>";
-                                // check if a general user has already been assigned a risk register
-                                if ($CI->team_model->is_assigned($user_row->user_id))
-                                {
-                                    echo "<td><span class='label label-success'>Assigned</span></td>";
-                                }
-                                else {
-                                    echo "<td><span class='label label-danger'><a href='/settings/user/riskregister/".$user_row->user_id."' style='color:#ffffff'>Unassigned</a></span></td>";
-                                }
-                                
                                 echo "<td>
                                         <a class='fa-icon' title='change-password' href='/settings/user/change-password/".$user_row->user_id."'><i class='fas fa-lock' aria-hidden='true'></i>
                                         <a class='fa-icon' title='edit' href='/settings/user/".$user_row->user_id."'><i class='fas fa-edit' aria-hidden='true'></i>
