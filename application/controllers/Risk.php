@@ -143,8 +143,9 @@ class Risk extends RISK_Controller
             $data['select_user'] = $this->getRegisterUser($data['register_id']);
             $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
 
-            $this->load->library('userproject');
-            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
+            // select drop down for project on the form for adding a response title
+            $this->load->library('userproject'); 
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] ); 
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);

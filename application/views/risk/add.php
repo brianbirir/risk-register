@@ -700,10 +700,12 @@
                     <div class="form-group">
                         <label for="project_name">Select Project</label>
                         <?php 
-                            $select_project_attributes = 'id="response-modal-project-id" class="form-control" required';
-                            echo form_dropdown('project_name',$select_project,"1",$select_project_attributes);
+                            $select_project_attributes = 'class="form-control" disabled';
+                            echo form_dropdown('project_name',$select_project,$user_project_id,$select_project_attributes);
                         ?>
                     </div>
+
+                    <input type="hidden" name="project" id="response-modal-project-id" class="form-control" value="<?php echo $user_project_id; ?>"/>
     
                 <?php echo form_close(); ?>   
 
@@ -727,6 +729,10 @@
 
                     var response_title = $('#response-modal-title').val();
                     var response_project_id = $('#response-modal-project-id').val();
+
+                    // hide alert messages if already on display
+                    $("#response-modal-alert-success").hide(); 
+                    $("#response-modal-alert-warning").hide();
 
                     if(response_title == '')
                     {
