@@ -231,20 +231,20 @@ function archive_confirmation()
 // jQuery
 $(document).ready(function() {
 
-    
     var counter = 0;
 
     // initialize chosen select library
     $(".response-title").chosen();
     $(".response-user").chosen();
     $(".response-strategy").chosen();
-
     $(".action-owner").chosen();
 
     // duplicate response row
     $('#add-response-btn').click( function() {
         // parent element i.e. tbody
         var parent_element = "response-table-body";
+
+        counter = 1;
 
         // append new row to parent element
         document.getElementById(parent_element).appendChild(buildTableRow(counter));
@@ -274,7 +274,7 @@ $(document).ready(function() {
         
         var createSelectOne = '<td><div class="form-group"><select name="risk_response[title][]" class="form-control response response-title-copy"></select></td>';
 
-        var createEmptyCell = '<td></td>';
+        var createTitleButtonCell = '<td><button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button></td>';
         
         var createSelectTwo = '<td><div class="form-group"><select name="risk_response[strategy][]" class="form-control response response-title-strategy"></select></td>';
         
@@ -282,7 +282,7 @@ $(document).ready(function() {
 
         var createSelectFour = '<div class="form-group"></div><div class="input-group date"><div class="input-group-addon"><i class="fa fa-calendar"></i></div><input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" required/></div>';
         
-        var responseRow = createSelectOne + createEmptyCell + createSelectTwo + createSelectThree + createSelectFour;
+        var responseRow = createSelectOne + createTitleButtonCell + createSelectTwo + createSelectThree + createSelectFour;
         
         createRow.innerHTML = responseRow;
         
@@ -300,6 +300,14 @@ $(document).ready(function() {
         
         return createRow;
     }
+
+    // clear input fields and alerts when response title dialog is closed
+    $('#response-title-modal').on('hidden.bs.modal', function () {
+        $("#response-modal-title").val("");
+        $("#response-modal-alert-warning").hide();
+        $("#response-modal-alert-success").hide();
+        console.log("Response modal title cleared!");
+    })
 
 
 });
