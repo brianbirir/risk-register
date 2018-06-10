@@ -30,6 +30,13 @@ class Project extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
+            // set project name, register name and project ID to null
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['user_project_id'] = null; // project ID set to null on project index page
+            $session_data['project_name'] = null;// project name set to null on project index page
+            $session_data['register_name'] = null; // set register name to null when selecting project
+            $this->session->set_userdata('logged_in', $session_data);
+
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
@@ -303,6 +310,11 @@ class Project extends RISK_Controller
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // set register name to null
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['register_name'] = null; // set register name to null when selecting project
+            $this->session->set_userdata('logged_in', $session_data);
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
