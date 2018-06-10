@@ -244,10 +244,8 @@ $(document).ready(function() {
         // parent element i.e. tbody
         var parent_element = "response-table-body";
 
-        counter = 1;
-
         // append new row to parent element
-        document.getElementById(parent_element).appendChild(buildTableRow(counter));
+        document.getElementById(parent_element).appendChild(buildTableRow());
 
         // clone options of the first row select fields
         var $optionsTitle = $(".response-title > option").clone();
@@ -262,8 +260,8 @@ $(document).ready(function() {
         $('.response').chosen();
     });
     
-    
-    function buildTableRow(counter)
+    // add response rows
+    function buildTableRow()
     {
         counter++;
         
@@ -272,7 +270,7 @@ $(document).ready(function() {
         // set id for the new row
         createRow.id = "response-row-" + counter;
         
-        var createSelectOne = '<td><div class="form-group"><select name="risk_response[title][]" class="form-control response response-title-copy"></select></td>';
+        var createSelectOne = '<td><div class="form-group form-response-title"><select name="risk_response[title][]" class="form-control response response-title response-title-copy"></select></td>';
 
         var createTitleButtonCell = '<td><button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button></td>';
         

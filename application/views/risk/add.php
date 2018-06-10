@@ -547,13 +547,13 @@
                                                 {
                                             ?>
                                             <td>
-                                                <div id="form-response-title" class="form-group">
+                                                <div class="form-group form-response-title">
                                                     <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
                                                 </div>
                                             </td>
                                             <?php } else { ?>
                                             <td>
-                                                <div id="form-response-title" class="form-group">
+                                                <div class="form-group form-response-title">
                                                     <select name="risk_response[title][]" class="form-control response response-title">
                                                         <?php 
                                                             foreach ($select_response_name as $key => $value) 
@@ -730,10 +730,6 @@
                     var response_title = $('#response-modal-title').val();
                     var response_project_id = $('#response-modal-project-id').val();
 
-                    // hide alert messages if already on display
-                    $("#response-modal-alert-success").hide(); 
-                    $("#response-modal-alert-warning").hide();
-
                     if(response_title == '')
                     {
                         $("#response-modal-alert-warning").show();
@@ -754,10 +750,12 @@
                             // $('.response-title option').remove();
 
                             // remove response title select field
-                            $('#form-response-title .response-title').remove();
+                            $('.form-response-title .response-title').remove();
+
+                            $('.form-response-title .response-title').remove();
 
                             // recreate response title select field
-                            $('#form-response-title').html(titleSelect);
+                            $('.form-response-title').html(titleSelect);
                                                    
                             // add new options from data
                             $.each( response, function( key, value ) {
