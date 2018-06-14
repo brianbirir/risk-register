@@ -975,15 +975,10 @@ class Risk extends RISK_Controller
     // controller to view one risk item
     function single()
     {
-    	$data = array('title' => 'Risk Item');
+    	$data = array();
 
         if($this->session->userdata('logged_in'))
         {
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
@@ -1002,6 +997,12 @@ class Risk extends RISK_Controller
             {
                 $data['risk_data'] = $risk;
                 $data['revision_data'] = $revision;
+
+                $data['title'] = $risk->risk_title; // assign risk title to page title
+
+                // breadcrumb
+                $this->breadcrumb->add($data['title']);
+                $data['breadcrumb'] = $this->breadcrumb->output();
                 
                 // get risk responses
                 $data['risk_response'] = $this->risk_model->getRiskResponse( $risk->risk_uuid );
