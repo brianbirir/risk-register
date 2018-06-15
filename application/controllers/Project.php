@@ -738,7 +738,7 @@ class Project extends RISK_Controller
             if ($this->project_model->insertProject($data))
             {
                 $this->session->set_flashdata('positive_msg', 'You have successfully registered the project! Please login.');
-                redirect('projectsetup/data');
+                redirect('project/settings');
             }
             else
             {
@@ -856,9 +856,9 @@ class Project extends RISK_Controller
     }
 
 
-    // setup data settings for project
+    // setup project settings for project
     // project setup view
-    function project_setup()
+    function project_settings()
     {
         if($this->session->userdata('logged_in'))
         {
