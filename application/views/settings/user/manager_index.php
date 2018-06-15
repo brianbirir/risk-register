@@ -36,7 +36,6 @@
                             <th>Email</th>
                             <th>Username</th>
                             <th>Role</th>
-                            <th>Risk Register</th>
                             <th>Actions</th>
                         </tr>
                     
