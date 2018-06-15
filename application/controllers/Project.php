@@ -88,6 +88,8 @@ class Project extends RISK_Controller
             
             $single_project = $this->project_model->getSingleProject($uri_project_id);
 
+            $data['project_id'] = $uri_project_id;
+
             $data['project_name'] = $single_project->project_name;
 
             $data['title'] = $single_project->project_name . ' Project'; // assign project name to page title

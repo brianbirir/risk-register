@@ -6,6 +6,7 @@
 
             <div class="box-header with-border">
                 <h3 class="box-title">About Project</h3>
+                <a href="/dashboard/project/edit/<?php echo $project_id; ?>" class="btn btn-default btn-reg btn-xs pull-right">Edit Project</a>
             </div>
 
             <div class="box-body">
