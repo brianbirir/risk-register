@@ -201,7 +201,7 @@ class Riskdata extends RISK_Controller
         }
     }
 
-    // insert item via AJAX call
+    // insert item via AJAX post
     function ajax_insert()
     {
         // values to be inserted into table
