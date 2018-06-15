@@ -1,3 +1,14 @@
+/* GENERAL STYLING */
+
+/* hide and display content */
+.toggle-content {
+	display: none;
+}
+
+.toggle-content.is-visible {
+	display: block;
+}
+
 /* MAIN NAVIGATION */
 .main-header 
 {

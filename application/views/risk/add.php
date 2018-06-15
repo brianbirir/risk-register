@@ -280,13 +280,13 @@
                     <div class="row" style="margin-top:20px;">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input id="risk_rating" class="form-control" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" required/>
+                                <input readonly="readonly" id="risk_rating" class="form-control toggle-content" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" required/>
                                 <?php echo form_error('risk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input id="risk_level" class="form-control" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('risk_level'); ?>" required/>
+                                <input readonly="readonly" id="risk_level" class="form-control toggle-content" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('risk_level'); ?>" required/>
                                 <?php echo form_error('risk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -376,13 +376,13 @@
                     <div class="row" style="margin-top:20px;">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input id="currentrisk_rating" class="form-control" name="currentrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('currentrisk_rating'); ?>" required/>
+                                <input readonly="readonly" id="currentrisk_rating" class="form-control toggle-content" name="currentrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('currentrisk_rating'); ?>" required/>
                                 <?php echo form_error('currentrisk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input id="currentrisk_level" class="form-control" name="currentrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('currentrisk_level'); ?>" required/>
+                                <input readonly="readonly" id="currentrisk_level" class="form-control toggle-content" name="currentrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('currentrisk_level'); ?>" required/>
                                 <?php echo form_error('currentrisk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -472,13 +472,13 @@
                     <div class="row" style="margin-top:20px;">
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input id="targetrisk_rating" class="form-control" name="targetrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('targetrisk_rating'); ?>" required/>
+                                <input readonly="readonly" id="targetrisk_rating" class="form-control toggle-content" name="targetrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('targetrisk_rating'); ?>" required/>
                                 <?php echo form_error('targetrisk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group">
-                                <input id="targetrisk_level" class="form-control" name="targetrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('targetrisk_level'); ?>" required/>
+                                <input readonly="readonly" id="targetrisk_level" class="form-control toggle-content" name="targetrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('targetrisk_level'); ?>" required/>
                                 <?php echo form_error('targetrisk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>

@@ -30,6 +30,10 @@ function calcQualitativeRisk()
     // determine risk level from risk rating integer value
     var riskLevel = riskMatrix(riskRating);
 
+    // display elements
+    showElement(document.getElementById('risk_rating'));
+    showElement(document.getElementById('risk_level'));
+
     // append values to form input
     document.getElementById('risk_rating').value = riskRating;
     document.getElementById('risk_level').value = riskLevel.level;
@@ -69,6 +73,10 @@ function calcCurrentQualitativeRisk()
     // determine risk level from risk rating integer value
     var riskLevel = riskMatrix(riskRating);
 
+    // display elements
+    showElement(document.getElementById('currentrisk_rating'));
+    showElement(document.getElementById('currentrisk_level'));
+
     // append values to form input
     document.getElementById('currentrisk_rating').value = riskRating;
     document.getElementById('currentrisk_level').value = riskLevel.level;
@@ -107,6 +115,10 @@ function calcTargetQualitativeRisk()
     // determine risk level from risk rating integer value
     var riskLevel = riskMatrix(riskRating);
 
+    // display elements
+    showElement(document.getElementById('targetrisk_rating'));
+    showElement(document.getElementById('targetrisk_level'));
+
     // append values to form input
     document.getElementById('targetrisk_rating').value = riskRating;
     document.getElementById('targetrisk_level').value = riskLevel.level;
@@ -119,6 +131,12 @@ function calcTargetQualitativeRisk()
     risk_rating_input.style.backgroundColor = riskLevel.color;
 }
 
+
+// show hidden element
+function showElement(elem)
+{
+    elem.classList.add('is-visible');
+}
 
 // risk matrix
 function riskMatrix(rating) 
