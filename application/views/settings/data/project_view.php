@@ -8,7 +8,7 @@
 <div class="alert alert-info alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
     <h4><i class="icon fa fa-info"></i> Alert!</h4>
-    Add data settings for the newly added project <strong><?php echo $project_name; ?></strong>
+    <p>Add data settings for <strong><?php echo $project_name; ?></strong>.</p>
 </div>
 
 <div style="display: none;" id="response-modal-alert-warning" class="alert alert-warning fade in" role="alert">

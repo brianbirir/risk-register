@@ -359,5 +359,15 @@
             $row = $query->row();
             return ($query->num_rows() >= 1) ? $row : false;
         }
+
+        // check if settings exist for specified project
+        function getProjectSetting($project_id,$tbl_name)
+        {
+            $this->db->select('*');
+            $this->db->from($tbl_name);
+            $this->db->where('Project_project_id',$project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? true : false;
+        }
     }
 ?>

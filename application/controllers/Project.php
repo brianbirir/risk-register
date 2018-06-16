@@ -107,32 +107,65 @@ class Project extends RISK_Controller
             $session_data['register_name'] = null; // set register name to null when selecting project
             $this->session->set_userdata('logged_in', $session_data);
 
-            // get all risk registers for specific user
-            if ($session_data['role_name'] == 'Project Manager' || $session_data['role_name'] == 'Program Manager') 
+            $check_setting = $this->check_project_setting($uri_project_id);
+
+            if(empty($check_setting))
             {
-                $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
+                // get all risk registers for specific user
+                if ($session_data['role_name'] == 'Project Manager' || $session_data['role_name'] == 'Program Manager') 
+                {
+                    $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
+                }
+                else if($session_data['role_name'] == 'General User')
+                {
+                    $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
+                } 
+                else
+                {
+                    $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id));
+                } 
+
+                // check if result is true
+                ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
+
+                $this->template->load('dashboard', 'project/view', $data);
             }
-            else if($session_data['role_name'] == 'General User')
+            else // redirect to project settings page
             {
-                $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
-            } 
-            else
-            {
-                $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id));
-            } 
-
-            // check if result is true
-            ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
-
-            $this->template->load('dashboard', 'project/view', $data);
+                redirect('project/settings');
+            }
         }
         else 
-        {
+        {   
             //If no session, redirect to login page
             redirect('login', 'refresh');
         }
     }
 
+    // check if project settings exist for project
+    function check_project_setting($project_id)
+    {   
+        // store tables where project has no settings
+        $no_settings = array();
+        
+        // store all database tables related to project settings in an array
+        $db_table = array("Realization","Entity","Status","SystemSafety","CostMetric","ScheduleMetric","ResponseTitle","MaterializationPhase","RiskOwner","RiskStrategies","RiskCategories");
+
+        // loop through db table array
+        for($x = 0;$x < count($db_table); $x++)
+        {
+            $settings_status = $this->project_model->getProjectSetting($project_id, $db_table[$x]);
+
+            // does setting exist for project
+            if(!$settings_status)
+            {   
+                // add table that has no settings for specified project
+                array_push($no_settings, $db_table[$x]);
+            }
+        }
+
+        return $no_settings;
+    }
 
     
     // view a single risk register
