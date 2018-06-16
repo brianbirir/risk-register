@@ -103,11 +103,13 @@ class Project extends RISK_Controller
             // add uri id i.e. project id to session data
             $session_data = $this->session->userdata('logged_in');
             $session_data['user_project_id'] = $uri_project_id; // project ID
-            $session_data['project_name'] = $single_project->project_name;// project name
+            $session_data['project_name'] = $single_project->project_name; // project name
             $session_data['register_name'] = null; // set register name to null when selecting project
-            $this->session->set_userdata('logged_in', $session_data);
 
             $check_setting = $this->check_project_setting($uri_project_id);
+            $session_data['tbl_no_project_settings'] = $check_setting;
+            
+            $this->session->set_userdata('logged_in', $session_data);
 
             if(empty($check_setting))
             {
@@ -127,7 +129,6 @@ class Project extends RISK_Controller
 
                 // check if result is true
                 ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
-
                 $this->template->load('dashboard', 'project/view', $data);
             }
             else // redirect to project settings page
@@ -896,11 +897,7 @@ class Project extends RISK_Controller
         if($this->session->userdata('logged_in'))
         {
             // get title from uri
-            $data = array('title' => 'Project Data Settings');
-
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
+            $data = array();
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
@@ -911,6 +908,12 @@ class Project extends RISK_Controller
             $session_data['latest_project_id'] = $this->project_model->latestProjectID();
             $this->session->set_userdata('logged_in', $session_data);
 
+            $data['title'] = $session_data['project_name'].' Project Settings'; 
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
             // set latest project ID as data for page
             ($session_data['latest_project_id']) ? $data['project_id'] = $session_data['latest_project_id'] : $data['project_id'] = 1;
 
@@ -918,7 +921,7 @@ class Project extends RISK_Controller
             $single_project = $this->project_model->getSingleProject($this->project_model->latestProjectID());
             $data['project_name'] = $single_project->project_name;
 
-            $this->template->load('dashboard', 'settings/data/project_view', $data);
+            $this->template->load('dashboard', 'settings/data/project_settings', $data);
         }
         else
         {

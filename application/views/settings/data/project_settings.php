@@ -3,7 +3,32 @@
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <div><?php echo $this->session->flashdata('positive_msg'); ?></div>
     </div>
-<?php } ?>
+<?php } ?> 
+
+<?php 
+    $session_data = $this->session->userdata('logged_in');
+?>
+
+<div class="box box-solid">
+    <div class="box-header with-border">
+        <h3 class="box-title">Missing Project Settings</h3>
+    </div>
+
+    <div class="box-body">
+        <p>This project is missing the following settings. Please complete them in order to proceed to viewing the project details.</p>
+        <?php
+            echo "<ul>";
+            foreach ($session_data as $key => $value) {
+                foreach ($session_data['tbl_no_project_settings'] as $project_settings_tbl)
+                {
+                    echo "<li>".$project_settings_tbl."</li>";
+                }
+                break;
+            }
+            echo "</ul>";
+        ?>
+    </div>
+</div>
 
 <div class="alert alert-info alert-dismissible">
     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
