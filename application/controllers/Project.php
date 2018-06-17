@@ -383,7 +383,15 @@ class Project extends RISK_Controller
                 ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
             }
             
-            $this->template->load('dashboard', 'registry/index', $data);
+            if(!empty($session_data['project_name']))
+            {
+                $this->template->load('dashboard', 'registry/index', $data);
+            }
+            else
+            {
+                redirect('project/index'); // redirect to projects page
+            }
+           
         }
         else
         {
