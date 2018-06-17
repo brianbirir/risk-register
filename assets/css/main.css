@@ -290,6 +290,15 @@
     color: #5bc0de;
 }
 
+/*Alerts*/
+
+
+/*Labels*/
+.project-settings-label
+{
+    margin-right: 10px;
+}
+
 
 /* Media Query */
 @media all and (max-width: 699px) and (min-width: 520px), (min-width: 1151px)

@@ -5,6 +5,12 @@
     </div>
 <?php } ?> 
 
+<div class="alert alert-info alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-info"></i> Alert!</h4>
+    <p>Add data settings for <strong><?php echo $project_name; ?></strong>.</p>
+</div>
+
 <?php 
     $session_data = $this->session->userdata('logged_in');
 ?>
@@ -15,25 +21,17 @@
     </div>
 
     <div class="box-body">
-        <p>This project is missing the following settings. Please complete them in order to proceed to viewing the project details.</p>
+        <p>This project is missing the following settings. Please complete them in order to proceed to view the project's details.</p>
         <?php
-            echo "<ul>";
             foreach ($session_data as $key => $value) {
                 foreach ($session_data['tbl_no_project_settings'] as $project_settings_tbl)
                 {
-                    echo "<li>".$project_settings_tbl."</li>";
+                    echo "<span class='label label-warning project-settings-label'>".$project_settings_tbl."</span>";
                 }
                 break;
             }
-            echo "</ul>";
         ?>
     </div>
-</div>
-
-<div class="alert alert-info alert-dismissible">
-    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-    <h4><i class="icon fa fa-info"></i> Alert!</h4>
-    <p>Add data settings for <strong><?php echo $project_name; ?></strong>.</p>
 </div>
 
 <div style="display: none;" id="response-modal-alert-warning" class="alert alert-warning fade in" role="alert">
