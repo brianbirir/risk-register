@@ -6,7 +6,7 @@ $route['default_controller'] = 'login/index';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-// Registration Routes
+// registration routes
 $route['signup'] = 'register/index'; // initial registration
 
 // login and logout routes
@@ -22,6 +22,8 @@ $route['dashboard/project'] = 'project/index';
 $route['dashboard/project/add'] = 'project/reg_project_view';
 $route['dashboard/project/(:num)'] = 'project/view_project/$1';
 $route['dashboard/project/edit/(:num)'] = 'project/edit_project/$1';
+$route['project/settings'] = 'project/project_settings';
+$route['projectsetup/user/add'] = 'user/add';
 
 // risk register
 $route['dashboard/riskregisters'] = 'project/view_risk_registers';

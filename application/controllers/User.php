@@ -154,12 +154,12 @@ class User extends RISK_Controller
         }
     }
 
-    // register team member to a risk registry
+    // view for assigning a user to a register
     function assign_register_view()
     {
         if($this->session->userdata('logged_in'))
         {
-            $data = array('title' => 'Assign Risk Register');
+            $data = array('title' => 'Assign Register to User');
             
             // breadcrumb
             $this->breadcrumb->add($data['title']);
@@ -168,33 +168,39 @@ class User extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
             
-            // get registers from database & add them to select form element using the user's session ID
-            $register = $this->project_model->getUserSubProjects($data['user_id']);
+            // get users belonging to the parent user AKA project/programme manager
+            $users = $this->user_model->getUsers($data['user_id']);
 
-            // get user's details
-            $data['general_user_id'] = $this->uri->segment(4); // get id from fourth segment of uri
-            $data['general_user'] = $this->user_model->getUser($data['general_user_id']);
+            // get register ID from uri segment
+            $data['register_id'] = $this->uri->segment(4);
+
+            $single_register = $this->project_model->getSingleRiskRegister($data['register_id']);
+
+            // get regsiter name
+            $data['register_name'] = $single_register->name;
             
-            if($register)
+            if($users)
             {
                 $options = array();
 
-                foreach ($register as $row) 
+                foreach ($users as $row) 
                 {
-                    $subproject_id = $row->subproject_id;
-                    $subproject_name = $row->name;
-                    $options[$subproject_id] = $subproject_name;  
+                    $user_id = $row->user_id;
+                    $f_name = $row->first_name;
+                    $l_name = $row->last_name;
+                    $user_name = $f_name.' '.$l_name;
+                    $options[$user_id] = $user_name;  
                 }
 
-                $data['select_option'] = $options;
+                $data['select_user'] = $options;
             }
             else 
             {
-                $data['select_option'] = 'No Data!';
+                $data['select_user'] = 'No Users!';
             }
 
             // load page to show form
-            $this->template->load('dashboard', 'settings/user/assign_register', $data);
+            $this->template->load('dashboard', 'registry/assign_user', $data);
         }
         else
         {
@@ -204,25 +210,41 @@ class User extends RISK_Controller
     }
 
 
-    // function to assign register to user
+    // function to assign user to specified register
     function assign_register()
     {
+        $timestamp = date('Y-m-d G:i:s');
+
+        $assigned = $this->team_model->is_assigned($this->input->post('register_user'), $this->input->post('register_id'));
+
         $data = array(
-            'Subproject_subproject_id' => $this->input->post('riskregister'),
-            'User_user_id' => $this->input->post('user_id'),
+            'Subproject_subproject_id' => $this->input->post('register_id'),
+            'User_user_id' => $this->input->post('register_user'),
+            'created_at' => $timestamp,
+            'updated_at' => $timestamp
         );
 
-        // insert form data into database
-        if ($this->team_model->insertTeamMember($data))
+
+        // check if user has been assigned specified register
+        if($assigned)
         {
-            $this->session->set_flashdata('positive-msg','You have successfully assigned your user a risk register!');
-            redirect('settings/users');
+            $this->session->set_flashdata('negative_msg','The user has already been assigned to this register!');
+            redirect('/settings/user/riskregister/'. $this->input->post('register_id'));
         }
         else
         {
-            // error
-            $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
-            redirect('settings/users');
+            // insert form data into database
+            if ($this->team_model->insertTeamMember($data))
+            {
+                $this->session->set_flashdata('positive_msg','You have successfully assigned your user a risk register!');
+                redirect('dashboard/riskregister/'. $this->input->post('register_id'));
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
+                redirect('dashboard/riskregister/'. $this->input->post('register_id'));
+            }
         }
     }
 
@@ -294,13 +316,13 @@ class User extends RISK_Controller
                 // insert form data into database
                 if ($this->user_model->insertUser($data))
                 {
-                    $this->session->set_flashdata('positive-msg','You have successfully registered a user!');
+                    $this->session->set_flashdata('positive_msg','You have successfully registered a user! Please assign them a register');
                     redirect('settings/users');
                 }
                 else
                 {
                     // error
-                    $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                    $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
                     redirect('settings/user/add');
                 }
             } 
@@ -323,13 +345,13 @@ class User extends RISK_Controller
                 // insert form data into database
                 if ($this->user_model->insertUser($data))
                 {
-                    $this->session->set_flashdata('positive-msg','You have successfully registered your user!');
+                    $this->session->set_flashdata('positive_msg','You have successfully registered your user!');
                     redirect('settings/users');
                 }
                 else
                 {
                     // error
-                    $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                    $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
                     redirect('settings/user/add');
                 }
             }

@@ -23,6 +23,14 @@
                     echo form_dropdown('project', $select_project, $project_id, $select_project_attributes);
                 ?>
             </div>
+            
+            <?php if($data_type == 'cost_rating' || $data_type == 'schedule_rating') { ?>
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea class="form-control" name="description" placeholder="<?php echo $title;?> Description" type="text" value="<?php echo set_value('name'); ?>" required></textarea>
+                    <?php echo form_error('name','<div class="alert alert-danger">','</div>'); ?>
+                </div>
+            <?php } ?>
 
             <input name="btn_update_status" type="submit" class="btn btn-default btn-reg" value="Add Status" />
 

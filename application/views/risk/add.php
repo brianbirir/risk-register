@@ -277,20 +277,21 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="risk_rating">Risk Rating</label>
-                                <input id="risk_rating" class="form-control" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" required/>
+                                <input readonly="readonly" id="risk_rating" class="form-control toggle-content" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" required/>
                                 <?php echo form_error('risk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="risk_level">Risk Level</label>
-                                <input id="risk_level" class="form-control" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('risk_level'); ?>" required/>
+                                <input readonly="readonly" id="risk_level" class="form-control toggle-content" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('risk_level'); ?>" required/>
                                 <?php echo form_error('risk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-default btn-reg" onclick="calcQualitativeRisk()">Calculate</a>
                         </div>
                     </div>
                 </div>
@@ -372,20 +373,21 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="currentrisk_rating">Risk Rating</label>
-                                <input id="currentrisk_rating" class="form-control" name="currentrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('currentrisk_rating'); ?>" required/>
+                                <input readonly="readonly" id="currentrisk_rating" class="form-control toggle-content" name="currentrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('currentrisk_rating'); ?>" required/>
                                 <?php echo form_error('currentrisk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="currentrisk_level">Risk Level</label>
-                                <input id="currentrisk_level" class="form-control" name="currentrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('currentrisk_level'); ?>" required/>
+                                <input readonly="readonly" id="currentrisk_level" class="form-control toggle-content" name="currentrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('currentrisk_level'); ?>" required/>
                                 <?php echo form_error('currentrisk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-default btn-reg" onclick="calcCurrentQualitativeRisk()">Calculate</a>
                         </div>
                     </div>
                 </div>
@@ -467,20 +469,21 @@
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-md-6">
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="targetrisk_rating">Risk Rating</label>
-                                <input id="targetrisk_rating" class="form-control" name="targetrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('targetrisk_rating'); ?>" required/>
+                                <input readonly="readonly" id="targetrisk_rating" class="form-control toggle-content" name="targetrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('targetrisk_rating'); ?>" required/>
                                 <?php echo form_error('targetrisk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                             <div class="form-group">
-                                <label for="targetrisk_level">Risk Level</label>
-                                <input id="targetrisk_level" class="form-control" name="targetrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('targetrisk_level'); ?>" required/>
+                                <input readonly="readonly" id="targetrisk_level" class="form-control toggle-content" name="targetrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('targetrisk_level'); ?>" required/>
                                 <?php echo form_error('targetrisk_level','<div class="alert alert-danger">','</div>'); ?>
                             </div>
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-default btn-reg" onclick="calcTargetQualitativeRisk()">Calculate</a>
                         </div>
                     </div>
                 </div>
@@ -544,13 +547,13 @@
                                                 {
                                             ?>
                                             <td>
-                                                <div id="form-response-title" class="form-group">
+                                                <div class="form-group form-response-title">
                                                     <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
                                                 </div>
                                             </td>
                                             <?php } else { ?>
                                             <td>
-                                                <div id="form-response-title" class="form-group">
+                                                <div class="form-group form-response-title">
                                                     <select name="risk_response[title][]" class="form-control response response-title">
                                                         <?php 
                                                             foreach ($select_response_name as $key => $value) 
@@ -697,10 +700,12 @@
                     <div class="form-group">
                         <label for="project_name">Select Project</label>
                         <?php 
-                            $select_project_attributes = 'id="response-modal-project-id" class="form-control" required';
-                            echo form_dropdown('project_name',$select_project,"1",$select_project_attributes);
+                            $select_project_attributes = 'class="form-control" disabled';
+                            echo form_dropdown('project_name',$select_project,$user_project_id,$select_project_attributes);
                         ?>
                     </div>
+
+                    <input type="hidden" name="project" id="response-modal-project-id" class="form-control" value="<?php echo $user_project_id; ?>"/>
     
                 <?php echo form_close(); ?>   
 
@@ -745,10 +750,12 @@
                             // $('.response-title option').remove();
 
                             // remove response title select field
-                            $('#form-response-title .response-title').remove();
+                            $('.form-response-title .response-title').remove();
+
+                            $('.form-response-title .response-title').remove();
 
                             // recreate response title select field
-                            $('#form-response-title').html(titleSelect);
+                            $('.form-response-title').html(titleSelect);
                                                    
                             // add new options from data
                             $.each( response, function( key, value ) {

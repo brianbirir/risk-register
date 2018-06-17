@@ -206,28 +206,26 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
-        // get archived risk items
-        function getUserArchivedRisk($user_id)
-        {   
+
+        // get archived risks
+        function getArchivedRisks($params=array())
+        {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id',$user_id);
+            
+            // check if project ID exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Project_project_id', $params['project_id']);
+            }
+
+            $this->db->where('User_user_id',$params['user_id']);
             $this->db->where('archived',true);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
         
-
-        function getManagerArchivedRisk( $user_id )
-        {
-            $this->db->select('*');
-            $this->db->from('RiskRegistry');
-            $this->db->join('User','User.user_id = RiskRegistry.User_user_id');
-            $this->db->where('User.parent_user_id',$user_id); // equivalent to parent user id
-            $this->db->where('RiskRegistry.archived',true); // archived
-            $query = $this->db->get();
-            return ($query->num_rows() > 0) ? $query->result() : false;
-        }
 
         // get single risk item based on risk ID
         function getRisk($risk_id)
@@ -635,6 +633,8 @@
             return $this->db->insert($table);
         }
 
+
+        // get latest risk ID
         function getLastRiskID()
         {
             $this->db->select('*');
@@ -645,5 +645,31 @@
             $query = $this->db->get();
             $row = $query->row();
             return $row->item_id;
+        }
+
+        // get latest risk identifier
+        function getLatestRiskIdentifier()
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->order_by("item_id","desc");
+            $this->db->limit(1);
+            $this->db->where('RiskRegistry.archived', false); // not archived
+            $query = $this->db->get();
+            $row = $query->row();
+
+            return $row->risk_identifier;
+        }
+
+        // check if risk item exists for specified register
+        function getRiskbyRegisterID($register_id)
+        {
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->where('RiskRegistry.archived', false); // not archived
+            $this->db->where('Subproject_subproject_id', $register_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() >= 1) ? $row : false;
         }
     }

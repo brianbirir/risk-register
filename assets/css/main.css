@@ -1,3 +1,14 @@
+/* GENERAL STYLING */
+
+/* hide and display content */
+.toggle-content {
+	display: none;
+}
+
+.toggle-content.is-visible {
+	display: block;
+}
+
 /* MAIN NAVIGATION */
 .main-header 
 {
@@ -277,6 +288,15 @@
 }
 .bs-callout-info h4 {
     color: #5bc0de;
+}
+
+/*Alerts*/
+
+
+/*Labels*/
+.project-settings-label
+{
+    margin-right: 10px;
 }
 
 

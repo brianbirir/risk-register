@@ -307,7 +307,7 @@
             return (isset($row)) ? $row->name : false;
         }
 
-        // get last register id
+        // get most recent register id
         function lastRegisterID()
         {
             $this->db->select('*');
@@ -323,5 +323,51 @@
             return $this->db->insert('RegisterCopy', $data);
         }
 
+
+        // get most recent project ID
+        function latestProjectID()
+        {
+            $this->db->select('project_id');
+            $this->db->from('Project');
+            $query = $this->db->get();
+            $row = $query->last_row();
+            return (isset($row)) ? $row->project_id : false;
+        }
+
+
+        // get latest register identifier
+        function getLatestRegisterIdentifier()
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->order_by("subproject_id","desc");
+            $this->db->limit(1);
+            $query = $this->db->get();
+            $row = $query->row();
+
+            return $row->register_identifier;
+        }
+        
+
+        // check if register exists for specified project
+        function getRegisterbyProjectID($project_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->where('Project_project_id', $project_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() >= 1) ? $row : false;
+        }
+
+        // check if settings exist for specified project
+        function getProjectSetting($project_id,$tbl_name)
+        {
+            $this->db->select('*');
+            $this->db->from($tbl_name);
+            $this->db->where('Project_project_id',$project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? true : false;
+        }
     }
 ?>

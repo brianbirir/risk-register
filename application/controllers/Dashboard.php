@@ -30,6 +30,13 @@ class Dashboard extends RISK_Controller
             // get global data and merge with new array
             $data = array_merge($data,$this->get_global_data());
 
+            // set project name, register name and project ID to null
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['user_project_id'] = null; // project ID set to null on project index page
+            $session_data['project_name'] = null;// project name set to null on project index page
+            $session_data['register_name'] = null; // set register name to null when selecting project
+            $this->session->set_userdata('logged_in', $session_data);
+
             if ($data['role_id'] == 8)
             {
                 // get assigned risk register ID

@@ -52,8 +52,18 @@ class Risk extends RISK_Controller
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
-            // load page to show all registered risks
-            $this->template->load('dashboard', 'risk/index', $data);
+
+            // check if project id or name are missing from session data
+            if(!empty($session_project_id) || !empty($session_data['project_name']))
+            {
+                // load page to show all registered risks
+                $this->template->load('dashboard', 'risk/index', $data);
+            }
+            else
+            {
+                redirect('dashboard/project'); // redirect to projects page
+            }
+            
         }
         else
         {
@@ -74,19 +84,18 @@ class Risk extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
+            // session data
+            $session_data = $this->session->userdata('logged_in');
+            $session_project_id = $session_data['user_project_id'];
+
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
             // get risk data belonging to specific user 
-            $risk = $this->risk_model->getUserArchivedRisk($data['user_id']);
-
-            // get risk data belonging to a manager's users 
-            $manager_risk = $this->risk_model->getManagerArchivedRisk($data['user_id']);
+            $risk = $this->risk_model->getArchivedRisks(array("user_id"=>$data['user_id'],"project_id"=>$session_project_id));
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-
-            ($manager_risk) ? $data['manager_risk_data'] = $manager_risk : $data['manager_risk_data'] = false;
 
             // load page to show all registered risks
             $this->template->load('dashboard', 'risk/archive', $data);
@@ -144,8 +153,9 @@ class Risk extends RISK_Controller
             $data['select_user'] = $this->getRegisterUser($data['register_id']);
             $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
 
-            $this->load->library('userproject');
-            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
+            // select drop down for project on the form for adding a response title
+            $this->load->library('userproject'); 
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] ); 
 
             // load page to show all devices
             $this->template->load('dashboard', 'risk/add', $data);
@@ -524,9 +534,29 @@ class Risk extends RISK_Controller
             // get risk uuid
             $risk_uuid = $this->input->post('risk_uuid');
 
-            // generate risk harzard ID
-            $this->load->library('riskid');
-            $original_risk_id = $this->riskid->generateRiskID($this->input->post('main_category'),$this->input->post('sub_category'));
+            // get risk register from post
+            $risk_subcategory_id = $this->input->post('sub_category');
+
+            // get risk category from post
+            $risk_category_id = $this->input->post('main_category');
+
+
+            // check if selected register has a risk item
+            $this->load->model('category_model'); // load category model
+
+            if($this->risk_model->getRiskbyRegisterID($this->input->post('register_id')))
+            {
+                // increase identifier by one
+                $latest_risk_identifier = $this->risk_model->getLatestRiskIdentifier();
+                $latest_risk_identifier = $latest_risk_identifier + 1;
+                $risk_hazard_id = strval($this->category_model->getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+            } 
+            else
+            {
+                // reset identifier to one if risk item for selected register does not exist
+                $latest_risk_identifier = 1;
+                $risk_hazard_id = strval($this->category_model->getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+            }
 
             //insert the risk data into database
             $risk_data = array(
@@ -547,7 +577,7 @@ class Risk extends RISK_Controller
                 'control_mitigation' => $this->input->post('control_mitigation'),
                 'action_owner' => $this->input->post('action_owner'),
                 'milestone_target_date' => $this->input->post('milestone_target_date'),
-                'RiskCategories_category_id' => $this->input->post('main_category'),
+                'RiskCategories_category_id' => $risk_category_id,
                 'SystemSafety_safety_id' => $this->input->post('system_safety'),
                 'Status_status_id' => $this->input->post('status'),
                 'Realization_realization_id' => $this->input->post('realization'),
@@ -583,8 +613,9 @@ class Risk extends RISK_Controller
                 'risk_rating_target' => $this->input->post('targetrisk_rating'),
                 'risk_level_target' => $this->input->post('targetrisk_level'),
                 'action_item' => $this->input->post('action_item'),
-                'RiskSubCategories_subcategory_id' => $this->input->post('sub_category'),
-                'original_risk_id' => $original_risk_id
+                'RiskSubCategories_subcategory_id' => $risk_subcategory_id,
+                'original_risk_id' => $risk_hazard_id,
+                'risk_identifier' => $latest_risk_identifier
             );
             
             // insert form data into database
@@ -887,8 +918,8 @@ class Risk extends RISK_Controller
 
             foreach ($cost as $row) 
             {
-                $cost_id = $row->cost_id;
-                $cost_rating = $row->cost_rating;
+                $cost_id = $row->id;
+                $cost_rating = $row->rating;
                 $options[$cost_rating] = $cost_rating;  
             }
 
@@ -912,8 +943,8 @@ class Risk extends RISK_Controller
 
             foreach ($schedule as $row) 
             {
-                $schedule_id = $row->schedule_id;
-                $schedule_rating = $row->schedule_rating;
+                $schedule_id = $row->id;
+                $schedule_rating = $row->rating;
                 $options[$schedule_rating] = $schedule_rating;  
             }
 
@@ -954,15 +985,10 @@ class Risk extends RISK_Controller
     // controller to view one risk item
     function single()
     {
-    	$data = array('title' => 'Risk Item');
+    	$data = array();
 
         if($this->session->userdata('logged_in'))
         {
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
@@ -981,6 +1007,12 @@ class Risk extends RISK_Controller
             {
                 $data['risk_data'] = $risk;
                 $data['revision_data'] = $revision;
+
+                $data['title'] = $risk->risk_title; // assign risk title to page title
+
+                // breadcrumb
+                $this->breadcrumb->add($data['title']);
+                $data['breadcrumb'] = $this->breadcrumb->output();
                 
                 // get risk responses
                 $data['risk_response'] = $this->risk_model->getRiskResponse( $risk->risk_uuid );

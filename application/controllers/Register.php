@@ -12,6 +12,7 @@ class Register extends CI_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->model('user_model');
+        $this->load->model('team_model');
     }
 
 

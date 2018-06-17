@@ -13,6 +13,7 @@ class Project extends RISK_Controller
         $this->load->library('template');
         $this->load->model('project_model');
         $this->load->model('risk_model');
+        $this->load->model('team_model');
         $this->load->library('breadcrumb');
         $this->load->library('userproject'); 
     }
@@ -28,6 +29,13 @@ class Project extends RISK_Controller
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // set project name, register name and project ID to null
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['user_project_id'] = null; // project ID set to null on project index page
+            $session_data['project_name'] = null;// project name set to null on project index page
+            $session_data['register_name'] = null; // set register name to null when selecting project
+            $this->session->set_userdata('logged_in', $session_data);
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
@@ -69,10 +77,7 @@ class Project extends RISK_Controller
     // view a single project
     function view_project()
     {
-        $data = array('title' => 'Single Project');
-        // breadcrumb
-        $this->breadcrumb->add($data['title']);
-        $data['breadcrumb'] = $this->breadcrumb->output();
+        $data = array();
         
         if($this->session->userdata('logged_in'))
         {
@@ -83,52 +88,91 @@ class Project extends RISK_Controller
             
             $single_project = $this->project_model->getSingleProject($uri_project_id);
 
+            $data['project_id'] = $uri_project_id;
+
             $data['project_name'] = $single_project->project_name;
 
+            $data['title'] = $single_project->project_name . ' Project'; // assign project name to page title
+
             $data['project_description'] = $single_project->project_description;
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
 
             // add uri id i.e. project id to session data
             $session_data = $this->session->userdata('logged_in');
             $session_data['user_project_id'] = $uri_project_id; // project ID
-            $session_data['project_name'] = $single_project->project_name;// project name
+            $session_data['project_name'] = $single_project->project_name; // project name
             $session_data['register_name'] = null; // set register name to null when selecting project
+
+            $check_setting = $this->check_project_setting($uri_project_id);
+            $session_data['tbl_no_project_settings'] = $check_setting;
+            
             $this->session->set_userdata('logged_in', $session_data);
 
-            // get all risk registers for specific user
-            if ($session_data['role_name'] == 'Project Manager' || $session_data['role_name'] == 'Program Manager') 
+            if(empty($check_setting))
             {
-                $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
+                // get all risk registers for specific user
+                if ($session_data['role_name'] == 'Project Manager' || $session_data['role_name'] == 'Program Manager') 
+                {
+                    $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
+                }
+                else if($session_data['role_name'] == 'General User')
+                {
+                    $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
+                } 
+                else
+                {
+                    $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id));
+                } 
+
+                // check if result is true
+                ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
+                $this->template->load('dashboard', 'project/view', $data);
             }
-            else if($session_data['role_name'] == 'General User')
+            else // redirect to project settings page
             {
-                $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
-            } 
-            else
-            {
-                $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id));
-            } 
-
-            // check if result is true
-            ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
-
-            $this->template->load('dashboard', 'project/view', $data);
+                redirect('project/settings');
+            }
         }
         else 
-        {
+        {   
             //If no session, redirect to login page
             redirect('login', 'refresh');
         }
     }
 
+    // check if project settings exist for project
+    function check_project_setting($project_id)
+    {   
+        // store tables where project has no settings
+        $no_settings = array();
+        
+        // store all database tables related to project settings in an array
+        $db_table = array("Realization","Entity","Status","SystemSafety","CostMetric","ScheduleMetric","ResponseTitle","MaterializationPhase","RiskOwner","RiskStrategies","RiskCategories");
+
+        // loop through db table array
+        for($x = 0;$x < count($db_table); $x++)
+        {
+            $settings_status = $this->project_model->getProjectSetting($project_id, $db_table[$x]);
+
+            // does setting exist for project
+            if(!$settings_status)
+            {   
+                // add table that has no settings for specified project
+                array_push($no_settings, $db_table[$x]);
+            }
+        }
+
+        return $no_settings;
+    }
 
     
     // view a single risk register
     function view_risk_register()
     {
-        $data = array('title' => 'Single Risk Register');
-        // breadcrumb
-        $this->breadcrumb->add($data['title']);
-        $data['breadcrumb'] = $this->breadcrumb->output();
+        $data = array();
         
         if($this->session->userdata('logged_in'))
         {
@@ -142,7 +186,12 @@ class Project extends RISK_Controller
             // data for a single register
             $data['register_id'] = $single_register->subproject_id;
             $data['register_name'] = $single_register->name;
+            $data['title'] = $single_register->name . ' Register'; // assign register name to page title
             $data['register_description'] = $single_register->description;
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
 
             // get user project id from session data
             $session_data = $this->session->userdata('logged_in');
@@ -152,6 +201,9 @@ class Project extends RISK_Controller
 
             // assign role name in session
             $data['role_name'] = $session_data['role_name'];
+
+            // get assigned users
+            $data['register_users'] = $this->team_model->getRegisterUsers($data['register_id']);
             
             // get all risks of user and assigned register
             // $risk = $this->risk_model->getUserRisk( $data['user_id'], $data['register_id'] );
@@ -192,7 +244,7 @@ class Project extends RISK_Controller
         $session_data = $this->session->userdata('logged_in');
 
         // ordering configuration
-        $col = 0;
+        $col = 1;
         $dir = "";
 
         if(!empty($order)) 
@@ -211,6 +263,7 @@ class Project extends RISK_Controller
 
         $columns_valid = array(
             "original_risk_id",
+            "item_id",
             "risk_title",
             "RiskCategories_category_id",
             "risk_rating"
@@ -270,6 +323,17 @@ class Project extends RISK_Controller
 
             echo json_encode($output);
         }
+        else {
+            
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total_risks,
+                "recordsFiltered" => $total_risks,
+                "data" => ""
+            );
+
+            echo json_encode($output);
+        }
        
         exit();
     }
@@ -287,6 +351,11 @@ class Project extends RISK_Controller
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // set register name to null
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['register_name'] = null; // set register name to null when selecting project
+            $this->session->set_userdata('logged_in', $session_data);
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
@@ -314,7 +383,15 @@ class Project extends RISK_Controller
                 ($risk_register) ? $data['riskregister_data'] = $risk_register : $data['riskregister_data'] = false;
             }
             
-            $this->template->load('dashboard', 'registry/index', $data);
+            if(!empty($session_data['project_name']))
+            {
+                $this->template->load('dashboard', 'registry/index', $data);
+            }
+            else
+            {
+                redirect('dashboard/project'); // redirect to projects page
+            }
+           
         }
         else
         {
@@ -702,20 +779,20 @@ class Project extends RISK_Controller
             // insert form data into database
             if ($this->project_model->insertProject($data))
             {
-                $this->session->set_flashdata('positive-msg','You have successfully registered the project! Please login.');
-                redirect('dashboard/project');
+                $this->session->set_flashdata('positive_msg', 'You have successfully registered the project! Please login.');
+                redirect('project/settings');
             }
             else
             {
                 // error
-                $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
+                $this->session->set_flashdata('negative_msg', 'Oops! Error. Please try again later!');
                 redirect('dashboard/project/add');
             }
         }
     }
 
 
-    // risk register registration process
+    // add risk register
     function reg_subproject()
     {
         //set validation rules
@@ -734,12 +811,26 @@ class Project extends RISK_Controller
 
             $project_id = $this->input->post('project');
 
+            // check if selected register has a risk item
+            if($this->project_model->getRegisterbyProjectID($project_id))
+            {
+                // increase identifier by one
+                $latest_register_identifier = $this->project_model->getLatestRegisterIdentifier();
+                $latest_register_identifier = $latest_register_identifier + 1;
+            } 
+            else
+            {
+                // reset identifier to one if register item for selected project does not exist
+                $latest_register_identifier = 1;
+            }
+
             //insert the user registration details into database
             $data = array(
                 'name' => $this->input->post('subproject_name'),
                 'description' => $this->input->post('subproject_description'),
                 'Project_project_id' => $project_id,
                 'duplicate' => FALSE,
+                'register_identifier' => $latest_register_identifier,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
             );
@@ -805,4 +896,46 @@ class Project extends RISK_Controller
         return 'No Data!';
       }
     }
+
+
+    // setup project settings for project
+    // project setup view
+    function project_settings()
+    {
+        if($this->session->userdata('logged_in'))
+        {
+            // get title from uri
+            $data = array();
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
+
+            // get latest project ID and set in session
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['latest_project_id'] = $this->project_model->latestProjectID();
+            $this->session->set_userdata('logged_in', $session_data);
+
+            $data['title'] = $session_data['project_name'].' Project Settings'; 
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // set latest project ID as data for page
+            ($session_data['latest_project_id']) ? $data['project_id'] = $session_data['latest_project_id'] : $data['project_id'] = 1;
+
+            // get project name
+            $single_project = $this->project_model->getSingleProject($this->project_model->latestProjectID());
+            $data['project_name'] = $single_project->project_name;
+
+            $this->template->load('dashboard', 'settings/data/project_settings', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
 }

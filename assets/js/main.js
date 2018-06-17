@@ -5,179 +5,137 @@
 // risk for qualitative assessment
 function calcQualitativeRisk() 
 {
-    var risk_form = document.forms['edit-risk-form'];
+    // var risk_form = document.forms['edit-risk-form'];
 
-    var likelihood_value = document.getElementById('likelihood').value;
-    var time_value = document.getElementById('timeimpact').value;
-    var cost_value = document.getElementById('costimpact').value;
-    var reputation_value = document.getElementById('reputationimpact').value;
-    var hs_value = document.getElementById('hsimpact').value;
-    var env_value = document.getElementById('envimpact').value;
-    var legal_value = document.getElementById('legalimpact').value;
-    var quality_value = document.getElementById('qualityimpact').value;
+    // array to store impact values
+    var impactValues = [];
 
-    var risk_rating = parseInt(likelihood_value) * parseInt(time_value) * parseInt(cost_value) * parseInt(reputation_value) * parseInt(hs_value) * parseInt(env_value) * parseInt(legal_value) * parseInt(quality_value);
+    var likelihoodValue = parseInt(document.getElementById('likelihood').value);
 
-    var risk_level = riskMatrix(risk_rating);
+    // get impact values and push them into array
+    impactValues.push(parseInt(document.getElementById('timeimpact').value));
+    impactValues.push(parseInt(document.getElementById('costimpact').value));
+    impactValues.push(parseInt(document.getElementById('reputationimpact').value));
+    impactValues.push(parseInt(document.getElementById('hsimpact').value));
+    impactValues.push(parseInt(document.getElementById('envimpact').value));
+    impactValues.push(parseInt(document.getElementById('legalimpact').value));
+    impactValues.push(parseInt(document.getElementById('qualityimpact').value));
+
+    // get maximum value from impact values array
+    var maxImpactValue = Math.max.apply(null, impactValues);
+
+    // determine risk rating from likelihood value multiplied by maximum impact value
+    var riskRating = likelihoodValue * maxImpactValue
+
+    // determine risk level from risk rating integer value
+    var riskLevel = riskMatrix(riskRating);
+
+    // display elements
+    showElement(document.getElementById('risk_rating'));
+    showElement(document.getElementById('risk_level'));
 
     // append values to form input
-    document.getElementById('risk_rating').value = risk_rating;
-    document.getElementById('risk_level').value = risk_level.level;
+    document.getElementById('risk_rating').value = riskRating;
+    document.getElementById('risk_level').value = riskLevel.level;
 
-    // set colour background for form input based in risk level
+    // set colour background for form input based on risk level
     var risk_level_input = document.querySelector("#risk_level");
-    risk_level_input.style.backgroundColor = risk_level.color;
+    risk_level_input.style.backgroundColor = riskLevel.color;
     var risk_rating_input = document.querySelector("#risk_rating");
-    risk_rating_input.style.backgroundColor = risk_level.color;
+    risk_rating_input.style.backgroundColor = riskLevel.color;
 
 }
-
-var likelihoodimpact = document.getElementById('likelihood');
-var timeimpact = document.getElementById('timeimpact');
-var costimpact = document.getElementById('costimpact');
-var reputationimpact = document.getElementById('reputationimpact');
-var hsimpact = document.getElementById('hsimpact');
-var envimpact = document.getElementById('envimpact');
-var legalimpact = document.getElementById('legalimpact');
-var qualityimpact = document.getElementById('qualityimpact');
-
-
-likelihoodimpact.onchange  = function(){calcQualitativeRisk()};
-timeimpact.onchange  = function(){calcQualitativeRisk()};
-costimpact.onchange  = function(){calcQualitativeRisk()};
-reputationimpact.onchange  = function(){calcQualitativeRisk()};
-hsimpact.onchange  = function(){calcQualitativeRisk()};
-envimpact.onchange  = function(){calcQualitativeRisk()};
-legalimpact.onchange  = function(){calcQualitativeRisk()};
-qualityimpact.onchange  = function(){calcQualitativeRisk()};
 
 
 // risk for current qualitative assessment
 function calcCurrentQualitativeRisk() 
 {
-    var risk_form = document.forms['edit-risk-form'];
+    // array to store impact values
+    var impactValues = [];
 
-    var likelihood_value = document.getElementById('likelihood_current').value;
-    var time_value = document.getElementById('timeimpact_current').value;
-    var cost_value = document.getElementById('costimpact_current').value;
-    var reputation_value = document.getElementById('reputationimpact_current').value;
-    var hs_value = document.getElementById('hsimpact_current').value;
-    var env_value = document.getElementById('envimpact_current').value;
-    var legal_value = document.getElementById('legalimpact_current').value;
-    var quality_value = document.getElementById('qualityimpact_current').value;
+    var likelihoodValue = document.getElementById('likelihood_current').value;
+    
+    impactValues.push(parseInt(document.getElementById('timeimpact_current').value));
+    impactValues.push(parseInt(document.getElementById('costimpact_current').value));
+    impactValues.push(parseInt(document.getElementById('reputationimpact_current').value));
+    impactValues.push(parseInt(document.getElementById('hsimpact_current').value));
+    impactValues.push(parseInt(document.getElementById('envimpact_current').value));
+    impactValues.push(parseInt(document.getElementById('legalimpact_current').value));
+    impactValues.push(parseInt(document.getElementById('qualityimpact_current').value));
 
-    var risk_rating = parseInt(likelihood_value) * parseInt(time_value) * parseInt(cost_value) * parseInt(reputation_value) * parseInt(hs_value) * parseInt(env_value) * parseInt(legal_value) * parseInt(quality_value);
 
-    var risk_level = riskMatrix(risk_rating);
+    // get maximum value from impact values array
+    var maxImpactValue = Math.max.apply(null, impactValues);
+
+    // determine risk rating from likelihood value multiplied by maximum impact value
+    var riskRating = likelihoodValue * maxImpactValue
+
+    // determine risk level from risk rating integer value
+    var riskLevel = riskMatrix(riskRating);
+
+    // display elements
+    showElement(document.getElementById('currentrisk_rating'));
+    showElement(document.getElementById('currentrisk_level'));
 
     // append values to form input
-    document.getElementById('currentrisk_rating').value = risk_rating;
-    document.getElementById('currentrisk_level').value = risk_level.level;
+    document.getElementById('currentrisk_rating').value = riskRating;
+    document.getElementById('currentrisk_level').value = riskLevel.level;
 
     // set colour background for form input based in risk level
     var risk_level_input = document.querySelector("#currentrisk_level");
-    risk_level_input.style.backgroundColor = risk_level.color;
+    risk_level_input.style.backgroundColor = riskLevel.color;
     
     var risk_rating_input = document.querySelector("#currentrisk_rating");
-    risk_rating_input.style.backgroundColor = risk_level.color;
+    risk_rating_input.style.backgroundColor = riskLevel.color;
 }
-
-var likelihood_current = document.getElementById('likelihood_current');
-var timeimpact_current = document.getElementById('timeimpact_current');
-var costimpact_current = document.getElementById('costimpact_current');
-var reputationimpact_current = document.getElementById('reputationimpact_current');
-var hsimpact_current = document.getElementById('hsimpact_current');
-var envimpact_current = document.getElementById('envimpact_current');
-var legalimpact_current = document.getElementById('legalimpact_current');
-var qualityimpact_current = document.getElementById('qualityimpact_current');
-
-likelihood_current.onchange  = function(){calcCurrentQualitativeRisk()};
-timeimpact_current.onchange  = function(){calcCurrentQualitativeRisk()};
-costimpact_current.onchange  = function(){calcCurrentQualitativeRisk()};
-reputationimpact_current.onchange  = function(){calcCurrentQualitativeRisk()};
-hsimpact_current.onchange  = function(){calcCurrentQualitativeRisk()};
-envimpact_current.onchange  = function(){calcCurrentQualitativeRisk()};
-legalimpact_current.onchange  = function(){calcCurrentQualitativeRisk()};
-qualityimpact_current.onchange  = function(){calcCurrentQualitativeRisk()};
 
 
 // risk for qualitative assessment
 function calcTargetQualitativeRisk() 
 {
-    var risk_form = document.forms['edit-risk-form'];
+    // array to store impact values
+    var impactValues = [];
 
-    var likelihood_value = document.getElementById('likelihood_target').value;
-    var time_value = document.getElementById('timeimpact_target').value;
-    var cost_value = document.getElementById('costimpact_target').value;
-    var reputation_value = document.getElementById('reputationimpact_target').value;
-    var hs_value = document.getElementById('hsimpact_target').value;
-    var env_value = document.getElementById('envimpact_target').value;
-    var legal_value = document.getElementById('legalimpact_target').value;
-    var quality_value = document.getElementById('qualityimpact_target').value;
+    var likelihoodValue = document.getElementById('likelihood_target').value;
 
-    var risk_rating = parseInt(likelihood_value) * parseInt(time_value) * parseInt(cost_value) * parseInt(reputation_value) * parseInt(hs_value) * parseInt(env_value) * parseInt(legal_value) * parseInt(quality_value);
+    impactValues.push(parseInt(document.getElementById('timeimpact_target').value));
+    impactValues.push(parseInt(document.getElementById('costimpact_target').value));
+    impactValues.push(parseInt(document.getElementById('reputationimpact_target').value));
+    impactValues.push(parseInt(document.getElementById('hsimpact_target').value));
+    impactValues.push(parseInt(document.getElementById('envimpact_target').value));
+    impactValues.push(parseInt(document.getElementById('legalimpact_target').value));
+    impactValues.push(parseInt(document.getElementById('qualityimpact_target').value));
 
-    var risk_level = riskMatrix(risk_rating);
+    // get maximum value from impact values array
+    var maxImpactValue = Math.max.apply(null, impactValues);
+
+    // determine risk rating from likelihood value multiplied by maximum impact value
+    var riskRating = likelihoodValue * maxImpactValue
+
+    // determine risk level from risk rating integer value
+    var riskLevel = riskMatrix(riskRating);
+
+    // display elements
+    showElement(document.getElementById('targetrisk_rating'));
+    showElement(document.getElementById('targetrisk_level'));
 
     // append values to form input
-    document.getElementById('targetrisk_rating').value = risk_rating;
-    document.getElementById('targetrisk_level').value = risk_level.level;
+    document.getElementById('targetrisk_rating').value = riskRating;
+    document.getElementById('targetrisk_level').value = riskLevel.level;
 
     // set colour background for form input based in risk level
     var risk_level_input = document.querySelector("#targetrisk_level");
-    risk_level_input.style.backgroundColor = risk_level.color;
+    risk_level_input.style.backgroundColor = riskLevel.color;
     
     var risk_rating_input = document.querySelector("#targetrisk_rating");
-    risk_rating_input.style.backgroundColor = risk_level.color;
+    risk_rating_input.style.backgroundColor = riskLevel.color;
 }
 
-var likelihood_target = document.getElementById('likelihood_target');
-var timeimpact_target = document.getElementById('timeimpact_target');
-var costimpact_target = document.getElementById('costimpact_target');
-var reputationimpact_target = document.getElementById('reputationimpact_target');
-var hsimpact_target = document.getElementById('hsimpact_target');
-var envimpact_target = document.getElementById('envimpact_target');
-var legalimpact_target = document.getElementById('legalimpact_target');
-var qualityimpact_target = document.getElementById('qualityimpact_target');
 
-likelihood_target.onchange  = function(){calcTargetQualitativeRisk()};
-timeimpact_target.onchange  = function(){calcTargetQualitativeRisk()};
-costimpact_target.onchange  = function(){calcTargetQualitativeRisk()};
-reputationimpact_target.onchange  = function(){calcTargetQualitativeRisk()};
-hsimpact_target.onchange  = function(){calcTargetQualitativeRisk()};
-envimpact_target.onchange  = function(){calcTargetQualitativeRisk()};
-legalimpact_target.onchange  = function(){calcTargetQualitativeRisk()};
-qualityimpact_target.onchange  = function(){calcTargetQualitativeRisk()};
-
-
-// reset values in form input field with reset button
-// var reset_risk_btn = document.getElementById('btn-risk-reset');
-// reset_risk_btn.onclick = reset;
-
-function reset()
+// show hidden element
+function showElement(elem)
 {
-    var risk_form = document.forms['edit-risk-form'];
-
-    var likelihood = document.getElementById('likelihoodimpact');
-    var time = document.getElementById('timeimpact');
-    var cost = document.getElementById('costimpact');
-    var reputation = document.getElementById('reputationimpact');
-    var hs = document.getElementById('hsimpact');
-    var env = document.getElementById('envimpact');
-    var legal = document.getElementById('legalimpact');
-    var quality = document.getElementById('qualityimpact');
-
-    likelihood.value = 1;
-    time.value = 1;
-    cost.value = 1;
-    reputation.value = 1;
-    hs.value = 1;
-    env.value = 1;
-    legal.value = 1;
-    quality.value = 1;
-    risk_form.elements["risk_rating"].value = "";
-    risk_form.elements["risk_level"].value = "";
-
+    elem.classList.add('is-visible');
 }
 
 // risk matrix
@@ -264,42 +222,6 @@ window.onload = appendCurrentDate;
 // initialize counter
 var counter = 0;
 
-// add new row function	
-// function new_row()
-// {
-
-// 	var parent_element = "response-table-body";
-
-// 	counter++;
-	
-// 	// create a new row
-// 	var new_row = document.createElement('tr');
-
-// 	// set id for the new row
-// 	new_row.id = "response-row-" + counter;
-
-// 	// add innerhtml elements from existing first row
-// 	new_row.innerHTML = document.getElementById("response-row").innerHTML;
-
-// 	// create new table cell to hold link that will remove one of the added rows
-// 	var new_cell = document.createElement('td');
-
-// 	// assign ID to new table cell
-// 	new_cell.id = "remove-row-" + counter;
-
-// 	// add content to new cell
-// 	// var row_counter  = "response-row-" + counter
-// 	new_cell.innerHTML = "<i onclick='delete_row(&quot;"+new_row.id+"&quot;)' class='fa fa-times' aria-hidden='true'></i>";
-
-// 	// new_cell.innerHTML = "<a href='' onclick=''><i class='fa fa-times' aria-hidden='true'></i></a>";
-
-// 	// append new cell to new row
-// 	new_row.appendChild(new_cell);
-
-// 	// append new row to parent element
-// 	document.getElementById(parent_element).appendChild(new_row);
-// }
-
 
 // delete row
 function delete_row(elementId)
@@ -327,14 +249,12 @@ function archive_confirmation()
 // jQuery
 $(document).ready(function() {
 
-    
     var counter = 0;
 
     // initialize chosen select library
     $(".response-title").chosen();
     $(".response-user").chosen();
     $(".response-strategy").chosen();
-
     $(".action-owner").chosen();
 
     // duplicate response row
@@ -343,7 +263,7 @@ $(document).ready(function() {
         var parent_element = "response-table-body";
 
         // append new row to parent element
-        document.getElementById(parent_element).appendChild(buildTableRow(counter));
+        document.getElementById(parent_element).appendChild(buildTableRow());
 
         // clone options of the first row select fields
         var $optionsTitle = $(".response-title > option").clone();
@@ -358,8 +278,8 @@ $(document).ready(function() {
         $('.response').chosen();
     });
     
-    
-    function buildTableRow(counter)
+    // add response rows
+    function buildTableRow()
     {
         counter++;
         
@@ -368,9 +288,9 @@ $(document).ready(function() {
         // set id for the new row
         createRow.id = "response-row-" + counter;
         
-        var createSelectOne = '<td><div class="form-group"><select name="risk_response[title][]" class="form-control response response-title-copy"></select></td>';
+        var createSelectOne = '<td><div class="form-group form-response-title"><select name="risk_response[title][]" class="form-control response response-title response-title-copy"></select></td>';
 
-        var createEmptyCell = '<td></td>';
+        var createTitleButtonCell = '<td><button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button></td>';
         
         var createSelectTwo = '<td><div class="form-group"><select name="risk_response[strategy][]" class="form-control response response-title-strategy"></select></td>';
         
@@ -378,7 +298,7 @@ $(document).ready(function() {
 
         var createSelectFour = '<div class="form-group"></div><div class="input-group date"><div class="input-group-addon"><i class="fa fa-calendar"></i></div><input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" required/></div>';
         
-        var responseRow = createSelectOne + createEmptyCell + createSelectTwo + createSelectThree + createSelectFour;
+        var responseRow = createSelectOne + createTitleButtonCell + createSelectTwo + createSelectThree + createSelectFour;
         
         createRow.innerHTML = responseRow;
         
@@ -396,6 +316,14 @@ $(document).ready(function() {
         
         return createRow;
     }
+
+    // clear input fields and alerts when response title dialog is closed
+    $('#response-title-modal').on('hidden.bs.modal', function () {
+        $("#response-modal-title").val("");
+        $("#response-modal-alert-warning").hide();
+        $("#response-modal-alert-success").hide();
+        console.log("Response modal title cleared!");
+    })
 
 
 });

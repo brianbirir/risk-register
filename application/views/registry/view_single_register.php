@@ -14,13 +14,40 @@
             </div>
 
             <div class="box-body">
-                <strong><i class="fa fa-book margin-r-5"></i> Risk Register Name</strong>
+                <strong><i class="fas fa-book margin-r-5"></i> Risk Register Name</strong>
                 <p class="text-muted"><?php echo $register_name; ?></p>
 
                 <hr>
 
-                <strong><i class="fa fa-map-marker margin-r-5"></i> Risk Register Description</strong>
+                <strong><i class="fas fa-map-marker margin-r-5"></i> Risk Register Description</strong>
                 <p class="text-muted"><?php echo $register_description; ?></p>
+
+                <hr>
+
+                
+                
+                <strong><i class="fas fa-users margin-r-5"></i> Users of this Register</strong>
+                
+                <a class="btn btn-default btn-reg btn-xs pull-right" href="/settings/user/riskregister/<?php echo $register_id; ?>">Assign User</a>
+                
+                <?php 
+
+                    if($register_users)
+                    {
+                        echo "<ul class='list-group' style='margin-top:20px;'>";
+                        foreach ($register_users as $user)
+                        {
+                            
+                            echo "<li class='list-group-item'>".$user->first_name." ".$user->last_name."</li>";
+                        }
+                        echo "</ul>";
+                    }
+                    else
+                    {
+                        echo "<div style='margin-top:20px;' class='alert alert-warning' role='alert'>There are no users assigned to this register!</div>";
+                    }
+                ?>
+
             </div>
 
             <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id; ?>"/>
@@ -33,6 +60,13 @@
             <div class="alert alert-success alert-dismissible" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <div><?php echo $this->session->flashdata('positive_msg'); ?></div>
+            </div>
+        <?php } ?>
+
+        <?php if ($this->session->flashdata('negative_msg')){ ?>
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <div><?php echo $this->session->flashdata('negative_msg'); ?></div>
             </div>
         <?php } ?>
         
@@ -63,7 +97,7 @@
                         <table id="risk-table" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>Risk ID</th>
+                                    <th>Risk Harzard ID</th>
                                     <th>Risk Description</th>
                                     <th>Risk Category</th>
                                     <th>Risk Rating</th>
@@ -156,6 +190,7 @@ $(document).ready(function() {
         "pageLength" : 10,
         "processing": true,
         "serverSide": true,
+        "aaSorting": [],
         "ajax": {
             "url": "<?php echo base_url(); ?>" + "project/single_register_risks",
             "type": "POST",
@@ -163,13 +198,12 @@ $(document).ready(function() {
                 d.registerID = registerID;
             }
         },
-        // "order": [[1, 'asc']],
         "columns": [
-                { "name": "original_risk_id"},
-                { "name": "risk_title"},
-                { "name": "RiskCategories_category_id" },
+                { "name": "original_risk_id",orderable: true},
+                { "name": "risk_title", orderable:true},
+                { "name": "RiskCategories_category_id", orderable:true },
                 { "name": "risk_rating" },
-                { "name": "actions", orderable: false }
+                { "name": "actions"}
             ]
     });
 

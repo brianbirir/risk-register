@@ -239,15 +239,20 @@ class Cost extends RISK_Controller
         // delete cost record
         if($this->cost_model->deleteCost($id))
         {
-            $this->session->set_flashdata('positive-msg','You have deleted the cost successfully!');
+            // set flash message
+            $this->session->set_flashdata('positive_msg','You have deleted the cost item successfully!');
 
-            // load page for viewing all roles
-            redirect('settings/data/cost');
+            // get project ID from session data
+            $session_data = $this->session->userdata('logged_in');
+            $session_project_id = $session_data['user_project_id'];
+
+            // redirect to page for viewing all cost data items
+            redirect('settings/data/cost/'.$session_project_id);
         }
         else
         {
             // error
-            $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
+            $this->session->set_flashdata('negative_msg','Oops! Error.  Please try again later!');
             redirect('settings/data/cost');
         }
     }

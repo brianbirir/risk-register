@@ -45,12 +45,11 @@ class User_model extends CI_Model
         return $row->role_id;
     }
 
-
+    // get users by parent ID
     function getUsers($user_id)
     {
         $this->db->select('*');
         $this->db->from('User');
-        // $this->db->where('user_id !=',1);
         $this->db->where('parent_user_id',$user_id);
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : false;

@@ -16,7 +16,7 @@
         }
 
 
-        // get risk data type
+        // get risk data by table name
         function getRiskData($project_id, $table_name)
         {
             $this->db->select('*');
@@ -55,4 +55,18 @@
             $this->db->delete($tbl_name,array('id'=>$id));
             return true;
         }
+
+
+        // get total rows of risk data by table name and project ID
+        function getTotalRiskData($project_id, $table_name)
+        {
+            $this->db->select("COUNT(*) as num");
+            $this->db->from($table_name);
+            $this->db->where('Project_project_id',$project_id);
+            $query = $this->db->get();
+            $result = $query->row();
+            if(isset($result)) return $result->num;
+            return 0;
+        }
+        
     }

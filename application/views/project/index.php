@@ -20,6 +20,20 @@
       </div>
     <?php } ?>
 
+    <?php 
+        $session_data = $this->session->userdata('logged_in');
+
+        if(empty($session_data['project_name'])) {
+    ?>
+
+    <div class="alert alert-danger alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+        <h4><i class="icon fas fa-exclamation-triangle"></i> Alert!</h4>
+        In order to add risk items, please select a project first.
+    </div>
+
+    <?php } ?>
+
     <!-- ensures general user does not view the Add button -->
     <?php 
         if($role_id != 8)
