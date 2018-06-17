@@ -389,7 +389,7 @@ class Project extends RISK_Controller
             }
             else
             {
-                redirect('project/index'); // redirect to projects page
+                redirect('dashboard/project'); // redirect to projects page
             }
            
         }

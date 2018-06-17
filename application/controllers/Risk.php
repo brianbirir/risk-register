@@ -52,8 +52,18 @@ class Risk extends RISK_Controller
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
-            // load page to show all registered risks
-            $this->template->load('dashboard', 'risk/index', $data);
+
+            // check if project id or name are missing from session data
+            if(!empty($session_project_id) || !empty($session_data['project_name']))
+            {
+                // load page to show all registered risks
+                $this->template->load('dashboard', 'risk/index', $data);
+            }
+            else
+            {
+                redirect('dashboard/project'); // redirect to projects page
+            }
+            
         }
         else
         {
