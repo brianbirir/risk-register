@@ -291,7 +291,21 @@
 }
 
 /*Alerts*/
+.alert-info
+{
+    position: relative;
+    color: #032f62 !important;
+    background-color: #dbedff !important;
+    border: 1px solid rgba(27, 31, 35, 0.15);
+    border-radius: 3px;
+}
 
+.alert-danger
+{
+    color: #86181d !important;
+    background-color: #ffdce0 !important;
+    border-color: rgba(27, 31, 35, 0.15);
+}
 
 /*Labels*/
 .project-settings-label
