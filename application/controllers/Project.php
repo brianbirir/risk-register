@@ -898,8 +898,7 @@ class Project extends RISK_Controller
     }
 
 
-    // setup project settings for project
-    // project setup view
+    // view for project settings setup
     function project_settings()
     {
         if($this->session->userdata('logged_in'))
@@ -927,7 +926,7 @@ class Project extends RISK_Controller
 
             // get project name
             $single_project = $this->project_model->getSingleProject($this->project_model->latestProjectID());
-            $data['project_name'] = $single_project->project_name;
+            $data['project_name'] = $session_data['project_name'];
 
             $this->template->load('dashboard', 'settings/data/project_settings', $data);
         }
