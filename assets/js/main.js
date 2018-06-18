@@ -172,7 +172,11 @@ function riskMatrix(rating)
     } else if (rating >= -25 && rating <= -11) {
 
         matrix.level = 'Opportunity High';
-        matrix.color = 'RoyalBlue'; 
+        matrix.color = 'RoyalBlue';
+    } else if (rating == 0) {
+
+        matrix.level = 'No Opportunity';
+        matrix.color = 'PapayaWhip'; 
     } else {
         matrix.level = 'Unknown Risk Level';
         matrix.color = 'LightGrey';
