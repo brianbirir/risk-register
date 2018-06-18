@@ -46,13 +46,23 @@
                     <tbody>
                         <tr>
                             <th>ID</th>
-                            <th><?php $title?> Name</th>
+                            <?php 
+                                if($data_type == 'cost_rating' || $data_type == 'schedule_rating')
+                                {
+                                    echo "<th>Rating</th>";
+                                } else {
+                            ?>
+                                <th><?php $title?> Name</th>
+
+                                <?php } ?>
+                            
                             <?php 
                                 if($data_type == 'risk_category')
                                 {
                                     echo "<th>Subcategories</th>";
                                 }
                             ?>
+                            
                             <th>Action</th>
                         </tr>
                     
@@ -63,7 +73,15 @@
                                 $count = $count + 1;
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
-                                echo "<td>".$risk_data_row->name."</td>";
+
+                                if($data_type == 'cost_rating' || $data_type == 'schedule_rating')
+                                {
+                                    echo "<td>".$risk_data_row->rating."</td>";
+                                }
+                                else
+                                {
+                                    echo "<td>".$risk_data_row->name."</td>";
+                                }
 
                                 if($data_type == 'risk_category')
                                 {
