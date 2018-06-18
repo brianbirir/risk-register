@@ -22,8 +22,6 @@ class Report extends RISK_Controller
         $this->perPage = 20;
     }
     
-
-
     function index()
     {
         $data = array('title' => 'Reports');
@@ -528,7 +526,7 @@ class Report extends RISK_Controller
             }
             else
             {
-                $data['select_project'] = $this->getProject(array("user_id"=>$data['user_id']));
+                $data['select_project'] = $this->getProject(array("user_id"=>$data['user_id'], "role_name"=>$data['role_name']));
             }
 
             // load page to show all status
@@ -737,8 +735,8 @@ class Report extends RISK_Controller
 
             foreach ($categories as $row) 
             {
-                $category_id = $row->category_id;
-                $category_name = $row->category_name;
+                $category_id = $row->id;
+                $category_name = $row->name;
                 $options[$category_id] = $category_name;  
             }
 

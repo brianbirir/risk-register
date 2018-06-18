@@ -297,10 +297,10 @@
         {
             $this->db->select('*');
             $this->db->from('RiskStrategies');
-            $this->db->where('strategy_id',$id);
+            $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->strategy_name : false;
+            return (isset($row)) ? $row->name : false;
         }
 
 
@@ -309,10 +309,10 @@
         {
             $this->db->select('*');
             $this->db->from('SystemSafety');
-            $this->db->where('safety_id',$id);
+            $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->safety_name : false;
+            return (isset($row)) ? $row->name : false;
         }
 
 
@@ -321,10 +321,10 @@
         {
             $this->db->select('*');
             $this->db->from('Status');
-            $this->db->where('status_id',$id);
+            $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->status_name : false;
+            return (isset($row)) ? $row->name : false;
         }
 
 
@@ -333,10 +333,10 @@
         {
             $this->db->select('*');
             $this->db->from('Realization');
-            $this->db->where('realization_id',$id);
+            $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->realization_name : false;
+            return (isset($row)) ? $row->name : false;
         }
 
         
@@ -345,10 +345,10 @@
         {
             $this->db->select('*');
             $this->db->from('RiskCategories');
-            $this->db->where('category_id',$id);
+            $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->category_name : false;
+            return (isset($row)) ? $row->name : false;
         }
 
         // get subproject name
@@ -367,10 +367,10 @@
         {
             $this->db->select('*');
             $this->db->from('CostMetric');
-            $this->db->where('cost_id',$id);
+            $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->cost_rating : false;
+            return (isset($row)) ? $row->rating : false;
         }
 
         // get risk schedule number
@@ -378,10 +378,10 @@
         {
             $this->db->select('*');
             $this->db->from('ScheduleMetric');
-            $this->db->where('schedule_id',$id);
+            $this->db->where('id',$id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->schedule_rating : false;
+            return (isset($row)) ? $row->rating : false;
         }
 
         // get risk entity
@@ -389,10 +389,10 @@
         {
             $this->db->select('*');
             $this->db->from('Entity');
-            $this->db->where('entity_id', $id);
+            $this->db->where('id', $id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->entity_name : false;
+            return (isset($row)) ? $row->name : false;
         }
 
         // get risk entity
@@ -400,9 +400,9 @@
         {
             $this->db->select('*');
             $this->db->from('MaterializationPhase');
-            $this->db->where('materialization_id', $id);
+            $this->db->where('id', $id);
             $query = $this->db->get();
             $row = $query->row();
-            return (isset($row)) ? $row->materialization_name : false;
+            return (isset($row)) ? $row->name : false;
         }
     }
