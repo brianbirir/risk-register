@@ -24,7 +24,7 @@ class Report extends RISK_Controller
     
     function index()
     {
-        $data = array('title' => 'Reports');
+        $data = array('title' => 'Risk Report');
 
         // get global data
         $data = array_merge($data,$this->get_global_data());
@@ -92,38 +92,6 @@ class Report extends RISK_Controller
         $this->template->load('dashboard', 'report/index', $data);
     }
     
-
-    function report_view()
-    {
-        if($this->session->userdata('logged_in'))
-        {
-            $data = array('title' => 'Generate Risk Report');
-
-            // get global data
-            $data = array_merge($data,$this->get_global_data());
-            
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
-            // get current session data
-            $session_data = $this->session->userdata('logged_in');
-
-            // get data for select fields
-            $data['select_category'] = $this->getCategories($session_data['report_project_id']);
-            $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
-            $data['selected_category'] = "None"; 
-            $data['selected_register'] = "None";
-
-            // load view
-            $this->template->load('dashboard', 'report/report', $data);
-        }
-        else
-        {
-            // if no session, redirect to login page
-            redirect('login', 'refresh');
-        }
-    }
 
     function ajax_report()
     {

@@ -1,7 +1,3 @@
-<div class="bs-callout bs-callout-info">
-    <h4>Filter Report</h4>
-</div>
-
 <?php
 
     //  load risk model and trim library
@@ -51,7 +47,7 @@
                     <label for="risk_register">Risk Register</label>
                     <?php 
                         $select_register_attributes = 'id="select-register" class="form-control"';
-                        if($selected_register != "None")
+                        if($selected_register != 'none')
                         {
                             $select_register['none'] = "Select Option";
                             echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
@@ -69,7 +65,7 @@
                     <label for="risk_category">Risk Category</label>
                     <?php 
                         $select_main_category_attributes = 'id="select-category" class="form-control"';
-                        if($selected_category != "None")
+                        if($selected_category != 'none')
                         {
                             $select_category['none'] = "Select Option";
                             echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
