@@ -82,29 +82,35 @@
         {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('archived',false); // do not export archived data
+            $this->db->where('RiskRegistry.archived',false); // do not export archived data
             
+            // check if project ID exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Subproject.Project_project_id', $params['project_id']);
+            }
+
             if(array_key_exists('user_id',$params))
             {
-                $this->db->where('User_user_id', $params['user_id']); // get by user ID
-
+                $this->db->where('RiskRegistry.User_user_id', $params['user_id']); // get by user ID
             }
 
             // category filter
             if(array_key_exists('category_id',$params))
             {
-                if($params['category_id'] != 'None')
+                if($params['category_id'] != 'none')
                 {
-                    $this->db->where('RiskCategories_category_id',$params['category_id']);
+                    $this->db->where('RiskRegistry.RiskCategories_category_id',$params['category_id']);
                 }
             }
 
             // register filter
             if(array_key_exists('register_id',$params))
             {
-                if($params['register_id'] != 'None')
+                if($params['register_id'] != 'none')
                 {
-                    $this->db->where('Subproject_subproject_id',$params['register_id']);
+                    $this->db->where('RiskRegistry.Subproject_subproject_id',$params['register_id']);
                 }
             }
 
@@ -124,8 +130,8 @@
                         if(!empty($params['date_to'])) { $post_at_to_date = $params['date_to']; }
                     }
                     
-                    $this->db->where('effective_date >=', $post_at);
-                    $this->db->where('effective_date <=', $post_at_to_date);
+                    $this->db->where('RiskRegistry.effective_date >=', $post_at);
+                    $this->db->where('RiskRegistry.effective_date <=', $post_at_to_date);
                 }
             }
 
@@ -149,6 +155,7 @@
             }
 
             $query = $this->db->get();
+            
             return ($query->num_rows() > 0) ?  $query->result() : false;
         }
 
@@ -157,29 +164,36 @@
         {
             $this->db->select("COUNT(*) as num");
             $this->db->from('RiskRegistry');
-            $this->db->where('archived',false);
+            $this->db->where('RiskRegistry.archived',false);
+
+            // // check if project ID exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Project_project_id', $params['project_id']);
+            }
 
             if(array_key_exists('user_id',$params))
             {
-                $this->db->where('User_user_id', $params['user_id']); // get by user ID
+                $this->db->where('RiskRegistry.User_user_id', $params['user_id']); // get by user ID
 
             }
             
             // category filter
             if(array_key_exists('category_id',$params))
             {
-                if($params['category_id'] != 'None')
+                if($params['category_id'] != 'none')
                 {
-                    $this->db->where('RiskCategories_category_id',$params['category_id']);
+                    $this->db->where('RiskRegistry.RiskCategories_category_id',$params['category_id']);
                 }
             }
 
             // register filter
             if(array_key_exists('register_id',$params))
             {
-                if($params['register_id'] != 'None')
+                if($params['register_id'] != 'none')
                 {
-                    $this->db->where('Subproject_subproject_id',$params['register_id']);
+                    $this->db->where('RiskRegistry.Subproject_subproject_id',$params['register_id']);
                 }
             }
 
@@ -199,8 +213,8 @@
                         if(!empty($params['date_to'])) { $post_at_to_date = $params['date_to']; }
                     }
                     
-                    $this->db->where('effective_date >=', $post_at);
-                    $this->db->where('effective_date <=', $post_at_to_date);
+                    $this->db->where('RiskRegistry.effective_date >=', $post_at);
+                    $this->db->where('RiskRegistry.effective_date <=', $post_at_to_date);
                 }
             }
 

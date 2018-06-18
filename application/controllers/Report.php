@@ -71,15 +71,10 @@ class Report extends RISK_Controller
         // PROJECT ID
         // add assigned project ID to session data
         $session_data = $this->session->userdata('logged_in');
-
-        $risk_project_id = $this->input->post('risk_project');
         
-        if(!isset($session_data['report_project_id']))
-        {
-            $session_data['report_project_id'] = $risk_project_id;
-        }
+        $session_data['report_project_id'] = $this->input->post('risk_project');
 
-        $single_project = $this->project_model->getSingleProject($risk_project_id); // get project name from ID
+        $single_project = $this->project_model->getSingleProject($this->input->post('risk_project')); // get project name from ID
         $session_data['project_name'] = $single_project->project_name;
         $session_data['register_name'] = null;
         $this->session->set_userdata('logged_in', $session_data);
@@ -88,11 +83,10 @@ class Report extends RISK_Controller
         $this->clear_filter_session();
 
         // data for filter drop down
-        //$data['select_category'] = $this->getAjaxCategories($session_data['report_project_id']);
-        $data['select_category'] = $this->getCategories($session_data['report_project_id']);
-        $data['select_register'] = $this->getSubProject( $data['user_id'], $data['role_id'] );
-        $data['selected_category'] = "None"; 
-        $data['selected_register'] = "None";
+        $data['select_category'] = $this->getCategories($this->input->post('risk_project'));
+        $data['select_register'] = $this->getSubProject($data['user_id'], $this->input->post('risk_project'));
+        $data['selected_category'] = "none"; 
+        $data['selected_register'] = "none";
         
         // load view
         $this->template->load('dashboard', 'report/index', $data);
@@ -103,7 +97,7 @@ class Report extends RISK_Controller
     {
         if($this->session->userdata('logged_in'))
         {
-            $data = array('title' => 'Generate Riks Report');
+            $data = array('title' => 'Generate Risk Report');
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
@@ -211,6 +205,9 @@ class Report extends RISK_Controller
         // get user id from session data
         $user_id = $session_data['user_id'];
 
+        // get project id from session data
+        $project_id = $session_data['report_project_id'];
+
         $db_data = array();
 
         if($session_data['role_name'] == 'Super Administrator')
@@ -224,52 +221,65 @@ class Report extends RISK_Controller
         else
         {
             // get row results
-            $risk_result = $this->report_model->getAjaxRisks(array('start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to,'order'=>$orderCol,'sortType'=>$dir));
+            $risk_result = $this->report_model->getAjaxRisks(array('project_id'=>$project_id,'start'=>$start,'limit'=>$length,'user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to,'order'=>$orderCol,'sortType'=>$dir));
 
             // get number of total rows by user ID
-            $total_risks = $this->report_model->getTotalRisks(array('user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));
+            $total_risks = $this->report_model->getTotalRisks(array('project_id'=>$project_id,'user_id'=>$user_id,'category_id'=>$category,'register_id'=>$register,'date_from'=>$date_from,'date_to'=>$date_to));
         }
 
-        foreach ($risk_result as $data_row) {
-            $db_data[] = array(
-                $data_row->risk_title,
-                $this->report_model->getRiskCategoriesName($data_row->RiskCategories_category_id), 
-                $data_row->cause_trigger, 
-                $data_row->identified_hazard_risk, 
-                $data_row->effect,
-                $data_row->project_location, 
-                $data_row->description_change, 
-                $this->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
-                $this->report_model->getSubProjectName($data_row->Subproject_subproject_id),
-                $data_row->likelihood, 
-                $data_row->time_impact, 
-                $data_row->cost_impact, 
-                $data_row->reputation_impact,
-                $data_row->hs_impact, 
-                $data_row->env_impact, 
-                $data_row->legal_impact, 
-                $data_row->quality_impact,
-                $data_row->risk_rating,
-                $data_row->risk_level,
-                $this->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
-                $this->report_model->getRealizationName($data_row->Realization_realization_id),
-                $data_row->action_owner,
-                $data_row->action_item,
-                $data_row->milestone_target_date,
-                $this->report_model->getStatusName($data_row->Status_status_id),
-                $this->report_model->getRiskEntityName($data_row->Entity_entity_id)
+        if($risk_result)
+        {
+            foreach ($risk_result as $data_row) {
+                $db_data[] = array(
+                    $data_row->risk_title,
+                    $this->report_model->getRiskCategoriesName($data_row->RiskCategories_category_id), 
+                    $data_row->cause_trigger, 
+                    $data_row->identified_hazard_risk, 
+                    $data_row->effect,
+                    $data_row->project_location, 
+                    $data_row->description_change, 
+                    $this->report_model->getRiskMaterializationName($data_row->materialization_phase_materialization_id),
+                    $this->report_model->getSubProjectName($data_row->Subproject_subproject_id),
+                    $data_row->likelihood, 
+                    $data_row->time_impact, 
+                    $data_row->cost_impact, 
+                    $data_row->reputation_impact,
+                    $data_row->hs_impact, 
+                    $data_row->env_impact, 
+                    $data_row->legal_impact, 
+                    $data_row->quality_impact,
+                    $data_row->risk_rating,
+                    $data_row->risk_level,
+                    $this->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
+                    $this->report_model->getRealizationName($data_row->Realization_realization_id),
+                    $data_row->action_owner,
+                    $data_row->action_item,
+                    $data_row->milestone_target_date,
+                    $this->report_model->getStatusName($data_row->Status_status_id),
+                    $this->report_model->getRiskEntityName($data_row->Entity_entity_id)
+                );
+            }
+    
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total_risks,
+                "recordsFiltered" => $total_risks,
+                "data" => $db_data
+            );
+        }
+        else
+        {
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total_risks,
+                "recordsFiltered" => $total_risks,
+                "data" => ""
             );
         }
 
-        $output = array(
-            "draw" => $draw,
-            "recordsTotal" => $total_risks,
-            "recordsFiltered" => $total_risks,
-            "data" => $db_data
-        );
-
         echo json_encode($output);
         exit();
+        
     }
 
     // clear session data for filter data
@@ -771,18 +781,11 @@ class Report extends RISK_Controller
         }
     }
 
-    // risk registers
-    function getSubProject( $user_id, $role_id )
+    // get risk register by project ID
+    function getSubProject( $user_id, $project_id )
     {
-        if ( $role_id == 8 ) 
-        {
-            $risk_register = $this->project_model->getAssignedRiskRegisters( $user_id );
-        }
-        else
-        {
-            $risk_register = $this->project_model->getReportRiskRegisters( $user_id );
-        }
-        
+        $risk_register = $this->project_model->getRiskRegisters(array('project_id'=>$project_id));
+
         if( $risk_register )
         {
             $options = array();
