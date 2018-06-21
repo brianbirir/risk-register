@@ -309,4 +309,28 @@ class Riskdata extends RISK_Controller
             redirect('settings/data/'.$data_type);
         }
     }
+
+
+    // get number of project settings
+    function getNumberofProjectSettings()
+    {   
+        // initialize array
+        $num_rows = array();
+
+        // get POST values
+        $project_settings_list = $this->input->post('project_settings_list');
+        $project_id = $this->input->post('project_id');
+
+        // loop through settings array list
+        for ($i=0; $i < count($project_settings_list); $i++) 
+        { 
+            $setting = str_replace("-link","",$project_settings_list[$i]);
+
+            // get number of rows and add to array
+            array_push($num_rows, $this->riskdata_model->getNumberOfProjectSettings($project_id, $setting));
+        }
+
+        // return as array
+        echo json_encode($num_rows);
+    }
 }

@@ -37,6 +37,20 @@
             $row = $query->row();
             return ($query->num_rows() == 1) ? $row : false;
         }
+
+        // count rows of project setting by project ID
+        function getNumberOfProjectSettings($project_id, $table_name)
+        {
+            $this->db->select('COUNT(*) as num');
+            $this->db->from($table_name);
+            $this->db->where('Project_project_id',$project_id);
+            $query = $this->db->get();
+            $result = $query->row();
+
+            if(isset($result)) return $result->num;
+            
+            return 0;
+        }
         
 
         // update table

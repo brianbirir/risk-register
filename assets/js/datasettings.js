@@ -1,13 +1,26 @@
 $(document).ready(function(){
 
     // data settings array store
-    var dataSettings = ["Status","Risk Category","Risk Owner","Entity","Materialization Phase", "Realization", "Cost Rating", "Schedule Rating", "Response Title"];
+    var dataSettings = ["Status","Risk Category","Risk Owner","Entity","Materialization Phase", "Realization", "Cost Rating", "Schedule Rating", "Response Title","Risk Strategies","System Safety"];
+
+    var projectSettings = ["Status","RiskCategories","RiskOwner","Entity","MaterializationPhase", "Realization", "CostMetric", "ScheduleMetric", "ResponseTitle","RiskStrategies","SystemSafety"];
     
     // initialize counter
     let i;
+
+    var listGroup = '#project-settings-list';
+
+    // generate side bar list
+    for (i = 0; i < projectSettings.length; i++) 
+    {
+        var listGroupItem = '<li id="' + replaceWithDash(projectSettings[i]) + '-link" class="list-group-item"><span class="badge">0</span><a href="">'+ projectSettings[i]+'</a></li>';
+
+        $(listGroup).append(listGroupItem);
+    }
     
     // generate tabs and tab panes
-    for (i = 0; i < dataSettings.length; i++) {
+    for (i = 0; i < dataSettings.length; i++) 
+    {
         
         const elementTab = dataSettings[i];
 
@@ -18,7 +31,8 @@ $(document).ready(function(){
         {
             tabsList = '<li class="active"><a href="#' + replaceWithDash(elementTab) + '-pane" data-toggle="tab">' + elementTab + '<span id="'+replaceWithDash(elementTab)+'-badge" class="label label-primary pull-right"></span></a></li>';
         }
-        else {
+        else 
+        {
             tabsList = '<li><a href="#' + replaceWithDash(elementTab) + '-pane" data-toggle="tab">' + elementTab + '<span id="'+replaceWithDash(elementTab)+'-badge" class="label label-primary pull-right"></span></a></li>';
         }
 
@@ -86,10 +100,10 @@ $(document).ready(function(){
     function replaceWithDash(stringValue)
     {
         // in addition return value as lower case
-        return stringValue.replace(/\s+/g, '-').toLowerCase();
+        return stringValue.replace(/\s+/g, '-');
     }
 
-    // function for replacing space character withb dashes. This is for element class names or id name
+    // function for replacing space character with underscore. This is for element class names or id name
     function replaceWithUnderscore(stringValue)
     {
         // in addition return value as lower case
@@ -132,6 +146,20 @@ $(document).ready(function(){
 
         return formBuilder;
     }
+
+
+    // data table
+    function projectSettingsTable()
+    {
+        $('#project-settings-tbl').DataTable({
+            "columns": [
+                { "title": "ID" },
+                { "title": "Title" }
+            ]
+        });
+    }
+
+    projectSettingsTable();
 
 
     // AJAX function to post form data
@@ -201,5 +229,45 @@ $(document).ready(function(){
             }
         }
     }
+
+    // get project settings data
+    function getSettingsData()
+    {
+
+    }
+
+    // get number of project settings per setting
+    function getNumberOfProjectSettings()
+    {
+        var projectID = $('#project_id').val(); // get value for project ID
+        var listChildren = document.getElementById('project-settings-list').children;
+
+        var projectSettings = [];
+
+        for(i=0; i < listChildren.length; i++)
+        {  
+            projectSettings.push(listChildren[i].id)
+            console.log(listChildren[i].id);
+        }
+
+        $.ajax({
+            url:  "/riskdata/getNumberofProjectSettings",
+            type: "POST",
+            data: { project_settings_list : projectSettings, project_id : projectID },
+            dataType: "JSON"
+        })
+        .done(function(response){
+            
+            for(j=0; j < response.length; j++)
+            {
+                $('#'+projectSettings[j]+' .badge').text(response[j]);
+            }
+        })
+        .fail(function(xhr) {
+           console.log(xhr);
+        });
+    }
+
+    getNumberOfProjectSettings();
 
 });
