@@ -49,7 +49,47 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
-        // get risk response by register id
+ 
+        // get responses by project ID
+        function getResponseByProject($params = array())
+        {
+            $this->db->select('*');
+            $this->db->from('RiskResponse');
+            // $this->db->where('register_id',$register_id);
+            
+            // check if project id exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->join('Subproject','Subproject.subproject_id = RiskResponse.register_id');
+                $this->db->where('Subproject.Project_project_id', $params['project_id']);
+            }
+
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // get total number of responses by project ID
+        function getTotalResponsesByProject($params = array())
+        {
+            $this->db->select("COUNT(*) as num");
+            $this->db->from('RiskResponse');
+
+            // check if project id exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->join('Subproject','Subproject.subproject_id = RiskResponse.register_id');
+                $this->db->where('Subproject.Project_project_id', $params['project_id']);
+            }
+
+            $query = $this->db->get();
+            $result = $query->row();
+            
+            if(isset($result)) return $result->num;
+            return 0;
+        }
+
+        // get risk response by user id
         function getResponseByUser($params = array())
         {
             $this->db->select('*');

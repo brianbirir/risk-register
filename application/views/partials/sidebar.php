@@ -44,7 +44,7 @@
           </a>
           <ul class="treeview-menu">
             <li><a href="<?php echo base_url(); ?>dashboard/reports/risk_project"><i class="fas fa-folder"></i> Risks</a></li>
-            <li><a href="<?php echo base_url(); ?>dashboard/report/response"><i class="fas fa-folder"></i> Risk Responses</a></li>
+            <li><a href="<?php echo base_url(); ?>dashboard/reports/response_project"><i class="fas fa-folder"></i> Risk Responses</a></li>
           </ul>
         </li>
         <?php if ($role_id != 8) { ?>

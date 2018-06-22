@@ -3,14 +3,14 @@
 
         <?php
             $attributes = array("class" => "pure-form" ,"id" => "risk-data-form", "name" => "risk-data-form");
-            echo form_open("report/index", $attributes);
+            echo form_open("response/index", $attributes);
         ?>
         <div class="form-group">
             <label for="risk_project">Select Project First:</label>
             <?php
                 $select_project_attributes = '';
-                $select_project['None'] = 'None';
-                echo form_dropdown('risk_project', $select_project, 'None', $select_project_attributes);
+                $select_project['none'] = 'Select Project';
+                echo form_dropdown('risk_project', $select_project, 'none', $select_project_attributes);
             ?>
         </div>
 
