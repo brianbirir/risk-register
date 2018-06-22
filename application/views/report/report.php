@@ -37,15 +37,15 @@
                 <label for="risk_register">Risk Register</label>
                 <?php 
                     $select_register_attributes = 'id="risk-register", class="form-control"';
-                    if($selected_register != "None")
+                    if($selected_register != "none")
                     {
-                        $select_register['None'] = "Select Option";
+                        $select_register['none'] = "Select Option";
                         echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
                     }
                     else 
                     {
-                        $select_register['None'] = "Select Option";
-                        echo form_dropdown('risk_register',$select_register,"None",$select_register_attributes);
+                        $select_register['none'] = "Select Option";
+                        echo form_dropdown('risk_register',$select_register,"none",$select_register_attributes);
                     }
                 ?>
             </div>
@@ -55,15 +55,15 @@
                 <?php 
                     $select_main_category_attributes = 'id="risk-category", class="form-control"';
                     
-                    if($selected_category != "None")
+                    if($selected_category != "none")
                     {
-                        $select_category['None'] = "Select Option";
+                        $select_category['none'] = "Select Option";
                         echo form_dropdown('risk_category', $select_category, $selected_category, $select_main_category_attributes);
                     }
                     else 
                     {
-                        $select_category['None'] = "Select Option";
-                        echo form_dropdown('risk_category',$select_category,"None",$select_main_category_attributes);
+                        $select_category['none'] = "Select Option";
+                        echo form_dropdown('risk_category',$select_category,"none",$select_main_category_attributes);
                     }
                 ?>
             </div>

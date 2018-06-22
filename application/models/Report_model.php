@@ -236,9 +236,16 @@
             $this->db->where('archived',false); // do not export archived data
             $this->db->where('User_user_id', $params['user_id']); // get by user ID
 
+            // check if project ID exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Subproject.Project_project_id', $params['project_id']);
+            }
+
             if(array_key_exists('category_id',$params))
             {
-                if($params['category_id'] != 'None')
+                if($params['category_id'] != 'none')
                 {
                     $this->db->where('RiskCategories_category_id',$params['category_id']);
                 }
@@ -247,7 +254,7 @@
 
             if(array_key_exists('register_id',$params))
             {
-                if($params['register_id'] != 'None')
+                if($params['register_id'] != 'none')
                 {
                     $this->db->where('Subproject_subproject_id',$params['register_id']);
                 }

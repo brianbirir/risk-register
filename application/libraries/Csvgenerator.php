@@ -132,7 +132,8 @@ class Csvgenerator extends CI_Controller
             'register_id' => $params['risk_register'],
             'date_to' => $params['date_to'],
             'date_from' => $params['date_from'],
-            'user_id' => $params['user_id']
+            'user_id' => $params['user_id'],
+            'project_id' => $params['project_id']
         ));
         
         if($db_data)

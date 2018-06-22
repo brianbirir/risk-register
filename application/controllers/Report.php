@@ -91,6 +91,39 @@ class Report extends RISK_Controller
         // load view
         $this->template->load('dashboard', 'report/index', $data);
     }
+
+
+    function report_view() 
+    { 
+        if($this->session->userdata('logged_in')) 
+        { 
+            $data = array('title' => 'Generate Risk Report'); 
+ 
+            // get global data 
+            $data = array_merge($data,$this->get_global_data()); 
+             
+            // breadcrumb 
+            $this->breadcrumb->add($data['title']); 
+            $data['breadcrumb'] = $this->breadcrumb->output(); 
+ 
+            // get current session data 
+            $session_data = $this->session->userdata('logged_in'); 
+ 
+            // get data for select fields 
+            $data['select_category'] = $this->getCategories($session_data['report_project_id']); 
+            $data['select_register'] = $this->getSubProject( $data['user_id'], $session_data['report_project_id'] ); 
+            $data['selected_category'] = "none";  
+            $data['selected_register'] = "none"; 
+ 
+            // load view 
+            $this->template->load('dashboard', 'report/report', $data); 
+        } 
+        else 
+        { 
+            // if no session, redirect to login page 
+            redirect('login', 'refresh'); 
+        } 
+    } 
     
 
     function ajax_report()
@@ -349,6 +382,8 @@ class Report extends RISK_Controller
         // get current session data 
         $session_data = $this->session->userdata('logged_in');
 
+        $project_id = $session_data['report_project_id'];
+
         // use filter session values to generate report
         // $category_id = $session_data['category_id'];
         // $register_id = $session_data['register_id'];
@@ -366,7 +401,8 @@ class Report extends RISK_Controller
             'risk_register' => $register_id,
             'date_from' => $date_from,
             'date_to' => $date_to,
-            'user_id' => $session_data['user_id']
+            'user_id' => $session_data['user_id'],
+            'project_id' => $project_id
         );
 
 
