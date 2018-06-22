@@ -78,7 +78,7 @@
                     ?>
                 </div>
             </div>
-            <button id="filter-report-btn" name="btn_filter" class="btn btn-sm btn-filter">Filter</button>
+            <button id="filter-report-btn" name="btn_filter" class="btn btn-sm btn-filter" style="margin-top:27px;">Filter</button>
         </div>
 
         <a href="<?php echo base_url(); ?>dashboard/report/generate" class="btn btn-sm btn-report">Generate Report</a>
