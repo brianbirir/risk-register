@@ -8,7 +8,7 @@
         <div class="form-group">
             <label for="risk_project">Select Project First:</label>
             <?php
-                $select_project_attributes = '';
+                $select_project_attributes = 'class="form-control"';
                 $select_project['none'] = 'Select Project';
                 echo form_dropdown('risk_project', $select_project, 'none', $select_project_attributes);
             ?>
