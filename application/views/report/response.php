@@ -44,9 +44,9 @@
         </div>
 
         <button id="filter-response-btn" name="btn_filter" class="btn btn-sm btn-filter" style="margin-top:27px;">Filter</button>
-    </fieldset>
 
-    <buttton id="generate-response-report" class="btn btn-default btn-report">Generate Response Report</buttton>
+        <button id="generate-response-report" class="btn btn-sm btn-report" style="margin-top:27px;">Generate Report</button>
+    </fieldset>
 
     <?php if ($this->session->flashdata('msg')){ ?>
         <div class="alert alert-danger alert-dismissible" role="alert">
@@ -86,7 +86,7 @@
                                     <th>Risk Name</th>
                                     <th>Response Title</th>
                                     <th>Risk Strategy</th>
-                                    <!-- <th>Assigned User</th> -->
+                                    <th>Assigned User</th>
                                     <th>Register Name</th>
                                     <th>Date Created</th>
                                     <th>Due Date</th>
@@ -130,6 +130,10 @@
 
         // filter button click
         $( "#filter-response-btn" ).click(function() {
+
+            // get current values
+            var responseRegister = $('#select-register option:checked').val();
+            var responseUser = $('#select-user option:checked').val();
             
             $('#response-report-table').DataTable().destroy();
 
@@ -142,8 +146,8 @@
                     "url": "<?php echo base_url(); ?>" + "response/ajax_report",
                     "type": "POST",
                     "data": function(d){
-                        d.category = $('#select-register option:checked').val();
-                        d.register = $('#select-user option:checked').val();
+                        d.register = responseRegister;
+                        d.user = responseUser;
                     }  
                 },
                 "order": [[1, 'asc']]

@@ -64,6 +64,24 @@
                 $this->db->where('Subproject.Project_project_id', $params['project_id']);
             }
 
+            // user filter
+            if(array_key_exists('user',$params))
+            {
+                if($params['user'] != 'none')
+                {
+                    $this->db->where('RiskResponse.user_id',$params['user']);
+                }
+            }
+
+            // register filter
+            if(array_key_exists('register',$params))
+            {
+                if($params['register'] != 'none')
+                {
+                    $this->db->where('RiskResponse.register_id',$params['register']);
+                }
+            }
+
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -80,6 +98,24 @@
             {
                 $this->db->join('Subproject','Subproject.subproject_id = RiskResponse.register_id');
                 $this->db->where('Subproject.Project_project_id', $params['project_id']);
+            }
+
+            // user filter
+            if(array_key_exists('user',$params))
+            {
+                if($params['user'] != 'none')
+                {
+                    $this->db->where('RiskResponse.user_id',$params['user']);
+                }
+            }
+
+            // register filter
+            if(array_key_exists('register',$params))
+            {
+                if($params['register'] != 'none')
+                {
+                    $this->db->where('RiskResponse.register_id',$params['register']);
+                }
             }
 
             $query = $this->db->get();

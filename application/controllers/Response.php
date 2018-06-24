@@ -16,6 +16,7 @@ class Response extends RISK_Controller
         $this->load->model('project_model');
         $this->load->model('response_model');
         $this->load->model('risk_model');
+        $this->load->model('user_model');
         $this->load->library('userproject');
         $this->load->library('pagination');
     }
@@ -329,25 +330,37 @@ class Response extends RISK_Controller
         $db_data = array();
 
         // get responses from database
-        $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id']));
+        $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id'],'register'=>$register,'user'=>$user));
 
         // get number of total rows by project ID
-        $total_risks = $this->response_model->getTotalResponsesByProject(array('project_id'=> $session_data['report_project_id']));
+        $total_risks = $this->response_model->getTotalResponsesByProject(array('project_id'=> $session_data['report_project_id'],'register'=>$register,'user'=>$user));
 
         if($response)
         {
             foreach ($response as $data_row) {
 
+
+                // construct button for viewing risks associated with the response
                 $view_button = "<a href='/dashboard/response/risks/".$data_row->ResponseTitle_id."' class='btn btn-xs btn-primary btn-view'>View Risks</a></td>";
 
                 $view_button = (string) $view_button;
+
+                // construct list of response users
+                $response_assigned_users = unserialize($data_row->user_id);
+                
+                $response_users_html = '';
+                                         
+                foreach ($response_assigned_users as $db_value)  
+                { 
+                    $response_users_html .= '<span class="label label-success">'.$this->user_model->getUserNames($db_value).'</span>'; 
+                }
 
                 $db_data[] = array(
                     $data_row->response_id,
                     $this->risk_model->getRiskNameByUUID($data_row->risk_uuid),
                     $this->response_model->getResponseName($data_row->ResponseTitle_id),
                     $this->risk_model->getRiskStrategiesName($data_row->RiskStrategies_strategy_id),
-                    // $data_row->unserialize($data_row->user_id),
+                    $response_users_html,
                     $this->risk_model->getSubProjectName($data_row->register_id),
                     $data_row->created_at,
                     $data_row->due_date,
