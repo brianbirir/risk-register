@@ -9,14 +9,14 @@
     <div class="row">
         <div class="col-md-2">
             <label for="risk_register">Risk Register</label>
-            <?php 
+            <?php
                 $select_register_attributes = 'id="select-register" class="form-control"';
                 if($selected_register != 'none')
                 {
                     $select_register['none'] = "Select Option";
                     echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
                 }
-                else 
+                else
                 {
                     $select_register['none'] = "Select Option";
                     echo form_dropdown('risk_register',$select_register,'none',$select_register_attributes);
@@ -27,14 +27,14 @@
         <div class="col-md-2">
 
             <label for="general_user">Users</label>
-            <?php 
+            <?php
                 $select_user_attributes = 'id="select-user" class="form-control"';
                 if($selected_user != 'none')
                 {
                     $select_user['none'] = "Select Option";
                     echo form_dropdown('general_user', $select_user, $selected_user, $select_user_attributes);
                 }
-                else 
+                else
                 {
                     $select_user['none'] = "Select Option";
                     echo form_dropdown('general_user',$select_user,'none',$select_user_attributes);
@@ -55,22 +55,22 @@
         </div>
     <?php } ?>
 </div>
-<?php 
+<?php
 
     //  load risk model
     $CI =& get_instance();
     $CI->load->model('risk_model');
     $CI->load->model('user_model');
     $CI->load->model('response_model');
-    
+
     // check if risk data exists
-    if (!$response_data) 
+    if (!$response_data)
     {
         $msg = 'There are no responses for the selected project!';
         echo '<div style="margin-top:20px; margin-bottom:20px;" class="alert alert-warning" role="alert">'.$msg.'</div>';
     }
-    else 
-    { 
+    else
+    {
 ?>
         <div class="row">
             <div class="col-xs-12">
@@ -86,29 +86,29 @@
                                     <th>Risk Name</th>
                                     <th>Response Title</th>
                                     <th>Risk Strategy</th>
-                                    <th>Assigned User</th>
+                                    <th>Response Owner</th>
                                     <th>Register Name</th>
                                     <th>Date Created</th>
                                     <th>Due Date</th>
-                                    <th>Associated Risk</th>    
+                                    <th>Associated Risk</th>
                                 </tr>
                             </thead>
                             <tbody id="response-report-data">
-                                
+
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
         </div>
-<?php 
-    } 
+<?php
+    }
 ?>
 
 <script>
 
     $(document).ready(function() {
-        
+
         var responseRegister = $('#select-register option:checked').val();
         var responseUser = $('#select-user option:checked').val();
 
@@ -134,7 +134,7 @@
             // get current values
             var responseRegister = $('#select-register option:checked').val();
             var responseUser = $('#select-user option:checked').val();
-            
+
             $('#response-report-table').DataTable().destroy();
 
             // generate table from AJAX request
@@ -148,7 +148,7 @@
                     "data": function(d){
                         d.register = responseRegister;
                         d.user = responseUser;
-                    }  
+                    }
                 },
                 "order": [[1, 'asc']]
             });

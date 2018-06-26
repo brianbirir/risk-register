@@ -17,12 +17,12 @@
 <div class="row">
     <div id="reg-risk-form">
         <div class="col-md-12">
-        
+
             <?php
                 $attributes = array("class" => "ui form", "id" => "risk-reg-form", "name" => "reg-risk-form");
                 echo form_open("risk/register", $attributes);
             ?>
-        
+
             <div class="box box-success box-identification">
 
                 <div class="box-header">
@@ -33,7 +33,7 @@
                     <input type="hidden" name="risk_uuid" id="risk_uuid" class="form-control" value="<?php echo $risk_uuid; ?>"/>
                     <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id; ?>"/>
 
-                    <div class="row">             
+                    <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="identified_hazard_risk">Identified Hazard Risk</label>
@@ -90,7 +90,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <div class="row">
                         <div class="col-md-3">
                             <div class="form-group">
@@ -106,7 +106,7 @@
                                 <div id="risk_current_date" class="well well-sm" onload="appendCurrentDate()"></div>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="owner">Risk Owner</label>
@@ -127,7 +127,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="status">Status</label>
-                                <?php 
+                                <?php
                                     $select_status_attributes = 'class="form-control"';
                                     echo form_dropdown('status',$select_status,"1",$select_status_attributes);
                                 ?>
@@ -146,7 +146,7 @@
                                 <label for="entity">Entity</label>
                                 <?php
                                     $select_entity_attributes = 'class="form-control"';
-                                    echo form_dropdown('entity',$select_risk_entity,"1",$select_entity_attributes);  
+                                    echo form_dropdown('entity',$select_risk_entity,"1",$select_entity_attributes);
                                 ?>
                             </div>
                         </div>
@@ -156,7 +156,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="main_category">Risk Category</label>
-                                <?php 
+                                <?php
                                     $select_main_category_attributes = 'class="form-control" required';
                                     $select_category['select_option'] = 'Select Option';
                                     echo form_dropdown('main_category',$select_category,"select_option",$select_main_category_attributes);
@@ -167,7 +167,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="sub_category">Risk Subcategory</label>
-                                <?php 
+                                <?php
                                     $select_subcategory_attributes = 'id="subcategory-select" class="form-control" required';
                                     $subcategory_options = array('none' => 'None');
                                     echo form_dropdown('sub_category',$subcategory_options,'none',$select_subcategory_attributes);
@@ -176,12 +176,12 @@
                         </div>
 
                     </div>
-                    
-                    <div class="row">             
+
+                    <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="materialization_phase">Materialization Phase</label>
-                                <?php 
+                                <?php
                                     $select_materialization_attributes = 'class="form-control" required';
                                     echo form_dropdown('materialization_phase',$select_materialization_phase,"1",$select_materialization_attributes);
                                 ?>
@@ -191,7 +191,7 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="risk_owner">Risk Owner</label>
-                                <?php 
+                                <?php
                                     $select_risk_owner_attributes = 'class="form-control" required';
                                     echo form_dropdown('risk_owner',$select_risk_owner,"1",$select_risk_owner_attributes);
                                 ?>
@@ -202,7 +202,10 @@
                 </div>
             </div>
 
-            <div class="box box-info box-pre-mitigated">
+            <div class="row">
+
+              <div class="col-md-4">
+                <div class="box box-info box-pre-mitigated">
 
                 <div class="box-header">
                     <h3 class="box-title">Pre-Mitigation Risk Assessment</h3>
@@ -210,7 +213,7 @@
 
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="likelihood">Likelihood</label>
                             <?php
                                 $select_option = array(
@@ -225,53 +228,53 @@
                                 echo form_dropdown('likelihood',$select_option,"1",$select_likelihood_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="timeimpact">Time Impact</label>
-                            <?php 
+                            <?php
                                 $select_time_impact = 'id="timeimpact" class="form-control input-sm select-input"';
                                 // echo form_dropdown('timeimpact',$select_option,"1",$select_time_impact);
                                 echo form_dropdown('timeimpact', $select_risk_schedule, "1", $select_time_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="costimpact">Cost Impact</label>
-                            <?php 
+                            <?php
                                 $select_cost_impact = 'id="costimpact" class="form-control input-sm select-input"';
                                 // echo form_dropdown('costimpact',$select_option,"1",$select_cost_impact);
                                 echo form_dropdown('costimpact', $select_risk_cost, "1", $select_cost_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="reputationimpact">Reputation Impact</label>
-                            <?php 
+                            <?php
                                 $select_reputation_impact = 'id="reputationimpact" class="form-control input-sm select-input"';
                                 echo form_dropdown('reputationimpact',$select_option,"1",$select_reputation_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="hsimpact">H & S Impact</label>
-                            <?php 
+                            <?php
                                 $select_hs_impact = 'id="hsimpact" class="form-control input-sm select-input"';
                                 echo form_dropdown('hsimpact',$select_option,"1",$select_hs_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="environmentimpact">Environment Impact</label>
-                            <?php 
+                            <?php
                                 $select_env_impact = 'id="envimpact" class="form-control input-sm select-input"';
                                 echo form_dropdown('environmentimpact',$select_option,"1",$select_env_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="legalimpact">Legal Impact</label>
-                            <?php 
+                            <?php
                                 $select_legal_impact = 'id="legalimpact" class="form-control input-sm select-input"';
                                 echo form_dropdown('legalimpact',$select_option,"1",$select_legal_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="qualityimpact">Quality Impact</label>
-                            <?php 
+                            <?php
                                 $select_quality_impact = 'id="qualityimpact" class="form-control input-sm select-input"';
                                 echo form_dropdown('qualityimpact',$select_option,"1",$select_quality_impact);
                             ?>
@@ -279,13 +282,13 @@
                     </div>
 
                     <div class="row" style="margin-top:20px;">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <input readonly="readonly" id="risk_rating" class="form-control toggle-content" name="risk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('risk_rating'); ?>" required/>
                                 <?php echo form_error('risk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <input readonly="readonly" id="risk_level" class="form-control toggle-content" name="risk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('risk_level'); ?>" required/>
                                 <?php echo form_error('risk_level','<div class="alert alert-danger">','</div>'); ?>
@@ -296,10 +299,12 @@
                         </div>
                     </div>
                 </div>
-            
-            </div>
 
-            <div class="box box-info box-current-risks">
+            </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="box box-info box-current-risks">
 
                 <div class="box-header">
                     <h3 class="box-title">Current Risk Assessment</h3>
@@ -307,7 +312,7 @@
 
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="likelihood_current">Likelihood</label>
                             <?php
                                 $select_option = array(
@@ -321,53 +326,53 @@
                                 echo form_dropdown('likelihood_current',$select_option,"1",$select_current_likelihood_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="timeimpact_current">Time Impact</label>
-                            <?php 
+                            <?php
                                 $select_current_time_impact = 'id="timeimpact_current" class="form-control input-sm select-input"';
                                 // echo form_dropdown('timeimpact',$select_option,"1",$select_time_impact);
                                 echo form_dropdown('timeimpact_current', $select_risk_schedule, "1", $select_current_time_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="costimpact_current">Cost Impact</label>
-                            <?php 
+                            <?php
                                 $select_current_cost_impact = 'id="costimpact_current" class="form-control input-sm select-input"';
                                 // echo form_dropdown('costimpact',$select_option,"1",$select_cost_impact);
                                 echo form_dropdown('costimpact_current', $select_risk_cost, "1", $select_current_cost_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="reputationimpact_current">Reputation Impact</label>
-                            <?php 
+                            <?php
                                 $select_current_reputation_impact = 'id="reputationimpact_current" class="form-control input-sm select-input"';
                                 echo form_dropdown('reputationimpact_current',$select_option,"1",$select_current_reputation_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="hsimpact_current">H & S Impact</label>
-                            <?php 
+                            <?php
                                 $select_current_hs_impact = 'id="hsimpact_current" class="form-control input-sm select-input"';
                                 echo form_dropdown('hsimpact_current',$select_option,"1",$select_current_hs_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="environmentimpact_current">Environment Impact</label>
-                            <?php 
+                            <?php
                                 $select_current_env_impact = 'id="envimpact_current" class="form-control input-sm select-input"';
                                 echo form_dropdown('environmentimpact_current',$select_option,"1",$select_current_env_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="legalimpact_current">Legal Impact</label>
-                            <?php 
+                            <?php
                                 $select_current_legal_impact = 'id="legalimpact_current" class="form-control input-sm select-input"';
                                 echo form_dropdown('legalimpact_current',$select_option,"1",$select_current_legal_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="qualityimpact_current">Quality Impact</label>
-                            <?php 
+                            <?php
                                 $select_current_quality_impact = 'id="qualityimpact_current" class="form-control input-sm select-input"';
                                 echo form_dropdown('qualityimpact_current',$select_option,"1",$select_current_quality_impact);
                             ?>
@@ -375,13 +380,13 @@
                     </div>
 
                     <div class="row" style="margin-top:20px;">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <input readonly="readonly" id="currentrisk_rating" class="form-control toggle-content" name="currentrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('currentrisk_rating'); ?>" required/>
                                 <?php echo form_error('currentrisk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <input readonly="readonly" id="currentrisk_level" class="form-control toggle-content" name="currentrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('currentrisk_level'); ?>" required/>
                                 <?php echo form_error('currentrisk_level','<div class="alert alert-danger">','</div>'); ?>
@@ -392,10 +397,12 @@
                         </div>
                     </div>
                 </div>
-            
-            </div>
 
-            <div class="box box-info box-targeted-risks">
+            </div>
+              </div>
+
+              <div class="col-md-4">
+                <div class="box box-info box-targeted-risks">
 
                 <div class="box-header">
                     <h3 class="box-title">Predicted Post Mitigation Assessment</h3>
@@ -403,7 +410,7 @@
 
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="likelihood_target">Likelihood</label>
                             <?php
                                 $select_option = array(
@@ -417,53 +424,53 @@
                                 echo form_dropdown('likelihood_target',$select_option,"1",$select_current_likelihood_target);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="timeimpact_target">Time Impact</label>
-                            <?php 
+                            <?php
                                 $select_target_time_impact = 'id="timeimpact_target" class="form-control input-sm select-input"';
                                 // echo form_dropdown('timeimpact',$select_option,"1",$select_time_impact);
                                 echo form_dropdown('timeimpact_target', $select_risk_schedule, "1", $select_target_time_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="costimpact_target">Cost Impact</label>
-                            <?php 
+                            <?php
                                 $select_target_cost_impact = 'id="costimpact_target" class="form-control input-sm select-input"';
                                 // echo form_dropdown('costimpact',$select_option,"1",$select_cost_impact);
                                 echo form_dropdown('costimpact_target', $select_risk_cost, "1", $select_target_cost_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="reputationimpact_target">Reputation Impact</label>
-                            <?php 
+                            <?php
                                 $select_target_reputation_impact = 'id="reputationimpact_target" class="form-control input-sm select-input"';
                                 echo form_dropdown('reputationimpact_target',$select_option,"1",$select_target_reputation_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="hsimpact_target">H & S Impact</label>
-                            <?php 
+                            <?php
                                 $select_target_hs_impact = 'id="hsimpact_target" class="form-control input-sm select-input"';
                                 echo form_dropdown('hsimpact_target',$select_option,"1",$select_target_hs_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="environmentimpact_target">Environment Impact</label>
-                            <?php 
+                            <?php
                                 $select_target_env_impact = 'id="envimpact_target" class="form-control input-sm select-input"';
                                 echo form_dropdown('environmentimpact_target',$select_option,"1",$select_target_env_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="legalimpact_target">Legal Impact</label>
-                            <?php 
+                            <?php
                                 $select_target_legal_impact = 'id="legalimpact_target" class="form-control input-sm select-input"';
                                 echo form_dropdown('legalimpact_target',$select_option,"1",$select_target_legal_impact);
                             ?>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-6">
                             <label for="qualityimpact_target">Quality Impact</label>
-                            <?php 
+                            <?php
                                 $select_target_quality_impact = 'id="qualityimpact_target" class="form-control input-sm select-input"';
                                 echo form_dropdown('qualityimpact_target',$select_option,"1",$select_target_quality_impact);
                             ?>
@@ -471,13 +478,13 @@
                     </div>
 
                     <div class="row" style="margin-top:20px;">
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <input readonly="readonly" id="targetrisk_rating" class="form-control toggle-content" name="targetrisk_rating" placeholder="Risk Rating" type="text" value="<?php echo set_value('targetrisk_rating'); ?>" required/>
                                 <?php echo form_error('targetrisk_rating','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <input readonly="readonly" id="targetrisk_level" class="form-control toggle-content" name="targetrisk_level" placeholder="Risk Level" type="text" value="<?php echo set_value('targetrisk_level'); ?>" required/>
                                 <?php echo form_error('targetrisk_level','<div class="alert alert-danger">','</div>'); ?>
@@ -488,7 +495,9 @@
                         </div>
                     </div>
                 </div>
-            
+
+            </div>
+              </div>
             </div>
 
             <div class="box box-warning box-responses">
@@ -498,11 +507,11 @@
                 </div>
 
                 <div class="box-body">
-                    
+
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="system_safety">System Safety</label>
-                            <?php 
+                            <?php
                                 $select_system_attributes = 'class="form-control"';
                                 echo form_dropdown('system_safety',$select_safety,"1",$select_system_attributes);
                             ?>
@@ -512,7 +521,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="realization">Realization</label>
-                            <?php 
+                            <?php
                                 $select_realization_attributes = 'class="form-control"';
                                 echo form_dropdown('realization',$select_realization,"1",$select_realization_attributes);
                             ?>
@@ -532,14 +541,14 @@
                                             <th>Response Title</th>
                                             <th></th>
                                             <th>Response Type</th>
-                                            <th>Register User</th>
+                                            <th>Response Owner</th>
                                             <th>Target Date</th>
                                         </tr>
                                     </thead>
                                     <tbody id="response-table-body">
                                         <tr id="response-row">
 
-                                            <?php 
+                                            <?php
                                                 /** check if response titles exist for this given risk register
                                                  * if not display input text field
                                                  * if they do exist display select drop down of those response titles
@@ -556,8 +565,8 @@
                                             <td>
                                                 <div class="form-group form-response-title">
                                                     <select name="risk_response[title][]" class="form-control response response-title">
-                                                        <?php 
-                                                            foreach ($select_response_name as $key => $value) 
+                                                        <?php
+                                                            foreach ($select_response_name as $key => $value)
                                                             {
                                                                 echo "<option value=".$key.">".$value."</option>";
                                                             }
@@ -573,8 +582,8 @@
                                             <td>
                                                 <div class="form-group">
                                                     <select name="risk_response[strategy][]" class="form-control response response-strategy">
-                                                        <?php 
-                                                            foreach ($select_strategy as $key => $value) 
+                                                        <?php
+                                                            foreach ($select_strategy as $key => $value)
                                                             {
                                                                 echo "<option value=".$key.">".$value."</option>";
                                                             }
@@ -585,8 +594,8 @@
                                             <td>
                                                 <div class="form-group">
                                                     <select multiple="multiple" name="risk_response[user][]" class="form-control response response-user">
-                                                        <?php 
-                                                            foreach ($select_user as $key => $value) 
+                                                        <?php
+                                                            foreach ($select_user as $key => $value)
                                                             {
                                                                 echo "<option value=".$key.">".$value."</option>";
                                                             }
@@ -626,8 +635,8 @@
                                 <label for="action_owner">Action Owner</label>
                                 <div class="form-group">
                                     <select name="action_owner" class="form-control select2 action-owner">
-                                        <?php 
-                                            foreach ($select_user as $key => $value) 
+                                        <?php
+                                            foreach ($select_user as $key => $value)
                                             {
                                                 echo "<option value=".$key.">".$value."</option>";
                                             }
@@ -676,7 +685,7 @@
                 <h4 class="modal-title">Add Response Title</h4>
               </div>
               <div class="modal-body">
-                
+
                 <div style="display: none;" id="response-modal-alert-warning" class="alert alert-warning fade in" role="alert">
                     <strong>Warning!</strong> Please fill the response title field!
                 </div>
@@ -692,7 +701,7 @@
                     $attributes = array("class" => "ui form", "id" => "response-title-form", "name" => "response-title-form");
                     echo form_open("", $attributes);
                 ?>
-                    
+
                     <div class="form-group">
                         <label for="response_title_modal">Response Title</label>
                         <input id="response-modal-title" class="form-control" name="response_title_modal" type="text" value="<?php echo set_value('response_title_modal'); ?>" required/>
@@ -700,15 +709,15 @@
 
                     <div class="form-group">
                         <label for="project_name">Select Project</label>
-                        <?php 
+                        <?php
                             $select_project_attributes = 'class="form-control" disabled';
                             echo form_dropdown('project_name',$select_project,$user_project_id,$select_project_attributes);
                         ?>
                     </div>
 
                     <input type="hidden" name="project" id="response-modal-project-id" class="form-control" value="<?php echo $user_project_id; ?>"/>
-    
-                <?php echo form_close(); ?>   
+
+                <?php echo form_close(); ?>
 
               </div>
               <div class="modal-footer">
@@ -746,7 +755,7 @@
 
                             // create select field for response title
                             var titleSelect = '<select name="risk_response[title][]" class="form-control response response-title"></select>';
-                            
+
                             // remove options from response title select drop down
                             // $('.response-title option').remove();
 
@@ -757,7 +766,7 @@
 
                             // recreate response title select field
                             $('.form-response-title').html(titleSelect);
-                                                   
+
                             // add new options from data
                             $.each( response, function( key, value ) {
                                 $('.response-title').append('<option value="' + key + '">' + value + '</option>');
@@ -768,7 +777,7 @@
                         })
                         .fail(function(xhr) {
                             $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
-                        }); 
+                        });
                     }
                 });
 
@@ -788,7 +797,7 @@
                     .done(function(response) {
                         // remove options from subcategory drop down
                         $('#subcategory-select option').remove();
-                        
+
                         // add new options from response
                         $.each( response, function( key, value ) {
                             $('#subcategory-select').append('<option value="' + key + '">' + value + '</option>');
@@ -801,5 +810,5 @@
             });
         </script>
 
-    </div>       
+    </div>
 </div>
