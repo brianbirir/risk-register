@@ -332,5 +332,98 @@ class Riskdata extends RISK_Controller
 
         // return as array
         echo json_encode($num_rows);
+
+        exit();
+    }
+
+
+    function getAjaxProjectSettings()
+    {
+        // Data tables POST Variables
+        $draw = intval($this->input->post("draw"));
+        $start = intval($this->input->post("start"));
+        $length = intval($this->input->post("length"));
+        $tbl_name = str_replace("-link","",$this->input->post("project_setting"));
+        $project_id = intval($this->input->post("project_id"));
+        $order = $this->input->post("order");
+
+        // ordering configuration
+        $col = 0;
+        $dir = "";
+
+        if(!empty($order)) 
+        {
+            foreach($order as $o) 
+            {
+                $col = $o['column'];
+                $dir= $o['dir'];
+            }
+        }
+
+        if($dir != "asc" && $dir != "desc") 
+        {
+            $dir = "asc";
+        }
+
+        $columns_valid = array("id","name");
+
+        if(!isset($columns_valid[$col])) 
+        {
+           $orderCol = null;
+        } 
+        else 
+        {
+           $orderCol = $columns_valid[$col];
+        }
+
+        // initialize array for table data
+        $db_data = array();
+
+        $result = $this->riskdata_model->getRiskData($project_id,$tbl_name);
+        $total = $this->riskdata_model->getTotalRiskData($project_id,$tbl_name);
+
+        if($result)
+        {
+
+            if($tbl_name == 'CostMetric' || $tbl_name == 'ScheduleMetric')
+            {
+                foreach ($result as $data_row) 
+                {
+                    $db_data[] = array(
+                        $data_row->id,
+                        $data_row->rating
+                    );
+                }
+            }
+            else
+            {
+                foreach ($result as $data_row) 
+                {
+                    $db_data[] = array(
+                        $data_row->id,
+                        $data_row->name
+                    );
+                }
+            }
+    
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total,
+                "recordsFiltered" => $total,
+                "data" => $db_data
+            );
+        }
+        else
+        {
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total,
+                "recordsFiltered" => $total,
+                "data" => ""
+            );
+        }
+
+        echo json_encode($output);
+        exit();
     }
 }

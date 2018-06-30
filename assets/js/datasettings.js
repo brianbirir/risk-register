@@ -1,8 +1,5 @@
 $(document).ready(function(){
 
-    // data settings array store
-    var dataSettings = ["Status","Risk Category","Risk Owner","Entity","Materialization Phase", "Realization", "Cost Rating", "Schedule Rating", "Response Title","Risk Strategies","System Safety"];
-
     var projectSettings = ["Status","RiskCategories","RiskOwner","Entity","MaterializationPhase", "Realization", "CostMetric", "ScheduleMetric", "ResponseTitle","RiskStrategies","SystemSafety"];
     
     // initialize counter
@@ -13,88 +10,11 @@ $(document).ready(function(){
     // generate side bar list
     for (i = 0; i < projectSettings.length; i++) 
     {
-        var listGroupItem = '<li id="' + replaceWithDash(projectSettings[i]) + '-link" class="list-group-item"><span class="badge">0</span><a href="">'+ projectSettings[i]+'</a></li>';
+        var listGroupItem = '<a id="' + replaceWithDash(projectSettings[i]) + '-link" class="list-group-item"><span class="badge">0</span>'+ projectSettings[i]+'</a>';
 
         $(listGroup).append(listGroupItem);
     }
     
-    // generate tabs and tab panes
-    for (i = 0; i < dataSettings.length; i++) 
-    {
-        
-        const elementTab = dataSettings[i];
-
-        var tabsList = '';
-        var tabsPane = '';
-        
-        if (i == 0) 
-        {
-            tabsList = '<li class="active"><a href="#' + replaceWithDash(elementTab) + '-pane" data-toggle="tab">' + elementTab + '<span id="'+replaceWithDash(elementTab)+'-badge" class="label label-primary pull-right"></span></a></li>';
-        }
-        else 
-        {
-            tabsList = '<li><a href="#' + replaceWithDash(elementTab) + '-pane" data-toggle="tab">' + elementTab + '<span id="'+replaceWithDash(elementTab)+'-badge" class="label label-primary pull-right"></span></a></li>';
-        }
-
-        // append list items to tabs container
-        $("#data-settings-tabs").append(tabsList);
-
-        tabsPane = dataSettingsForm(i, elementTab);
-
-        // append tab panes to panes container
-        $("#data-settings-tab-content").append(tabsPane);
-
-        // set badge labels to zero
-        $('#'+replaceWithDash(elementTab)+'-badge').html('0');
-    }
-
-    // clicking button functions
-    $('#add-status-setting').click(function(event){
-        event.preventDefault();
-        // console.log("I have been clicked "+ dataSettings[0]);
-        postFormData(dataSettings[0]);
-    });
-
-    $('#add-risk-category-setting').click(function(event){
-        event.preventDefault();
-        postFormData(dataSettings[1]);
-    });
-
-    $('#add-risk-owner-setting').click(function(event){
-        event.preventDefault();
-        postFormData(dataSettings[2]);
-    });
-
-    $('#add-entity-setting').click(function(event){
-        event.preventDefault();
-        postFormData(dataSettings[3]);
-    });
-
-    $('#add-materialization-phase-setting').click(function(event){
-        event.preventDefault();
-        postFormData(dataSettings[4]);
-    });
-
-    $('#add-realization-setting').click(function(event){
-        event.preventDefault();
-        postFormData(dataSettings[5]);
-    });
-
-    $('#add-cost-rating-setting').click(function(event){
-        event.preventDefault();
-        postFormData(dataSettings[6]);
-    });
-
-    $('#add-schedule-rating-setting').click(function(event){
-        event.preventDefault();
-        postFormData(dataSettings[7]);
-    });
-
-    $('#add-response-title-setting').click(function(event){
-        event.preventDefault();
-        postFormData(dataSettings[8]);
-    });
-
 
     // function for replacing space character with dashes. This is for element class names or id name
     function replaceWithDash(stringValue)
@@ -230,11 +150,6 @@ $(document).ready(function(){
         }
     }
 
-    // get project settings data
-    function getSettingsData()
-    {
-
-    }
 
     // get number of project settings per setting
     function getNumberOfProjectSettings()
@@ -246,8 +161,7 @@ $(document).ready(function(){
 
         for(i=0; i < listChildren.length; i++)
         {  
-            projectSettings.push(listChildren[i].id)
-            console.log(listChildren[i].id);
+            projectSettings.push(listChildren[i].id);
         }
 
         $.ajax({
@@ -270,4 +184,87 @@ $(document).ready(function(){
 
     getNumberOfProjectSettings();
 
+    var projectSettingsChildren = document.getElementById('project-settings-list').children;
+
+    // get parent
+    var projectSettingsParent = document.getElementById('project-settings-list');
+
+    // event handler
+    function handler( event ) {
+        
+        var target = $( event.target );
+        
+        if ( target.is( "li" ) ) 
+        {
+          target.children().toggle();
+        }
+    }
+
+    // get value for project ID
+    var projectID = $('#project_id').val();
+
+    // click project sidebar links and display table of the settings details
+    $(projectSettingsChildren).bind('click',function(event)
+    {   
+        $('.list-group-item').removeClass('active');
+
+        if(event.target.tagName == 'A')
+        {
+            console.log(event.target.id); // debug
+            $('#'+ event.target.id).addClass('active'); // add active class
+            getSettings(event.target.id, projectID);
+        }
+    });
+
+    // generate settings data table
+    function getSettings(setting, project)
+    {
+        // destroy table first if it exists
+        $('#project-settings-tbl').DataTable().destroy();
+
+        if(setting == 'CostMetric-link' || setting == 'ScheduleMetric-link')
+        {
+            // generate table from AJAX request for risk items
+            var riskTable = $('#project-settings-tbl').DataTable({
+                "pageLength" : 10,
+                "processing": true,
+                "serverSide": true,
+                "aaSorting": [],
+                "ajax": {
+                    "url": "/riskdata/getAjaxProjectSettings",
+                    "type": "POST",
+                    "data": function(d){
+                        d.project_setting = setting;
+                        d.project_id = project;
+                    }
+                },
+                "columns": [
+                    { "title": "ID", "name": "id" },
+                    { "title": "Rating", "name": "name" }
+                ]
+            });
+        }
+        else
+        {
+            // generate table from AJAX request for risk items
+            var riskTable = $('#project-settings-tbl').DataTable({
+                "pageLength" : 10,
+                "processing": true,
+                "serverSide": true,
+                "aaSorting": [],
+                "ajax": {
+                    "url": "/riskdata/getAjaxProjectSettings",
+                    "type": "POST",
+                    "data": function(d){
+                        d.project_setting = setting;
+                        d.project_id = project;
+                    }
+                },
+                "columns": [
+                    { "title": "ID", "name": "id" },
+                    { "title": "Title", "name": "name" }
+                ]
+            });
+        }
+    }
 });

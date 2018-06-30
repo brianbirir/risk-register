@@ -908,25 +908,20 @@ class Project extends RISK_Controller
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
-            $data['select_project'] = $this->userproject->getProject( $data['user_id'] );
 
-            // get latest project ID and set in session
             $session_data = $this->session->userdata('logged_in');
-            $session_data['latest_project_id'] = $this->project_model->latestProjectID();
-            $this->session->set_userdata('logged_in', $session_data);
+            
+            // set project id
+            $data['project_id'] = $session_data['user_project_id']; 
+            
+            // set project name
+            $data['project_name'] = $session_data['project_name'] ;
 
             $data['title'] = $session_data['project_name'].' Project Settings'; 
 
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
-
-            // set latest project ID as data for page
-            ($session_data['latest_project_id']) ? $data['project_id'] = $session_data['latest_project_id'] : $data['project_id'] = 1;
-
-            // get project name
-            $single_project = $this->project_model->getSingleProject($this->project_model->latestProjectID());
-            $data['project_name'] = $session_data['project_name'];
 
             $this->template->load('dashboard', 'settings/data/project_settings', $data);
         }

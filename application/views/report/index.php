@@ -138,8 +138,6 @@
         var riskCategory = $('#select-category option:checked').val();
         var riskRegister = $('#select-register option:checked').val();
 
-        console.log(riskCategory);
-
         // generate table from AJAX request
         var reportTable = $('#risk-report-table').DataTable({
             "pageLength" : 10,

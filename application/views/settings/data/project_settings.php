@@ -39,40 +39,41 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <!-- Custom Tabs -->
-        <div class="nav-tabs-custom">
-            
-            <ul id="data-settings-tabs" class="nav nav-tabs">
-                
-            </ul>
-            <div id="data-settings-tab-content" class="tab-content">
-                
-                <input type="hidden" name="project_id" id="project_id" class="form-control" value="<?php echo $project_id; ?>"/>
-                <!-- alerts -->
-                <div style="display: none;" id="data-setting-alert-warning" class="alert alert-warning fade in alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Warning!</strong> Please fill the data name field!
-                </div>
-
-                <div style="display: none;" id="data-setting-alert-success" class="alert alert-success fade in alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Success!</strong> The data setting has been registered successfully!
-                </div>
-
-                <div style="display: none;" id="data-setting-alert-danger" class="alert alert-danger fade in alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                
-
+    <div class="col-md-3">
+        <div class="box box-default">
+            <div class="box-header">
+                <h3 class="box-title">Project Settings</h3>
             </div>
-        <!-- /.tab-content -->
-        </div>
-        <!-- nav-tabs-custom -->
+            <div class="box-body">
+                <div id="project-settings-list" class="list-group">
 
-        <!-- link to users registration page -->
-        <a class="btn btn-default pull-right" href="<?php echo base_url(); ?>projectsetup/user/add">Next</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-9">
+        <div class="box box-default">
+            <div class="box-header">
+                <h3 class="box-title">Settings Data</h3>
+                <div class ="pull-right">
+                    <button class="btn btn-default btn-reg btn-xs">Add Project Setting</button>
+                </div>
+            </div>
+            <div class="box-body">
+
+                <!-- data table -->
+                <table id="project-settings-tbl" class="table table-responsive table-bordered table-hover dataTable">
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </div>
+
+
+<form>
+    <input type="hidden" name="project_id" id="project_id" class="form-control" value="<?php echo $project_id; ?>"/> 
+</form>
 
 <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/datasettings.js"></script>
