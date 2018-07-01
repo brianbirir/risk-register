@@ -57,7 +57,7 @@
             <div class="box-header">
                 <h3 class="box-title">Settings Data</h3>
                 <div class ="pull-right">
-                    <button class="btn btn-default btn-reg btn-xs">Add Project Setting</button>
+                    <button type="button" class="btn btn-default btn-reg btn-xs" data-toggle="modal" data-target="#project-setting-modal">Add Project Setting</button>
                 </div>
             </div>
             <div class="box-body">
@@ -75,5 +75,43 @@
 <form>
     <input type="hidden" name="project_id" id="project_id" class="form-control" value="<?php echo $project_id; ?>"/> 
 </form>
+
+
+<!-- Small modal: project setting form -->
+
+<div id="project-setting-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Add Project Setting</h4>
+      </div>
+      <div class="modal-body">
+
+            <!-- alerts --> 
+            <div style="display: none;" id="data-setting-alert-warning" class="alert alert-warning fade in alert-dismissible" role="alert"> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+                <strong>Warning!</strong> Please fill the name field! 
+            </div>
+
+            <div style="display: none;" id="data-setting-alert-success" class="alert alert-success fade in alert-dismissible" role="alert"> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+                <strong>Success!</strong> The data setting has been registered successfully! 
+            </div>
+
+            <div style="display: none;" id="data-setting-alert-danger" class="alert alert-success fade in alert-dismissible" role="alert"> 
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button> 
+                <strong>Error!</strong> Unable to save! 
+            </div>
+
+            <div id="project-setting-modal-body"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button id="register-project-setting" type="button" class="btn btn-primary">Register Setting</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/js/datasettings.js"></script>

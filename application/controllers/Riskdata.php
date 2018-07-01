@@ -206,21 +206,14 @@ class Riskdata extends RISK_Controller
     {
         // values to be inserted into table
         $project_id = $this->input->post('project_id');
-        $data_name = $this->input->post('data_name');
-        $data_description = $this->input->post('data_desc');
+        $data_name = $this->input->post('setting_name');
+        $table_name = $this->input->post('setting_table');
         $timestamp = date('Y-m-d');
-        $db_response = array();
 
         // ajax response
         $response = array();
 
-        // data type to determine table type
-        $data_type = $this->input->post('data_type');
-
-        // get name of table to be updated
-        $tbl_name = $this->risk_data[$data_type]['tbl_name'];
-
-        if($data_type == 'cost_rating' || $data_type == 'schedule_rating')
+        if($table_name == 'CostMetric' || $table_name == 'ScheduleMetric')
         {
             $data = array(
                 'rating' => $data_name,
@@ -241,18 +234,18 @@ class Riskdata extends RISK_Controller
         }
 
         // insert form data into database
-        if ($this->riskdata_model->insert($tbl_name, $data))
+        if ($this->riskdata_model->insert($table_name, $data))
         {   
-            // get row count
-            $row_count = $this->riskdata_model->getTotalRiskData($project_id, $tbl_name);
+            $response['setting'] = $table_name;
+            $response['status'] = true;
 
-            $db_response['data_count'] = $row_count;
-            
-            echo json_encode($db_response);
+            echo json_encode($response);
         }
         else
         {
-            echo json_encode($response['value'] = false);
+            $response['status'] = false;
+
+            echo json_encode($response);
         }
     }
 

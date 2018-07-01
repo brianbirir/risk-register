@@ -23,6 +23,7 @@ $(document).ready(function(){
         return stringValue.replace(/\s+/g, '-');
     }
 
+
     // function for replacing space character with underscore. This is for element class names or id name
     function replaceWithUnderscore(stringValue)
     {
@@ -30,39 +31,53 @@ $(document).ready(function(){
         return stringValue.replace(/\s+/g, '_').toLowerCase();
     }
 
+
+    // on opening modal display project setting form
+    $('#project-setting-modal').on('show.bs.modal', function (e) {
+
+        $('#project-setting-modal-body').html(dataSettingsForm());
+
+    })
+
+
+    // on closing modal hide some elements and set inputs to empty
+    $('#project-setting-modal').on('hidden.bs.modal', function (e) {
+        
+        $('#settings-name').val(''); // set name value to empty
+
+        // hide alert boxes
+        $("#data-setting-alert-warning").hide(); 
+        $("#data-setting-alert-success").hide();
+        $("#data-setting-alert-danger").hide();
+    })
+
+
     // build form for adding data settings
-    function dataSettingsForm(index, elementName)
+    function dataSettingsForm()
     {
+        var projectSettings = ["Status","RiskCategories","RiskOwner","Entity","MaterializationPhase", "Realization", "CostMetric", "ScheduleMetric", "ResponseTitle","RiskStrategies","SystemSafety"];
+    
+        // initialize counter
+        let i;
+        
         var formBuilder = '';
 
-        if(index == 0)
-        {
-            formBuilder += '<div class="tab-pane active" id="'+replaceWithDash(elementName)+'-pane">';
-        } else
-        {
-            formBuilder += '<div class="tab-pane" id="'+replaceWithDash(elementName)+'-pane">';
-        }
-
-        formBuilder += '<div class="row">';
-        formBuilder += '<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">';
         formBuilder += '<form>';
         formBuilder += '<div class="form-group">';
-        formBuilder += '<label for="'+replaceWithUnderscore(elementName)+'">'+elementName+' Name</label>';
-        formBuilder += '<input id="'+replaceWithUnderscore(elementName)+'" class="form-control" name="'+replaceWithUnderscore(elementName)+'" type="text" value="" required />';
+        formBuilder += '<label for="settings-name">Name</label>';
+        formBuilder += '<input id="settings-name" class="form-control" name="settings-name" type="text" value="" required />';
+        formBuilder += '<label for="project_setting">Project Settings</label>';
+        formBuilder += '<select id="settings-type" name="project_setting" class="form-control">';
 
-        // check if element is schedule rating or cost rating
-        if(elementName == 'Cost Rating' || elementName == "Schedule Rating")
+        // generate options for select input
+        for (i = 0; i < projectSettings.length; i++) 
         {
-            formBuilder += '<label for="'+replaceWithUnderscore(elementName)+'_desc">Description</label>';
-            formBuilder += '<textarea id="'+replaceWithUnderscore(elementName)+'_desc" class="form-control" name="'+replaceWithUnderscore(elementName)+'" rows="3" required></textarea>';
+            formBuilder += '<option value="'+projectSettings[i]+'">' + projectSettings[i] + '</option>';
         }
-        
+
+        formBuilder += '</select>'
         formBuilder += '</div>';
         formBuilder += '</form>';
-        formBuilder += '<button id="add-'+replaceWithDash(elementName)+'-setting" name="btn_data_setting" class="btn btn-default btn-reg btn-datasetting">Add '+ elementName +'</button>';
-        formBuilder += '</div>';
-        formBuilder += '</div>';
-        formBuilder += '</div>';
 
         return formBuilder;
     }
@@ -79,76 +94,57 @@ $(document).ready(function(){
         });
     }
 
+
+    // display project settings table on initial page load
     projectSettingsTable();
 
 
     // AJAX function to post form data
-    function postFormData(elementName)
+    function postFormData()
     {
-        var nameField = '#' + replaceWithUnderscore(elementName);
-        var dataName = $(nameField.toString()).val(); // get value for data name
+        var settingName = $('#settings-name').val(); // get value for setting name
+        var settingType = $('#settings-type').val(); // get value for setting type which correlates to database table name
         var projectID = $('#project_id').val(); // get value for project ID
-        var dataType = replaceWithUnderscore(elementName);
 
+        if(settingName == '') 
+        { 
+            $("#data-setting-alert-warning").show(); 
+        }  
+        else  
+        {
+            $.ajax({
+                url:  "/riskdata/ajax_insert",
+                type: "POST",
+                data: {setting_name: settingName, project_id: projectID, setting_table: settingType},
+                dataType: "JSON"
+            })
+            .done(function(response) {
     
-        if(dataName == '')
-        {
-            $("#data-setting-alert-warning").show();
-        } 
-        else 
-        {
-            // check if element is schedule rating or cost rating
-            if(elementName == 'Cost Rating' || elementName == "Schedule Rating")
-            {
-                var descField = '#' + replaceWithUnderscore(elementName) + '_desc';
-                var dataDesc = $(descField.toString()).val(); // get value for data name
+                // check if response is true
+                if (response.status) {
+                    console.log(response);
+                    
+                    // update number of settings on side bar
+                    getNumberOfProjectSettings();
 
-                $.ajax({
-                    url:  "/riskdata/ajax_insert",
-                    type: "POST",
-                    data: {data_name: dataName, project_id: projectID, data_type: dataType, data_desc: dataDesc},
-                    dataType: "JSON"
-                })
-                .done(function(response) {
+                    // update number of settings on side bar
+                    $("#data-setting-alert-success").show();
 
-                    // check if response is true
-                    if (response)
-                    {
-                        $("#data-setting-alert-success").show(); // display success alert
-                        
-                        // set badge labels to value of table row count
-                        $('#'+replaceWithDash(elementName)+'-badge').html(response.data_count);
-                    }
-                })
-                .fail(function(xhr) {
-                    $('#data-setting-alert-danger').html('<p>An error has occurred</p>').show();
-                }); 
-            }
-            else
-            {
-                $.ajax({
-                    url:  "/riskdata/ajax_insert",
-                    type: "POST",
-                    data: {data_name: dataName, project_id: projectID, data_type: dataType},
-                    dataType: "JSON"
-                })
-                .done(function(response) {
-
-                    // check if response is true
-                    if (response)
-                    {
-                        $("#data-setting-alert-success").show(); // display success alert
-
-                        // set badge labels to value of table row count
-                        $('#'+replaceWithDash(elementName)+'-badge').html(response.data_count);
-                    }
-                })
-                .fail(function(xhr) {
-                    $('#data-setting-alert-danger').html('<p>An error has occurred</p>').show();
-                }); 
-            }
+                    // update table of updated setting
+                    getSettings(response.setting, projectID);
+                }
+            })
+            .fail(function(xhr) {
+                $("#data-setting-alert-danger").show();
+            }); 
         }
     }
+
+
+     // post project setting form data
+     $('#register-project-setting').click(function(){
+        postFormData();
+    });
 
 
     // get number of project settings per setting
@@ -202,6 +198,7 @@ $(document).ready(function(){
 
     // get value for project ID
     var projectID = $('#project_id').val();
+
 
     // click project sidebar links and display table of the settings details
     $(projectSettingsChildren).bind('click',function(event)
