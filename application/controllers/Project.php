@@ -143,7 +143,7 @@ class Project extends RISK_Controller
         }
     }
 
-    // check if project settings exist for project
+    // check if project settings exist for specified project
     function check_project_setting($project_id)
     {   
         // store tables where project has no settings

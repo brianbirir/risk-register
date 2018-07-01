@@ -122,7 +122,6 @@ $(document).ready(function(){
     
                 // check if response is true
                 if (response.status) {
-                    console.log(response);
                     
                     // update number of settings on side bar
                     getNumberOfProjectSettings();
@@ -132,6 +131,10 @@ $(document).ready(function(){
 
                     // update table of updated setting
                     getSettings(response.setting, projectID);
+
+                    $('.list-group-item').removeClass('active'); // remove active class if present from other list group item
+
+                    $('#'+ response.setting + '-link').addClass('active'); // add active class
                 }
             })
             .fail(function(xhr) {
@@ -207,7 +210,6 @@ $(document).ready(function(){
 
         if(event.target.tagName == 'A')
         {
-            console.log(event.target.id); // debug
             $('#'+ event.target.id).addClass('active'); // add active class
             getSettings(event.target.id, projectID);
         }

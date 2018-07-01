@@ -11,8 +11,10 @@
     <p>Add data settings for <strong><?php echo $project_name; ?></strong>.</p>
 </div>
 
-<?php 
+<?php
     $session_data = $this->session->userdata('logged_in');
+
+    if(!empty($session_data['tbl_no_project_settings'])) {
 ?>
 
 <div class="box box-solid">
@@ -32,7 +34,9 @@
             }
         ?>
     </div>
-</div>
+</div> 
+
+<?php } ?>
 
 <div style="display: none;" id="response-modal-alert-warning" class="alert alert-warning fade in" role="alert">
     <strong>Warning!</strong> Please fill the response title field!
@@ -68,6 +72,9 @@
                 </table>
             </div>
         </div>
+        
+        <!-- next button -->
+        <a style='margin-right: 10px;' href='/dashboard/project/<?php echo $project_id; ?>' class='btn btn-default btn-view pull-right'>Next</a>
     </div>
 </div>
 
