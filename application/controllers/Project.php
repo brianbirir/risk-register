@@ -197,6 +197,7 @@ class Project extends RISK_Controller
             $session_data = $this->session->userdata('logged_in');
             $data['user_project_id'] = $session_data['user_project_id'];
             $session_data['register_name'] = $single_register->name; // register name
+            $session_data['register_id'] = $single_register->subproject_id; // register id
             $this->session->set_userdata('logged_in', $session_data);
 
             // assign role name in session

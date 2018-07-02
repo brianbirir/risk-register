@@ -16,6 +16,7 @@ class Risk extends RISK_Controller
         $this->load->model('project_model');
         $this->load->model('response_model');
         $this->load->model('user_model');
+        $this->load->model('team_model');
     }
 
     // view all registered risks owned by a user
@@ -110,55 +111,65 @@ class Risk extends RISK_Controller
     
     // the view for adding risk
     function add()
-    {
-        $data = array('title' => 'Register Risk');
-        
+    {   
         if($this->session->userdata('logged_in'))
         {
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
+            // title
+            $data = array('title' => 'Register Risk');
 
             // get register id from fourth segment of uri
             $data['register_id'] = $this->uri->segment(4);
 
-            // get project ID from session data
-            $session_data = $this->session->userdata('logged_in');
-            $data['user_project_id'] = $session_data['user_project_id'];
-
-            // get global data
-            $data = array_merge($data, $this->get_global_data());
-
-            if ( $data['role_id'] == 8 ) 
+            // check if users have been assigned to selected register
+            if($this->team_model->checkForUsers($data['register_id']))
             {
-                $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);   
+                // breadcrumb
+                $this->breadcrumb->add($data['title']);
+                $data['breadcrumb'] = $this->breadcrumb->output();
+
+                // get project ID from session data
+                $session_data = $this->session->userdata('logged_in');
+                $data['user_project_id'] = $session_data['user_project_id'];
+
+                // get global data
+                $data = array_merge($data, $this->get_global_data());
+
+                if ( $data['role_id'] == 8 ) 
+                {
+                    $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);   
+                }
+                else
+                {
+                    $data['register_row'] = $this->project_model->getManagerRegisterName($data['register_id']);
+                }
+            
+                // select drop down
+                $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
+                $data['select_status'] = $this->getStatus($data['user_project_id']);
+                $data['select_category'] = $this->getCategories($data['user_project_id']);
+                $data['select_strategy'] = $this->getRiskStrategies($data['user_project_id']);
+                $data['select_safety'] = $this->getSystemSafety($data['user_project_id']);
+                $data['select_realization'] = $this->getRealization($data['user_project_id']);
+                $data['select_subproject'] = $this->getSubProject();
+                $data['select_risk_owner'] = $this->getRiskOwner($data['user_project_id']);
+                $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
+                $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
+                $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);         
+                $data['select_user'] = $this->getRegisterUser($data['register_id']);
+                $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
+
+                // select drop down for project on the form for adding a response title
+                $this->load->library('userproject'); 
+                $data['select_project'] = $this->userproject->getProject( $data['user_id'] ); 
+
+                // load page to show all devices
+                $this->template->load('dashboard', 'risk/add', $data);
             }
-            else
+            else 
             {
-                $data['register_row'] = $this->project_model->getManagerRegisterName($data['register_id']);
+                $this->session->set_flashdata('negative_msg','The selected register has no users. Please assign users to the register before adding risk items! Add a user on the sidebar section.');
+                redirect('dashboard/riskregister/'.  $this->uri->segment(4));
             }
-        
-            // select drop down
-            $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
-            $data['select_status'] = $this->getStatus($data['user_project_id']);
-            $data['select_category'] = $this->getCategories($data['user_project_id']);
-            $data['select_strategy'] = $this->getRiskStrategies($data['user_project_id']);
-            $data['select_safety'] = $this->getSystemSafety($data['user_project_id']);
-            $data['select_realization'] = $this->getRealization($data['user_project_id']);
-            $data['select_subproject'] = $this->getSubProject();
-            $data['select_risk_owner'] = $this->getRiskOwner($data['user_project_id']);
-            $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
-            $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
-            $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);         
-            $data['select_user'] = $this->getRegisterUser($data['register_id']);
-            $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
-
-            // select drop down for project on the form for adding a response title
-            $this->load->library('userproject'); 
-            $data['select_project'] = $this->userproject->getProject( $data['user_id'] ); 
-
-            // load page to show all devices
-            $this->template->load('dashboard', 'risk/add', $data);
         }
         else
         {

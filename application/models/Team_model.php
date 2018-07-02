@@ -15,6 +15,13 @@
             return $this->db->insert('Subproject_has_User', $data);
         }
 
+         // add team member
+         function assignUser($data)
+         {
+             // return $this->db->insert('Team', $data);
+             return $this->db->insert('Project_has_User', $data);
+         }
+
 
         // get all team members of a specific project/programme manager
         function getTeamMembers($user_id)
@@ -37,6 +44,15 @@
             return ($query->num_rows() == 1) ? true : false;
         }
 
+        // check if register has any assigned users
+        function checkForUsers($register_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject_has_User');
+            $this->db->where('Subproject_subproject_id', $register_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 1) ? true : false;
+        }
 
         // get assigned register users
         function getRegisterUsers($register_id)
