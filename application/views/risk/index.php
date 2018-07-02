@@ -25,7 +25,14 @@
       </div>
     <?php } ?>
 
-     <?php // var_dump($this->session->userdata('logged_in')); ?>
+    <?php 
+        $session = $this->session->userdata('logged_in');
+        // var_dump($session); 
+    ?>
+
+    <div style="margin-bottom:10px;">
+        <a class="btn btn-default btn-reg" href='/dashboard/risk/add/<?php echo $session['register_id']; ?>'>Add Risk Item</a>
+    </div>
 
     <?php
         // check if risk data exists
