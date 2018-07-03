@@ -9,12 +9,24 @@
             ?>
 
             <input type="hidden" name="data_type" id="data-type" class="form-control" value="<?php echo $data_type; ?>"/>
-
+            
+            <?php if($data_type == 'cost_rating' || $data_type == 'schedule_rating') { ?>
+            <div class="form-group">
+                <label for="name"><?php echo $title;?> Rating</label> 
+                <button type="button" class="btn btn-box-tool" data-toggle="tooltip" title="Must be a number">            
+                    <i class="fas fa-question-circle"></i>
+                </button>
+                <input class="form-control" name="name" placeholder="<?php echo $title;?> Rating" type="number" value="<?php echo set_value('name'); ?>" required />
+                <?php echo form_error('name','<div class="alert alert-danger">','</div>'); ?>
+                <p class="text-warning">Only numeric values are allowed!</p>
+            </div>
+            <?php } else { ?>
             <div class="form-group">
                 <label for="name"><?php echo $title;?> Name</label>
                 <input class="form-control" name="name" placeholder="<?php echo $title;?> Name" type="text" value="<?php echo set_value('name'); ?>" required />
                 <?php echo form_error('name','<div class="alert alert-danger">','</div>'); ?>
             </div>
+            <?php } ?> 
 
             <div class="form-group">
                 <label for="project_name">Select Project</label>
