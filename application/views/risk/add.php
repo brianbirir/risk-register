@@ -503,46 +503,36 @@
                 </div>
 
                 <div class="box-body">
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="system_safety">System Safety</label>
-                            <?php
-                                $select_system_attributes = 'class="form-control"';
-                                echo form_dropdown('system_safety',$select_safety,"1",$select_system_attributes);
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="realization">Realization</label>
-                            <?php
-                                $select_realization_attributes = 'class="form-control"';
-                                echo form_dropdown('realization',$select_realization,"1",$select_realization_attributes);
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-12">
-                        <div class="box">
-                            <div class="box-header with-border">
-                                <h3 class="box-title">Risk Response</h3>
-                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="system_safety">System Safety</label>
+                                <?php
+                                    $select_system_attributes = 'class="form-control"';
+                                    echo form_dropdown('system_safety',$select_safety,"1",$select_system_attributes);
+                                ?>
                             </div>
-                            <div class="box-body">
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Response Title</th>
-                                            <th></th>
-                                            <th>Response Type</th>
-                                            <th>Response Owner</th>
-                                            <th>Target Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="response-table-body">
-                                        <tr id="response-row">
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="realization">Realization</label>
+                                <?php
+                                    $select_realization_attributes = 'class="form-control"';
+                                    echo form_dropdown('realization',$select_realization,"1",$select_realization_attributes);
+                                ?>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <div class="box">
+                                <div class="box-header with-border">
+                                    <h3 class="box-title">Risk Response</h3>
+                                    <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div>
+                                </div>
+                                <div class="box-body">
+                                    <div id="response-table-body">
+                                        <div id="response-row" class="row response-item">
 
                                             <?php
                                                 /** check if response titles exist for this given risk register
@@ -552,13 +542,13 @@
                                                 if(!$select_response_name)
                                                 {
                                             ?>
-                                            <td>
+                                            <div class="col-md-2">
                                                 <div class="form-group form-response-title">
                                                     <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
                                                 </div>
-                                            </td>
+                                            </div>
                                             <?php } else { ?>
-                                            <td>
+                                            <div class="col-md-2">
                                                 <div class="form-group form-response-title">
                                                     <select name="risk_response[title][]" class="form-control response response-title">
                                                         <?php
@@ -569,13 +559,13 @@
                                                         ?>
                                                     </select>
                                                 </div>
-                                            </td>
-                                            <td>
+                                            </div>
+                                            <div class="col-md-1">
                                                 <!-- button for adding response title to drop down -->
                                                 <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
-                                            </td>
+                                            </div>
                                             <?php } ?>
-                                            <td>
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <select name="risk_response[strategy][]" class="form-control response response-strategy">
                                                         <?php
@@ -586,8 +576,8 @@
                                                         ?>
                                                     </select>
                                                 </div>
-                                            </td>
-                                            <td>
+                                            </div>
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <select multiple="multiple" name="risk_response[user][]" class="form-control response response-user">
                                                         <?php
@@ -598,8 +588,8 @@
                                                         ?>
                                                     </select>
                                                 </div>
-                                            </td>
-                                            <td>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="input-group date">
                                                         <div class="input-group-addon">
@@ -608,14 +598,13 @@
                                                         <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo set_value('risk_reponse[date][]'); ?>" required/>
                                                     </div>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 

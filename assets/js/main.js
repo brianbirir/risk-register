@@ -213,14 +213,14 @@ $('#risk-tabs li:eq(4) a').click(function (e) {
 
 
 // set current date on risk registration form
-function appendCurrentDate () {
-    var currentDate = moment().format("MMMM Do YYYY, h:mm:ss a");
-    // var today = new Date();
-    var date_element = document.getElementById("risk_current_date");
-    date_element.innerHTML= currentDate;
-}
+// function appendCurrentDate () {
+//     var currentDate = moment().format("MMMM Do YYYY, h:mm:ss a");
+//     // var today = new Date();
+//     var date_element = document.getElementById("risk_current_date");
+//     date_element.innerHTML= currentDate;
+// }
 
-window.onload = appendCurrentDate;
+// window.onload = appendCurrentDate;
 
 // add rows of risk responses dynamically
 // initialize counter
@@ -228,7 +228,7 @@ var counter = 0;
 
 
 // delete row
-function delete_row(elementId)
+function delete_row()
 {
 	// Removes an element from the document
     var element = document.getElementById(elementId);
@@ -261,13 +261,18 @@ $(document).ready(function() {
     $(".response-strategy").chosen();
     $(".action-owner").chosen();
 
+    
+    $("#response-table-body").on('click', '.remove-row', function () {
+        $(this).closest('.response-item').remove();
+    });
+
     // duplicate response row
     $('#add-response-btn').click( function() {
-        // parent element i.e. tbody
+        // parent element
         var parent_element = "response-table-body";
 
         // append new row to parent element
-        document.getElementById(parent_element).appendChild(buildTableRow());
+        document.getElementById(parent_element).appendChild(buildRow());
 
         // clone options of the first row select fields
         var $optionsTitle = $(".response-title > option").clone();
@@ -282,38 +287,47 @@ $(document).ready(function() {
         $('.response').chosen();
     });
     
+
     // add response rows
-    function buildTableRow()
+    function buildRow()
     {
         counter++;
         
-        var createRow = document.createElement('tr');
+        // create row
+        var createRow = document.createElement('div');
       
-        // set id for the new row
+        // set id to new row
         createRow.id = "response-row-" + counter;
-        
-        var createSelectOne = '<td><div class="form-group form-response-title"><select name="risk_response[title][]" class="form-control response response-title response-title-copy"></select></td>';
 
-        var createTitleButtonCell = '<td><button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button></td>';
+        // set class to new row
+        createRow.className = "row response-item";
         
-        var createSelectTwo = '<td><div class="form-group"><select name="risk_response[strategy][]" class="form-control response response-title-strategy"></select></td>';
-        
-        var createSelectThree = '<td><div class="form-group"><select multiple="multiple" name="risk_response[user][]" class="form-control response response-user-copy"></select></td>';
+        var createSelectOne = '<div class="col-md-2"><div class="form-group form-response-title"><select name="risk_response[title][]" class="form-control response response-title response-title-copy"></select></div></div>';
 
-        var createSelectFour = '<div class="form-group"></div><div class="input-group date"><div class="input-group-addon"><i class="fa fa-calendar"></i></div><input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" required/></div>';
+        var createTitleButtonCell = '<div class="col-md-1"><button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button></div></div>';
+        
+        var createSelectTwo = '<div class="col-md-2"><div class="form-group"><select name="risk_response[strategy][]" class="form-control response response-title-strategy"></select></div></div>';
+        
+        var createSelectThree = '<div class="col-md-2"><div class="form-group"><select multiple="multiple" name="risk_response[user][]" class="form-control response response-user-copy"></select></div></div>';
+
+        var createSelectFour = '<div class="col-md-3"><div class="form-group"><div class="input-group date"><div class="input-group-addon"><i class="fa fa-calendar"></i></div><input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" required/></div></div>';
+
         
         var responseRow = createSelectOne + createTitleButtonCell + createSelectTwo + createSelectThree + createSelectFour;
         
+        // add cells to new row
         createRow.innerHTML = responseRow;
         
         // create new table cell to hold link that will remove one of the added rows
-        var createCell = document.createElement('td');
+        var createCell = document.createElement('a');
 
         // assign ID to new table cell
         createCell.id = "remove-row-" + counter;
 
+        createCell.className = "remove-row btn btn-default btn-xs";
+
         // add content to new cell
-        createCell.innerHTML = "<i class='fa fa-times' aria-hidden='true'></i>";
+        createCell.innerHTML = "Delete";
 
         // append new cell to new row
         createRow.appendChild(createCell);
@@ -328,6 +342,4 @@ $(document).ready(function() {
         $("#response-modal-alert-success").hide();
         console.log("Response modal title cleared!");
     })
-
-
 });
