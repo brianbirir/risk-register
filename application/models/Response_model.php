@@ -64,6 +64,25 @@
                 $this->db->where('Subproject.Project_project_id', $params['project_id']);
             }
 
+            // limit for pagination
+            if(array_key_exists("start",$params) && array_key_exists("limit",$params))
+            {
+                $this->db->limit($params['limit'],$params['start']);
+            }
+            elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params))
+            {
+                $this->db->limit($params['limit']);
+            }
+
+            // order by
+            if(array_key_exists("order",$params) && array_key_exists("sortType",$params))
+            {
+            	if($params['order'] != null) 
+            	{
+	            	$this->db->order_by($params['order'], $params['sortType']);
+	        	}
+            }
+
             // user filter
             if(array_key_exists('user',$params))
             {

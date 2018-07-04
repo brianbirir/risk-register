@@ -125,7 +125,18 @@
                     d.user = responseUser;
                 }
             },
-            "order": [[1, 'asc']]
+            "order": [[1, 'asc']],
+            "columns": [
+                { "name": "response_id"},
+                { "name": "risk_uuid" },
+                { "name": "ResponseTitle_id" },
+                { "name": "RiskStrategies_strategy_id" },
+                { "name": "user_id", orderable: false},
+                { "name": "register_id" },
+                { "name": "created_at" },
+                { "name": "due_date" },
+                { "name": "associated_risk", orderable: false }
+            ]
         });
 
         // filter button click
@@ -150,7 +161,18 @@
                         d.user = responseUser;
                     }
                 },
-                "order": [[1, 'asc']]
+                "order": [[1, 'asc']],
+                "columns": [
+                    { "name": "response_id"},
+                    { "name": "risk_uuid" },
+                    { "name": "ResponseTitle_id",orderable: false },
+                    { "name": "RiskStrategies_strategy_id",orderable: false },
+                    { "name": "user_id", orderable: false},
+                    { "name": "register_id",orderable: false },
+                    { "name": "created_at",orderable: false },
+                    { "name": "due_date",orderable: false },
+                    { "name": "associated_risk",orderable: false }
+                ]
             });
         });
 

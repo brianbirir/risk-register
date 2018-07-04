@@ -310,9 +310,11 @@ class Response extends RISK_Controller
             "risk_uuid",
             "ResponseTitle_id",
             "RiskStrategies_strategy_id",
+            "user_id",
             "register_id",
             "created_at",
             "due_date",
+            "associated_risk"
         );
 
         if(!isset($columns_valid[$col])) 
@@ -330,7 +332,7 @@ class Response extends RISK_Controller
         $db_data = array();
 
         // get responses from database
-        $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id'],'register'=>$register,'user'=>$user));
+        $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id'],'register'=>$register,'user'=>$user, 'order'=>$orderCol,'sortType'=>$dir));
 
         // get number of total rows by project ID
         $total_risks = $this->response_model->getTotalResponsesByProject(array('project_id'=> $session_data['report_project_id'],'register'=>$register,'user'=>$user));
@@ -339,13 +341,12 @@ class Response extends RISK_Controller
         {
             foreach ($response as $data_row) {
 
-
                 // construct button for viewing risks associated with the response
                 $view_button = "<a href='/dashboard/response/risks/".$data_row->ResponseTitle_id."' class='btn btn-xs btn-primary btn-view'>View Risks</a></td>";
 
                 $view_button = (string) $view_button;
 
-                // construct list of response users
+                // construct list of response users from blob
                 $response_assigned_users = unserialize($data_row->user_id);
                 
                 $response_users_html = '';
