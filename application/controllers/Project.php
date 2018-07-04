@@ -14,6 +14,7 @@ class Project extends RISK_Controller
         $this->load->model('project_model');
         $this->load->model('risk_model');
         $this->load->model('team_model');
+        $this->load->model('riskdata_model');
         $this->load->library('breadcrumb');
         $this->load->library('userproject'); 
     }
@@ -925,6 +926,58 @@ class Project extends RISK_Controller
             $data['breadcrumb'] = $this->breadcrumb->output();
 
             $this->template->load('dashboard', 'settings/data/project_settings', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // view for subcategory settings setup
+    function subcategory_settings()
+    {
+        if($this->session->userdata('logged_in'))
+        {           
+            // get title from uri
+            $data = array();
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+
+            $session_data = $this->session->userdata('logged_in');
+
+            $check_setting = $this->check_project_setting($session_data['user_project_id']);
+
+            $session_data['tbl_no_project_settings'] = $check_setting;
+
+            if(empty($check_setting)) // go to subcategory page
+            {
+            
+                // set project id
+                $data['project_id'] = $session_data['user_project_id']; 
+                
+                // set project name
+                $data['project_name'] = $session_data['project_name'] ;
+
+                $data['title'] = $session_data['project_name'].' Subcategory Settings';
+
+                $tbl_name = 'RiskCategories'; // table name for categories
+
+                // get category data
+                $data['category_result'] = $this->riskdata_model->getRiskData($session_data['user_project_id'],$tbl_name);
+
+                // breadcrumb
+                $this->breadcrumb->add($data['title']);
+                $data['breadcrumb'] = $this->breadcrumb->output();
+
+                $this->template->load('dashboard', 'settings/data/subcategory_settings', $data);
+            }
+            else
+            {
+                redirect('project/settings');
+            }
         }
         else
         {

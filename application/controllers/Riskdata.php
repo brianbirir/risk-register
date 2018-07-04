@@ -215,6 +215,8 @@ class Riskdata extends RISK_Controller
 
         if($table_name == 'CostMetric' || $table_name == 'ScheduleMetric')
         {
+            $data_description = $this->input->post('setting_description');
+            
             $data = array(
                 'rating' => $data_name,
                 'description' => $data_description,
@@ -249,6 +251,43 @@ class Riskdata extends RISK_Controller
         }
     }
 
+
+    // insert subcategory via AJAX post
+    function ajax_subcategory_insert()
+    {
+        // values to be inserted into table
+        $project_id = $this->input->post('project_id');
+        $subcategory = $this->input->post('subcategory');
+        $category = $this->input->post('category');
+        $timestamp = date('Y-m-d');
+
+        $table_name = 'RiskSubCategories';
+
+        // ajax response
+        $response = array();
+        
+        $data = array(
+            'subcategory_name' => $subcategory,
+            'RiskCategories_category_id' => $category,
+            'created_at' => $timestamp,
+            'updated_at' => $timestamp
+        );
+
+        // insert form data into database
+        if ($this->riskdata_model->insert($table_name, $data))
+        {   
+            $response['category'] = $category;
+            $response['status'] = true;
+
+            echo json_encode($response);
+        }
+        else
+        {
+            $response['status'] = false;
+
+            echo json_encode($response);
+        }
+    }
 
     // update risk data type item
     function update()
@@ -330,6 +369,32 @@ class Riskdata extends RISK_Controller
     }
 
 
+    // get number of subcategories
+    function getNumberofSubcategories()
+    {   
+        // initialize array
+        $num_rows = array();
+
+        // get POST values
+        $categories_list = $this->input->post('categories_list');
+        $project_id = (int)$this->input->post('project_id');
+
+        // loop through settings array list
+        for ($i=0; $i < count($categories_list); $i++) 
+        { 
+            $category = (int)$categories_list[$i];
+
+            // get number of rows and add to array
+            array_push($num_rows, $this->riskdata_model->getNumberofSubcategories($category));
+        }
+
+        // return as array
+        echo json_encode($num_rows);
+
+        exit();
+    }
+
+
     function getAjaxProjectSettings()
     {
         // Data tables POST Variables
@@ -397,6 +462,83 @@ class Riskdata extends RISK_Controller
                         $data_row->name
                     );
                 }
+            }
+    
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total,
+                "recordsFiltered" => $total,
+                "data" => $db_data
+            );
+        }
+        else
+        {
+            $output = array(
+                "draw" => $draw,
+                "recordsTotal" => $total,
+                "recordsFiltered" => $total,
+                "data" => ""
+            );
+        }
+
+        echo json_encode($output);
+        exit();
+    }
+
+    function getAjaxSubcategory()
+    {
+        // Data tables POST Variables
+        $draw = intval($this->input->post("draw"));
+        $start = intval($this->input->post("start"));
+        $length = intval($this->input->post("length"));
+        $table_name = 'RiskSubCategories';
+        $category_id = intval($this->input->post("category_id"));
+        $order = $this->input->post("order");
+
+        // ordering configuration
+        $col = 0;
+        $dir = "";
+
+        if(!empty($order)) 
+        {
+            foreach($order as $o) 
+            {
+                $col = $o['column'];
+                $dir= $o['dir'];
+            }
+        }
+
+        if($dir != "asc" && $dir != "desc") 
+        {
+            $dir = "asc";
+        }
+
+        $columns_valid = array("id","name");
+
+        if(!isset($columns_valid[$col])) 
+        {
+           $orderCol = null;
+        } 
+        else 
+        {
+           $orderCol = $columns_valid[$col];
+        }
+
+        // initialize array for table data
+        $db_data = array();
+
+        $result = $this->riskdata_model->getSubcategory($category_id,$table_name);
+        $total = $this->riskdata_model->getTotalSubcategory($category_id,$table_name);
+
+        if($result)
+        {
+
+            foreach ($result as $data_row) 
+            {
+                $db_data[] = array(
+                    $data_row->subcategory_id,
+                    $data_row->subcategory_name
+                );
             }
     
             $output = array(

@@ -23,6 +23,7 @@ $route['dashboard/project/add'] = 'project/reg_project_view';
 $route['dashboard/project/(:num)'] = 'project/view_project/$1';
 $route['dashboard/project/edit/(:num)'] = 'project/edit_project/$1';
 $route['project/settings'] = 'project/project_settings';
+$route['project/settings/subcategory'] = 'project/subcategory_settings';
 $route['projectsetup/user/add'] = 'user/add';
 
 // risk register
@@ -67,6 +68,7 @@ $route['settings/user/(:num)'] = 'user/edit/$1';
 $route['settings/user/change-password/(:num)'] = 'user/change_password_view/$1';
 $route['settings/user/delete/(:num)'] = 'user/delete/$1';
 $route['settings/user/riskregister/(:num)'] = 'user/assign_register_view/$1';
+$route['settings/user/project/(:num)'] = 'user/assign_project_view/$1';
 
 $route['settings/data'] = 'settings/risk_data';
 $route['settings/data/(:any)'] = 'riskdata/view/$1';

@@ -37,6 +37,13 @@ $(document).ready(function(){
 
         $('#project-setting-modal-body').html(dataSettingsForm());
 
+        $('#settings-type').on('change', function() {
+
+            if (this.value == 'CostMetric' || this.value == 'ScheduleMetric') {
+                $('#project-setting-modal-body').html(dataSettingsNumericForm());
+            }
+        })
+
     })
 
 
@@ -83,6 +90,40 @@ $(document).ready(function(){
     }
 
 
+    // form for cost metric and schedule metric
+    function dataSettingsNumericForm()
+    {
+        var projectSettings = [ "CostMetric", "ScheduleMetric"];
+    
+        // initialize counter
+        let i;
+        
+        var formBuilder = '';
+
+        formBuilder += '<form>';
+        formBuilder += '<div class="form-group">';
+        formBuilder += '<label for="settings-name">Rating</label>';
+        formBuilder += '<input id="settings-name" class="form-control" name="settings-name" type="number" value="" required />';
+        formBuilder += '<p class="text-warning">Only numeric values are allowed!</p>'
+        formBuilder += '<label for="settings-name">Description</label>';
+        formBuilder += '<textarea id="settings-description" class="form-control" name="description" placeholder="Description" type="text" value="" required></textarea>';
+        formBuilder += '<label for="project_setting">Project Settings</label>';
+        formBuilder += '<select id="settings-type" name="project_setting" class="form-control">';
+
+        // generate options for select input
+        for (i = 0; i < projectSettings.length; i++) 
+        {
+            formBuilder += '<option value="'+projectSettings[i]+'">' + projectSettings[i] + '</option>';
+        }
+
+        formBuilder += '</select>'
+        formBuilder += '</div>';
+        formBuilder += '</form>';
+
+        return formBuilder;
+    }
+
+
     // data table
     function projectSettingsTable()
     {
@@ -112,34 +153,71 @@ $(document).ready(function(){
         }  
         else  
         {
-            $.ajax({
-                url:  "/riskdata/ajax_insert",
-                type: "POST",
-                data: {setting_name: settingName, project_id: projectID, setting_table: settingType},
-                dataType: "JSON"
-            })
-            .done(function(response) {
+
+            if (settingType == 'CostMetric' || settingType == 'ScheduleMetric') 
+            {
+                var settingDesc = $('#settings-description').val(); // get value for setting name
+
+                $.ajax({
+                    url:  "/riskdata/ajax_insert",
+                    type: "POST",
+                    data: {setting_name: settingName, project_id: projectID, setting_table: settingType, setting_description: settingDesc},
+                    dataType: "JSON"
+                })
+                .done(function(response) {
+        
+                    // check if response is true
+                    if (response.status) {
+                        
+                        // update number of settings on side bar
+                        getNumberOfProjectSettings();
     
-                // check if response is true
-                if (response.status) {
-                    
-                    // update number of settings on side bar
-                    getNumberOfProjectSettings();
-
-                    // update number of settings on side bar
-                    $("#data-setting-alert-success").show();
-
-                    // update table of updated setting
-                    getSettings(response.setting, projectID);
-
-                    $('.list-group-item').removeClass('active'); // remove active class if present from other list group item
-
-                    $('#'+ response.setting + '-link').addClass('active'); // add active class
-                }
-            })
-            .fail(function(xhr) {
-                $("#data-setting-alert-danger").show();
-            }); 
+                        // update number of settings on side bar
+                        $("#data-setting-alert-success").show();
+    
+                        // update table of updated setting
+                        getSettings(response.setting, projectID);
+    
+                        $('.list-group-item').removeClass('active'); // remove active class if present from other list group item
+    
+                        $('#'+ response.setting + '-link').addClass('active'); // add active class
+                    }
+                })
+                .fail(function(xhr) {
+                    $("#data-setting-alert-danger").show();
+                }); 
+            }
+            else
+            {
+                $.ajax({
+                    url:  "/riskdata/ajax_insert",
+                    type: "POST",
+                    data: {setting_name: settingName, project_id: projectID, setting_table: settingType},
+                    dataType: "JSON"
+                })
+                .done(function(response) {
+        
+                    // check if response is true
+                    if (response.status) {
+                        
+                        // update number of settings on side bar
+                        getNumberOfProjectSettings();
+    
+                        // update number of settings on side bar
+                        $("#data-setting-alert-success").show();
+    
+                        // update table of updated setting
+                        getSettings(response.setting, projectID);
+    
+                        $('.list-group-item').removeClass('active'); // remove active class if present from other list group item
+    
+                        $('#'+ response.setting + '-link').addClass('active'); // add active class
+                    }
+                })
+                .fail(function(xhr) {
+                    $("#data-setting-alert-danger").show();
+                }); 
+            }
         }
     }
 
@@ -147,6 +225,12 @@ $(document).ready(function(){
      // post project setting form data
      $('#register-project-setting').click(function(){
         postFormData();
+    });
+
+
+    // show sub-category modal
+    $('#register-subcategory').click(function(){
+        
     });
 
 
@@ -266,4 +350,9 @@ $(document).ready(function(){
             });
         }
     }
+
+    // show sub-category modal
+    $('#register-subcategory').click(function(){
+        $('#subcategory-modal').modal();
+    });
 });

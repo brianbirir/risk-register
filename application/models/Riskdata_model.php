@@ -16,7 +16,31 @@
         }
 
 
-        // get risk data by table name
+        // get risk subcategories by table name and category id
+        function getSubcategory($category_id,$table_name)
+        {
+            $this->db->select('*');
+            $this->db->from($table_name);
+            $this->db->where('RiskCategories_category_id',$category_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // get total rows of risk subcategories by table name and category ID
+        function getTotalSubcategory($category_id, $table_name)
+        {
+            $this->db->select("COUNT(*) as num");
+            $this->db->from($table_name);
+            $this->db->where('RiskCategories_category_id',$category_id);
+            $query = $this->db->get();
+            $result = $query->row();
+            if(isset($result)) return $result->num;
+            return 0;
+        }
+
+
+        // get risk data by table name and project id
         function getRiskData($project_id, $table_name)
         {
             $this->db->select('*');
@@ -49,6 +73,18 @@
 
             if(isset($result)) return $result->num;
             
+            return 0;
+        }
+
+
+        function getNumberofSubcategories($category_id)
+        {
+            $this->db->select('COUNT(*) as num');
+            $this->db->from('RiskSubCategories');
+            $this->db->where('RiskCategories_category_id',$category_id);
+            $query = $this->db->get();
+            $result = $query->row();
+            if(isset($result)) return $result->num;
             return 0;
         }
         
