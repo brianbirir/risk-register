@@ -8,6 +8,7 @@ class Csvgenerator extends CI_Controller
         $CI =& get_instance();
 
         $CI->load->model('report_model');
+        $CI->load->model('response_model');
         $CI->load->model('risk_model');
         $CI->load->model('user_model');
         $CI->load->helper('url');
@@ -235,6 +236,84 @@ class Csvgenerator extends CI_Controller
         exit;
     }
 
+    function fetch_response_data($params = array())
+    {
+        $db_data = $this->ci->response_model->getResponseByProject(array(
+            'risk_register' => $params['risk_register'],
+            'user_id' => $params['user_id'],
+            'project_id' => $params['project_id']
+        ));
+        
+        if($db_data)
+        {
+            $delimiter = ",";
+
+            $filename = "response_report_" . date('Y-m-d_H-i-s') . ".csv";
+
+            // create file pointer
+            $f = fopen('php://memory', 'w');
+            
+            //set column headers
+            $fields = array(
+                'Response ID', 
+                'Risk Name',
+                'Response Title',
+                'Risk Strategy', 
+                'Response Owner', 
+                'Register Name',
+                'Date Created',
+                'Due Date'    
+            );
+
+            fputcsv($f, $fields, $delimiter);
+
+            //  output each row of the data, format line as csv and write to file pointer
+            foreach ($db_data as $data_row) 
+            {
+
+                $response_assigned_users = unserialize($data_row->user_id);
+                
+                $users = '';
+
+                foreach ($response_assigned_users as $value) {
+
+                    if(count($response_assigned_users) > 1 )
+                    {
+                        $users .= $this->ci->user_model->getUserNames($value) . "; ";
+                    }
+                    else 
+                    {
+                        $users .= $this->ci->user_model->getUserNames($value) . " ";
+                    }
+                }
+
+                $lineData = array(
+                    $data_row->response_id,
+                    $this->ci->risk_model->getRiskNameByUUID($data_row->risk_uuid),
+                    $this->ci->response_model->getResponseName($data_row->ResponseTitle_id),
+                    $this->ci->risk_model->getRiskStrategiesName($data_row->RiskStrategies_strategy_id),
+                    $users,
+                    $this->ci->risk_model->getSubProjectName($data_row->register_id),
+                    $data_row->created_at,
+                    $data_row->due_date,
+                );
+
+                fputcsv($f, $lineData, $delimiter);
+            }
+
+            //  move back to beginning of file
+            fseek($f, 0);
+            
+            //  set headers to download file rather than be displayed
+            header('Content-Type: text/csv');
+            header('Content-Disposition: attachment; filename="' . $filename . '";');
+            
+            //  output all remaining data on a file pointer
+            fpassthru($f);
+        }
+        exit;
+    }
+
     // filter data function
     function filter_data($category)
     {
@@ -242,7 +321,7 @@ class Csvgenerator extends CI_Controller
     }
     
     
-    function fetch_response_data($params = array())
+    function fetch_response_data_old($params = array())
     {
         $db_data = $this->ci->response_model->getResponseData(array(
             'user_id' => $params['user_id'],

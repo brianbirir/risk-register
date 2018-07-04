@@ -390,4 +390,68 @@ class Response extends RISK_Controller
         exit();
         
     }
+
+
+    function report_view() 
+    { 
+        if($this->session->userdata('logged_in')) 
+        { 
+            $data = array('title' => 'Generate Response Report'); 
+ 
+            // get global data 
+            $data = array_merge($data,$this->get_global_data()); 
+             
+            // breadcrumb 
+            $this->breadcrumb->add($data['title']); 
+            $data['breadcrumb'] = $this->breadcrumb->output(); 
+ 
+            // get current session data 
+            $session_data = $this->session->userdata('logged_in'); 
+
+            // data for filter drop down
+            $data['select_register'] = $this->getSubProject($session_data['report_project_id']); // get register by project id
+            $data['selected_user'] = "none"; 
+            $data['selected_register'] = "none";
+            $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']); // user
+ 
+            // load view 
+            $this->template->load('dashboard', 'report/generate_response_report', $data); 
+        } 
+        else 
+        { 
+            // if no session, redirect to login page 
+            redirect('login', 'refresh'); 
+        } 
+    }
+
+    // generate response report in CSV format
+    function export_report()
+    {
+        // load csv generator library
+        $this->load->library('csvgenerator');
+        
+        // get current session data 
+        $session_data = $this->session->userdata('logged_in');
+
+        // get filter criteria from post input
+        $data = array(
+            'risk_register' => $this->input->post('risk_register'),
+            'user_id' => $this->input->post('general_user'),
+            'project_id' => $session_data['report_project_id']
+        );
+
+        if ($session_data['role_id'] == 8)
+        {
+            // get assigned risk register and its ID
+            $register_row = $this->project_model->getAssignedRiskRegisterName($data['user_id']);
+            $assigned_register_id = $register_row->subproject_id;
+            $this->csvgenerator->fetch_data( $user_id, $main_category, $risk_level, $risk_register, $assigned_register_id );
+        }
+        else
+        {
+            $this->csvgenerator->fetch_response_data($data);
+        }
+        
+        redirect('dashboard/report_response/generate'); 
+    }
 }

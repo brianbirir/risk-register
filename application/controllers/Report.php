@@ -384,12 +384,6 @@ class Report extends RISK_Controller
 
         $project_id = $session_data['report_project_id'];
 
-        // use filter session values to generate report
-        // $category_id = $session_data['category_id'];
-        // $register_id = $session_data['register_id'];
-        // $date_from = $session_data['date_from'];
-        // $date_to = $session_data['date_to'];
-
         // get filter criteria from post input
         $category_id = $this->input->post('risk_category'); // get category id
         $register_id = $this->input->post('risk_register'); // get register

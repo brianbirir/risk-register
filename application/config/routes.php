@@ -53,6 +53,7 @@ $route['dashboard/reports/report_export'] = 'report/export_report';
 $route['dashboard/reports/response_export'] = 'report/export_response_report';
 $route['dashboard/response/risks/(:num)' ] = 'report/associated_risks/$1';
 $route['dashboard/report/generate' ] = 'report/report_view';
+$route['dashboard/report_response/generate' ] = 'response/report_view';
 
 
 // settings routes

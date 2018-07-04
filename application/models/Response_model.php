@@ -55,7 +55,6 @@
         {
             $this->db->select('*');
             $this->db->from('RiskResponse');
-            // $this->db->where('register_id',$register_id);
             
             // check if project id exists
             if(array_key_exists("project_id",$params))

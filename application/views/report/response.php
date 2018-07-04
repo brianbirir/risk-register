@@ -1,9 +1,3 @@
-<div class="bs-callout bs-callout-info">
-    <h4>Create Response Report</h4>
-    <p>On this page you can create a report of the risk responses for a given risk register.</p>
-    <?php // echo "<p>". $risk_project_id; ."</p>" ?>
-</div>
-
 <div id="response-report-form">
     <fieldset>
     <div class="row">
@@ -45,7 +39,7 @@
 
         <button id="filter-response-btn" name="btn_filter" class="btn btn-sm btn-filter" style="margin-top:27px;">Filter</button>
 
-        <button id="generate-response-report" class="btn btn-sm btn-report" style="margin-top:27px;">Generate Report</button>
+        <a href="/dashboard/report_response/generate" class="btn btn-sm btn-report" style="margin-top:27px;">Generate Report</a>
     </fieldset>
 
     <?php if ($this->session->flashdata('msg')){ ?>
@@ -165,13 +159,13 @@
                 "columns": [
                     { "name": "response_id"},
                     { "name": "risk_uuid" },
-                    { "name": "ResponseTitle_id",orderable: false },
-                    { "name": "RiskStrategies_strategy_id",orderable: false },
+                    { "name": "ResponseTitle_id" },
+                    { "name": "RiskStrategies_strategy_id" },
                     { "name": "user_id", orderable: false},
-                    { "name": "register_id",orderable: false },
-                    { "name": "created_at",orderable: false },
-                    { "name": "due_date",orderable: false },
-                    { "name": "associated_risk",orderable: false }
+                    { "name": "register_id" },
+                    { "name": "created_at" },
+                    { "name": "due_date" },
+                    { "name": "associated_risk", orderable: false }
                 ]
             });
         });
