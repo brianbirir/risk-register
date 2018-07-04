@@ -22,10 +22,11 @@ class Risk extends RISK_Controller
     // view all registered risks owned by a user
     function index()
     {
-        $data = array('title' => 'Risks');
-
         if($this->session->userdata('logged_in'))
         {
+            // title
+            $data = array('title' => 'Risks');
+
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
@@ -53,9 +54,8 @@ class Risk extends RISK_Controller
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
-
-            // check if project id or name are missing from session data
-            if(!empty($session_project_id) || !empty($session_data['project_name']))
+            // check if project id, project name or register id are missing from session data
+            if(!empty($session_project_id) || !empty($session_data['project_name']) || !empty($session_data['register_id']))
             {
                 // load page to show all registered risks
                 $this->template->load('dashboard', 'risk/index', $data);
@@ -134,36 +134,45 @@ class Risk extends RISK_Controller
                 // get global data
                 $data = array_merge($data, $this->get_global_data());
 
-                if ( $data['role_id'] == 8 ) 
+                // check if project id, project name or register id are missing from session data
+                if(!empty($session_project_id) || !empty($session_data['project_name']) || !empty($session_data['register_id']))
                 {
-                    $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);   
+
+                    if ( $data['role_id'] == 8 ) 
+                    {
+                        $data['register_row'] = $this->project_model->getAssignedRiskRegisterName($data['user_id']);   
+                    }
+                    else
+                    {
+                        $data['register_row'] = $this->project_model->getManagerRegisterName($data['register_id']);
+                    }
+                
+                    // select drop down
+                    $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
+                    $data['select_status'] = $this->getStatus($data['user_project_id']);
+                    $data['select_category'] = $this->getCategories($data['user_project_id']);
+                    $data['select_strategy'] = $this->getRiskStrategies($data['user_project_id']);
+                    $data['select_safety'] = $this->getSystemSafety($data['user_project_id']);
+                    $data['select_realization'] = $this->getRealization($data['user_project_id']);
+                    $data['select_subproject'] = $this->getSubProject();
+                    $data['select_risk_owner'] = $this->getRiskOwner($data['user_project_id']);
+                    $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
+                    $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
+                    $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);         
+                    $data['select_user'] = $this->getRegisterUser($data['register_id']);
+                    $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
+
+                    // select drop down for project on the form for adding a response title
+                    $this->load->library('userproject'); 
+                    $data['select_project'] = $this->userproject->getProject( $data['user_id'] ); 
+
+                    // load page to show all devices
+                    $this->template->load('dashboard', 'risk/add', $data);
                 }
                 else
                 {
-                    $data['register_row'] = $this->project_model->getManagerRegisterName($data['register_id']);
+                    redirect('dashboard/project'); // redirect to projects page if session data for project id or register id are missing
                 }
-            
-                // select drop down
-                $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
-                $data['select_status'] = $this->getStatus($data['user_project_id']);
-                $data['select_category'] = $this->getCategories($data['user_project_id']);
-                $data['select_strategy'] = $this->getRiskStrategies($data['user_project_id']);
-                $data['select_safety'] = $this->getSystemSafety($data['user_project_id']);
-                $data['select_realization'] = $this->getRealization($data['user_project_id']);
-                $data['select_subproject'] = $this->getSubProject();
-                $data['select_risk_owner'] = $this->getRiskOwner($data['user_project_id']);
-                $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
-                $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
-                $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);         
-                $data['select_user'] = $this->getRegisterUser($data['register_id']);
-                $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
-
-                // select drop down for project on the form for adding a response title
-                $this->load->library('userproject'); 
-                $data['select_project'] = $this->userproject->getProject( $data['user_id'] ); 
-
-                // load page to show all devices
-                $this->template->load('dashboard', 'risk/add', $data);
             }
             else 
             {
@@ -226,7 +235,7 @@ class Risk extends RISK_Controller
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);
             $data['select_user'] = $this->getRegisterUser($data['risk']->Subproject_subproject_id);
-
+            
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
         }
