@@ -87,7 +87,7 @@
             {
                 if($params['user'] != 'none')
                 {
-                    $this->db->where('RiskResponse.user_id',$params['user']);
+                    $this->db->like('RiskResponse.user_id', $params['user']);
                 }
             }
 

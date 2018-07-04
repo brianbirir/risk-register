@@ -239,8 +239,8 @@ class Csvgenerator extends CI_Controller
     function fetch_response_data($params = array())
     {
         $db_data = $this->ci->response_model->getResponseByProject(array(
-            'risk_register' => $params['risk_register'],
-            'user_id' => $params['user_id'],
+            'register' => $params['risk_register'],
+            'user' => $params['user_id'],
             'project_id' => $params['project_id']
         ));
         
@@ -310,6 +310,10 @@ class Csvgenerator extends CI_Controller
             
             //  output all remaining data on a file pointer
             fpassthru($f);
+        }
+        else
+        {
+            return false;
         }
         exit;
     }

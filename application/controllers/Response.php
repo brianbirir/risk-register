@@ -449,9 +449,16 @@ class Response extends RISK_Controller
         }
         else
         {
-            $this->csvgenerator->fetch_response_data($data);
-        }
-        
-        redirect('dashboard/report_response/generate'); 
+            if($this->csvgenerator->fetch_response_data($data))
+            {
+                redirect('dashboard/report_response/generate'); 
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative_msg','Sorry. No report or data for the selected data filter!');
+                redirect('dashboard/reports/response_project');
+            }
+        }       
     }
 }
