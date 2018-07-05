@@ -198,12 +198,13 @@ $(document).ready(function() {
                 d.registerID = registerID;
             }
         },
+        "order": [[1, 'asc']],
         "columns": [
-                { "name": "original_risk_id",orderable: true},
-                { "name": "risk_title", orderable:true},
-                { "name": "RiskCategories_category_id", orderable:true },
+                { "name": "original_risk_id"},
+                { "name": "risk_title", orderable:false},
+                { "name": "RiskCategories_category_id"},
                 { "name": "risk_rating" },
-                { "name": "actions"}
+                { "name": "actions", orderable:false }
             ]
     });
 

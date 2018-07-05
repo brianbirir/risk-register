@@ -265,7 +265,6 @@ class Project extends RISK_Controller
 
         $columns_valid = array(
             "original_risk_id",
-            "item_id",
             "risk_title",
             "RiskCategories_category_id",
             "risk_rating"
@@ -312,7 +311,7 @@ class Project extends RISK_Controller
                     $data_row->risk_title,
                     $this->risk_model->getRiskCategoryName($data_row->RiskCategories_category_id), 
                     $data_row->risk_rating,
-                    $action_row,
+                    $action_row
                 );
             }
 
