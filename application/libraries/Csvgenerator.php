@@ -212,7 +212,7 @@ class Csvgenerator extends CI_Controller
                         $value,
                         $this->ci->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
                         $this->ci->report_model->getRealizationName($data_row->Realization_realization_id),
-                        $data_row->action_owner,
+                        $this->ci->user_model->getUserNames($data_row->action_owner),
                         $data_row->action_item,
                         $data_row->milestone_target_date,
                         $this->ci->report_model->getStatusName($data_row->Status_status_id),
