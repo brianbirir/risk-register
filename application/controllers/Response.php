@@ -312,7 +312,6 @@ class Response extends RISK_Controller
             "RiskStrategies_strategy_id",
             "user_id",
             "register_id",
-            "created_at",
             "due_date",
             "associated_risk"
         );
@@ -363,7 +362,6 @@ class Response extends RISK_Controller
                     $this->risk_model->getRiskStrategiesName($data_row->RiskStrategies_strategy_id),
                     $response_users_html,
                     $this->risk_model->getSubProjectName($data_row->register_id),
-                    $data_row->created_at,
                     $data_row->due_date,
                     $view_button
                 );

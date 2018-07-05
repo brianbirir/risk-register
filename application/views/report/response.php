@@ -82,7 +82,6 @@
                                     <th>Risk Strategy</th>
                                     <th>Response Owner</th>
                                     <th>Register Name</th>
-                                    <th>Date Created</th>
                                     <th>Due Date</th>
                                     <th>Associated Risk</th>
                                 </tr>
@@ -127,7 +126,6 @@
                 { "name": "RiskStrategies_strategy_id" },
                 { "name": "user_id", orderable: false},
                 { "name": "register_id" },
-                { "name": "created_at" },
                 { "name": "due_date" },
                 { "name": "associated_risk", orderable: false }
             ]
@@ -157,13 +155,12 @@
                 },
                 "order": [[1, 'asc']],
                 "columns": [
-                    { "name": "response_id"},
+                    { "name": "response_id" },
                     { "name": "risk_uuid" },
                     { "name": "ResponseTitle_id" },
                     { "name": "RiskStrategies_strategy_id" },
-                    { "name": "user_id", orderable: false},
+                    { "name": "user_id", orderable: false },
                     { "name": "register_id" },
-                    { "name": "created_at" },
                     { "name": "due_date" },
                     { "name": "associated_risk", orderable: false }
                 ]
