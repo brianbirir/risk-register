@@ -2,11 +2,9 @@
     $CI =& get_instance();
     $CI->load->model('risk_model');
     $CI->load->model('user_model');
-    echo "<div>";
-    echo "<h2 style='display:inline-block;' class='page-header'>Risk ID <span class='label label-info'>".$risk_data->item_id."</span></h2>";
-    echo "<div class='pull-right'>Latest Revision: <span class='label label-info'>".$risk_data->effective_date."</span></div>";
-    echo "</div>";
 
+    echo "<div class='well'>".$risk_data->risk_title."</div>";
+    echo "<div >Latest Revision: <span class='label label-info'>".$risk_data->effective_date."</span></div>";
 ?>
 
 <!-- risk revisions table -->

@@ -1028,7 +1028,7 @@ class Risk extends RISK_Controller
                 $data['risk_data'] = $risk;
                 $data['revision_data'] = $revision;
 
-                $data['title'] = $risk->risk_title; // assign risk title to page title
+                $data['title'] = 'Risk Harzard ID: '.$risk->original_risk_id; // assign risk title to page title
 
                 // breadcrumb
                 $this->breadcrumb->add($data['title']);
