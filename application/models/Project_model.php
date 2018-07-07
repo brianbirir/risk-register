@@ -48,6 +48,7 @@
             $this->db->select('*');
             $this->db->from('Project');
             $this->db->where('Project.User_user_id',$user_id);
+            $this->db->where('archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -368,6 +369,14 @@
             $this->db->where('Project_project_id',$project_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? true : false;
+        }
+
+        // archive project
+        function archiveProject($data,$id)
+        {
+            $this->db->where('project_id',$id);
+            $this->db->update('Project',$data);
+            return true;
         }
     }
 ?>

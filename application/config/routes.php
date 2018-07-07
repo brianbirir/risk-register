@@ -22,6 +22,7 @@ $route['dashboard/project'] = 'project/index';
 $route['dashboard/project/add'] = 'project/reg_project_view';
 $route['dashboard/project/(:num)'] = 'project/view_project/$1';
 $route['dashboard/project/edit/(:num)'] = 'project/edit_project/$1';
+$route['dashboard/project/delete/(:num)'] = 'project/delete_project/$1';
 $route['project/settings'] = 'project/project_settings';
 $route['project/settings/subcategory'] = 'project/subcategory_settings';
 $route['projectsetup/user/add'] = 'user/add';

@@ -772,6 +772,7 @@ class Project extends RISK_Controller
             $data = array(
                 'project_name' => $this->input->post('project_name'),
                 'project_description' => $this->input->post('project_description'),
+                'archived' => false,
                 'User_user_id' => $user_id,
                 'created_at' => $timestamp,
                 'updated_at' => $timestamp
@@ -985,4 +986,32 @@ class Project extends RISK_Controller
         }
     }
 
+
+    // delete project
+    function delete_project()
+    {
+        $timestamp = date('Y-m-d');
+
+        // get id from fourth segment of uri
+        $id = $this->uri->segment(4);
+        
+        $archive_data = array(
+            'archived_date' => $timestamp,
+            'archived' => true
+        );
+
+        // archive risk record
+        if($this->project_model->archiveProject($archive_data,$id))
+        {
+            $this->session->set_flashdata('positive_msg','You have deleted the project successfully!');
+            // load page for viewing all projects
+            redirect('dashboard/project');
+        }
+        else
+        {
+            // error
+            $this->session->set_flashdata('negative_msg','Error. Unable to delete project!');
+            redirect('dashboard/project');
+        }
+    }
 }
