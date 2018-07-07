@@ -74,6 +74,54 @@ class Project extends RISK_Controller
         }
     }
 
+    function archived_project()
+    {
+        $data = array('title' => 'Archived Projects');
+
+        if($this->session->userdata('logged_in'))
+        {
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // set project name, register name and project ID to null
+            $session_data = $this->session->userdata('logged_in');
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+
+            if ($data['role_id'] == 8) 
+            {
+
+                $project = $this->project_model->getAssignedProject($data['user_id']);
+                
+                //check if result is true
+                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+            }
+            else if ( $data['role_id'] == 1 )
+            {
+                $project = $this->project_model->getAllProjects();
+                
+                //check if result is true
+                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+            } 
+            else
+            {
+                $project = $this->project_model->getArchivedProjects($data['user_id']);
+                
+                //check if result is true
+                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+            }
+
+            // load page to show all devices
+            $this->template->load('dashboard', 'project/archived', $data);
+        }
+        else
+        {
+            // if no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
     
     // view a single project
     function view_project()
@@ -131,6 +179,74 @@ class Project extends RISK_Controller
                 // check if result is true
                 ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
                 $this->template->load('dashboard', 'project/view', $data);
+            }
+            else // redirect to project settings page
+            {
+                redirect('project/settings');
+            }
+        }
+        else 
+        {   
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // view a single project
+    function archived_register()
+    {
+        $data = array();
+        
+        if($this->session->userdata('logged_in'))
+        {
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+            
+            $uri_project_id = $this->uri->segment(4); // get id from 4th segment of uri
+            $single_project = $this->project_model->getSingleProject($uri_project_id);
+            $data['project_id'] = $uri_project_id;
+            $data['project_name'] = $single_project->project_name;
+            
+            // append project name to page title
+            $data['title'] = $single_project->project_name . ' Project <small> Archived Risk Registers</small>';
+            // project description
+            $data['project_description'] = $single_project->project_description;
+
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // add uri id i.e. project id to session data
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['user_project_id'] = $uri_project_id; // project ID
+            $session_data['project_name'] = $single_project->project_name; // project name
+            $session_data['register_name'] = null; // set register name to null when selecting project
+
+            $check_setting = $this->check_project_setting($uri_project_id);
+            $session_data['tbl_no_project_settings'] = $check_setting;
+            
+            $this->session->set_userdata('logged_in', $session_data);
+
+            if(empty($check_setting))
+            {
+                // get all risk registers for specific user
+                if ($session_data['role_name'] == 'Project Manager' || $session_data['role_name'] == 'Program Manager') 
+                {
+                    $risk_register = $this->project_model->getArchivedRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
+                }
+                else if($session_data['role_name'] == 'General User')
+                {
+                    $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
+                } 
+                else
+                {
+                    $risk_register = $this->project_model->getArchivedRiskRegisters( array('project_id'=>$uri_project_id));
+                } 
+
+                // check if result is true
+                ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
+                $this->template->load('dashboard', 'project/archived_register', $data);
             }
             else // redirect to project settings page
             {

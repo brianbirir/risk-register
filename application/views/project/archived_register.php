@@ -6,7 +6,6 @@
 
             <div class="box-header with-border">
                 <h3 class="box-title">About Project</h3>
-                <a href="/dashboard/project/edit/<?php echo $project_id; ?>" class="btn btn-default btn-reg btn-xs pull-right">Edit Project</a>
             </div>
 
             <div class="box-body">
@@ -37,15 +36,10 @@
         </div>
         <?php } ?>
 
-        <div class="reg-btn">
-            <a href="/dashboard/riskregister/add" class="btn btn-success btn-sm btn-add">Add Risk Register</a>
-            <a href="/dashboard/riskregister/archived/<?php echo $project_id; ?>" class="btn btn-success btn-sm btn-add">Archived Registers</a>
-        </div>
-
         <div class="box box-primary">
 
             <div class="box-header with-border">
-                <h3 class="box-title">Risk Register</h3>
+                <h3 class="box-title">Archived Risk Register</h3>
                 <div class="box-tools pull-right">
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                 </div>
@@ -54,7 +48,7 @@
             <div class="box-body table-responsive no-padding">
             <?php 
                 if (!$subproject_data) {
-                    $msg = 'You have no registered risk registers!';
+                    $msg = 'You have no archived risk registers!';
                     echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
                 } 
                 else 
@@ -65,7 +59,6 @@
                         <tr>
                             <th>No.</th>
                             <th>Risk Register</th>
-                            <th>Action</th>
                         </tr>
                     
                         <?php
@@ -75,12 +68,6 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$subproject_row->name."</td>";
-                                echo "<td>
-                                <a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>View</a>
-                                <a data-toggle='confirmation' data-title='Delete Register?'  href='/dashboard/riskregister/delete/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>Delete</a>
-                                <a href='/dashboard/riskregister/duplicate/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-view'>Duplicate</a>
-                                <a href='/dashboard/riskregister/assign_user/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-view'><i class='fas fa-user fa-xs'></i> Assign User</a></td>";
-                                echo "</tr>";
                             } 
                         } ?>
                     </tbody>

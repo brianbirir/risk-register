@@ -37,6 +37,7 @@
         {
             $this->db->select('*');
             $this->db->from('Project');
+            $this->db->where('archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -48,7 +49,18 @@
             $this->db->select('*');
             $this->db->from('Project');
             $this->db->where('Project.User_user_id',$user_id);
-            $this->db->where('archived', false);
+            $this->db->where('Project.archived', false);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // fetch all archived projects for a particular user
+        function getArchivedProjects( $user_id )
+        {
+            $this->db->select('*');
+            $this->db->from('Project');
+            $this->db->where('Project.User_user_id',$user_id);
+            $this->db->where('Project.archived', true);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -73,6 +85,26 @@
             $this->db->from('Subproject');
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->where('Subproject.archived', false);
+
+            if(array_key_exists("user_id",$params))
+            {
+                $this->db->where('Project.User_user_id', $params['user_id']);
+            }
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->where('Project.project_id', $params['project_id']);
+            }
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+        // fetch all archived risk registers for a particular user i.e. project manager and super administrator
+        function getArchivedRiskRegisters($params=array())
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Subproject.archived', true);
 
             if(array_key_exists("user_id",$params))
             {
@@ -173,6 +205,7 @@
             $this->db->join('Subproject','Subproject.Project_project_id = Project.project_id');
             $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
             $this->db->where('Subproject_has_User.User_user_id',$user_id);
+            $this->db->where('Project.archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
