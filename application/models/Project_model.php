@@ -72,6 +72,8 @@
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Subproject.archived', false);
+
             if(array_key_exists("user_id",$params))
             {
                 $this->db->where('Project.User_user_id', $params['user_id']);
@@ -376,6 +378,14 @@
         {
             $this->db->where('project_id',$id);
             $this->db->update('Project',$data);
+            return true;
+        }
+
+        // archive project
+        function archiveRegister($data,$id)
+        {
+            $this->db->where('subproject_id',$id);
+            $this->db->update('Subproject', $data);
             return true;
         }
     }

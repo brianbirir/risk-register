@@ -20,16 +20,21 @@
 
             </div>
         </div>
-
     </div>
 
     <div class="col-md-9">
 
-        <?php if ($this->session->flashdata('negative_msg')){ ?>
-            <div class="alert alert-danger alert-dismissible" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <div><?php echo $this->session->flashdata('negative_msg'); ?></div>
-            </div>
+        <!-- display alert messages -->
+        <?php if ($this->session->flashdata('positive_msg')){ ?>
+        <div class="alert alert-success alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span><?php echo $this->session->flashdata('positive_msg'); ?></span>
+        </div>
+        <?php } else if ($this->session->flashdata('negative_msg')) { ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <span><?php echo $this->session->flashdata('negative_msg'); ?></span>
+        </div>
         <?php } ?>
 
         <div class="reg-btn">
@@ -59,6 +64,7 @@
                         <tr>
                             <th>No.</th>
                             <th>Risk Register</th>
+                            <th>Action</th>
                         </tr>
                     
                         <?php
@@ -68,9 +74,11 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$subproject_row->name."</td>";
-                                echo "<td><a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>View Risk Register</a></td>";
-                                echo "<td><a href='/dashboard/riskregister/duplicate/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-add'>Duplicate</a></td>";
-                                echo "<td><a href='/dashboard/riskregister/assign_user/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-add'><i class='fas fa-user fa-xs'></i> Assign User</a></td>";
+                                echo "<td>
+                                <a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>View</a>
+                                <a data-toggle='confirmation' data-title='Delete Register?'  href='/dashboard/riskregister/delete/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>Delete</a>
+                                <a href='/dashboard/riskregister/duplicate/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-view'>Duplicate</a>
+                                <a href='/dashboard/riskregister/assign_user/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-view'><i class='fas fa-user fa-xs'></i> Assign User</a></td>";
                                 echo "</tr>";
                             } 
                         } ?>

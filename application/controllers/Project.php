@@ -990,7 +990,7 @@ class Project extends RISK_Controller
     // delete project
     function delete_project()
     {
-        $timestamp = date('Y-m-d');
+        $timestamp = date('Y-m-d G:i:s'); // timestamp
 
         // get id from fourth segment of uri
         $id = $this->uri->segment(4);
@@ -1000,7 +1000,7 @@ class Project extends RISK_Controller
             'archived' => true
         );
 
-        // archive risk record
+        // archive register record
         if($this->project_model->archiveProject($archive_data,$id))
         {
             $this->session->set_flashdata('positive_msg','You have deleted the project successfully!');
@@ -1012,6 +1012,40 @@ class Project extends RISK_Controller
             // error
             $this->session->set_flashdata('negative_msg','Error. Unable to delete project!');
             redirect('dashboard/project');
+        }
+    }
+
+
+    // delete register
+    function delete_register()
+    {
+        // load session data to get project id
+        $session_data = $this->session->userdata('logged_in');
+    
+        // timestamp
+        $timestamp = date('Y-m-d G:i:s');
+
+        // get id from fourth segment of uri
+        $id = $this->uri->segment(4);
+        
+        $archive_data = array(
+            'archived_date' => $timestamp,
+            'archived' => true
+        );
+
+        // archive register record
+        if($this->project_model->archiveRegister($archive_data,$id))
+        {
+            $this->session->set_flashdata('positive_msg','You have deleted the register successfully!');
+            
+            // load page for viewing all registers
+            redirect('dashboard/project/'.$session_data['user_project_id']);
+        }
+        else
+        {
+            // error
+            $this->session->set_flashdata('negative_msg','Error. Unable to delete register!');
+            redirect('dashboard/project/'.$session_data['user_project_id']);
         }
     }
 }

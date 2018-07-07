@@ -31,6 +31,7 @@ $route['projectsetup/user/add'] = 'user/add';
 $route['dashboard/riskregisters'] = 'project/view_risk_registers';
 $route['dashboard/riskregister/add'] = 'project/add_register_view';
 $route['dashboard/riskregister/(:num)'] = 'project/view_risk_register/$1';
+$route['dashboard/riskregister/delete/(:num)'] = 'project/delete_register/$1';
 $route['dashboard/riskregister/duplicate/(:num)'] = 'project/add_duplicate_view/$1';
 $route['dashboard/riskregister/assign_user/(:num)'] = 'project/assign_user_view/$1';
 
