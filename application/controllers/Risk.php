@@ -234,7 +234,9 @@ class Risk extends RISK_Controller
             $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);
-            $data['select_user'] = $this->getRegisterUser($data['risk']->Subproject_subproject_id);
+            $data['select_user'] = $this->getRegisterUser($data['register_id']);
+            $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
+            
             
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);

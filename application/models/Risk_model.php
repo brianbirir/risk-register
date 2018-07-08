@@ -117,8 +117,8 @@
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id', $params['user_id']);
-            $this->db->where('archived',false); // not archived
+            $this->db->where('RiskRegistry.User_user_id', $params['user_id']);
+            $this->db->where('RiskRegistry.archived',false); // not archived
             
             // check if project ID exists
             if(array_key_exists("project_id",$params))
@@ -220,8 +220,8 @@
                 $this->db->where('Project_project_id', $params['project_id']);
             }
 
-            $this->db->where('User_user_id',$params['user_id']);
-            $this->db->where('archived',true);
+            $this->db->where('RiskRegistry.User_user_id',$params['user_id']);
+            $this->db->where('RiskRegistry.archived',true);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
