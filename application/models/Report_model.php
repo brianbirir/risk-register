@@ -232,9 +232,9 @@
         {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->order_by('item_id','asc'); // order by item ID
-            $this->db->where('archived',false); // do not export archived data
-            $this->db->where('User_user_id', $params['user_id']); // get by user ID
+            $this->db->order_by('RiskRegistry.item_id','asc'); // order by item ID
+            $this->db->where('RiskRegistry.archived',false); // do not export archived data
+            $this->db->where('RiskRegistry.User_user_id', $params['user_id']); // get by user ID
 
             // check if project ID exists
             if(array_key_exists("project_id",$params))
