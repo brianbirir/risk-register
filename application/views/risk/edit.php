@@ -17,10 +17,6 @@
     $CI->load->model('risk_model');
     $CI->load->model('project_model');
     $risk_register = $CI->project_model->getManagerRegisterName( $risk->Subproject_subproject_id );
-
-    $session_data = $this->session->userdata('logged_in');
-
-    var_dump($session_data);
 ?>
 
 <!-- risk editing form -->
