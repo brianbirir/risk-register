@@ -17,6 +17,10 @@
     $CI->load->model('risk_model');
     $CI->load->model('project_model');
     $risk_register = $CI->project_model->getManagerRegisterName( $risk->Subproject_subproject_id );
+
+    $session_data = $this->session->userdata('logged_in');
+
+    var_dump($session_data);
 ?>
 
 <!-- risk editing form -->
@@ -597,40 +601,81 @@
                         <div class="box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Risk Response</h3>
-                                <div id="add-response-btn" class="btn btn-sm btn-primary pull-right" onclick="new_row()">Add Response</div>
+                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div>
                             </div>
 
                             <!-- add more responses -->
                             <div class="box-body">
-                                <table class="table table-hover">
-                                    <tbody id="response-table-body">
-                                        <tr>
-                                            <!-- <th>Risk Response ID</th> -->
-                                            <th>Risk Response Title</th>
-                                            <th>Response Type</th>
-                                            <th></th>
-                                        </tr>
-                                        <tr id="response-row">
-                                            <td>
-                                                <div class="form-group">
-                                                    <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>"/>
+                                <div id="response-table-body">
+                                    <div id="response-row" class="row response-item">
+
+                                        <?php
+                                            /** check if response titles exist for this given risk register
+                                             * if not display input text field
+                                             * if they do exist display select drop down of those response titles
+                                             */
+                                            if(!$select_response_name)
+                                            {
+                                        ?>
+                                        <div class="col-md-2">
+                                            <div class="form-group form-response-title">
+                                                <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
+                                            </div>
+                                        </div>
+                                        <?php } else { ?>
+                                        <div class="col-md-2">
+                                            <div class="form-group form-response-title">
+                                                <select name="risk_response[title][]" class="form-control response response-title">
+                                                    <?php
+                                                        foreach ($select_response_name as $key => $value)
+                                                        {
+                                                            echo "<option value=".$key.">".$value."</option>";
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-1">
+                                            <!-- button for adding response title to drop down -->
+                                            <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
+                                        </div>
+                                        <?php } ?>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <select name="risk_response[strategy][]" class="form-control response response-strategy">
+                                                    <?php
+                                                        foreach ($select_strategy as $key => $value)
+                                                        {
+                                                            echo "<option value=".$key.">".$value."</option>";
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <select multiple="multiple" name="risk_response[user][]" class="form-control response response-user">
+                                                    <?php
+                                                        foreach ($select_user as $key => $value)
+                                                        {
+                                                            echo "<option value=".$key.">".$value."</option>";
+                                                        }
+                                                    ?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
+                                                    </div>
+                                                    <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo set_value('risk_reponse[date][]'); ?>" required/>
                                                 </div>
-                                            </td>
-                                            <td>
-                                                <div class="form-group">
-                                                    <select name="risk_response[strategy][]" class="form-control">
-                                                        <?php
-                                                            foreach ($select_strategy as $key => $value) 
-                                                            {
-                                                                echo "<option value=".$key.">".$value."</option>";
-                                                            }
-                                                        ?>
-                                                    </select>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
                             <!-- existing responses -->

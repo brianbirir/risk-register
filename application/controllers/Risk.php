@@ -202,8 +202,12 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
-            // get id from fourth segment of uri
-            $data['register_id'] = $this->uri->segment(4);
+            // load session data
+            $session_data = $this->session->userdata('logged_in');
+
+
+            // get risk id from fourth segment of uri
+            $data['risk_id'] = $this->uri->segment(4);
 
             // get register data
             // if ( $data['role_id'] == 8 ) 
@@ -216,7 +220,7 @@ class Risk extends RISK_Controller
             $data['user_project_id'] = $session_data['user_project_id'];
 
             // get risk data based on id from uri
-            $data['risk'] = $this->risk_model->getRisk($data['register_id']);
+            $data['risk'] = $this->risk_model->getRisk($data['risk_id']);
                 
             // get risk responses data
             $data['risk_response'] = $this->risk_model->getRiskResponse($data['risk']->risk_uuid);
@@ -234,7 +238,7 @@ class Risk extends RISK_Controller
             $data['select_risk_entity'] = $this->getRiskEntity($data['user_project_id']);
             $data['select_risk_cost'] = $this->getRiskCost($data['user_project_id']);
             $data['select_risk_schedule'] = $this->getRiskSchedule($data['user_project_id']);
-            $data['select_user'] = $this->getRegisterUser($data['register_id']);
+            $data['select_user'] = $this->getRegisterUser($session_data['register_id']); // from session data
             $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
             
             
@@ -281,8 +285,6 @@ class Risk extends RISK_Controller
             'effect' => $this->input->post('effect'),
             'materialization_phase_materialization_id' => $this->input->post('materialization_phase'),
             'likelihood' => $this->input->post('likelihood'),
-            //'time_impact' => $this->input->post('timeimpact'),
-            //'cost_impact' => $this->input->post('costimpact'),
             'reputation_impact' => $this->input->post('reputationimpact'),
             'hs_impact' => $this->input->post('hsimpact'),
             'env_impact' => $this->input->post('environmentimpact'),
