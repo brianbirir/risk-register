@@ -100,6 +100,15 @@
             return $this->db->insert('RiskResponse', $data);
         }
 
+        // update risk response
+        function updateResponse($data, $id)
+        {
+            $this->db->set($data);
+            $this->db->where('response_id',$id);
+            $this->db->update('RiskResponse',$data);
+            return true;
+        }
+
 
         // get all risks
         function getAllRisks()

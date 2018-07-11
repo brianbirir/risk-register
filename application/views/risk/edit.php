@@ -597,12 +597,12 @@
                         <div class="box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Risk Response</h3>
-                                <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div>
+                                <!-- <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div> -->
                             </div>
 
-                            <!-- add more responses -->
+                            <!-- existing responses -->
                             <div class="box-body">
-                                <div id="response-table-body">
+                                <h4 class="box-title">Existing Responses</h4>
 
                                     <div class="row">
                                         <div class="col-md-2">
@@ -622,115 +622,80 @@
                                         </div>
                                     </div>
 
-                                    <div id="response-row" class="row response-item">
-
-                                        <?php
-                                            /** check if response titles exist for this given risk register
-                                             * if not display input text field
-                                             * if they do exist display select drop down of those response titles
-                                             */
-                                            if(!$select_response_name)
+                                    <div class='row response-item'>
+                                        <?php 
+                                            foreach ($risk_response as $response_row)
                                             {
                                         ?>
-                                        <div class="col-md-2">
-                                            <div class="form-group form-response-title">
-                                                <input class="form-control" name="risk_response[title][]" placeholder="Risk Response Title" type="text" value="<?php echo set_value('risk_reponse[title][]'); ?>" required/>
-                                            </div>
-                                        </div>
-                                        <?php } else { ?>
-                                        <div class="col-md-2">
-                                            <div class="form-group form-response-title">
-                                                <select name="risk_response[title][]" class="form-control response response-title">
-                                                    <?php
-                                                        foreach ($select_response_name as $key => $value)
-                                                        {
-                                                            echo "<option value=".$key.">".$value."</option>";
-                                                        }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-1">
-                                            <!-- button for adding response title to drop down -->
-                                            <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
-                                        </div>
-                                        <?php } ?>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <select name="risk_response[strategy][]" class="form-control response response-strategy">
-                                                    <?php
-                                                        foreach ($select_strategy as $key => $value)
-                                                        {
-                                                            echo "<option value=".$key.">".$value."</option>";
-                                                        }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <div class="form-group">
-                                                <select multiple="multiple" name="risk_response[user][]" class="form-control response response-user">
-                                                    <?php
-                                                        foreach ($select_user as $key => $value)
-                                                        {
-                                                            echo "<option value=".$key.">".$value."</option>";
-                                                        }
-                                                    ?>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <div class="input-group date">
-                                                    <div class="input-group-addon">
-                                                        <i class="fa fa-calendar"></i>
+                                                <input type="hidden" name="risk_response[id][]" class="form-control" value="<?php echo $response_row->response_id;?>"/>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group form-response-title">
+                                                        <?php
+                                                            $select_responsetitle_attr = 'class="form-control response response-title"';
+                                                            $response_title_id = $response_row->ResponseTitle_id;
+                                                            echo form_dropdown('risk_response[title][]',$select_response_name,$response_title_id,$select_responsetitle_attr);
+                                                        ?>
                                                     </div>
-                                                    <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo set_value('risk_reponse[date][]'); ?>" required/>
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </div>
+
+                                                <div class="col-md-1">
+                                                    <!-- button for adding response title to drop down -->
+                                                    <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <?php
+                                                            $select_responsestrategy_attr = 'class="form-control response response-strategy"';
+                                                            $response_strategy_id = $response_row->RiskStrategies_strategy_id;
+                                                            echo form_dropdown('risk_response[strategy][]',$select_strategy,$response_strategy_id,$select_responsestrategy_attr);
+                                                        ?>
+                                                    </div>
+                                                </div>
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <?php
+                                                            $select_response_user_attr = 'class="form-control response response-user"';
+                                                            $response_users = unserialize($response_row->user_id);
+                                                            echo form_multiselect('risk_response[user][]', $select_user,$response_users, $select_response_user_attr);
+                                                        ?>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <div class="input-group date">
+                                                            <div class="input-group-addon">
+                                                                <i class="fa fa-calendar"></i>
+                                                            </div>
+                                                            <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo $response_row->due_date; ?>" required/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        <?php
+
+                                            // echo "<tr>";
+                                            // echo "<td>".$CI->response_model->getResponseName($response_row->ResponseTitle_id)."</td>";
+                                            // echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
+                                            
+                                            // $users = unserialize($response_row->user_id);
+                                                            
+                                            // echo "<td>";
+                                            // foreach ($users as $value)
+                                            // {
+                                            //     echo "<li>".$CI->user_model->getUserNames($value)."</li>";
+                                            // }
+                                            // echo '</td>';
+                                            // echo "</tr>";
+                                            }
+
+                                        ?>
                                 </div>
-                            </div>
-
-                            <!-- existing responses -->
-                            <div class="box-body">
-                                <h4 class="box-title">Existing Responses</h4>
-                                <?php 
-                                    // risk responses
-                                    echo "<table class='table table-bordered'>";;
-
-                                    echo "<tr>";
-                                    echo "<th>Response ID</th>";
-                                    echo "<th>Response Title</th>";
-                                    echo "<th>Response Strategy</th>";
-                                    echo "<th>Response Users</th>";
-                                    echo "</tr>";
-
-                                    foreach ($risk_response as $response_row)
-                                    {
-                                        echo "<tr>";
-                                        echo "<td>".$response_row->response_id."</td>";
-                                        echo "<td>".$CI->response_model->getResponseName($response_row->ResponseTitle_id)."</td>";
-                                        echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
-                                        
-                                        $users = unserialize($response_row->user_id);
-                                                        
-                                        echo "<td>";
-                                        foreach ($users as $value)
-                                        {
-                                            echo "<li>".$CI->user_model->getUserNames($value)."</li>";
-                                        }
-                                        echo '</td>';
-                                        echo "</tr>";
-                                    }
-
-                                    echo "</table>";
-                                ?>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
 

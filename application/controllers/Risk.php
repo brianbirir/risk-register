@@ -344,27 +344,27 @@ class Risk extends RISK_Controller
 
 
         // check first if there are any response fields that have been added
-        // if ( !empty($_POST['risk_response']['title']) && !empty($_POST['risk_response']['strategy']) )
-        // {
-            // $num_fields = count($_POST['risk_response']['title']);
+        if ( !empty($_POST['risk_response']['title']) && !empty($_POST['risk_response']['strategy']) )
+        {
+            $num_fields = count($_POST['risk_response']['title']);
+            $post_date = date('Y-m-d');
 
-            // for ($i = 0; $i < $num_fields; $i++) 
-            // {
-            //     if(empty($_POST['risk_response']['title'][$i]))
-            //     {
-            //        break;
-            //     }
+            for ($i = 0; $i < $num_fields; $i++) 
+            {
+                if(empty($_POST['risk_response']['title'][$i])) { break; }
 
-            //     $field = array(
-            //         'risk_uuid'=> $risk_uuid,
-            //         'response_uuid'=> $this->uuid->generate_uuid(),
-            //         'response_title' => $_POST['risk_response']['title'][$i],
-            //         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i]
-            //     );
+                // no response uuid generation when updating
+                $field_data = array(
+                    'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
+                    'updated_at' => $post_date,
+                    'user_id' => serialize($_POST['risk_response']['user']),
+                    'due_date' => $this->getResponseDueDate($_POST['risk_response']['date'][$i]),
+                    'ResponseTitle_id' => $_POST['risk_response']['title'][$i]
+                );
 
-            //     $this->risk_model->insertResponse($field);
-            // }
-        // }
+                $this->risk_model->updateResponse($field_data,$_POST['risk_response']['id'][$i]);
+            }
+        }
             
         // insert form data into database
         if ($this->risk_model->updateRisk($risk_data,$risk_id))
@@ -651,9 +651,7 @@ class Risk extends RISK_Controller
                 $num_fields = count($_POST['risk_response']['title']);
 
                 for ($i = 0; $i < $num_fields; $i++) 
-                {    
-                    $date = $_POST['risk_response']['date'][$i];
-
+                {   
                     // Pack the field up in an array for ease-of-use.
                     $field = array(
                         'risk_uuid'=> $risk_uuid,
@@ -664,7 +662,7 @@ class Risk extends RISK_Controller
                         'user_id' => serialize($_POST['risk_response']['user']),
                         'created_at' => $post_date,
                         'updated_at' => $post_date,
-                        'due_date' => $this->getResponseDueDate($date)
+                        'due_date' => $this->getResponseDueDate($_POST['risk_response']['date'][$i])
                     );
                     
                     // insert risk response data first
