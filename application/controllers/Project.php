@@ -307,7 +307,7 @@ class Project extends RISK_Controller
             $data['register_description'] = $single_register->description;
 
             // breadcrumb
-            $this->breadcrumb->add($data['title']);
+            $this->breadcrumb->add(mb_strimwidth($data['title'], 0, 20, "..."));
             $data['breadcrumb'] = $this->breadcrumb->output();
 
             // get user project id from session data
