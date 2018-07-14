@@ -18,10 +18,13 @@
               <div class="content-wrapper">
                 <!-- Content Header (Page header) -->
                 <section class="content-header">
-                	<h1><?php echo $title; ?><!-- <small>Control Panel</small> --></h1>
-                	<ol class="breadcrumb">
-                		<?php echo $breadcrumb; ?>
-                	</ol>
+                  <h1><?php echo $title; ?><!-- <small>Control Panel</small> --></h1>
+                  
+                  <div>
+                    <ol class="breadcrumb">
+                      <?php echo $breadcrumb; ?>
+                    </ol>
+                  </div>
                 </section>
                 <!-- Main content -->
                 <section class="content">

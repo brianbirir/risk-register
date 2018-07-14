@@ -38,6 +38,13 @@
     color: #f1c40f;
 }
 
+.sidebar-menu>li:hover>a, 
+.sidebar-menu>li.active>a, 
+.sidebar-menu>li.menu-open>a {
+    color: #fff;
+    background: #1e282c;
+}
+
 .user-panel > .info > p {
     color: #f1c40f;
 }
@@ -81,6 +88,12 @@
 #settings-page h3 a:hover 
 {
     text-decoration: underline;
+}
+
+/* BREADCRUMB */
+.breadcrumb 
+{
+    margin-top: 20px;
 }
 
 /* LOGIN PAGE */
