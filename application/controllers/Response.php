@@ -62,7 +62,7 @@ class Response extends RISK_Controller
     // view to select project
     function select_project()
     {
-        $data = array('title' => 'Responses Report');
+        $data = array('title' => 'Responses - Select Project');
         
         if($this->session->userdata('logged_in'))
         {
@@ -103,6 +103,7 @@ class Response extends RISK_Controller
         $data = array_merge($data,$this->get_global_data());
 
         // breadcrumb
+        $this->breadcrumb->add('Responses - Select Project','/dashboard/reports/response_project');
         $this->breadcrumb->add($data['title']);
         $data['breadcrumb'] = $this->breadcrumb->output();
 
@@ -400,6 +401,7 @@ class Response extends RISK_Controller
             $data = array_merge($data,$this->get_global_data()); 
              
             // breadcrumb 
+            $this->breadcrumb->add('Responses - Select Project','/dashboard/reports/response_project');
             $this->breadcrumb->add($data['title']); 
             $data['breadcrumb'] = $this->breadcrumb->output(); 
  

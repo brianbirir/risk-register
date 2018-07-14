@@ -24,6 +24,7 @@ class Settings extends RISK_Controller
         if($this->session->userdata('logged_in'))
         {
             // breadcrumb
+            $this->breadcrumb->add('Settings','/dashboard/settings');
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
@@ -46,9 +47,11 @@ class Settings extends RISK_Controller
 
     function set_project()
     {
-        $data = array('title' => 'Risk Data');
+        $data = array('title' => 'Project Data');
         
         // breadcrumb
+        $this->breadcrumb->add('Settings','/dashboard/settings');
+        $this->breadcrumb->add('Risk Data','/settings/data');
         $this->breadcrumb->add($data['title']);
         $data['breadcrumb'] = $this->breadcrumb->output();
         

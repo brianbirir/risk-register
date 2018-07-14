@@ -28,7 +28,9 @@ class Report extends RISK_Controller
 
         // get global data
         $data = array_merge($data,$this->get_global_data());
+        
         // breadcrumb
+        $this->breadcrumb->add('Select Report','/dashboard/reports/risk_project');
         $this->breadcrumb->add($data['title']);
         $data['breadcrumb'] = $this->breadcrumb->output();
 
@@ -103,8 +105,9 @@ class Report extends RISK_Controller
             $data = array_merge($data,$this->get_global_data()); 
              
             // breadcrumb 
-            $this->breadcrumb->add($data['title']); 
-            $data['breadcrumb'] = $this->breadcrumb->output(); 
+            $this->breadcrumb->add('Select Report','/dashboard/reports/risk_project');
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();  
  
             // get current session data 
             $session_data = $this->session->userdata('logged_in'); 
@@ -516,7 +519,7 @@ class Report extends RISK_Controller
     // view to select project
     function select_project()
     {
-        $data = array('title' => 'Risk Report');
+        $data = array('title' => 'Select Report');
         
         if($this->session->userdata('logged_in'))
         {

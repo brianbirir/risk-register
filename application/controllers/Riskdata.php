@@ -54,6 +54,8 @@ class Riskdata extends RISK_Controller
             $data['data_type'] = $data_type;
 
             // breadcrumb
+            $this->breadcrumb->add('Settings','/dashboard/settings');
+            $this->breadcrumb->add('Risk Data','/settings/data');
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
@@ -97,7 +99,10 @@ class Riskdata extends RISK_Controller
             $data['data_type'] = $data_type;
 
             // breadcrumb
-            $this->breadcrumb->add($data['title']);
+            $this->breadcrumb->add('Settings','/dashboard/settings');
+            $this->breadcrumb->add('Risk Data','/settings/data');
+            $this->breadcrumb->add($data_type,'/settings/data/'.$data_type);
+            $this->breadcrumb->add('Add '.$data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
             // get global data
@@ -135,6 +140,9 @@ class Riskdata extends RISK_Controller
             $data['data_type'] = $data_type;
 
             // breadcrumb
+            $this->breadcrumb->add('Settings','/dashboard/settings');
+            $this->breadcrumb->add('Risk Data','/settings/data');
+            $this->breadcrumb->add($data_type,'/settings/data/'.$data_type);
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
