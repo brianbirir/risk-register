@@ -97,81 +97,87 @@ class Response extends RISK_Controller
     // responses report view
     function index()
     {
-        $data = array('title' => 'Response Report');
-
-        // get global data
-        $data = array_merge($data,$this->get_global_data());
-
-        // breadcrumb
-        $this->breadcrumb->add('Responses - Select Project','/dashboard/reports/response_project');
-        $this->breadcrumb->add($data['title']);
-        $data['breadcrumb'] = $this->breadcrumb->output();
-
-        // init params
-        $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
-
-
-        // load pagination config file
-        $this->config->load('pagination', TRUE);
-        $settings = $this->config->item('pagination');
-        $settings['total_rows'] = $total_records;
-        $settings['base_url'] = base_url() . 'report/response';
-
-        // initialize pagination    
-        $this->pagination->initialize($settings);
-
-        // build paging links
-        $data["pagination_links"] = $this->pagination->create_links();
-
-        // PROJECT ID
-        // add assigned project ID to session data
-        $risk_project_id = $this->input->post('risk_project');
-        $session_data = $this->session->userdata('logged_in');
-        $session_data['report_project_id'] = $risk_project_id;
-
-        // initialize session data for response user id and response register id
-        $session_data['response_user_id'] = 'none';
-        $session_data['response_register_id'] = 'none';
-
-        // set project name for session
-        $single_project = $this->project_model->getSingleProject($this->input->post('risk_project')); // get project name from ID
-        $session_data['project_name'] = $single_project->project_name;
-
-        // set session data
-        $this->session->set_userdata('logged_in', $session_data);
-
-        if ( $data['role_id'] == 8 ) // if general user
+        if ($this->input->post('risk_project') != 'none') 
         {
-            $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
-            $assigned_register_id = $register_row->subproject_id;
-            
-            // get risk data
-            $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+            $data = array('title' => 'Response Report');
+
+            // get global data
+            $data = array_merge($data,$this->get_global_data());
+
+            // breadcrumb
+            $this->breadcrumb->add('Responses - Select Project','/dashboard/reports/response_project');
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // init params
+            $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+            $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
+
+            // load pagination config file
+            $this->config->load('pagination', TRUE);
+            $settings = $this->config->item('pagination');
+            $settings['total_rows'] = $total_records;
+            $settings['base_url'] = base_url() . 'report/response';
+
+            // initialize pagination    
+            $this->pagination->initialize($settings);
+
+            // build paging links
+            $data["pagination_links"] = $this->pagination->create_links();
+
+            // PROJECT ID
+            // add assigned project ID to session data
+            $risk_project_id = $this->input->post('risk_project');
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['report_project_id'] = $risk_project_id;
+
+            // initialize session data for response user id and response register id
+            $session_data['response_user_id'] = 'none';
+            $session_data['response_register_id'] = 'none';
+
+            // set project name for session
+            $single_project = $this->project_model->getSingleProject($this->input->post('risk_project')); // get project name from ID
+            $session_data['project_name'] = $single_project->project_name;
+
+            // set session data
+            $this->session->set_userdata('logged_in', $session_data);
+
+            if ( $data['role_id'] == 8 ) // if general user
+            {
+                $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
+                $assigned_register_id = $register_row->subproject_id;
+                
+                // get risk data
+                $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
+                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+            }
+            else if( $data['role_id'] == 1 ) // if manager or super admin
+            {
+                $risk = $this->risk_model->getAllRisks();
+                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+            }
+            else 
+            {
+                // get current page results
+                // $risk = $this->response_model->getRisks(array('limit'=>$settings['per_page'],'start'=>$start_index,'user_id'=>$data['user_id']));
+                $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id']));
+
+                ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
+            }
+
+            // data for filter drop down
+            $data['select_register'] = $this->getSubProject($session_data['report_project_id']); // get register by project id
+            $data['selected_user'] = "none"; 
+            $data['selected_register'] = "none";
+            $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']); // user
+
+            // load view
+            $this->template->load('dashboard', 'report/response', $data);
         }
-        else if( $data['role_id'] == 1 ) // if manager or super admin
+        else
         {
-            $risk = $this->risk_model->getAllRisks();
-            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+            redirect('/dashboard/reports/response_project');
         }
-        else 
-        {
-            // get current page results
-            // $risk = $this->response_model->getRisks(array('limit'=>$settings['per_page'],'start'=>$start_index,'user_id'=>$data['user_id']));
-            $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id']));
-
-            ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
-        }
-
-        // data for filter drop down
-        $data['select_register'] = $this->getSubProject($session_data['report_project_id']); // get register by project id
-        $data['selected_user'] = "none"; 
-        $data['selected_register'] = "none";
-        $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']); // user
-
-        // load view
-        $this->template->load('dashboard', 'report/response', $data);
     }
 
     // get project
