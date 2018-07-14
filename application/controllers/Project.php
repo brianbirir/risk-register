@@ -554,7 +554,9 @@ class Project extends RISK_Controller
 
         if($this->session->userdata('logged_in'))
         {
+
             // breadcrumb
+            $this->breadcrumb->add('Projects', 'dashboard/project');
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
