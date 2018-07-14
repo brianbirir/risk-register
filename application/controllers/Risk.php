@@ -123,9 +123,6 @@ class Risk extends RISK_Controller
             // check if users have been assigned to selected register
             if($this->team_model->checkForUsers($data['register_id']))
             {
-                // breadcrumb
-                $this->breadcrumb->add($data['title']);
-                $data['breadcrumb'] = $this->breadcrumb->output();
 
                 // get project ID from session data
                 $session_data = $this->session->userdata('logged_in');
@@ -146,6 +143,15 @@ class Risk extends RISK_Controller
                     {
                         $data['register_row'] = $this->project_model->getManagerRegisterName($data['register_id']);
                     }
+
+                    // single project
+                    $single_project = $this->project_model->getSingleProject($session_data['user_project_id']);
+
+                    // breadcrumb
+                    $this->breadcrumb->add($single_project->project_name, 'dashboard/project/'.$session_data['user_project_id']);
+                    $this->breadcrumb->add($data['register_row']->name,'dashboard/riskregister/'.$data['register_id']);
+                    $this->breadcrumb->add($data['title']);
+                    $data['breadcrumb'] = $this->breadcrumb->output();
                 
                     // select drop down
                     $data['select_materialization_phase'] = $this->getMaterialization($data['user_project_id']);
@@ -195,16 +201,12 @@ class Risk extends RISK_Controller
         
         if($this->session->userdata('logged_in'))
         {
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
 
             // get global data
             $data = array_merge($data, $this->get_global_data());
 
             // load session data
             $session_data = $this->session->userdata('logged_in');
-
 
             // get risk id from fourth segment of uri
             $data['risk_id'] = $this->uri->segment(4);
@@ -219,8 +221,17 @@ class Risk extends RISK_Controller
             $session_data = $this->session->userdata('logged_in');
             $data['user_project_id'] = $session_data['user_project_id'];
 
+            // single project
+            $single_project = $this->project_model->getSingleProject($session_data['user_project_id']);
+
             // get risk data based on id from uri
             $data['risk'] = $this->risk_model->getRisk($data['risk_id']);
+
+            // breadcrumb
+            $this->breadcrumb->add($single_project->project_name, 'dashboard/project/'.$session_data['user_project_id']);
+            $this->breadcrumb->add($session_data['register_name'],'dashboard/riskregister/'.$data['risk']->Subproject_subproject_id);
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
                 
             // get risk responses data
             $data['risk_response'] = $this->risk_model->getRiskResponse($data['risk']->risk_uuid);
@@ -1022,6 +1033,9 @@ class Risk extends RISK_Controller
             // get risk revision data
             $revision = $this->risk_model->getRiskRevisions( $uri_id );
 
+            $session_data = $this->session->userdata('logged_in');
+            $data['user_project_id'] = $session_data['user_project_id'];
+
             //check if result is true
             // ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
 
@@ -1029,10 +1043,14 @@ class Risk extends RISK_Controller
             {
                 $data['risk_data'] = $risk;
                 $data['revision_data'] = $revision;
+                $data['title'] = $risk->original_risk_id; // assign risk title to page title
 
-                $data['title'] = 'Risk Harzard ID: '.$risk->original_risk_id; // assign risk title to page title
+                // single project
+                $single_project = $this->project_model->getSingleProject($session_data['user_project_id']);
 
                 // breadcrumb
+                $this->breadcrumb->add($single_project->project_name, 'dashboard/project/'.$session_data['user_project_id']);
+                $this->breadcrumb->add($session_data['register_name'],'dashboard/riskregister/'.$risk->Subproject_subproject_id);
                 $this->breadcrumb->add($data['title']);
                 $data['breadcrumb'] = $this->breadcrumb->output();
                 

@@ -306,16 +306,20 @@ class Project extends RISK_Controller
             $data['title'] = $single_register->name . ' Register'; // assign register name to page title
             $data['register_description'] = $single_register->description;
 
-            // breadcrumb
-            $this->breadcrumb->add(mb_strimwidth($data['title'], 0, 20, "..."));
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
             // get user project id from session data
             $session_data = $this->session->userdata('logged_in');
             $data['user_project_id'] = $session_data['user_project_id'];
             $session_data['register_name'] = $single_register->name; // register name
             $session_data['register_id'] = $single_register->subproject_id; // register id
             $this->session->set_userdata('logged_in', $session_data);
+            
+            // single project
+            $single_project = $this->project_model->getSingleProject($session_data['user_project_id']);
+
+            // breadcrumb
+            $this->breadcrumb->add($single_project->project_name, 'dashboard/project/'.$session_data['user_project_id']);
+            $this->breadcrumb->add(mb_strimwidth($data['title'], 0, 20, "..."));
+            $data['breadcrumb'] = $this->breadcrumb->output();
 
             // assign role name in session
             $data['role_name'] = $session_data['role_name'];
