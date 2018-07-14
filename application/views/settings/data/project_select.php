@@ -2,13 +2,13 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 
         <?php
-            $attributes = array("class" => "pure-form" ,"id" => "risk-data-form", "name" => "risk-data-form");
+            $attributes = array("id" => "risk-data-form", "name" => "risk-data-form");
             echo form_open("settings/set_project", $attributes);
         ?>
         <div class="form-group">
             <label for="risk_project">Select Project First:</label>
             <?php
-                $select_project_attributes = '';
+                $select_project_attributes = 'class="form-control"';
                 $select_project['None'] = 'None';
                 echo form_dropdown('risk_project', $select_project, 'None', $select_project_attributes);
             ?>

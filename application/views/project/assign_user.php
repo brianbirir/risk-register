@@ -9,25 +9,26 @@
                 echo form_open("project/assign_user", $attributes);
             ?>
 
-            <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id;?>"/>
-
-            <input type="hidden" name="Project_project_id" id="Project_project_id" class="form-control" value="<?php echo $Project_project_id;?>"/>
+            <input type="hidden" name="project_id" id="project_id" class="form-control" value="<?php echo $project_id;?>"/>
 
             <div class="form-group">
-                <label for="subproject_name">Register Name</label>
-                <div class="well well-sm"><?php echo $register_name; ?></div>
+                <label for="project_name">Project Name</label>
+                <div class="well well-sm"><?php echo $project_name; ?></div>
             </div>
 
-            <div class="form-group"> 
-                <label for="general_user">Assign User</label> 
-                <?php  
-                    $select_user_attributes = 'class="form-control" required';
-                    $general_user['none'] = 'None';
-                    echo form_dropdown('general_user',$general_user,'none',$select_user_attributes); 
-                ?> 
-            </div>
+                <fieldset>
+                    <legend>Select users to be assigned to project</legend>
+                    <?php 
+                        foreach ($select_user as $key => $value) {
+                            echo '<div>';
+                            echo form_checkbox('assigned_users', $key, FALSE);
+                            echo form_label($value,'assigned_users');
+                            echo '</div>';
+                        }
+                    ?>
+                </fieldset>
             
-            <input name="btn_assign_user" type="submit" class="btn btn-default btn-reg" value="Assign User" />
+            <input name="btn_assign_user" type="submit" class="btn btn-default btn-reg" value="Assign Users" />
 
             <?php echo form_close(); ?>
 

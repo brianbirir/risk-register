@@ -9,7 +9,7 @@
         <?php } ?>
 
         <?php
-            $attributes = array("class" => "pure-form" ,"id" => "risk-data-form", "name" => "risk-data-form");
+            $attributes = array("id" => "risk-data-form", "name" => "risk-data-form");
             echo form_open("report/index", $attributes);
         ?>
         <div class="form-group">

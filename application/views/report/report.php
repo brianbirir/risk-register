@@ -68,7 +68,7 @@
                 ?>
             </div>
 
-            <input name="btn_report_download" type="submit" class="pure-button pure-button-primary btn-filter" value="Download Report" />
+            <input name="btn_report_download" type="submit" class="btn btn-default btn-filter" value="Download Report" />
 
             <?php echo form_close(); ?>
 
