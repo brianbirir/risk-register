@@ -31,6 +31,7 @@ $route['dashboard/project/archived'] = 'project/archived_project';
 // risk register
 $route['dashboard/riskregisters'] = 'project/view_risk_registers';
 $route['dashboard/riskregister/add'] = 'project/add_register_view';
+$route['dashboard/riskregister/edit/(:num)'] = 'project/edit_register';
 $route['dashboard/riskregister/(:num)'] = 'project/view_risk_register/$1';
 $route['dashboard/riskregister/delete/(:num)'] = 'project/delete_register/$1';
 $route['dashboard/riskregister/duplicate/(:num)'] = 'project/add_duplicate_view/$1';

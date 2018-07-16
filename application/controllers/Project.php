@@ -579,6 +579,95 @@ class Project extends RISK_Controller
         }
     }
 
+    // view for editing a register
+    function edit_register()
+    {
+        $data = array('title' => 'Edit Register');
+
+        if($this->session->userdata('logged_in'))
+        {
+
+            $session_data = $this->session->userdata('logged_in');
+
+            // breadcrumb
+            $this->breadcrumb->add('Projects', 'dashboard/project/'. $session_data['user_project_id']);
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            // get id from fourth segment of uri
+            $register_id = $this->uri->segment(4);
+
+            // get data for the project
+            $data['register'] = $this->project_model->getSingleRiskRegister($register_id);
+
+            // load page to show all devices
+            $this->template->load('dashboard', 'registry/edit_register', $data);
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+    // update register
+    function update_register()
+    {
+        // // set validation rules
+        $this->form_validation->set_rules('register_name', 'Register Name', 'trim|required');
+        $this->form_validation->set_rules('register_description', 'Register Description', 'trim|required');
+
+        // validate form input
+        if ($this->form_validation->run() == FALSE)
+        {
+            // breadcrumb
+            $this->breadcrumb->add('Projects', 'dashboard/project');
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+
+            // get id from fourth segment of uri
+            $register_id = $this->uri->segment(4);
+
+            // get data for the project
+            $data['register'] = $this->project_model->getSingleRiskRegister($register_id);
+
+            // load page to show all devices
+            $this->template->load('dashboard', 'registry/edit_register', $data);
+        }
+        else
+        {
+            $timestamp = date('Y-m-d G:i:s');
+
+            $register_id = $this->input->post('register_id');
+            $register_name = $this->input->post('register_name');
+
+            // insert the register details into database
+            $register_data = array(
+                'name' => $register_name,
+                'description' => $this->input->post('register_description'),
+                'updated_at' => $timestamp
+            );
+
+            // insert form data into database
+            if ($this->project_model->updateRegister($register_data, $register_id))
+            {
+                $this->session->set_flashdata('positive_msg','You have successfully updated the '.$register_name.' register!');
+                redirect('/dashboard/riskregister/'.$register_id);
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
+                redirect('dashboard/riskregister/edit/'.$register_id);
+            }
+        }
+    }
 
     // function for updating project
     function update_project()
@@ -617,7 +706,7 @@ class Project extends RISK_Controller
             // insert form data into database
             if ($this->project_model->updateProject($project_data, $project_id))
             {
-                $this->session->set_flashdata('positive_msg','You have successfully updated the '.$project_name.' project! Please login.');
+                $this->session->set_flashdata('positive_msg','You have successfully updated the '.$project_name.' project!');
                 redirect('dashboard/project');
             }
             else

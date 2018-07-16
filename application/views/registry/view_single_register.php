@@ -11,6 +11,7 @@
 
             <div class="box-header with-border">
                 <h3 class="box-title">About Risk Register</h3>
+                <a href="/dashboard/riskregister/edit/<?php echo $register_id; ?>" class="btn btn-default btn-reg btn-xs pull-right">Edit Register</a>
             </div>
 
             <div class="box-body">

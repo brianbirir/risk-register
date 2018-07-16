@@ -31,6 +31,16 @@
             return true;
         }
 
+        
+        // update register
+        function updateRegister($data, $id)
+        {
+            $this->db->set($data);
+            $this->db->where('subproject_id',$id);
+            $this->db->update('Subproject',$data);
+            return true;
+        }
+
 
         // view all projects
         function getAllProjects()
