@@ -27,13 +27,15 @@ class Risk extends RISK_Controller
             // title
             $data = array('title' => 'Risks');
 
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
             // session data
             $session_data = $this->session->userdata('logged_in');
             $session_project_id = $session_data['user_project_id'];
+
+
+            // breadcrumb
+            $this->breadcrumb->add($session_data['project_name']." Project", 'dashboard/project/'.$session_data['user_project_id']);
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
@@ -81,10 +83,7 @@ class Risk extends RISK_Controller
 
         if($this->session->userdata('logged_in'))
         {
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
-
+            
             // session data
             $session_data = $this->session->userdata('logged_in');
             $session_project_id = $session_data['user_project_id'];
@@ -92,8 +91,14 @@ class Risk extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            // get risk data belonging to specific user 
+            // get risk data belonging to specific user and project
             $risk = $this->risk_model->getArchivedRisks(array("user_id"=>$data['user_id'],"project_id"=>$session_project_id));
+
+
+            // breadcrumb
+            $this->breadcrumb->add($session_data['project_name']." Project", 'dashboard/project/'.$session_data['user_project_id']);
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
 
             //check if result is true
             ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
@@ -148,7 +153,7 @@ class Risk extends RISK_Controller
                     $single_project = $this->project_model->getSingleProject($session_data['user_project_id']);
 
                     // breadcrumb
-                    $this->breadcrumb->add($single_project->project_name, 'dashboard/project/'.$session_data['user_project_id']);
+                    $this->breadcrumb->add($single_project->project_name." Project", 'dashboard/project/'.$session_data['user_project_id']);
                     $this->breadcrumb->add($data['register_row']->name,'dashboard/riskregister/'.$data['register_id']);
                     $this->breadcrumb->add($data['title']);
                     $data['breadcrumb'] = $this->breadcrumb->output();
@@ -228,7 +233,7 @@ class Risk extends RISK_Controller
             $data['risk'] = $this->risk_model->getRisk($data['risk_id']);
 
             // breadcrumb
-            $this->breadcrumb->add($single_project->project_name, 'dashboard/project/'.$session_data['user_project_id']);
+            $this->breadcrumb->add($single_project->project_name." Project", 'dashboard/project/'.$session_data['user_project_id']);
             $this->breadcrumb->add($session_data['register_name'],'dashboard/riskregister/'.$data['risk']->Subproject_subproject_id);
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
