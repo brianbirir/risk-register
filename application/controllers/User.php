@@ -555,7 +555,7 @@ class User extends RISK_Controller
         // delete user record
         if($this->user_model->deleteUser($id))
         {
-            $this->session->set_flashdata('positive-msg','You have deleted the user successfully!');
+            $this->session->set_flashdata('positive_msg','You have deleted the user successfully!');
 
             // load page for viewing all roles
             redirect('settings/users');
@@ -563,7 +563,7 @@ class User extends RISK_Controller
         else
         {
             // error
-            $this->session->set_flashdata('negative-msg','Oops! Error.  Please try again later!');
+            $this->session->set_flashdata('negative_msg','Oops! Error.  Please try again later!');
             redirect('settings/users');
         }
     }

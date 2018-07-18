@@ -136,7 +136,7 @@ class User_model extends CI_Model
     // delete user
     function deleteUser($user_id)
     {
-        $this->deleteAssignedRegister($user_id);
+        $this->deleteAssignedProject($user_id);
         $this->db->delete('User',array('user_id'=>$user_id));
         return true;
     }
@@ -153,6 +153,13 @@ class User_model extends CI_Model
     function deleteAssignedRegister($user_id)
     {
         $this->db->delete('Subproject_has_User',array('User_user_id'=>$user_id));
+        return true;
+    }
+
+
+    function deleteAssignedProject($user_id)
+    {
+        $this->db->delete('Project_has_User',array('User_user_id'=>$user_id));
         return true;
     }
 

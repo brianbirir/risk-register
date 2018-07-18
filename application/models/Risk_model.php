@@ -77,16 +77,20 @@
         {
             $this->db->select("COUNT(*) as num");
             $this->db->from('RiskRegistry');
-            $this->db->where('archived',false);
-
             // check if user id exists; it does not in the case of the SuperAdmin since this role
             // can view all risk items
+
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+
             if(array_key_exists("user_id",$params))
             {
-                $this->db->where('User_user_id', $params['user_id']);
+                // $this->db->where('User_user_id', $params['user_id']);
+                $this->db->where('Project_has_User.User_user_id', $params['user_id']);
             }
             
-            $this->db->where('Subproject_subproject_id', $params['register_id']);
+            $this->db->where('RiskRegistry.Subproject_subproject_id', $params['register_id']);
+            $this->db->where('RiskRegistry.archived',false);
             $query = $this->db->get();
             $result = $query->row();
             if(isset($result)) return $result->num;
@@ -147,13 +151,28 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
 
+            // // check role name
+            // if(array_key_exists("role_name",$params))
+            // {
+            //     if($params['role_name'] == 'General User')
+            //     {
+            //         $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id'); 
+            //         $this->db->join('Project','Project.project_id = Subproject.Project_project_id'); 
+            //         $this->db->join('User','User.parent_user_id = Project.User_user_id'); 
+            //     }
+            // }
+            
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+
             if(array_key_exists("user_id",$params))
             {
-                $this->db->where('User_user_id', $params['user_id']);
+                // $this->db->where('User_user_id', $params['user_id']);
+                $this->db->where('Project_has_User.User_user_id', $params['user_id']);
             }
             
-            $this->db->where('Subproject_subproject_id', $params['register_id']);
-            $this->db->where('archived', false); // not archived
+            $this->db->where('RiskRegistry.Subproject_subproject_id', $params['register_id']);
+            $this->db->where('RiskRegistry.archived', false); // not archived
             
             // limit for pagination
             if(array_key_exists("start",$params) && array_key_exists("limit",$params))
@@ -216,20 +235,27 @@
         }
 
 
-        // get archived risks
+        // get archived risks per user per project
         function getArchivedRisks($params=array())
         {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
+
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
             
             // check if project ID exists
             if(array_key_exists("project_id",$params))
             {
-                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-                $this->db->where('Project_project_id', $params['project_id']);
+                // $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                // $this->db->where('Project_project_id', $params['project_id']);
+                $this->db->where('Project_has_User.Project_project_id', $params['project_id']);
             }
 
-            $this->db->where('RiskRegistry.User_user_id',$params['user_id']);
+            // $this->db->where('RiskRegistry.Subproject_subproject_id', $params['register_id']);
+
+            // $this->db->where('RiskRegistry.User_user_id',$params['user_id']);
+            $this->db->where('Project_has_User.User_user_id', $params['user_id']);
             $this->db->where('RiskRegistry.archived',true);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
@@ -559,7 +585,9 @@
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id', $user_id);
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+            $this->db->where('Project_has_User.User_user_id',$user_id);
             $this->db->where('RiskRegistry.archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;

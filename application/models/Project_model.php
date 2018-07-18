@@ -58,7 +58,8 @@
         {
             $this->db->select('*');
             $this->db->from('Project');
-            $this->db->where('Project.User_user_id',$user_id);
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Project.Project_id');
+            $this->db->where('Project_has_User.User_user_id',$user_id);  
             $this->db->where('Project.archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
@@ -93,17 +94,18 @@
         {
             $this->db->select('*');
             $this->db->from('Subproject');
-            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            // $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
             $this->db->where('Subproject.archived', false);
 
             if(array_key_exists("user_id",$params))
             {
-                $this->db->where('Project.User_user_id', $params['user_id']);
+                $this->db->where('Project_has_User.User_user_id',$params['user_id']);
             }
-            if(array_key_exists("project_id",$params))
-            {
-                $this->db->where('Project.project_id', $params['project_id']);
-            }
+            // if(array_key_exists("project_id",$params))
+            // {
+            //     $this->db->where('Project.project_id', $params['project_id']);
+            // }
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -264,7 +266,8 @@
         function getProjectNumbers( $user_id ){
             $this->db->select('*');
             $this->db->from( 'Project' );
-            $this->db->where( 'User_user_id',$user_id );
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Project.Project_id');
+            $this->db->where('Project_has_User.User_user_id',$user_id);  
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
@@ -289,11 +292,12 @@
 
 
         // get number of subprojects
-        function getRegisterNumbers( $user_id ){
+        function getRegisterNumbers( $params = array() )
+        {
             $this->db->select('*');
             $this->db->from('Subproject');
-            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
-            $this->db->where('Project.User_user_id',$user_id);
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+            $this->db->where('Project_has_User.User_user_id',$params['user_id']);    
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }

@@ -54,7 +54,7 @@ class Dashboard extends RISK_Controller
             else
             {
                 // get numbers
-                $data['subproject_numbers'] = $this->project_model->getRegisterNumbers( $data['user_id'] );
+                $data['subproject_numbers'] = $this->project_model->getRegisterNumbers( array('user_id'=>$data['user_id']) );
                 $data['risk_numbers'] = $this->risk_model->getRiskNumbers( $data['user_id'] );
                 $data['project_numbers'] = $this->project_model->getProjectNumbers( $data['user_id'] );
             }

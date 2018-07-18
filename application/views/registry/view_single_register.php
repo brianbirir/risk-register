@@ -22,6 +22,14 @@
 
                 <strong><i class="fas fa-map-marker margin-r-5"></i> Risk Register Description</strong>
                 <p class="text-muted"><?php echo $register_description; ?></p>
+                
+                <?php
+
+                    if($role_name != "General User")
+                    {
+
+                    
+                ?>
 
                 <hr>
 
@@ -31,19 +39,20 @@
                 
                 <?php 
 
-                    if($register_users)
-                    {
-                        echo "<ul class='list-group' style='margin-top:20px;'>";
-                        foreach ($register_users as $user)
+                        if($register_users)
                         {
-                            
-                            echo "<li class='list-group-item'>".$user->first_name." ".$user->last_name."</li>";
+                            echo "<ul class='list-group' style='margin-top:20px;'>";
+                            foreach ($register_users as $user)
+                            {
+                                
+                                echo "<li class='list-group-item'>".$user->first_name." ".$user->last_name."</li>";
+                            }
+                            echo "</ul>";
                         }
-                        echo "</ul>";
-                    }
-                    else
-                    {
-                        echo "<div style='margin-top:20px;' class='alert alert-warning' role='alert'>There are no users assigned to this register!</div>";
+                        else
+                        {
+                            echo "<div style='margin-top:20px;' class='alert alert-warning' role='alert'>There are no users assigned to this register!</div>";
+                        }
                     }
                 ?>
 
