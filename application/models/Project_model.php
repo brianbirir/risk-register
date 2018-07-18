@@ -212,9 +212,8 @@
         {
             $this->db->select('*');
             $this->db->from('Project');
-            $this->db->join('Subproject','Subproject.Project_project_id = Project.project_id');
-            $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
-            $this->db->where('Subproject_has_User.User_user_id',$user_id);
+            $this->db->join('User','User.parent_user_id = Project.User_user_id');
+            $this->db->where('User.user_id',$user_id);
             $this->db->where('Project.archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
