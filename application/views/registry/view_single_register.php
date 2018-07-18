@@ -25,8 +25,6 @@
 
                 <hr>
 
-                
-                
                 <strong><i class="fas fa-users margin-r-5"></i> Users of this Register</strong>
                 
                 <a class="btn btn-default btn-reg btn-xs pull-right" href="/settings/user/riskregister/<?php echo $register_id; ?>">Assign User</a>

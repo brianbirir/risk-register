@@ -2,12 +2,12 @@
 <?php if ($this->session->flashdata('positive_msg')){ ?>
   <div class="alert alert-success alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <span><?php echo $this->session->flashdata('positive-msg'); ?></span>
+    <span><?php echo $this->session->flashdata('positive_msg'); ?></span>
   </div>
 <?php } else if ($this->session->flashdata('negative_msg')) { ?>
   <div class="alert alert-danger alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    <span><?php echo $this->session->flashdata('negative-msg'); ?></span>
+    <span><?php echo $this->session->flashdata('negative_msg'); ?></span>
   </div>
 <?php } ?>
 

@@ -21,7 +21,7 @@
             <input type="hidden" name="register_id" id="register_id" class="form-control" value="<?php echo $register_id; ?>"/>
 
             <div class="form-group">
-                <label for="register_name">Regiser Name</label>
+                <label for="register_name">Register Name</label>
                 <input disabled class="form-control" name="register_name" placeholder="Register Name" type="text" value="<?php echo $register_name;?>" />
             </div>
 

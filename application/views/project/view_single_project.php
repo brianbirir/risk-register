@@ -18,6 +18,30 @@
                 <strong><i class="fa fa-map-marker margin-r-5"></i> Project Description</strong>
                 <p class="text-muted"><?php echo $project_description; ?></p>
 
+                <hr>
+
+                <strong><i class="fas fa-users margin-r-5"></i> Users of this Project</strong>
+
+                <a class="btn btn-default btn-reg btn-xs pull-right" href="/settings/user/project/<?php echo $project_id; ?>">Assign User</a>
+
+                <?php 
+
+                    if($project_users)
+                    {
+                        echo "<ul class='list-group' style='margin-top:20px;'>";
+                        foreach ($project_users as $user)
+                        {
+                            
+                            echo "<li class='list-group-item'>".$user->first_name." ".$user->last_name."</li>";
+                        }
+                        echo "</ul>";
+                    }
+                    else
+                    {
+                        echo "<div style='margin-top:20px;' class='alert alert-warning' role='alert'>There are no users assigned to this project!</div>";
+                    }
+                ?>
+
             </div>
         </div>
     </div>

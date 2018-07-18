@@ -59,6 +59,24 @@ class User_model extends CI_Model
     }
 
 
+    // get only users with the manager role
+    function getManagerUsers($params = array())
+    {
+        $this->db->select('*');
+        $this->db->from('User');
+
+        if(array_key_exists('user_id',$params))
+        {
+            $this->db->where('parent_user_id',$params['user_id']);
+            $this->db->where('Role_role_id !=',1); 
+            $this->db->where('Role_role_id !=',8); 
+        }
+       
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : false;
+    }
+
+
     // get a single user
     function getUser($id)
     {

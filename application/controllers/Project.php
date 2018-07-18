@@ -160,6 +160,9 @@ class Project extends RISK_Controller
             
             $this->session->set_userdata('logged_in', $session_data);
 
+            // get assigned users to project
+            $data['project_users'] = $this->team_model->getProjectUsers($uri_project_id);
+
             if(empty($check_setting))
             {
                 // get all risk registers for specific user
@@ -178,7 +181,7 @@ class Project extends RISK_Controller
 
                 // check if result is true
                 ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
-                $this->template->load('dashboard', 'project/view', $data);
+                $this->template->load('dashboard', 'project/view_single_project', $data);
             }
             else // redirect to project settings page
             {
@@ -416,6 +419,14 @@ class Project extends RISK_Controller
 
             // get number of total rows by user ID
             $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID));
+        } 
+        else 
+        {
+            // get risks with user id
+            $risk_result = $this->risk_model->getUserRisk(array('start'=>$start,'limit'=>$length,'user_id'=>$session_data['user_id'], 'register_id'=>$registerID,'order'=>$order_col,'sortType'=>$dir,'role_name'=> $session_data['role_name'] ));
+
+            // get number of total rows by user ID
+            $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID, 'role_name'=> $session_data['role_name']));
         }
 
         if ($risk_result)

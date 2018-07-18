@@ -174,19 +174,36 @@ class User extends RISK_Controller
             // get global data
             $data = array_merge($data, $this->get_global_data());
             
-            // get users belonging to the parent user AKA project/programme manager
-            $data['select_user'] = $this->getUsers($this->user_model->getUsers($data['user_id']));
+            // get managers
+            $managers = $this->user_model->getManagerUsers(array('user_id'=>$data['user_id']));
 
-            $uri_project_id = $this->uri->segment(4); // get id from fourth segment of uri
-            $single_project = $this->project_model->getSingleProject($uri_project_id);
-            $data['project_id'] = $uri_project_id;
+            // get project ID from uri segment
+            $data['project_id'] = $this->uri->segment(4);
+
+            $single_project = $this->project_model->getSingleProject($this->uri->segment(4));
+
+            // get project name
             $data['project_name'] = $single_project->project_name;
-        
-            // get session data and assign project id
-            $session_data = $this->session->userdata('logged_in');
-            $session_data['user_project_id'] = $uri_project_id; // project ID
-            $session_data['project_name'] = $single_project->project_name; // project name
-            $session_data['register_name'] = null; // set register name to null when selecting project
+            
+            if($managers)
+            {
+                $options = array();
+
+                foreach ($managers as $row) 
+                {
+                    $user_id = $row->user_id;
+                    $f_name = $row->first_name;
+                    $l_name = $row->last_name;
+                    $user_name = $f_name.' '.$l_name;
+                    $options[$user_id] = $user_name;  
+                }
+
+                $data['select_user'] = $options;
+            }
+            else 
+            {
+                $data['select_user'] = 'No Users!';
+            }
 
             // load page to show form
             $this->template->load('dashboard', 'project/assign_user', $data);
@@ -195,6 +212,45 @@ class User extends RISK_Controller
         {
             //If no session, redirect to login page
             redirect('login', 'refresh');
+        }
+    }
+
+
+    // function to assign user to specified project
+    function assign_project()
+    {
+        $timestamp = date('Y-m-d G:i:s');
+
+        // check if user has been assigned a project
+        $assigned = $this->team_model->is_assigned_project($this->input->post('project_user'), $this->input->post('project_id'));
+
+        $data = array(
+            'Project_Project_id' => $this->input->post('project_id'),
+            'User_user_id' => $this->input->post('project_user'),
+            'created_at' => $timestamp,
+            'updated_at' => $timestamp
+        );
+
+        // check if user has been assigned specified project
+        if($assigned)
+        {
+            $this->session->set_flashdata('negative_msg','The user has already been assigned to this project!');
+            redirect('/settings/user/project/'. $this->input->post('project_id'));
+        }
+        else
+        {
+            // insert form data into database
+            if ($this->team_model->insertProjectMember($data))
+            {
+                $this->session->set_flashdata('positive_msg','You have successfully assigned your user a project!');
+                redirect('dashboard/project/'. $this->input->post('project_id'));
+            }
+            else
+            {
+                // error
+                $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
+                redirect('dashboard/project/'. $this->input->post('project_id'));
+            }
         }
     }
 
@@ -224,34 +280,6 @@ class User extends RISK_Controller
 
     }
 
-
-    // function to assign user to specified project
-    function assign_project()
-    {
-        $timestamp = date('Y-m-d G:i:s');
-
-        $assigned = $this->team_model->is_assigned($this->input->post('register_user'), $this->input->post('register_id'));
-
-        $users = $this->input->post('assigned_users');
-
-        for ($i=0; $i < count($users) ; $i++) 
-        {    
-            $data = array(
-                'Project_Project_id' => $this->input->post('project_id'),
-                'User_user_id' => $users[$i],
-                'created_at' => $timestamp,
-                'updated_at' => $timestamp
-            );
-
-            $this->team_model->insertTeamMember($data);
-        }
-
-        $this->session->set_flashdata('positive_msg','You have successfully assigned users to this project!');
-        redirect('dashboard/project/'. $this->input->post('project_id'));
-    }
-
-    
-
     // view for assigning a user to a register
     function assign_register_view()
     {
@@ -267,14 +295,14 @@ class User extends RISK_Controller
             $data = array_merge($data, $this->get_global_data());
             
             // get users belonging to the parent user AKA project/programme manager
-            $users = $this->user_model->getUsers($data['user_id']);
+            $users = $this->user_model->getUsers(array('user_id'=>$data['user_id']));
 
             // get register ID from uri segment
             $data['register_id'] = $this->uri->segment(4);
 
             $single_register = $this->project_model->getSingleRiskRegister($data['register_id']);
 
-            // get regsiter name
+            // get register name
             $data['register_name'] = $single_register->name;
             
             if($users)
