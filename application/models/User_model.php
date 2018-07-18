@@ -18,8 +18,6 @@ class User_model extends CI_Model
     function getRoles()
     {
         $this->db->select('role_id,role_name'); // select role_name and role_id columns
-        $this->db->where('role_id !=',1);
-        $this->db->where('role_name !=','General User');
         $query = $this->db->get('Role'); // select role table
         return ($query->num_rows() > 0) ? $query->result() : false;
     }
@@ -46,11 +44,16 @@ class User_model extends CI_Model
     }
 
     // get users by parent ID
-    function getUsers($user_id)
+    function getUsers($params = array())
     {
         $this->db->select('*');
         $this->db->from('User');
-        $this->db->where('parent_user_id',$user_id);
+
+        if(array_key_exists('user_id',$params))
+        {
+            $this->db->where('parent_user_id',$params['user_id']);
+        }
+       
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : false;
     }

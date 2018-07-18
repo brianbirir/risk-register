@@ -25,6 +25,7 @@ class User extends RISK_Controller
         if($this->session->userdata('logged_in'))
         {
             // breadcrumb
+            $this->breadcrumb->add('Settings','/dashboard/settings');
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
@@ -34,7 +35,7 @@ class User extends RISK_Controller
             if ($data['role_id'] == 1) 
             {
                 // get user data based from session user id to be used as parent user id
-                $user = $this->user_model->getUsers($data['user_id']);
+                $user = $this->user_model->getUsers(array());
 
                 //check if result is true
                 ($user) ? $data['user_data'] = $user : $data['user_data'] = false;
@@ -42,7 +43,7 @@ class User extends RISK_Controller
             else 
             {
                 // get user data
-                $user = $this->user_model->getUsers($data['user_id']);
+                $user = $this->user_model->getUsers(array('user_id'=> $data['user_id']));
                 
                 //check if result is true
                 ($user) ? $data['user_data'] = $user : $data['user_data'] = false;
@@ -63,6 +64,7 @@ class User extends RISK_Controller
         if($this->session->userdata('logged_in'))
         {
             $data = array('title' => 'Register User');
+            
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
@@ -131,7 +133,10 @@ class User extends RISK_Controller
         if($this->session->userdata('logged_in'))
         {
             $data = array('title' => 'Edit User');
+
             // breadcrumb
+            $this->breadcrumb->add('Settings','/dashboard/settings');
+            $this->breadcrumb->add('Users','/settings/users');
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
@@ -153,6 +158,99 @@ class User extends RISK_Controller
             redirect('login', 'refresh');
         }
     }
+
+
+    // view for assigning a user to a project
+    function assign_project_view()
+    {
+        if($this->session->userdata('logged_in'))
+        {
+            $data = array('title' => 'Assign Project to User');
+            
+            // breadcrumb
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
+
+            // get global data
+            $data = array_merge($data, $this->get_global_data());
+            
+            // get users belonging to the parent user AKA project/programme manager
+            $data['select_user'] = $this->getUsers($this->user_model->getUsers($data['user_id']));
+
+            $uri_project_id = $this->uri->segment(4); // get id from fourth segment of uri
+            $single_project = $this->project_model->getSingleProject($uri_project_id);
+            $data['project_id'] = $uri_project_id;
+            $data['project_name'] = $single_project->project_name;
+        
+            // get session data and assign project id
+            $session_data = $this->session->userdata('logged_in');
+            $session_data['user_project_id'] = $uri_project_id; // project ID
+            $session_data['project_name'] = $single_project->project_name; // project name
+            $session_data['register_name'] = null; // set register name to null when selecting project
+
+            // load page to show form
+            $this->template->load('dashboard', 'project/assign_user', $data);
+        }
+        else
+        {
+            //If no session, redirect to login page
+            redirect('login', 'refresh');
+        }
+    }
+
+
+    // get user names
+    function getUsers($users)
+    {
+        if($users)
+        {
+            $options = array();
+
+            foreach ($users as $row) 
+            {
+                $user_id = $row->user_id;
+                $f_name = $row->first_name;
+                $l_name = $row->last_name;
+                $user_name = $f_name.' '.$l_name;
+                $options[$user_id] = $user_name;  
+            }
+
+            return $options;
+        }
+        else 
+        {
+            return 'No Users!';
+        }
+
+    }
+
+
+    // function to assign user to specified project
+    function assign_project()
+    {
+        $timestamp = date('Y-m-d G:i:s');
+
+        $assigned = $this->team_model->is_assigned($this->input->post('register_user'), $this->input->post('register_id'));
+
+        $users = $this->input->post('assigned_users');
+
+        for ($i=0; $i < count($users) ; $i++) 
+        {    
+            $data = array(
+                'Project_Project_id' => $this->input->post('project_id'),
+                'User_user_id' => $users[$i],
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            );
+
+            $this->team_model->insertTeamMember($data);
+        }
+
+        $this->session->set_flashdata('positive_msg','You have successfully assigned users to this project!');
+        redirect('dashboard/project/'. $this->input->post('project_id'));
+    }
+
+    
 
     // view for assigning a user to a register
     function assign_register_view()
@@ -316,7 +414,7 @@ class User extends RISK_Controller
                 // insert form data into database
                 if ($this->user_model->insertUser($data))
                 {
-                    $this->session->set_flashdata('positive_msg','You have successfully registered a user! Please assign them a register');
+                    $this->session->set_flashdata('positive_msg','You have successfully registered a user!');
                     redirect('settings/users');
                 }
                 else
