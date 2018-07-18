@@ -575,12 +575,16 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
-        function getUsersRiskNumbers( $user_id, $assigned_register_id )
+
+        // get general user risk numbers; this is all risks for projects registered by the user's manager
+        function getUsersRiskNumbers( $user_id )
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('User_user_id', $user_id); // equivalent to parent user id
-            $this->db->where('Subproject_subproject_id', $assigned_register_id);
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->join('User','User.parent_user_id = Project.User_user_id');
+            $this->db->where('User.user_id',$user_id);
             $this->db->where('RiskRegistry.archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;

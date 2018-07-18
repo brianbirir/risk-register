@@ -39,13 +39,9 @@ class Dashboard extends RISK_Controller
 
             if ($data['role_id'] == 8)
             {
-                // get assigned risk register ID
-                $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
-                $assigned_register_id = $register_row->subproject_id;
-
                 // get numbers
                 $data['subproject_numbers'] = $this->project_model->getUserRegisterNumbers( $data['user_id'] );
-                $data['risk_numbers'] = $this->risk_model->getUsersRiskNumbers( $data['user_id'], $assigned_register_id );
+                $data['risk_numbers'] = $this->risk_model->getUsersRiskNumbers( $data['user_id']);
                 $data['project_numbers'] = $this->project_model->getUserProjectNumbers( $data['user_id'] );
             }
             else if ( $data['role_id'] == 1 )
