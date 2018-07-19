@@ -49,11 +49,26 @@ class User_model extends CI_Model
         $this->db->select('*');
         $this->db->from('User');
 
-        if(array_key_exists('user_id',$params))
-        {
-            $this->db->where('parent_user_id',$params['user_id']);
-        }
+        // if(array_key_exists('user_id',$params))
+        // {
+        //     $this->db->where('parent_user_id',$params['user_id']);
+        // }
        
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : false;
+    }
+
+
+    // get all general users per project
+    function getProjectGeneralUsers($user_id)
+    {
+        $this->db->select('*');
+        $this->db->from('User');
+        $this->db->join("Subproject_has_User", "Subproject_has_User.User_user_id = User.user_id");
+        $this->db->join("Subproject", "Subproject.subproject_id = Subproject_has_User.Subproject_subproject_id");
+        $this->db->join("Project", "Project.project_id = Subproject.Project_project_id");
+        $this->db->join("Project_has_User", "Project_has_User.Project_project_id = Project.project_id");
+        $this->db->where('Project_has_User.User_user_id',$user_id);
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : false;
     }

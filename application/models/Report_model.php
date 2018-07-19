@@ -14,8 +14,12 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->order_by('item_id','asc'); // order by item ID
-            $this->db->where('archived',false); // do not export archived data
-            $this->db->where('User_user_id', $params['user_id']); // get by user ID
+            
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+
+            $this->db->where('RiskRegistry.archived',false); // do not export archived data
+            $this->db->where('Project_has_User.User_user_id', $params['user_id']); // get by user ID
 
             if(array_key_exists('category_id',$params))
             {
@@ -83,18 +87,21 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->where('RiskRegistry.archived',false); // do not export archived data
+
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
             
             // check if project ID exists
             if(array_key_exists("project_id",$params))
             {
-                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-                $this->db->where('Subproject.Project_project_id', $params['project_id']);
+                // $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Project_has_User.Project_project_id', $params['project_id']);
             }
 
-            if(array_key_exists('user_id',$params))
-            {
-                $this->db->where('RiskRegistry.User_user_id', $params['user_id']); // get by user ID
-            }
+            // if(array_key_exists('user_id',$params))
+            // {
+            //     $this->db->where('Project_has_User.User_user_id', $params['user_id']); // get by user ID
+            // }
 
             // category filter
             if(array_key_exists('category_id',$params))
@@ -166,18 +173,20 @@
             $this->db->from('RiskRegistry');
             $this->db->where('RiskRegistry.archived',false);
 
-            // // check if project ID exists
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+            
+            // check if project ID exists
             if(array_key_exists("project_id",$params))
             {
-                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-                $this->db->where('Project_project_id', $params['project_id']);
+                // $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Project_has_User.Project_project_id', $params['project_id']);
             }
 
-            if(array_key_exists('user_id',$params))
-            {
-                $this->db->where('RiskRegistry.User_user_id', $params['user_id']); // get by user ID
-
-            }
+            // if(array_key_exists('user_id',$params))
+            // {
+            //     $this->db->where('Project_has_User.User_user_id', $params['user_id']); // get by user ID
+            // }
             
             // category filter
             if(array_key_exists('category_id',$params))
@@ -233,15 +242,26 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->order_by('RiskRegistry.item_id','asc'); // order by item ID
-            $this->db->where('RiskRegistry.archived',false); // do not export archived data
-            $this->db->where('RiskRegistry.User_user_id', $params['user_id']); // get by user ID
 
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+
+            $this->db->where('RiskRegistry.archived',false); // do not export archived data
+            // $this->db->where('RiskRegistry.User_user_id', $params['user_id']); // get by user ID
+            
             // check if project ID exists
             if(array_key_exists("project_id",$params))
             {
-                $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-                $this->db->where('Subproject.Project_project_id', $params['project_id']);
+                // $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+                $this->db->where('Project_has_User.Project_project_id', $params['project_id']);
             }
+
+            // check if project ID exists
+            // if(array_key_exists("project_id",$params))
+            // {
+            //     $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            //     $this->db->where('Subproject.Project_project_id', $params['project_id']);
+            // }
 
             if(array_key_exists('category_id',$params))
             {

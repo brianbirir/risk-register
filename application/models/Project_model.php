@@ -96,7 +96,7 @@
             $this->db->from('Subproject');
             // $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
-            $this->db->where('Subproject.archived', false);
+            $this->db->where('Subproject.archived', false); // not archived
 
             if(array_key_exists("user_id",$params))
             {

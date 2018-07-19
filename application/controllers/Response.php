@@ -159,9 +159,7 @@ class Response extends RISK_Controller
             else 
             {
                 // get current page results
-                // $risk = $this->response_model->getRisks(array('limit'=>$settings['per_page'],'start'=>$start_index,'user_id'=>$data['user_id']));
                 $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id']));
-
                 ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
             }
 
@@ -169,7 +167,7 @@ class Response extends RISK_Controller
             $data['select_register'] = $this->getSubProject($session_data['report_project_id']); // get register by project id
             $data['selected_user'] = "none"; 
             $data['selected_register'] = "none";
-            $data['select_user'] = $this->getGeneralUsers($data['user_id'], $data['role_id']); // user
+            $data['select_user'] = $this->getGeneralUsers($data['user_id']); // user
 
             // load view
             $this->template->load('dashboard', 'report/response', $data);
@@ -246,16 +244,9 @@ class Response extends RISK_Controller
     }
     
     // get general users
-    function getGeneralUsers($user_id, $role_id)
+    function getGeneralUsers($user_id)
     {
-        if ( $role_id == 8 ) 
-        {
-            $user = $this->user_model->getUsers( $user_id );
-        }
-        else
-        {
-            $user = $this->user_model->getUsers( $user_id );
-        }
+        $user = $this->user_model->getProjectGeneralUsers( $user_id );
         
         if( $user )
         {
