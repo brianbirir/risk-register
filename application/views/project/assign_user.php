@@ -1,44 +1,40 @@
-<!-- assign user to register form -->
+<!-- assign project form -->
 <div class="row">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div id="user-project-form">
 
-        <div id="reg-subproject-form">
+            <div>
+                <?php if ($this->session->flashdata('negative_msg')){ ?>
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <div><?php echo $this->session->flashdata('negative_msg'); ?></div>
+                    </div>
+                <?php } ?>
+            </div>
 
-            <?php
-                $attributes = array("class" => "ui form", "id" => "reg-subproject", "name" => "reg-subproject");
-                echo form_open("project/assign_user", $attributes);
+            <?php 
+                $attributes = array("class" => "ui form", "id" => "signupform", "name" => "signupform");
+                echo form_open("user/assign_project", $attributes);
             ?>
 
-            <input type="hidden" name="project_id" id="project_id" class="form-control" value="<?php echo $project_id;?>"/>
+            <input type="hidden" name="project_id" id="project_id" class="form-control" value="<?php echo $project_id; ?>"/>
 
             <div class="form-group">
                 <label for="project_name">Project Name</label>
-                <div class="well well-sm"><?php echo $project_name; ?></div>
+                <input disabled class="form-control" name="project_name" placeholder="Project Name" type="text" value="<?php echo $project_name;?>" />
             </div>
 
-                <fieldset>
-                    <legend>Select users to be assigned to project</legend>
-                    <?php 
-                        foreach ($select_user as $key => $value) {
-                            echo '<div>';
-                            echo form_checkbox('assigned_users', $key, FALSE);
-                            echo form_label($value,'assigned_users');
-                            echo '</div>';
-                        }
-                    ?>
-                </fieldset>
-            
-            <input name="btn_assign_user" type="submit" class="btn btn-default btn-reg" value="Assign Users" />
+            <div class="form-group">
+                <label for="project_user">Select User</label>
+                <?php 
+                    $select_attributes = 'class="form-control"';
+                    echo form_dropdown('project_user',$select_user,"1",$select_attributes);
+                ?>
+            </div>
+
+            <input name="btn_assign_register" type="submit" class="btn btn-default btn-reg" value="Assign" />
 
             <?php echo form_close(); ?>
-
-            <?php if ($this->session->flashdata('negative_msg')){ ?>
-                <div class="alert alert-danger alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <div><?php echo $this->session->flashdata('msg'); ?></div>
-                </div>
-            <?php } ?>
-
         </div>
     </div>
 </div>
