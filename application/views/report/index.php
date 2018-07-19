@@ -87,7 +87,7 @@
             <div class="col-xs-12">
                 <div style="margin-top:20px;" class="box">
                     <div class="box-header">
-                        <h3 class="box-title">Risks</h3>
+                        <h3 class="box-title"><?php echo $project_name ?> Risks</h3>
                     </div>
                     <div class="box-body table-responsive">
                         <table id="risk-report-table" class="table table-hover">

@@ -86,6 +86,9 @@ class Report extends RISK_Controller
             // clear session data for filter data
             $this->clear_filter_session();
 
+            // project name
+            $data['project_name'] = $single_project->project_name;
+            
             // data for filter drop down
             $data['select_category'] = $this->getCategories($this->input->post('risk_project'));
             $data['select_register'] = $this->getSubProject($data['user_id'], $this->input->post('risk_project'));

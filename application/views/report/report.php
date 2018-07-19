@@ -72,7 +72,6 @@
 
             <?php echo form_close(); ?>
 
-            
             <!-- <button id="generate-report" class="btn btn-sm btn-report">Download Report</button> -->
         </div>
     </div>
