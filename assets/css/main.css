@@ -340,3 +340,12 @@
     display: none;
   }
 }
+
+@media (min-width: 320px) and (max-width: 480px) 
+{
+    .logo-lg img 
+    {
+        display: inline;
+        width: 40%;
+    }
+}
