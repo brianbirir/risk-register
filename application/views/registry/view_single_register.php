@@ -87,16 +87,14 @@
         <?php if($role_name != "General User") { ?>
 
             <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs" role="tablist" id="register-tabs">
-                
-                <?php if($role_name == "Super Administrator") { ?>
-                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Register Risks</a></li>
-                    <li><a href="#tab_2" data-toggle="tab" aria-expanded="true">Register Users' Risks</a></li>
-                <?php } else { ?>
-                    <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">My Risks</a></li>
-                    <li><a href="#tab_2" data-toggle="tab" aria-expanded="true">Users' Risks</a></li>
-                <?php } ?>
-                    
+                <ul class="nav nav-tabs" role="tablist" id="register-tabs"> 
+                    <?php if($role_name == "Super Administrator") { ?>
+                        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">Register Risks</a></li>
+                        <li><a href="#tab_2" data-toggle="tab" aria-expanded="true">Register Users' Risks</a></li>
+                    <?php } else { ?>
+                        <li class="active"><a href="#tab_1" data-toggle="tab" aria-expanded="true">My Risks</a></li>
+                        <li><a href="#tab_2" data-toggle="tab" aria-expanded="true">Users' Risks</a></li>
+                    <?php } ?>
                 </ul>
 
                 <div class="tab-content">

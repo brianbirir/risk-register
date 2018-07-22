@@ -49,7 +49,7 @@
         }
     ?>
 
-    <?php
+        <?php
         // check if device data exists
         if (!$project_data) {
             if($role_id != 8)
@@ -64,39 +64,41 @@
             }
             
         } else { ?>
-        <div class="row">
-        <div class="col-xs-12">
-            <div class="box">
-                <div class="box-header">
-                    <h3 class="box-title">Project</h3>
-                </div>
-                <div class="box-body table-responsive no-padding">
-                    <table class="table table-hover">
-                        <tbody>
-                            <tr>
-                                <th>No.</th>
-                                <th>Project Name</th>
-                                <th>Project Description</th>
-                                <th>Actions</th>
-                            </tr>
-                            <?php
-                                $count  = 0 ;
-                                foreach ($project_data as $project_row) {
-                                    $count = $count + 1;
-                                    echo "<tr>";
-                                    echo "<td>".$count."</td>";
-                                    echo "<td>".$project_row->project_name."</td>";
-                                    echo "<td>".$project_row->project_description."</td>";
-                                    echo "<td>
-                                    <a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View</a>
-                                    <a href='/dashboard/project/edit/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Edit</a>
-                                    <a data-toggle='confirmation' data-title='Delete Project?'  href='/dashboard/project/delete/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Delete</a></td>";
-                                    echo "</tr>";
-                                } 
-                            } ?>
-                        </tbody>
-                    <table>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Project</h3>
+                        </div>
+                        <div class="box-body table-responsive no-padding">
+                            <table class="table table-hover">
+                                <tbody>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Project Name</th>
+                                        <th>Project Description</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                    <?php
+                                        $count  = 0 ;
+                                        foreach ($project_data as $project_row) {
+                                            $count = $count + 1;
+                                            echo "<tr>";
+                                            echo "<td>".$count."</td>";
+                                            echo "<td>".$project_row->project_name."</td>";
+                                            echo "<td>".$project_row->project_description."</td>";
+                                            echo "<td>
+                                            <a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View</a>
+                                            <a href='/dashboard/project/edit/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Edit</a>
+                                            <a data-toggle='confirmation' data-title='Delete Project?'  href='/dashboard/project/delete/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Delete</a></td>";
+                                            echo "</tr>";
+                                        } 
+                                    ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div> <!-- end of decision statement -->
+        <?php } ?>
+</div>
