@@ -186,7 +186,29 @@ class Response extends RISK_Controller
             if($params['role_name'] == 'Program Manager' || $params['role_name'] == 'Project Manager')
             {
                 // get all projects by user ID if user is manager
-                $project = $this->project_model->getProjects($params['user_id']);
+                $owned_projects = $this->project_model->getOwnedProjects($params['user_id']);
+                $assigned_projects = $this->project_model->getProjects($params['user_id']);
+
+                $project = array();
+
+                // check first if user owns a project and then add them to an associative array key
+                if($owned_projects)
+                {
+                    $project = $owned_projects;
+                }
+                else if($owned_projects && $assigned_projects)
+                {
+                    $project = $owned_projects;
+                    array_push($project, $assigned_projects);
+                }
+                else if($assigned_projects)
+                {       
+                    $project = $assigned_projects;
+                }
+                else
+                {
+                    $project = false;
+                }
             } 
             else
             {

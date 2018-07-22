@@ -150,27 +150,7 @@
         {   
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-
-            // // check role name
-            // if(array_key_exists("role_name",$params))
-            // {
-            //     if($params['role_name'] == 'General User')
-            //     {
-            //         $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id'); 
-            //         $this->db->join('Project','Project.project_id = Subproject.Project_project_id'); 
-            //         $this->db->join('User','User.parent_user_id = Project.User_user_id'); 
-            //     }
-            // }
-            
             $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
-
-            if(array_key_exists("user_id",$params))
-            {
-                // $this->db->where('User_user_id', $params['user_id']);
-                $this->db->where('Project_has_User.User_user_id', $params['user_id']);
-            }
-            
             $this->db->where('RiskRegistry.Subproject_subproject_id', $params['register_id']);
             $this->db->where('RiskRegistry.archived', false); // not archived
             
@@ -235,33 +215,17 @@
         }
 
 
-        // get archived risks per user per project
+        // get archived risks per user per assigned project
         function getArchivedRisks($params=array())
         {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-
-            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
-            
-            // check if project ID exists
-            if(array_key_exists("project_id",$params))
-            {
-                // $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-                // $this->db->where('Project_project_id', $params['project_id']);
-                $this->db->where('Project_has_User.Project_project_id', $params['project_id']);
-            }
-
-            // $this->db->where('RiskRegistry.Subproject_subproject_id', $params['register_id']);
-
-            // $this->db->where('RiskRegistry.User_user_id',$params['user_id']);
-            $this->db->where('Project_has_User.User_user_id', $params['user_id']);
+            $this->db->where('RiskRegistry.Subproject_subproject_id', $params['register_id']);        
             $this->db->where('RiskRegistry.archived',true);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
         
-
         // get single risk item based on risk ID
         function getRisk($risk_id)
         {   
@@ -580,7 +544,7 @@
         }
 
 
-        // get number of risks
+        // get number of risks for assigned project
         function getRiskNumbers( $user_id )
         {   
             $this->db->select('*');
@@ -588,6 +552,19 @@
             $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
             $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
             $this->db->where('Project_has_User.User_user_id',$user_id);
+            $this->db->where('RiskRegistry.archived',false); // not archived
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
+        // get number of risks for owned project
+        function getOwnedRiskNumbers( $user_id )
+        {   
+            $this->db->select('*');
+            $this->db->from('RiskRegistry');
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Project.User_user_id',$user_id);
             $this->db->where('RiskRegistry.archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;

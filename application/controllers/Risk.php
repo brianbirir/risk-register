@@ -87,13 +87,13 @@ class Risk extends RISK_Controller
             // session data
             $session_data = $this->session->userdata('logged_in');
             $session_project_id = $session_data['user_project_id'];
+            $session_register_id = $session_data['register_id'];
 
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
             // get risk data belonging to specific user and project
-            $risk = $this->risk_model->getArchivedRisks(array("user_id"=>$data['user_id'],"project_id"=>$session_project_id));
-
+            $risk = $this->risk_model->getArchivedRisks(array("register_id" =>$session_register_id ));
 
             // breadcrumb
             $this->breadcrumb->add($session_data['project_name']." Project", 'dashboard/project/'.$session_data['user_project_id']);

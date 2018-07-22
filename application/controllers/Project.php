@@ -4,7 +4,7 @@
 class Project extends RISK_Controller
 {
 
-    public function __construct()
+    function __construct()
     {
         parent::__construct();
         $this->load->helper('form');
@@ -58,10 +58,27 @@ class Project extends RISK_Controller
             } 
             else
             {
-                $project = $this->project_model->getProjects($data['user_id']);
-                
-                //check if result is true
-                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+                $owned_projects = $this->project_model->getOwnedProjects($data['user_id']);
+                $assigned_projects = $this->project_model->getProjects($data['user_id']);
+
+                // check first if user owns a project and then add them to an associative array key
+                if($owned_projects)
+                {
+                    $data['project_data'] = $owned_projects;
+                }
+                else if($owned_projects && $assigned_projects)
+                {
+                    $data['project_data'] = $owned_projects;
+                    array_push($data['project_data'], $assigned_projects);
+                }
+                else if($assigned_projects)
+                {       
+                    $data['project_data'] = $assigned_projects;
+                }
+                else
+                {
+                    $data['project_data'] = false;
+                }
             }
 
             // load page to show all devices
@@ -74,6 +91,8 @@ class Project extends RISK_Controller
         }
     }
 
+
+    // view archived projects
     function archived_project()
     {
         $data = array('title' => 'Archived Projects');
@@ -168,19 +187,39 @@ class Project extends RISK_Controller
                 // get all risk registers for specific user
                 if ($session_data['role_name'] == 'Project Manager' || $session_data['role_name'] == 'Program Manager') 
                 {
-                    $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
+                    $assigned_registers = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
+                    $owned_registers = $this->project_model->getOwnedRiskRegisters( array('project_id'=>$uri_project_id,'user_id'=>$data['user_id']));
+
+                    // check first if user owns a project and then add them to an associative array key
+                    if($owned_registers)
+                    {
+                        $data['subproject_data'] = $owned_registers;
+                    }
+                    else if($owned_registers && $assigned_registers)
+                    {
+                        $data['subproject_data'] = $owned_registers;
+                        array_push($data['subproject_data'], $assigned_registers);
+                    }
+                    else if($assigned_registers)
+                    {       
+                        $data['subproject_data'] = $assigned_registers;
+                    }
+                    else
+                    {
+                        $data['subproject_data'] = false;
+                    }
                 }
                 else if($session_data['role_name'] == 'General User')
                 {
                     $risk_register = $this->project_model->getAssignedRiskRegisters($data['user_id']);
+                    ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
                 } 
                 else
                 {
-                    $risk_register = $this->project_model->getRiskRegisters( array('project_id'=>$uri_project_id));
+                    $risk_register = $this->project_model->getOwnedRiskRegisters( array('project_id'=>$uri_project_id));
+                    ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
                 } 
 
-                // check if result is true
-                ($risk_register) ? $data['subproject_data'] = $risk_register : $data['subproject_data'] = false;
                 $this->template->load('dashboard', 'project/view_single_project', $data);
             }
             else // redirect to project settings page

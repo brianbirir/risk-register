@@ -65,6 +65,18 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+
+        // fetch all projects for a particular user
+        function getOwnedProjects( $user_id )
+        {
+            $this->db->select('*');
+            $this->db->from('Project');
+            $this->db->where('Project.User_user_id',$user_id);  
+            $this->db->where('Project.archived', false);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
         // fetch all archived projects for a particular user
         function getArchivedProjects( $user_id )
         {
@@ -94,7 +106,6 @@
         {
             $this->db->select('*');
             $this->db->from('Subproject');
-            // $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
             $this->db->where('Subproject.archived', false); // not archived
 
@@ -102,10 +113,24 @@
             {
                 $this->db->where('Project_has_User.User_user_id',$params['user_id']);
             }
-            // if(array_key_exists("project_id",$params))
-            // {
-            //     $this->db->where('Project.project_id', $params['project_id']);
-            // }
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
+
+        // fetch all risk registers for a particular user i.e. project manager and super administrator who owns a project
+        function getOwnedRiskRegisters($params=array())
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Subproject.archived', false); // not archived
+
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->where('Project.project_id', $params['project_id']);
+            }
+
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
@@ -290,14 +315,35 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
+        function getOwnedProjectNumbers( $user_id ){
+            $this->db->select('*');
+            $this->db->from( 'Project' );
+            $this->db->where('Project.User_user_id',$user_id);
+            $this->db->where('Project.archived', false);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
 
-        // get number of subprojects
+
+        // get number of subprojects for assigned projects
         function getRegisterNumbers( $params = array() )
         {
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
             $this->db->where('Project_has_User.User_user_id',$params['user_id']);    
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
+        // get number of subprojects for owned projects
+        function getOwnedRegisterNumbers( $params = array() )
+        {
+            $this->db->select('*');
+            $this->db->from('Subproject');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            $this->db->where('Project.User_user_id', $params['user_id']);
+            $this->db->where('Subproject.archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
@@ -433,6 +479,18 @@
             $this->db->where('subproject_id',$id);
             $this->db->update('Subproject', $data);
             return true;
+        }
+
+
+        // check if a manager user owns a project
+        function ownProject( $user_id )
+        {
+            $this->db->select('*');
+            $this->db->from('Project');
+            $this->db->where('User_user_id', $user_id);
+            $query = $this->db->get();
+            $row = $query->row();
+            return ($query->num_rows() > 0) ? true : false;
         }
     }
 ?>
