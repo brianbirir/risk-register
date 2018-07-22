@@ -32,6 +32,8 @@
                 </section>
                 <!-- /.content -->
               </div>
+              <!-- footer -->
+              <?php $this->load->view('partials/footer'); ?>
         </div>
         
         <!-- REQUIRED JS SCRIPTS -->
