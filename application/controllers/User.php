@@ -165,7 +165,7 @@ class User extends RISK_Controller
     {
         if($this->session->userdata('logged_in'))
         {
-            $data = array('title' => 'Assign Project to User');
+            $data = array('title' => 'Assign Project to Manager');
             
             // breadcrumb
             $this->breadcrumb->add($data['title']);

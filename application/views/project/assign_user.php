@@ -25,7 +25,7 @@
             </div>
 
             <div class="form-group">
-                <label for="project_user">Select User</label>
+                <label for="project_user">Select Manager</label>
                 <?php 
                     $select_attributes = 'class="form-control"';
                     echo form_dropdown('project_user',$select_user,"1",$select_attributes);
