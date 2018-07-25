@@ -29,9 +29,9 @@
 
                 <hr>
 
-                <strong><i class="fas fa-users margin-r-5"></i> Users of this Project</strong>
+                <strong><i class="fas fa-users margin-r-5"></i> Managers of this Project</strong>
 
-                <a class="btn btn-default btn-reg btn-xs pull-right" href="/settings/user/project/<?php echo $project_id; ?>">Assign User</a>
+                <a class="btn btn-default btn-reg btn-xs pull-right" href="/settings/user/project/<?php echo $project_id; ?>">Assign Manager</a>
 
                 <?php
                         if($project_users)
@@ -46,7 +46,7 @@
                         }
                         else
                         {
-                            echo "<div style='margin-top:20px;' class='alert alert-warning' role='alert'>There are no users assigned to this project!</div>";
+                            echo "<div style='margin-top:20px;' class='alert alert-warning' role='alert'>There are no managers assigned to this project!</div>";
                         }
 
                     }
