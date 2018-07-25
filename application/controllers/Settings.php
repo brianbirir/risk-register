@@ -47,7 +47,7 @@ class Settings extends RISK_Controller
 
     function set_project()
     {
-        $data = array('title' => 'Project Data');
+        $data = array('title' => 'Project Settings');
         
         // breadcrumb
         $this->breadcrumb->add('Settings','/dashboard/settings');
