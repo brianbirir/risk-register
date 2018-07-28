@@ -117,7 +117,7 @@
                         
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="risk_owner">Risk Owner</label>
+                                <label for="risk_owner">Risk Item Owner</label>
                                 <div class="well well-sm"><?php echo $first_name." ".$last_name ; ?></div>
                             </div>
                         </div>
@@ -147,17 +147,6 @@
                             <div class="form-group">
                                 <label for="latest_update">Latest Update</label>
                                 <div class="well well-sm"><?php echo $risk->effective_date; ?></div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="entity">Entity</label>
-                                <?php
-                                    $select_entity_attributes = 'class="form-control"';
-                                    $entity_name = $risk->Entity_entity_id;
-                                    echo form_dropdown('entity',$select_risk_entity,$entity_name,$select_entity_attributes);
-                                ?>
                             </div>
                         </div>
                     </div>
