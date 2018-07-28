@@ -77,7 +77,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="risk_title">Risk Description</label>
+                                <label for="risk_title">Notes</label>
                                 <input class="form-control" name="risk_title" type="text" value="<?php echo set_value('risk_title'); ?>" required/>
                             </div>
                         </div>

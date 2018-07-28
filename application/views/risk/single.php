@@ -65,7 +65,7 @@
             echo "</tr>";
 
             echo "<tr>";
-            echo "<td><label>Risk Description:</label></td>";
+            echo "<td><label>Notes:</label></td>";
             echo "<td><p>".$risk_data->risk_title."</p></td>";
             echo "</tr>";
 
