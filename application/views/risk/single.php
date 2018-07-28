@@ -105,7 +105,7 @@
             echo "</tr>";
             
             echo "<tr>";
-            echo "<td><label>Risk Owner:</label></td>";
+            echo "<td><label>Risk Item Author:</label></td>";
             echo "<td><p>".$CI->risk_model->getRiskOwnerName($risk_data->RiskOwner_riskowner_id)."</p></td>";
             echo "</tr>";
 

@@ -109,7 +109,7 @@
 
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="owner">Risk Owner</label>
+                                <label for="owner">Risk Item Author</label>
                                 <div class="well well-sm"><?php echo $first_name." ".$last_name ; ?></div>
                             </div>
                         </div>

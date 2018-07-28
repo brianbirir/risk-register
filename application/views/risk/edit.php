@@ -117,7 +117,7 @@
                         
                         <div class="col-md-3">
                             <div class="form-group">
-                                <label for="risk_owner">Risk Item Owner</label>
+                                <label for="risk_owner">Risk Item Author</label>
                                 <div class="well well-sm"><?php echo $first_name." ".$last_name ; ?></div>
                             </div>
                         </div>
@@ -202,7 +202,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="risk_owner">Risk Owner</label>
+                                <label for="risk_owner">Risk Item Owner</label>
                                 <?php 
                                     $select_risk_owner_attributes = 'class="form-control" required';
                                     $risk_owner_id = $risk->RiskOwner_riskowner_id;
