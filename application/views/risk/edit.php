@@ -99,36 +99,6 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="sub_project">Risk Register</label>
-                                <div class="well well-sm"><?php echo $risk_register->name; ?></div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="dor">Date of Recording</label>
-                                <div class="well well-sm"><?php echo $risk->created_at; ?></div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="risk_owner">Risk Item Author</label>
-                                <div class="well well-sm"><?php echo $first_name." ".$last_name ; ?></div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="risk_id">Risk ID</label>
-                                <div class="well well-sm" style="overflow:scroll;"><?php echo $risk->risk_uuid; ?></div>
-                            </div>
-                        </div>
-                    </div>
 
                     <div class="row">
 
@@ -208,6 +178,38 @@
                                     $risk_owner_id = $risk->RiskOwner_riskowner_id;
                                     echo form_dropdown('risk_owner',$select_risk_owner,$risk_owner_id,$select_risk_owner_attributes);  
                                 ?>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- prepopulated fields -->
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="sub_project">Risk Register</label>
+                                <div class="well well-sm"><?php echo $risk_register->name; ?></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="dor">Date of Recording</label>
+                                <div class="well well-sm"><?php echo $risk->created_at; ?></div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="risk_owner">Risk Item Author</label>
+                                <div class="well well-sm"><?php echo $first_name." ".$last_name ; ?></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="risk_id">Risk ID</label>
+                                <div class="well well-sm" style="overflow:scroll;"><?php echo $risk->risk_uuid; ?></div>
                             </div>
                         </div>
                     </div>

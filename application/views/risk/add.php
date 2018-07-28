@@ -92,37 +92,6 @@
                     </div>
 
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="sub_project">Risk Register</label>
-                                <div class="well well-sm"><?php echo $register_row->name; ?></div>
-                            </div>
-                        </div>
-
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="dor">Date of Recording</label>
-                                <div id="risk_current_date" class="well well-sm" onload="appendCurrentDate()"></div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="owner">Risk Item Author</label>
-                                <div class="well well-sm"><?php echo $first_name." ".$last_name ; ?></div>
-                            </div>
-                        </div>
-
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="risk_id">Risk ID</label>
-                                <div class="well well-sm" style="overflow:scroll;"><?php echo $risk_uuid; ?></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
 
                         <div class="col-md-4">
                             <div class="form-group">
@@ -188,6 +157,40 @@
                             </div>
                         </div>
                     </div>
+                    
+                    <!-- prepopulated fields -->
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="sub_project">Risk Register</label>
+                                <div class="well well-sm"><?php echo $register_row->name; ?></div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="dor">Date of Recording</label>
+                                <div id="risk_current_date" class="well well-sm" onload="appendCurrentDate()"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="owner">Risk Item Author</label>
+                                <div class="well well-sm"><?php echo $first_name." ".$last_name ; ?></div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="risk_id">Risk ID</label>
+                                <div class="well well-sm" style="overflow:scroll;"><?php echo $risk_uuid; ?></div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
