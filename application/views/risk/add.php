@@ -140,16 +140,6 @@
                                 <input class="form-control" name="latest_update" placeholder="Latest Update" type="text" value=""/>
                             </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label for="entity">Entity</label>
-                                <?php
-                                    $select_entity_attributes = 'class="form-control"';
-                                    echo form_dropdown('entity',$select_risk_entity,"1",$select_entity_attributes);
-                                ?>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="row">
@@ -190,7 +180,7 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label for="risk_owner">Risk Owner</label>
+                                <label for="risk_owner">Risk Item Owner</label>
                                 <?php
                                     $select_risk_owner_attributes = 'class="form-control" required';
                                     echo form_dropdown('risk_owner',$select_risk_owner,"1",$select_risk_owner_attributes);
