@@ -561,29 +561,6 @@
                 </div>
 
                 <div class="box-body table-responsive no-padding">
-                    
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="system_safety">System Safety</label>
-                            <?php 
-                                $select_system_attributes = 'class="form-control"';
-                                $safety_id = $risk->SystemSafety_safety_id;
-                                echo form_dropdown('system_safety',$select_safety,$safety_id,$select_system_attributes);
-                            ?>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label for="realization">Realization</label>
-                            <?php 
-                                $select_realization_attributes = 'class="form-control"';
-                                $realization_id = $risk->Realization_realization_id;
-                                echo form_dropdown('realization',$select_realization,$realization_id,$select_realization_attributes);
-                            ?>
-                        </div>
-                    </div>
-
                     <div class="col-md-12">
                         <div class="box">
                             <div class="box-header with-border">
