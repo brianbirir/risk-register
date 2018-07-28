@@ -95,7 +95,7 @@
             echo "</tr>";
 
             echo "<tr>";
-            echo "<td><label>Description and Notes:</label></td>";
+            echo "<td><label>Risk Item Description:</label></td>";
             echo "<td><p>".$risk_data->description_change."</p></td>";
             echo "</tr>";
 

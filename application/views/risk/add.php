@@ -67,7 +67,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label for="description_change">Description and Notes</label>
+                                <label for="description_change">Risk Item Description</label>
                                 <textarea id="description-text" class="form-control" name="description_change" rows="5" required><?php echo set_value('description_change');?></textarea>
                                 <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
                             </div>
