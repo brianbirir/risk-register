@@ -60,15 +60,14 @@ class User_model extends CI_Model
 
 
     // get all general users per project
-    function getProjectGeneralUsers($user_id)
+    function getProjectGeneralUsers($project_id)
     {
         $this->db->select('*');
         $this->db->from('User');
         $this->db->join("Subproject_has_User", "Subproject_has_User.User_user_id = User.user_id");
         $this->db->join("Subproject", "Subproject.subproject_id = Subproject_has_User.Subproject_subproject_id");
         $this->db->join("Project", "Project.project_id = Subproject.Project_project_id");
-        $this->db->join("Project_has_User", "Project_has_User.Project_project_id = Project.project_id");
-        $this->db->where('Project_has_User.User_user_id',$user_id);
+        $this->db->where('Project.project_id',$project_id);
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : false;
     }

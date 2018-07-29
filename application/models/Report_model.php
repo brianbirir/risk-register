@@ -8,75 +8,22 @@
         }
 
 
-        // get row count of risk data
+        // get row count of risk data per project
         function getRisks($params = array())
         {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->order_by('item_id','asc'); // order by item ID
-            
             $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
+            
+            // check if project ID exists
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->where('Project.project_id', $params['project_id']);
+            }
 
             $this->db->where('RiskRegistry.archived',false); // do not export archived data
-            $this->db->where('Project_has_User.User_user_id', $params['user_id']); // get by user ID
-
-            if(array_key_exists('category_id',$params))
-            {
-                if($params['category_id'] != 'None')
-                {
-                    $this->db->where('RiskCategories_category_id',$params['category_id']);
-                }
-                
-            }
-
-            if(array_key_exists('register_id',$params))
-            {   
-                if($params['register_id'] != 'None')
-                {
-                    $this->db->where('Subproject_subproject_id',$params['register_id']);
-                }
-            }
-
-            // date from and date to
-            if(array_key_exists('date_from',$params))
-            {
-                $post_at = "";
-                $post_at_to_date = "";
-                
-                if(!empty($params['date_from']))
-                {
-                    $post_at = $params['date_from'];
-                    // list($fiy,$fim,$fid) = explode("-",$post_at);
-                    // $post_at = '$fiy-$fim-$fid';
-                    $post_at_to_date = date('Y-m-d');
-
-                    if(array_key_exists('date_to',$params)) 
-                    {
-                        if(!empty($params['date_to']))
-                        {
-                            $post_at_to_date = $params['date_to'];
-                            // list($tiy,$tim,$tid) = explode("-",$post_at_to_date);
-                            // $post_at_to_date = '$tiy-$tim-$tid';
-                        }
-                    }
-                    
-                    $this->db->where('effective_date >=', $post_at);
-                    $this->db->where('effective_date <=', $post_at_to_date);
-                }
-            }
-
-            if(array_key_exists("start",$params) && array_key_exists("limit",$params))
-            {
-                $this->db->limit($params['limit'],$params['start']);
-            }
-            elseif(!array_key_exists("start",$params) && array_key_exists("limit",$params))
-            {
-                $this->db->limit($params['limit']);
-            }
-
             $query = $this->db->get();
-
             return ($query->num_rows() > 0) ?  $query->result() : false;
         }
 
@@ -86,22 +33,15 @@
         {
             $this->db->select('*');
             $this->db->from('RiskRegistry');
-            $this->db->where('RiskRegistry.archived',false); // do not export archived data
-
+            $this->db->where('RiskRegistry.archived',false); // do not show or export archived risks
             $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             
             // check if project ID exists
             if(array_key_exists("project_id",$params))
             {
-                // $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-                $this->db->where('Project_has_User.Project_project_id', $params['project_id']);
+                $this->db->where('Project.project_id', $params['project_id']);
             }
-
-            // if(array_key_exists('user_id',$params))
-            // {
-            //     $this->db->where('Project_has_User.User_user_id', $params['user_id']); // get by user ID
-            // }
 
             // category filter
             if(array_key_exists('category_id',$params))
@@ -172,21 +112,14 @@
             $this->db->select("COUNT(*) as num");
             $this->db->from('RiskRegistry');
             $this->db->where('RiskRegistry.archived',false);
-
             $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
             
             // check if project ID exists
             if(array_key_exists("project_id",$params))
             {
-                // $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-                $this->db->where('Project_has_User.Project_project_id', $params['project_id']);
+                $this->db->where('Project.project_id', $params['project_id']);
             }
-
-            // if(array_key_exists('user_id',$params))
-            // {
-            //     $this->db->where('Project_has_User.User_user_id', $params['user_id']); // get by user ID
-            // }
             
             // category filter
             if(array_key_exists('category_id',$params))

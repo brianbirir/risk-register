@@ -1,54 +1,3 @@
-<div id="response-report-form">
-    <fieldset>
-    <div class="row">
-        <div class="col-md-2">
-            <label for="risk_register">Risk Register</label>
-            <?php
-                $select_register_attributes = 'id="select-register" class="form-control"';
-                if($selected_register != 'none')
-                {
-                    $select_register['none'] = "Select Option";
-                    echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
-                }
-                else
-                {
-                    $select_register['none'] = "Select Option";
-                    echo form_dropdown('risk_register',$select_register,'none',$select_register_attributes);
-                }
-            ?>
-        </div>
-
-        <div class="col-md-2">
-
-            <label for="general_user">Users</label>
-            <?php
-                $select_user_attributes = 'id="select-user" class="form-control"';
-                if($selected_user != 'none')
-                {
-                    $select_user['none'] = "Select Option";
-                    echo form_dropdown('general_user', $select_user, $selected_user, $select_user_attributes);
-                }
-                else
-                {
-                    $select_user['none'] = "Select Option";
-                    echo form_dropdown('general_user',$select_user,'none',$select_user_attributes);
-                }
-            ?>
-
-        </div>
-
-        <button id="filter-response-btn" name="btn_filter" class="btn btn-sm btn-filter" style="margin-top:27px;">Filter</button>
-
-        <a href="/dashboard/report_response/generate" class="btn btn-sm btn-report" style="margin-top:27px;">Generate Report</a>
-    </fieldset>
-
-    <?php if ($this->session->flashdata('msg')){ ?>
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <div><?php echo $this->session->flashdata('msg'); ?></div>
-        </div>
-    <?php } ?>
-</div>
 <?php
 
     //  load risk model
@@ -66,6 +15,59 @@
     else
     {
 ?>
+
+<div id="response-report-form">
+    <fieldset>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="risk_register">Risk Register</label>
+                <?php
+                    $select_register_attributes = 'id="select-register" class="form-control"';
+                    if($selected_register != 'none')
+                    {
+                        $select_register['none'] = "Select Option";
+                        echo form_dropdown('risk_register', $select_register, $selected_register, $select_register_attributes);
+                    }
+                    else
+                    {
+                        $select_register['none'] = "Select Option";
+                        echo form_dropdown('risk_register',$select_register,'none',$select_register_attributes);
+                    }
+                ?>
+            </div>
+
+            <div class="col-md-2">
+
+                <label for="general_user">Users</label>
+                <?php
+                    $select_user_attributes = 'id="select-user" class="form-control"';
+                    if($selected_user != 'none')
+                    {
+                        $select_user['none'] = "Select Option";
+                        echo form_dropdown('general_user', $select_user, $selected_user, $select_user_attributes);
+                    }
+                    else
+                    {
+                        $select_user['none'] = "Select Option";
+                        echo form_dropdown('general_user',$select_user,'none',$select_user_attributes);
+                    }
+                ?>
+
+            </div>
+
+            <button id="filter-response-btn" name="btn_filter" class="btn btn-sm btn-filter" style="margin-top:27px;">Filter</button>
+
+            <a href="/dashboard/report_response/generate" class="btn btn-sm btn-report" style="margin-top:27px;">Generate Report</a>
+        </div>
+    </fieldset>
+
+    <?php if ($this->session->flashdata('msg')){ ?>
+        <div class="alert alert-danger alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div><?php echo $this->session->flashdata('msg'); ?></div>
+        </div>
+    <?php } ?>
+</div>
         <div class="row">
             <div class="col-xs-12">
                 <div style="margin-top:20px;" class="box">

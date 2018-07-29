@@ -109,21 +109,6 @@ class Response extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // init params
-            $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $total_records = count($this->response_model->getResponseByUser(array('user_id'=>$data['user_id'])));
-
-            // load pagination config file
-            $this->config->load('pagination', TRUE);
-            $settings = $this->config->item('pagination');
-            $settings['total_rows'] = $total_records;
-            $settings['base_url'] = base_url() . 'report/response';
-
-            // initialize pagination    
-            $this->pagination->initialize($settings);
-
-            // build paging links
-            $data["pagination_links"] = $this->pagination->create_links();
 
             // PROJECT ID
             // add assigned project ID to session data
@@ -167,7 +152,7 @@ class Response extends RISK_Controller
             $data['select_register'] = $this->getSubProject($session_data['report_project_id']); // get register by project id
             $data['selected_user'] = "none"; 
             $data['selected_register'] = "none";
-            $data['select_user'] = $this->getGeneralUsers($data['user_id']); // user
+            $data['select_user'] = $this->getGeneralUsers($session_data['report_project_id']); // user
 
             // load view
             $this->template->load('dashboard', 'report/response', $data);
@@ -177,6 +162,7 @@ class Response extends RISK_Controller
             redirect('/dashboard/reports/response_project');
         }
     }
+
 
     // get project
     function getProject($params = array())
@@ -189,48 +175,50 @@ class Response extends RISK_Controller
                 $owned_projects = $this->project_model->getOwnedProjects($params['user_id']);
                 $assigned_projects = $this->project_model->getProjects($params['user_id']);
 
-                $project = array();
+                $projects = array();
 
                 // check first if user owns a project and then add them to an associative array key
-                if($owned_projects)
+                if($owned_projects && !$assigned_projects)
                 {
-                    $project = $owned_projects;
+                    $projects[] = $owned_projects;
                 }
                 else if($owned_projects && $assigned_projects)
                 {
-                    $project = $owned_projects;
-                    array_push($project, $assigned_projects);
+                    $projects[] = $owned_projects;
+                    array_push($projects, $assigned_projects);
                 }
-                else if($assigned_projects)
+                else if($assigned_projects && !$owned_projects)
                 {       
-                    $project = $assigned_projects;
+                    $projects[] = $assigned_projects;
                 }
                 else
                 {
-                    $project = false;
+                    $projects[] = false;
                 }
             } 
             else
             {
                 // get all projects by user ID if user is general user
-                $project = $this->project_model->getAssignedProject($params['user_id']);
+                $projects[] = $this->project_model->getAssignedProject($params['user_id']);
             } 
         }
         else
         {
             // get all projects if user is super admin
-            $project = $this->project_model->getAllProjects();
+            $projects[] = $this->project_model->getAllProjects();
         }
         
-        if($project)
+        if($projects)
         {
             $options = array();
-
-            foreach ($project as $row) 
+            foreach ($projects as $project) 
             {
-                $project_id = $row->project_id;
-                $project_name = $row->project_name;
-                $options[$project_id] = $project_name;  
+                foreach ($project as $row) 
+                {
+                    $project_id = $row->project_id;
+                    $project_name = $row->project_name;
+                    $options[$project_id] = $project_name;  
+                }
             }
             return $options;
         }
@@ -266,11 +254,11 @@ class Response extends RISK_Controller
     }
     
     // get general users
-    function getGeneralUsers($user_id)
+    function getGeneralUsers($project_id)
     {
-        $user = $this->user_model->getProjectGeneralUsers( $user_id );
+        $user = $this->user_model->getProjectGeneralUsers($project_id);
         
-        if( $user )
+        if($user)
         {
             $options = array();
 

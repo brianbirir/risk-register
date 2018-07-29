@@ -36,46 +36,13 @@ class Report extends RISK_Controller
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
-            // init params
-            $start_index = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-            $total_records = count($this->report_model->getRisks(array('user_id'=>$data['user_id'])));
-
-            // load pagination config file
-            $this->config->load('pagination', TRUE);
-            $settings = $this->config->item('pagination');
-            $settings['total_rows'] = $total_records;
-            $settings['base_url'] = base_url() . 'report/index';
-
-            if ( $data['role_id'] == 8 ) // if general user
-            {
-                $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
-                $assigned_register_id = $register_row->subproject_id;
-                
-                // get risk data
-                $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
-                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-            }
-            else if( $data['role_id'] == 1 ) // if super admin
-            {
-                $risk = $this->risk_model->getAllRisks();
-                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-            }
-            else 
-            {
-                // get current page results
-                $risk = $this->report_model->getRisks(array('limit'=>$settings['per_page'],'start'=>$start_index,'user_id'=>$data['user_id']));
-                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
-            }
-
-            // initialize pagination    
-            $this->pagination->initialize($settings);
-            // build paging links
-            $data["pagination_links"] = $this->pagination->create_links();
+            // get current page results
+            $risk = $this->report_model->getRisks(array('project_id'=>$this->input->post('risk_project')));
+            ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;    
 
             // PROJECT ID
             // add assigned project ID to session data
             $session_data = $this->session->userdata('logged_in');
-            
             $session_data['report_project_id'] = $this->input->post('risk_project');
 
             $single_project = $this->project_model->getSingleProject($this->input->post('risk_project')); // get project name from ID
@@ -523,7 +490,7 @@ class Report extends RISK_Controller
     // view to select project
     function select_project()
     {
-        $data = array('title' => 'Select Report');
+        $data = array('title' => 'Select Project for Report');
         
         if($this->session->userdata('logged_in'))
         {
@@ -601,48 +568,50 @@ class Report extends RISK_Controller
                 $owned_projects = $this->project_model->getOwnedProjects($params['user_id']);
                 $assigned_projects = $this->project_model->getProjects($params['user_id']);
 
-                $project = array();
+                $projects = array();
 
                 // check first if user owns a project and then add them to an associative array key
-                if($owned_projects)
+                if($owned_projects && !$assigned_projects)
                 {
-                    $project = $owned_projects;
+                    $projects[] = $owned_projects;
                 }
                 else if($owned_projects && $assigned_projects)
                 {
-                    $project = $owned_projects;
-                    array_push($project, $assigned_projects);
+                    $projects[] = $owned_projects;
+                    array_push($projects, $assigned_projects);
                 }
-                else if($assigned_projects)
+                else if($assigned_projects && !$owned_projects)
                 {       
-                    $project = $assigned_projects;
+                    $projects[] = $assigned_projects;
                 }
                 else
                 {
-                    $project = false;
+                    $projects[] = false;
                 }
             } 
             else
             {
                 // get all projects by user ID if user is general user
-                $project = $this->project_model->getAssignedProject($params['user_id']);
+                $projects[] = $this->project_model->getAssignedProject($params['user_id']);
             } 
         }
         else
         {
             // get all projects if user is super admin
-            $project = $this->project_model->getAllProjects();
+            $projects[] = $this->project_model->getAllProjects();
         }
         
-        if($project)
+        if($projects)
         {
             $options = array();
-
-            foreach ($project as $row) 
+            foreach ($projects as $project) 
             {
-                $project_id = $row->project_id;
-                $project_name = $row->project_name;
-                $options[$project_id] = $project_name;  
+                foreach ($project as $row) 
+                {
+                    $project_id = $row->project_id;
+                    $project_name = $row->project_name;
+                    $options[$project_id] = $project_name;  
+                }
             }
             return $options;
         }
