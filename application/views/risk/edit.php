@@ -35,6 +35,9 @@
 
                 <div class="box-header with-border">
                     <h3 class="box-title">Identification</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
                 </div>
 
                 <div class="box-body">
@@ -223,6 +226,9 @@
 
                         <div class="box-header with-border">
                             <h3 class="box-title">Pre-Mitigation Risk Assessment</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
                         </div>
 
                         <div class="box-body">
@@ -331,6 +337,9 @@
 
                         <div class="box-header">
                             <h3 class="box-title">Current Risk Assessment</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
                         </div>
 
                         <div class="box-body">
@@ -444,6 +453,9 @@
 
                         <div class="box-header">
                             <h3 class="box-title">Predicted Post Mitigation Assessment</h3>
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                            </div>
                         </div>
 
                         <div class="box-body">
@@ -558,6 +570,9 @@
 
                 <div class="box-header with-border">
                     <h3 class="box-title">Risk Responses</h3>
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
                 </div>
 
                 <div class="box-body table-responsive no-padding">
@@ -671,6 +686,10 @@
 
                 <div class="box-header with-border">
                     <h3 class="box-title">Risk Overseer</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
+                    </div>
                 </div>
 
                 <div class="box-body">
