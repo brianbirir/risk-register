@@ -64,6 +64,8 @@
             }
             
         } else { ?>
+
+            <?php // print_r($project_data);?>
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
@@ -81,17 +83,19 @@
                                     </tr>
                                     <?php
                                         $count  = 0 ;
-                                        foreach ($project_data as $project_row) {
-                                            $count = $count + 1;
-                                            echo "<tr>";
-                                            echo "<td>".$count."</td>";
-                                            echo "<td>".$project_row->project_name."</td>";
-                                            echo "<td>".$project_row->project_description."</td>";
-                                            echo "<td>
-                                            <a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View</a>
-                                            <a href='/dashboard/project/edit/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Edit</a>
-                                            <a data-toggle='confirmation' data-title='Delete Project?'  href='/dashboard/project/delete/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Delete</a></td>";
-                                            echo "</tr>";
+                                        foreach ($project_data as $project) {
+                                            foreach ($project as $project_row ) {
+                                                $count = $count + 1;
+                                                echo "<tr>";
+                                                echo "<td>".$count."</td>";
+                                                echo "<td>".$project_row->project_name."</td>";
+                                                echo "<td>".$project_row->project_description."</td>";
+                                                echo "<td>
+                                                <a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View</a>
+                                                <a href='/dashboard/project/edit/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Edit</a>
+                                                <a data-toggle='confirmation' data-title='Delete Project?'  href='/dashboard/project/delete/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Delete</a></td>";
+                                                echo "</tr>";
+                                            }
                                         } 
                                     ?>
                                 </tbody>

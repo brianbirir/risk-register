@@ -172,13 +172,10 @@
                     { "name": "quality_impact",orderable: false },
                     { "name": "risk_rating" },
                     { "name": "risk_level" },
-                    { "name": "SystemSafety_safety_id",orderable: false },
-                    { "name": "Realization_realization_id",orderable: false },
                     { "name": "action_owner"},
                     { "name": "action_item",orderable: false },
                     { "name": "milestone_target_date",orderable: false },
-                    { "name": "Status_status_id",orderable: false },
-                    { "name": "Entity_entity_id",orderable: false }
+                    { "name": "Status_status_id",orderable: false }
                 ]
         });
 
@@ -223,13 +220,10 @@
                     { "name": "quality_impact",orderable: false },
                     { "name": "risk_rating" },
                     { "name": "risk_level" },
-                    { "name": "SystemSafety_safety_id",orderable: false },
-                    { "name": "Realization_realization_id",orderable: false },
                     { "name": "action_owner"},
                     { "name": "action_item",orderable: false },
                     { "name": "milestone_target_date",orderable: false },
-                    { "name": "Status_status_id",orderable: false },
-                    { "name": "Entity_entity_id",orderable: false }
+                    { "name": "Status_status_id",orderable: false }
                 ]
             });
         });

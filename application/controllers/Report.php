@@ -198,13 +198,10 @@ class Report extends RISK_Controller
             "quality_impact",
             "risk_rating",
             "risk_level",
-            "SystemSafety_safety_id",
-            "Realization_realization_id",
             "action_owner",
             "action_item",
             "milestone_target_date",
-            "Status_status_id",
-            "Entity_entity_id"
+            "Status_status_id"
         );
 
         if(!isset($columns_valid[$col])) 
@@ -264,13 +261,10 @@ class Report extends RISK_Controller
                     $data_row->quality_impact,
                     $data_row->risk_rating,
                     $data_row->risk_level,
-                    $this->report_model->getSystemSafetyName($data_row->SystemSafety_safety_id), 
-                    $this->report_model->getRealizationName($data_row->Realization_realization_id),
                     $this->user_model->getUserNames($data_row->action_owner),
                     $data_row->action_item,
                     $data_row->milestone_target_date,
-                    $this->report_model->getStatusName($data_row->Status_status_id),
-                    $this->report_model->getRiskEntityName($data_row->Entity_entity_id)
+                    $this->report_model->getStatusName($data_row->Status_status_id)
                 );
             }
     

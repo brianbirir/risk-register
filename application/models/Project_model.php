@@ -53,7 +53,7 @@
         }
 
 
-        // fetch all projects for a particular user
+        // fetch all projects assigned to a specific user
         function getProjects( $user_id )
         {
             $this->db->select('*');

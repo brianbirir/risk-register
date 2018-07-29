@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-    var projectSettings = ["Status","RiskCategories","RiskOwner","Entity","MaterializationPhase", "Realization", "CostMetric", "ScheduleMetric", "ResponseTitle","RiskStrategies","SystemSafety"];
+    var projectSettings = ["Status","RiskCategories","RiskOwner","MaterializationPhase", "CostMetric", "ScheduleMetric", "ResponseTitle","RiskStrategies"];
     
     // initialize counter
     let i;
@@ -62,7 +62,7 @@ $(document).ready(function(){
     // build form for adding data settings
     function dataSettingsForm()
     {
-        var projectSettings = ["Status","RiskCategories","RiskOwner","Entity","MaterializationPhase", "Realization", "CostMetric", "ScheduleMetric", "ResponseTitle","RiskStrategies","SystemSafety"];
+        var projectSettings = ["Status","RiskCategories","RiskOwner","MaterializationPhase","CostMetric", "ScheduleMetric", "ResponseTitle","RiskStrategies"];
     
         // initialize counter
         let i;

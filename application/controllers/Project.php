@@ -61,23 +61,23 @@ class Project extends RISK_Controller
                 $owned_projects = $this->project_model->getOwnedProjects($data['user_id']);
                 $assigned_projects = $this->project_model->getProjects($data['user_id']);
 
-                // check first if user owns a project and then add them to an associative array key
-                if($owned_projects)
+                // check first if user owns a project
+                if($owned_projects && !$assigned_projects)
                 {
-                    $data['project_data'] = $owned_projects;
+                    $data['project_data'][] = $owned_projects;
                 }
                 else if($owned_projects && $assigned_projects)
                 {
-                    $data['project_data'] = $owned_projects;
+                    $data['project_data'][] = $owned_projects;
                     array_push($data['project_data'], $assigned_projects);
                 }
-                else if($assigned_projects)
+                else if($assigned_projects && !$assigned_projects)
                 {       
-                    $data['project_data'] = $assigned_projects;
+                    $data['project_data'][] = $assigned_projects;
                 }
                 else
                 {
-                    $data['project_data'] = false;
+                    $data['project_data'][] = false;
                 }
             }
 
@@ -309,7 +309,7 @@ class Project extends RISK_Controller
         $no_settings = array();
         
         // store all database tables related to project settings in an array
-        $db_table = array("Realization","Entity","Status","SystemSafety","CostMetric","ScheduleMetric","ResponseTitle","MaterializationPhase","RiskOwner","RiskStrategies","RiskCategories");
+        $db_table = array("Status","CostMetric","ScheduleMetric","ResponseTitle","MaterializationPhase","RiskOwner","RiskStrategies","RiskCategories");
 
         // loop through db table array
         for($x = 0;$x < count($db_table); $x++)

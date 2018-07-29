@@ -341,33 +341,7 @@
         </div>
     </div>
     <div class="box-body">
-        <div class="callout callout-info">
-            <p>Apply a Safety System (e.g. by "STOP") to achieve System Safety</p>
-            <p>STOP:</p>
-            <ul>
-                <li>S = Strategy / System / Substitution</li>
-                <li>T = Technology</li>
-                <li>O = Organization</li>
-                <li>P = Personnel/Staff</li>
-            </ul>
-        </div>
         
-        <?php
-            echo "<table class='table table-bordered'>";;
-
-            echo "<tr>";
-            echo "<td><label>System Safety:</label></td>";
-            echo "<td><p>".$CI->risk_model->getSystemSafetyName($risk_data->SystemSafety_safety_id)."</p></td>";
-            echo "</tr>";
-
-            echo "<tr>";
-            echo "<td><label>Realization:</label></td>";
-            echo "<td><p>".$CI->risk_model->getRealizationName($risk_data->Realization_realization_id)."</p></td>";
-            echo "</tr>";
-
-            echo "</table>";
-        ?>
-        <br />
         <div class="box box-solid">
             <div class="box-header with-border">
                 <h3 class="box-title">Responses</h3>
