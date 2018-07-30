@@ -46,12 +46,12 @@
             </div>
 
             <div class="box-body table-responsive no-padding">
-            <?php 
+            <?php
                 if (!$subproject_data) {
                     $msg = 'You have no archived risk registers!';
                     echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
-                } 
-                else 
+                }
+                else
                 { ?>
 
                 <table class="table table-hover">
@@ -60,7 +60,7 @@
                             <th>No.</th>
                             <th>Risk Register</th>
                         </tr>
-                    
+
                         <?php
                             $count  = 0 ;
                             foreach ($subproject_data as $subproject_row) {
@@ -68,10 +68,10 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$subproject_row->name."</td>";
-                            } 
+                            }
                         } ?>
                     </tbody>
-                <table>
+                </table>
             </div>
 
         </div>

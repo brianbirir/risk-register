@@ -157,11 +157,8 @@ class Project extends RISK_Controller
             $single_project = $this->project_model->getSingleProject($uri_project_id);
 
             $data['project_id'] = $uri_project_id;
-
             $data['project_name'] = $single_project->project_name;
-
             $data['title'] = $single_project->project_name . ' Project'; // assign project name to page title
-
             $data['project_description'] = $single_project->project_description;
 
             // breadcrumb
@@ -251,13 +248,10 @@ class Project extends RISK_Controller
             $data['project_name'] = $single_project->project_name;
 
             // append project name to page title
-            $data['title'] = $single_project->project_name . ' Project <small> Archived Risk Registers</small>';
+            $data['title'] = 'Archived Risk Registers';
+
             // project description
             $data['project_description'] = $single_project->project_description;
-
-            // breadcrumb
-            $this->breadcrumb->add($data['title']);
-            $data['breadcrumb'] = $this->breadcrumb->output();
 
             // add uri id i.e. project id to session data
             $session_data = $this->session->userdata('logged_in');
@@ -267,8 +261,12 @@ class Project extends RISK_Controller
 
             $check_setting = $this->check_project_setting($uri_project_id);
             $session_data['tbl_no_project_settings'] = $check_setting;
-
             $this->session->set_userdata('logged_in', $session_data);
+
+            // breadcrumb
+            $this->breadcrumb->add($single_project->project_name, 'dashboard/project/'.$session_data['user_project_id']);
+            $this->breadcrumb->add($data['title']);
+            $data['breadcrumb'] = $this->breadcrumb->output();
 
             if(empty($check_setting))
             {
