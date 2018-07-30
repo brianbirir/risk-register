@@ -1,9 +1,9 @@
 <?php
 
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
- 
+
 class User extends RISK_Controller
-{  
+{
 	public function __construct()
     {
         parent::__construct();
@@ -12,7 +12,7 @@ class User extends RISK_Controller
         $this->load->library('form_validation');
         $this->load->library('template');
         $this->load->library('breadcrumb');
-        $this->load->model('user_model');     
+        $this->load->model('user_model');
         $this->load->model('project_model');
         $this->load->model('team_model');
     }
@@ -32,19 +32,19 @@ class User extends RISK_Controller
             // get global data
             $data = array_merge($data,$this->get_global_data());
 
-            if ($data['role_id'] == 1) 
+            if ($data['role_id'] == 1)
             {
                 // get user data based from session user id to be used as parent user id
                 $user = $this->user_model->getUsers(array());
 
                 //check if result is true
                 ($user) ? $data['user_data'] = $user : $data['user_data'] = false;
-            } 
-            else 
+            }
+            else
             {
                 // get user data
                 $user = $this->user_model->getUsers(array('user_id'=> $data['user_id']));
-                
+
                 //check if result is true
                 ($user) ? $data['user_data'] = $user : $data['user_data'] = false;
             }
@@ -60,12 +60,14 @@ class User extends RISK_Controller
 
     // the view for adding a user
     function add()
-    {   
+    {
         if($this->session->userdata('logged_in'))
         {
             $data = array('title' => 'Register User');
-            
+
             // breadcrumb
+            $this->breadcrumb->add('Settings','/dashboard/settings');
+            $this->breadcrumb->add('Users','/settings/users');
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
@@ -75,43 +77,43 @@ class User extends RISK_Controller
             if ($data['role_id'] == 1) {
                 // get role names from database & add them to select form element
                 $roles = $this->user_model->getRoles();
-                
+
                 if($roles)
                 {
                     $options = array();
 
-                    foreach ($roles as $row) 
+                    foreach ($roles as $row)
                     {
                         $role_id = $row->role_id;
                         $role_name = $row->role_name;
-                        $options[$role_id] = $role_name;  
+                        $options[$role_id] = $role_name;
                     }
 
                     $data['select_option'] = $options;
                 }
-                else 
+                else
                 {
                     $data['select_option'] = 'No Data!';
                 }
-                
+
             } else {
                 // get registers from database & add them to select form element
                 $register = $this->project_model->getUserSubProjects($data['user_id']);
-                
+
                 if($register)
                 {
                     $options = array();
 
-                    foreach ($register as $row) 
+                    foreach ($register as $row)
                     {
                         $subproject_id = $row->subproject_id;
                         $subproject_name = $row->name;
-                        $options[$subproject_id] = $subproject_name;  
+                        $options[$subproject_id] = $subproject_name;
                     }
 
                     $data['select_option'] = $options;
                 }
-                else 
+                else
                 {
                     $data['select_option'] = 'No Data!';
                 }
@@ -129,7 +131,7 @@ class User extends RISK_Controller
 
     // the view for editing a user
     function edit()
-    {   
+    {
         if($this->session->userdata('logged_in'))
         {
             $data = array('title' => 'Edit User');
@@ -166,14 +168,14 @@ class User extends RISK_Controller
         if($this->session->userdata('logged_in'))
         {
             $data = array('title' => 'Assign Project to Manager');
-            
+
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
             // get global data
             $data = array_merge($data, $this->get_global_data());
-            
+
             // get managers
             $managers = $this->user_model->getManagerUsers(array('user_id'=>$data['user_id']));
 
@@ -184,23 +186,23 @@ class User extends RISK_Controller
 
             // get project name
             $data['project_name'] = $single_project->project_name;
-            
+
             if($managers)
             {
                 $options = array();
 
-                foreach ($managers as $row) 
+                foreach ($managers as $row)
                 {
                     $user_id = $row->user_id;
                     $f_name = $row->first_name;
                     $l_name = $row->last_name;
                     $user_name = $f_name.' '.$l_name;
-                    $options[$user_id] = $user_name;  
+                    $options[$user_id] = $user_name;
                 }
 
                 $data['select_user'] = $options;
             }
-            else 
+            else
             {
                 $data['select_user'] = 'No Users!';
             }
@@ -262,18 +264,18 @@ class User extends RISK_Controller
         {
             $options = array();
 
-            foreach ($users as $row) 
+            foreach ($users as $row)
             {
                 $user_id = $row->user_id;
                 $f_name = $row->first_name;
                 $l_name = $row->last_name;
                 $user_name = $f_name.' '.$l_name;
-                $options[$user_id] = $user_name;  
+                $options[$user_id] = $user_name;
             }
 
             return $options;
         }
-        else 
+        else
         {
             return 'No Users!';
         }
@@ -286,14 +288,14 @@ class User extends RISK_Controller
         if($this->session->userdata('logged_in'))
         {
             $data = array('title' => 'Assign Register to User');
-            
+
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
 
             // get global data
             $data = array_merge($data, $this->get_global_data());
-            
+
             // get users belonging to the parent user AKA project/programme manager
             $users = $this->user_model->getUsers(array('user_id'=>$data['user_id']));
 
@@ -304,23 +306,23 @@ class User extends RISK_Controller
 
             // get register name
             $data['register_name'] = $single_register->name;
-            
+
             if($users)
             {
                 $options = array();
 
-                foreach ($users as $row) 
+                foreach ($users as $row)
                 {
                     $user_id = $row->user_id;
                     $f_name = $row->first_name;
                     $l_name = $row->last_name;
                     $user_name = $f_name.' '.$l_name;
-                    $options[$user_id] = $user_name;  
+                    $options[$user_id] = $user_name;
                 }
 
                 $data['select_user'] = $options;
             }
-            else 
+            else
             {
                 $data['select_user'] = 'No Users!';
             }
@@ -387,7 +389,7 @@ class User extends RISK_Controller
 
         // get global data
         $data = array_merge($data, $this->get_global_data());
-        
+
         //validate form input
         if ($this->form_validation->run() == FALSE)
         {
@@ -397,21 +399,21 @@ class User extends RISK_Controller
             // breadcrumb
             $this->breadcrumb->add($data['title']);
             $data['breadcrumb'] = $this->breadcrumb->output();
-            
+
             if($roles)
             {
                 $options = array();
 
-                foreach ($roles as $row) 
+                foreach ($roles as $row)
                 {
                     $role_id = $row->role_id;
                     $role_name = $row->role_name;
-                    $options[$role_id] = $role_name;  
+                    $options[$role_id] = $role_name;
                 }
 
                 $data['select_option'] = $options;
             }
-            else 
+            else
             {
                 $data['select_option'] = 'No Data!';
             }
@@ -424,7 +426,7 @@ class User extends RISK_Controller
             $default_password = md5('password');
             $timestamp = date('Y-m-d G:i:s');
 
-            if ($data['role_id'] == 1) 
+            if ($data['role_id'] == 1)
             {
                 //insert the user registration details into database
                 $data = array(
@@ -451,8 +453,8 @@ class User extends RISK_Controller
                     $this->session->set_flashdata('negative_msg','Oops! Error. Please try again later!');
                     redirect('settings/user/add');
                 }
-            } 
-            else 
+            }
+            else
             {
                 $general_role = 8;
 
@@ -481,8 +483,8 @@ class User extends RISK_Controller
                     redirect('settings/user/add');
                 }
             }
-            
-            
+
+
         }
     }
 
@@ -494,7 +496,7 @@ class User extends RISK_Controller
         $this->form_validation->set_rules('last_name', 'Last Name', 'trim|required');
         $this->form_validation->set_rules('username', 'User Name', 'trim|required|alpha|min_length[3]|max_length[12]');
         $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
-        
+
         //validate form input
         if ($this->form_validation->run() == FALSE)
         {
@@ -530,7 +532,7 @@ class User extends RISK_Controller
                 'email' => $this->input->post('email'),
                 'updated_at' => $timestamp
             );
-            
+
             // insert form data into database
             if ($this->user_model->updateUser($data,$user_id))
             {
@@ -604,7 +606,7 @@ class User extends RISK_Controller
         //set validation rules
         $this->form_validation->set_rules('password', 'Password', 'trim|required|md5');
         $this->form_validation->set_rules('cpassword', 'Confirm Password', 'trim|required|matches[password]|md5');
-        
+
         //validate form input
         if ($this->form_validation->run() == FALSE)
         {
@@ -637,7 +639,7 @@ class User extends RISK_Controller
                 'password' => $this->input->post('password'),
                 'updated_at' => $timestamp
             );
-            
+
             // insert form data into database
             if ($this->user_model->updateUser($data,$user_id))
             {

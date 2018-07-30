@@ -1,4 +1,4 @@
-<?php 
+<?php
     $CI =& get_instance();
     $CI->load->model('team_model');
     $CI->load->model('role_model');
@@ -19,12 +19,12 @@
             </div>
 
             <div class="box-body table-responsive no-padding">
-            <?php 
+            <?php
                 if (!$user_data) {
                     $msg = 'You have no registered users!';
                     echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
-                } 
-                else 
+                }
+                else
                 { ?>
 
                 <table class="table table-hover">
@@ -38,7 +38,7 @@
                             <th>Role</th>
                             <th>Actions</th>
                         </tr>
-                    
+
                         <?php
                             $count  = 0 ;
                             foreach ($user_data as $user_row) {
@@ -56,10 +56,10 @@
                                         <a class='fa-icon' class='delete-action' data-toggle='confirmation' data-title='Delete General User?' href='/settings/user/delete/".$user_row->user_id."'><i class='fas fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
-                            } 
+                            }
                         } ?>
                     </tbody>
-                <table>
+                </table>
             </div>
 
         </div>

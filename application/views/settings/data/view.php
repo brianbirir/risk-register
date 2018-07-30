@@ -11,7 +11,7 @@
   </div>
 <?php } ?>
 
-<?php 
+<?php
     $CI =& get_instance();
     $CI->load->model('project_model');
     $project_name = $CI->project_model->getSingleProjectName( $project_id );
@@ -33,20 +33,20 @@
             </div>
 
             <div class="box-body table-responsive no-padding">
-            <?php 
+            <?php
                 if (!$risk_data)
                 {
                     $msg = 'You have no risk data to display for <strong>'.$project_name.'</strong> project!';
                     echo '<div class="alert alert-warning alert-aldea" role="alert">'.$msg.'</div>';
-                } 
-                else 
+                }
+                else
                 { ?>
 
                 <table class="table table-hover">
                     <tbody>
                         <tr>
                             <th>ID</th>
-                            <?php 
+                            <?php
                                 if($data_type == 'cost_rating' || $data_type == 'schedule_rating')
                                 {
                                     echo "<th>Rating</th>";
@@ -55,20 +55,20 @@
                                 <th><?php $title?> Name</th>
 
                                 <?php } ?>
-                            
-                            <?php 
+
+                            <?php
                                 if($data_type == 'risk_category')
                                 {
                                     echo "<th>Subcategories</th>";
                                 }
                             ?>
-                            
+
                             <th>Action</th>
                         </tr>
-                    
+
                         <?php
                             $count  = 0 ;
-                            foreach ($risk_data as $risk_data_row) 
+                            foreach ($risk_data as $risk_data_row)
                             {
                                 $count = $count + 1;
                                 echo "<tr>";
@@ -93,10 +93,10 @@
                                         <a class='fa-icon' title='delete' href='/settings/data/delete/".$data_type."/".$risk_data_row->id."'><i class='fas fa-trash' aria-hidden='true'></i>
                                     </td>";
                                 echo "</tr>";
-                            } 
+                            }
                         } ?>
                     </tbody>
-                <table>
+                </table>
             </div>
 
         </div>

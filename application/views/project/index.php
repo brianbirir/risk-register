@@ -20,7 +20,7 @@
       </div>
     <?php } ?>
 
-    <?php 
+    <?php
         $session_data = $this->session->userdata('logged_in');
 
         if(empty($session_data['project_name'])) {
@@ -35,7 +35,7 @@
     <?php } ?>
 
     <!-- ensures general user does not view the Add button -->
-    <?php 
+    <?php
         if($role_id != 8)
         {
     ?>
@@ -45,7 +45,7 @@
         <a href="/dashboard/project/archived" class="btn btn-success btn-sm btn-add">View Deleted Projects</a>
     </div>
 
-    <?php 
+    <?php
         }
     ?>
 
@@ -57,15 +57,16 @@
                 $msg = 'You have no registered projects!';
                 echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
             }
-            else 
+            else
             {
                 $msg = 'You have not been assigned a project! Please contact administrator.';
                 echo '<div class="alert alert-warning" role="alert">'.$msg.'</div>';
             }
-            
+
         } else { ?>
 
-            <?php // print_r($project_data);?>
+            <?php // print_r($project_data); ?>
+
             <div class="row">
                 <div class="col-xs-12">
                     <div class="box">
@@ -96,7 +97,7 @@
                                                 <a data-toggle='confirmation' data-title='Delete Project?'  href='/dashboard/project/delete/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Delete</a></td>";
                                                 echo "</tr>";
                                             }
-                                        } 
+                                        }
                                     ?>
                                 </tbody>
                             </table>
