@@ -6,7 +6,7 @@
         {
             parent::__construct();
         }
-        
+
 
         // add project
         function insertProject($data)
@@ -31,7 +31,7 @@
             return true;
         }
 
-        
+
         // update register
         function updateRegister($data, $id)
         {
@@ -59,7 +59,7 @@
             $this->db->select('*');
             $this->db->from('Project');
             $this->db->join('Project_has_User','Project_has_User.Project_project_id = Project.Project_id');
-            $this->db->where('Project_has_User.User_user_id',$user_id);  
+            $this->db->where('Project_has_User.User_user_id',$user_id);
             $this->db->where('Project.archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
@@ -71,7 +71,7 @@
         {
             $this->db->select('*');
             $this->db->from('Project');
-            $this->db->where('Project.User_user_id',$user_id);  
+            $this->db->where('Project.User_user_id',$user_id);
             $this->db->where('Project.archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
@@ -263,6 +263,16 @@
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
+        // get project name for register
+        function getRegisterProjectName($project_id)
+        {
+            $this->db->select('*');
+            $this->db->from('Project');
+            $this->db->where('Project.project_id',$project_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->result() : false;
+        }
+
         // returns a single project name
         function getSingleProjectName( $project_id )
         {
@@ -292,7 +302,7 @@
             $this->db->select('*');
             $this->db->from( 'Project' );
             $this->db->join('Project_has_User','Project_has_User.Project_project_id = Project.Project_id');
-            $this->db->where('Project_has_User.User_user_id',$user_id);  
+            $this->db->where('Project_has_User.User_user_id',$user_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
@@ -331,7 +341,7 @@
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
-            $this->db->where('Project_has_User.User_user_id',$params['user_id']);    
+            $this->db->where('Project_has_User.User_user_id',$params['user_id']);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
@@ -442,7 +452,7 @@
 
             return $row->register_identifier;
         }
-        
+
 
         // check if register exists for specified project
         function getRegisterbyProjectID($project_id)

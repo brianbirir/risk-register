@@ -29,9 +29,9 @@
             </div>
 
             <div class="form-group">
-                <label for="roles">Select Project</label>
+                <label for="project">Select Project</label>
                 <?php
-                    $select_attributes = 'class="form-control"';
+                    $select_attributes = 'class="form-control" readonly="readonly"';
                     echo form_dropdown('project',$select_project_option,$project_id,$select_attributes);
                 ?>
             </div>
