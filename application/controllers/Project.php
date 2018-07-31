@@ -54,7 +54,7 @@ class Project extends RISK_Controller
                 $project = $this->project_model->getAllProjects();
 
                 //check if result is true
-                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+                ($project) ? $data['project_data'][] = $project : $data['project_data'][] = false;
             }
             else
             {
