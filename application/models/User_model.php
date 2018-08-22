@@ -49,10 +49,10 @@ class User_model extends CI_Model
         $this->db->select('*');
         $this->db->from('User');
 
-        // if(array_key_exists('user_id',$params))
-        // {
-        //     $this->db->where('parent_user_id',$params['user_id']);
-        // }
+        if(array_key_exists('user_id',$params))
+        {
+            $this->db->where('parent_user_id',$params['user_id']);
+        }
        
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : false;
