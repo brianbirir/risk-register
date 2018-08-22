@@ -13,9 +13,7 @@ class Breadcrumb
   public function __construct()
   {
     $CI =& get_instance();
-    
     $CI->load->helper('url');
-    
     $CI->load->config('breadcrumb', TRUE);
 
     $this->_include_home = $CI->config->item('include_home', 'breadcrumb');
@@ -25,7 +23,7 @@ class Breadcrumb
     $this->_crumb_open = $CI->config->item('crumb_open', 'breadcrumb');
     $this->_crumb_close = $CI->config->item('crumb_close', 'breadcrumb');
 
-    if(isset($this->_include_home) && (sizeof($this->_include_home) > 0))
+    if(isset($this->_include_home))
     {
       $this->_breadcrumb[] = array('title'=>$this->_include_home, 'href'=>rtrim(base_url(),'/'));
     }
