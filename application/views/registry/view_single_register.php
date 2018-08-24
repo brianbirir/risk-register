@@ -11,7 +11,10 @@
 
             <div class="box-header with-border">
                 <h3 class="box-title">About Risk Register</h3>
-                <a href="/dashboard/riskregister/edit/<?php echo $register_id; ?>" class="btn btn-default btn-reg btn-xs pull-right">Edit Register</a>
+
+                <?php if($role_name != "General User") { ?>
+                    <a href="/dashboard/riskregister/edit/<?php echo $register_id; ?>" class="btn btn-default btn-reg btn-xs pull-right">Edit Register</a>
+                <?php } ?>
             </div>
 
             <div class="box-body">
@@ -24,27 +27,17 @@
                 <p class="text-muted"><?php echo $register_description; ?></p>
                 
                 <?php
-
-                    if($role_name != "General User")
-                    {
-
-                    
+                    if($role_name != "General User") {
                 ?>
-
-                <hr>
-
-                <strong><i class="fas fa-users margin-r-5"></i> Users of this Register</strong>
-                
-                <a class="btn btn-default btn-reg btn-xs pull-right" href="/settings/user/riskregister/<?php echo $register_id; ?>">Assign User</a>
-                
-                <?php 
-
+                    <hr>
+                    <strong><i class="fas fa-users margin-r-5"></i> Users of this Register</strong>
+                    <a class="btn btn-default btn-reg btn-xs pull-right" href="/settings/user/riskregister/<?php echo $register_id; ?>">Assign User</a>
+                <?php
                         if($register_users)
                         {
                             echo "<ul class='list-group' style='margin-top:20px;'>";
                             foreach ($register_users as $user)
-                            {
-                                
+                            {           
                                 echo "<li class='list-group-item'>".$user->first_name." ".$user->last_name."</li>";
                             }
                             echo "</ul>";
