@@ -6,7 +6,10 @@
 
             <div class="box-header with-border">
                 <h3 class="box-title">About Project</h3>
-                <a href="/dashboard/project/edit/<?php echo $project_id; ?>" class="btn btn-default btn-reg btn-xs pull-right">Edit Project</a>
+
+                <?php if ($role_name != "General User") { ?>
+                    <a href="/dashboard/project/edit/<?php echo $project_id; ?>" class="btn btn-default btn-reg btn-xs pull-right">Edit Project</a>
+                <?php } ?>
             </div>
 
             <div class="box-body">
@@ -109,11 +112,19 @@
                                 echo "<tr>";
                                 echo "<td>".$count."</td>";
                                 echo "<td>".$subproject_row->name."</td>";
-                                echo "<td>
-                                <a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>View</a>
-                                <a href='/dashboard/riskregister/edit/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>Edit</a>
-                                <a data-toggle='confirmation' data-title='Archive Register?'  href='/dashboard/riskregister/delete/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>Delete</a>
-                                <a href='/dashboard/riskregister/duplicate/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-view'>Duplicate</a>";
+                                
+                                if ($role_name != "General User") 
+                                {
+                                    echo "<td>
+                                    <a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>View</a>
+                                    <a href='/dashboard/riskregister/edit/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>Edit</a>
+                                    <a data-toggle='confirmation' data-title='Archive Register?'  href='/dashboard/riskregister/delete/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>Delete</a>
+                                    <a href='/dashboard/riskregister/duplicate/".$subproject_row->subproject_id."' class='btn btn-success btn-xs btn-view'>Duplicate</a></td>";
+                                }
+                                else 
+                                {
+                                    echo "<td><a href='/dashboard/riskregister/".$subproject_row->subproject_id."' class='btn btn-xs btn-primary btn-view'>View</a></td>";
+                                }
                                 echo "</tr>";
                             } 
                         } ?>

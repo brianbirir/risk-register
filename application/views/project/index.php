@@ -89,10 +89,18 @@
                                                 echo "<td>".$count."</td>";
                                                 echo "<td>".$project_row->project_name."</td>";
                                                 echo "<td>".$project_row->project_description."</td>";
-                                                echo "<td>
-                                                <a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View</a>
-                                                <a href='/dashboard/project/edit/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Edit</a>
-                                                <a data-toggle='confirmation' data-title='Delete Project?'  href='/dashboard/project/delete/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Delete</a></td>";
+
+                                                if ($role_name != "General User") 
+                                                {
+                                                    echo "<td>
+                                                    <a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View</a>
+                                                    <a href='/dashboard/project/edit/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Edit</a>
+                                                    <a data-toggle='confirmation' data-title='Delete Project?'  href='/dashboard/project/delete/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>Delete</a></td>";
+                                                } else 
+                                                {
+                                                    echo "<td>
+                                                    <a href='/dashboard/project/".$project_row->project_id."' class='btn btn-xs btn-primary btn-view'>View</a></td>";
+                                                }
                                                 echo "</tr>";
                                             }
                                         }
