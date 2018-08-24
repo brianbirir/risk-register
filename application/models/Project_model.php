@@ -235,12 +235,16 @@
             return ($query->num_rows() == 1) ? $row : false;
         }
 
+        // get project assigned to general user via assigned registers
         function getAssignedProject( $user_id )
         {
             $this->db->select('*');
             $this->db->from('Project');
-            $this->db->join('User','User.parent_user_id = Project.User_user_id');
-            $this->db->where('User.user_id',$user_id);
+            // join subproject table via project ID
+            $this->db->join('Subproject','Subproject.Project_project_id = Project.project_id');
+            // join subproject_has_user table via subproject_id
+            $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
+            $this->db->where('Subproject_has_User.User_user_id', $user_id);
             $this->db->where('Project.archived', false);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
@@ -325,6 +329,18 @@
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }
 
+        // get number of projects per general user based on assigned risk register
+        function getGeneralUserProjectNumbers( $user_id )
+        {
+            $this->db->select('*');
+            $this->db->from( 'Project' );
+            $this->db->join('Subproject','Subproject.Project_project_id = Project.project_id');
+            $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
+            $this->db->where('Subproject_has_User.User_user_id',$user_id);
+            $query = $this->db->get();
+            return ($query->num_rows() > 0) ? $query->num_rows() : 0;
+        }
+
         function getOwnedProjectNumbers( $user_id ){
             $this->db->select('*');
             $this->db->from( 'Project' );
@@ -367,13 +383,13 @@
         }
 
 
-        // get number of subprojects for general users
-        function getUserRegisterNumbers( $user_id ){
+        // get number of assgined subprojects for general users
+        function getGeneralUserRegisterNumbers( $user_id )
+        {
             $this->db->select('*');
             $this->db->from('Subproject');
-            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
-            $this->db->join('User','User.parent_user_id = Project.User_user_id');
-            $this->db->where('User.user_id',$user_id);
+            $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
+            $this->db->where('Subproject_has_User.User_user_id', $user_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;
         }

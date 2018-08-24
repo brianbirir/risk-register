@@ -40,9 +40,9 @@ class Dashboard extends RISK_Controller
             if ($data['role_id'] == 8)
             {
                 // get numbers
-                $data['subproject_numbers'] = $this->project_model->getUserRegisterNumbers( $data['user_id'] );
+                $data['subproject_numbers'] = $this->project_model->getGeneralUserRegisterNumbers( $data['user_id'] );
                 $data['risk_numbers'] = $this->risk_model->getUsersRiskNumbers( $data['user_id']);
-                $data['project_numbers'] = $this->project_model->getUserProjectNumbers( $data['user_id'] );
+                $data['project_numbers'] = $this->project_model->getGeneralUserProjectNumbers( $data['user_id'] );
             }
             else if ( $data['role_id'] == 1 )
             {

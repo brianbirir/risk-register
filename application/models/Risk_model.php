@@ -587,9 +587,8 @@
             $this->db->select('*');
             $this->db->from('RiskRegistry');
             $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-            $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
-            $this->db->join('User','User.parent_user_id = Project.User_user_id');
-            $this->db->where('User.user_id',$user_id);
+            $this->db->join('Subproject_has_User','Subproject_has_User.Subproject_subproject_id = Subproject.subproject_id');
+            $this->db->where('Subproject_has_User.User_user_id',$user_id);
             $this->db->where('RiskRegistry.archived',false); // not archived
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->num_rows() : 0;

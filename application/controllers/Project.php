@@ -43,11 +43,10 @@ class Project extends RISK_Controller
 
             if ($data['role_id'] == 8)
             {
-
                 $project = $this->project_model->getAssignedProject($data['user_id']);
 
                 //check if result is true
-                ($project) ? $data['project_data'] = $project : $data['project_data'] = false;
+                ($project) ? $data['project_data'][] = $project : $data['project_data'][] = false;
             }
             else if ( $data['role_id'] == 1 )
             {
