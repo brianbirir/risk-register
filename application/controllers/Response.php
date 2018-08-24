@@ -129,12 +129,8 @@ class Response extends RISK_Controller
 
             if ( $data['role_id'] == 8 ) // if general user
             {
-                $register_row = $this->project_model->getAssignedRiskRegisterName( $data['user_id'] );
-                $assigned_register_id = $register_row->subproject_id;
-                
-                // get risk data
-                $risk = $this->risk_model->getReportRisks( $data['user_id'], $assigned_register_id );
-                ($risk) ? $data['risk_data'] = $risk : $data['risk_data'] = false;
+                $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id']));
+                ($response) ? $data['response_data'] = $response : $data['response_data'] = false;
             }
             else if( $data['role_id'] == 1 ) // if manager or super admin
             {

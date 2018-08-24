@@ -94,25 +94,31 @@
             $this->db->select('*');
             $this->db->from('Subproject');
             $this->db->join('Project','Project.project_id = Subproject.Project_project_id');
-            $this->db->where('Project.User_user_id',$user_id);
-            $this->db->where('Project.project_id',$uri_id);
+            $this->db->where('Project.User_user_id', $user_id);
+            $this->db->where('Project.project_id', $uri_id);
             //$this->db->where('Subproject.Project_project_id',$uri_id);
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
 
-        // fetch all risk registers for a particular user i.e. project manager and super administrator
+        // fetch all risk registers for a particular project and user i.e. project manager and super administrator
         function getRiskRegisters($params=array())
         {
             $this->db->select('*');
             $this->db->from('Subproject');
-            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
             $this->db->where('Subproject.archived', false); // not archived
 
             if(array_key_exists("user_id",$params))
             {
-                $this->db->where('Project_has_User.User_user_id',$params['user_id']);
+                $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
+                $this->db->where('Project_has_User.User_user_id', $params['user_id']);
             }
+
+            if(array_key_exists("project_id",$params))
+            {
+                $this->db->where('Subproject.Project_project_id', $params['project_id']);
+            }
+
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
