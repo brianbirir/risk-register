@@ -32,7 +32,17 @@ class Settings extends RISK_Controller
             $data = array_merge($data,$this->get_global_data());
 
             // get project data
-            $data['select_project'] = $this->getProject( $data['user_id'] );
+            // $data['select_project'] = $this->getProject( $data['user_id'] );
+
+            // get project data based on role type
+            if($data['role_name'] == "Super Administrator") // super admin should see all projects
+            {
+                $data['select_project'] = $this->getProject(array());
+            }
+            else
+            {
+                $data['select_project'] = $this->getProject(array("user_id"=>$data['user_id'], "role_name"=>$data['role_name']));
+            }
 
             // load page to show all status
             $this->template->load('dashboard', 'settings/data/project_select', $data);
@@ -77,21 +87,63 @@ class Settings extends RISK_Controller
 
 
     // get project
-    function getProject( $user_id )
+    function getProject($params = array())
     {
-        $project = $this->project_model->getProjects( $user_id );
+        // $project = $this->project_model->getProjects( $user_id );
+
+        if(array_key_exists("user_id",$params))
+        {   
+            if($params['role_name'] == 'Program Manager' || $params['role_name'] == 'Project Manager')
+            {
+                // get all projects by user ID if user is manager
+                $owned_projects = $this->project_model->getOwnedProjects($params['user_id']);
+                $assigned_projects = $this->project_model->getProjects($params['user_id']);
+
+                $projects = array();
+
+                // check first if user owns a project and then add them to an associative array key
+                if($owned_projects && !$assigned_projects)
+                {
+                    $projects[] = $owned_projects;
+                }
+                else if($owned_projects && $assigned_projects)
+                {
+                    $projects[] = $owned_projects;
+                    array_push($projects, $assigned_projects);
+                }
+                else if($assigned_projects && !$owned_projects)
+                {       
+                    $projects[] = $assigned_projects;
+                }
+                else
+                {
+                    $projects[] = false;
+                }
+            } 
+            else
+            {
+                // get all projects by user ID if user is general user
+                $projects[] = $this->project_model->getAssignedProject($params['user_id']);
+            } 
+        }
+        else
+        {
+            // get all projects if user is super admin
+            $projects[] = $this->project_model->getAllProjects();
+        }
         
-        if($project)
+        if($projects)
         {
             $options = array();
-
-            foreach ($project as $row) 
+            foreach ($projects as $project) 
             {
-                $project_id = $row->project_id;
-                $project_name = $row->project_name;
-                $options[$project_id] = $project_name;  
+                foreach ($project as $row) 
+                {
+                    $project_id = $row->project_id;
+                    $project_name = $row->project_name;
+                    $options[$project_id] = $project_name;  
+                }
             }
-
             return $options;
         }
         else 
