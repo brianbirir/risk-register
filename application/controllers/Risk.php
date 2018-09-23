@@ -580,13 +580,19 @@ class Risk extends RISK_Controller
                 // increase identifier by one
                 $latest_risk_identifier = $this->risk_model->getLatestRiskIdentifier();
                 $latest_risk_identifier = $latest_risk_identifier + 1;
-                $risk_hazard_id = strval($this->category_model->getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+                /*
+                * TO-DO: use category id generated from mysql auto increment function but later on add a new field for actual category id
+                * in the form for adding a risk category item
+                */
+                // $risk_hazard_id = strval($this->category_model->getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+                $risk_hazard_id = strval($risk_category_id) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
             } 
             else
             {
                 // reset identifier to one if risk item for selected register does not exist
                 $latest_risk_identifier = 1;
-                $risk_hazard_id = strval($this->category_model->getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+                // $risk_hazard_id = strval($this->category_model->getCategoryIdentifier($risk_category_id)) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
+                $risk_hazard_id = strval($risk_category_id) . "." . strval($risk_subcategory_id) . "." . strval($latest_risk_identifier);
             }
 
             //insert the risk data into database
