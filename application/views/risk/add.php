@@ -40,7 +40,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="identified_hazard_risk">Identified Hazard Risk</label>
-                                <input id="harzard-risk" class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" value="<?php echo set_value('identified_hazard_risk'); ?>" required/>
+                                <input id="harzard-risk" class="form-control" name="identified_hazard_risk" placeholder="Identified Hazard Risk" value="<?php echo set_value('identified_hazard_risk'); ?>"/>
                                 <?php echo form_error('identified_hazard_risk','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -48,7 +48,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="cause_trigger">Cause Trigger</label>
-                                <input id="cause-trigger" class="form-control" name="cause_trigger" placeholder="Cause Trigger" value="<?php echo set_value('cause_trigger'); ?>" required/>
+                                <input id="cause-trigger" class="form-control" name="cause_trigger" placeholder="Cause Trigger" value="<?php echo set_value('cause_trigger'); ?>"/>
                                 <?php echo form_error('cause_trigger','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -56,7 +56,7 @@
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="effect">Effect</label>
-                                <input id="effect" class="form-control" name="effect" placeholder="Effect" value="<?php echo set_value('effect'); ?>" required/>
+                                <input id="effect" class="form-control" name="effect" placeholder="Effect" value="<?php echo set_value('effect'); ?>"/>
                                 <?php echo form_error('effect','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -71,7 +71,7 @@
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="description_change">Risk Item Description</label>
-                                <textarea id="description-text" class="form-control" name="description_change" rows="5" required readonly><?php echo set_value('description_change');?></textarea>
+                                <textarea id="description-text" class="form-control" name="description_change" rows="5" readonly><?php echo set_value('description_change');?></textarea>
                                 <?php echo form_error('description_change','<div class="alert alert-danger">','</div>'); ?>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label for="risk_title">Notes</label>
+                                <label for="risk_title">Notes (Risk Item Title)</label>
                                 <input class="form-control" name="risk_title" type="text" value="<?php echo set_value('risk_title'); ?>" required/>
                             </div>
                         </div>
