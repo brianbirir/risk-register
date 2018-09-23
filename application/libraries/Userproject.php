@@ -6,29 +6,69 @@ class Userproject
     {
         $CI =& get_instance();
 
-        // load database project module
+        // load database project & user module
         $CI->load->model('project_model');
         $CI->load->model('user_model');
         $this->ci = $CI;
     }
 
-    // get project data
-    function getProject( $user_id )
+    // get project
+    function getProject($params = array())
     {
-        // get project that belong to user (manager)
-        $project = $this->ci->project_model->getProjects( $user_id );
+        // $project = $this->project_model->getProjects( $user_id );
+
+        if(array_key_exists("user_id", $params))
+        {   
+            if($params['role_name'] == 'Program Manager' || $params['role_name'] == 'Project Manager')
+            {
+                // get all projects by user ID if user is manager
+                $owned_projects = $this->ci->project_model->getOwnedProjects($params['user_id']);
+                $assigned_projects = $this->ci->project_model->getProjects($params['user_id']);
+                $projects = array();
+
+                // check first if user owns a project and then add them to an associative array key
+                if($owned_projects && !$assigned_projects)
+                {
+                    $projects[] = $owned_projects;
+                }
+                else if($owned_projects && $assigned_projects)
+                {
+                    $projects[] = $owned_projects;
+                    array_push($projects, $assigned_projects);
+                }
+                else if($assigned_projects && !$owned_projects)
+                {       
+                    $projects[] = $assigned_projects;
+                }
+                else
+                {
+                    $projects[] = false;
+                }
+            } 
+            else
+            {
+                // get all projects by user ID if user is general user
+                $projects[] = $this->ci->project_model->getAssignedProject($params['user_id']);
+            } 
+        }
+        else
+        {
+            // get all projects if user is super admin
+            $projects[] = $this->ci->project_model->getAllProjects();
+        }
         
-        if($project)
+        if($projects)
         {
             $options = array();
-
-            foreach ($project as $row) 
+            foreach ($projects as $project) 
             {
-                $project_id = $row->project_id;
-                $project_name = $row->project_name;
-                $options[$project_id] = $project_name;  
+                foreach ($project as $row) 
+                {
+                    $project_id = $row->project_id;
+                    $project_name = $row->project_name;
+                    $options[$project_id] = $project_name;  
+                }
             }
-
             return $options;
         }
         else 

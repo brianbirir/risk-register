@@ -171,9 +171,18 @@ class Risk extends RISK_Controller
                     $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
 
                     // select drop down for project on the form for adding a response title
-                    $this->load->library('userproject'); 
-                    $data['select_project'] = $this->userproject->getProject( $data['user_id'] ); 
+                    $this->load->library('userproject');
 
+                     // get project data based on role type
+                    if($data['role_name'] == "Super Administrator") // super admin should see all projects
+                    {
+                        $data['select_project'] = $this->userproject->getProject(array());
+                    }
+                    else
+                    {
+                        $data['select_project'] = $this->userproject->getProject(array("user_id"=>$data['user_id'], "role_name"=>$data['role_name']));
+                    }
+                    
                     // load page to show all devices
                     $this->template->load('dashboard', 'risk/add', $data);
                 }
