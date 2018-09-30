@@ -390,10 +390,13 @@ class Project extends RISK_Controller
         }
     }
 
-
+    
     // get risk items for a single risk register
     function single_register_risks()
     {
+        // load risk matrix calculator library
+        $this->load->library('riskmatrix');
+        
         // Data tables POST Variables
         $draw = intval($this->input->post("draw"));
         $start = intval($this->input->post("start"));
@@ -428,6 +431,7 @@ class Project extends RISK_Controller
             "risk_title",
             "RiskCategories_category_id",
             "risk_rating",
+            "risk_rating_target",
             "actions"
         );
 
@@ -475,12 +479,21 @@ class Project extends RISK_Controller
 
                 $action_row = "<span><a title='view' href='/dashboard/risk/".$data_row->item_id."'><i class='fas fa-eye' aria-hidden='true'></i></a></span><span><a title='edit' href='/dashboard/risk/edit/".$data_row->item_id."'><i class='fas fa-edit' aria-hidden='true'></i></a></span><span><a class='delete-action' data-toggle='confirmation' data-title='Archive Risk?' href='/dashboard/risk/archive/".$data_row->item_id."'><i class='fas fa-trash' aria-hidden='true'></i></a></span>";
 
+                // get label color of risk rating from risk matrix library
+                // and build html structure
+                $risk_rating_label = $this->riskmatrix->label_color($data_row->risk_rating);
+
+                $risk_rating = "<small class='label ".$risk_rating_label."'>".$data_row->risk_rating."</small>";
+
+                $risk_rating_target = "<small class='label ".$risk_rating_label."'>".$data_row->risk_rating_target."</small>";
+
                 $db_data[] = array(
                     $data_row->original_risk_id,
                     $data_row->reference_number,
                     $data_row->risk_title,
                     $this->risk_model->getRiskCategoryName($data_row->RiskCategories_category_id),
-                    $data_row->risk_rating,
+                    $risk_rating,
+                    $risk_rating_target,
                     $action_row
                 );
             }
