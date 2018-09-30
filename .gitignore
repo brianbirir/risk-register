@@ -35,3 +35,4 @@ assets/vendor
 
 .vagrant/
 *.log
+*.zip
