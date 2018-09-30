@@ -609,7 +609,7 @@
                                                         <div class="input-group-addon">
                                                             <i class="fa fa-calendar"></i>
                                                         </div>
-                                                        <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo set_value('risk_reponse[date][]'); ?>" required/>
+                                                        <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control risk-date" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo set_value('risk_reponse[date][]'); ?>" required/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -664,7 +664,7 @@
                                 <div class="input-group-addon">
                                     <i class="fa fa-calendar"></i>
                                 </div>
-                                <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="milestone_target_date" type="text" value="<?php echo set_value('milestone_target_date'); ?>" required/>
+                                <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control risk-date" name="milestone_target_date" type="text" value="<?php echo set_value('milestone_target_date'); ?>" required/>
                             </div>
                         </div>
                     </div>
@@ -809,8 +809,12 @@
                         alert("Unable to retrieve subcategory data");
                     });
                 })
+
+                // get current date and set to date input fields
+                var current_date = moment().format('YYYY-MM-DD');
+                console.log(current_date);
+                $(".risk-date").val(current_date);
             });
         </script>
-
     </div>
 </div>

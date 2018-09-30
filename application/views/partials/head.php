@@ -48,5 +48,7 @@
 
 	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/jquery.bootgrid/dist/jquery.bootgrid.js"></script>
 
+	<script type = 'text/javascript' src = "<?php echo base_url(); ?>assets/bower_components/moment/moment.js"></script>
+
 
 </head>
