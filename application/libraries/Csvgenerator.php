@@ -142,6 +142,7 @@ class Csvgenerator extends CI_Controller
             //set column headers
             $fields = array(
                 'Risk ID', 
+                'Reference No.',
                 'Risk Unique ID',
                 'Title',
                 'Main Category', 
@@ -180,6 +181,7 @@ class Csvgenerator extends CI_Controller
 
                     $lineData = array(
                         $data_row->item_id,
+                        $data_row->reference_number,
                         $data_row->risk_uuid,
                         $data_row->risk_title,
                         $this->ci->report_model->getRiskCategoriesName($data_row->RiskCategories_category_id), 

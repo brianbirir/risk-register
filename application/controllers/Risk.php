@@ -298,6 +298,7 @@ class Risk extends RISK_Controller
         // insert the risk data into database
         $risk_data = array(
             'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
+            'reference_number' => $this->input->post('reference_number'),
             'cause_trigger' => $this->input->post('cause_trigger'),
             'risk_title' => $this->input->post('risk_title'),
             'project_location' => $this->input->post('project_location'),
@@ -607,6 +608,7 @@ class Risk extends RISK_Controller
             //insert the risk data into database
             $risk_data = array(
                 'identified_hazard_risk' => $this->input->post('identified_hazard_risk'),
+                'reference_number' => $this->input->post('reference_number'),
                 'cause_trigger' => $this->input->post('cause_trigger'),
                 'risk_title' => $this->input->post('risk_title'),
                 'project_location' => $this->input->post('project_location'),

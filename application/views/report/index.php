@@ -94,6 +94,7 @@
                             <thead>
                                 <tr>
                                     <th>Title</th>
+                                    <th>Reference No.</th>
                                     <th>Main Category</th>
                                     <th>Identified Hazard/ IdentifiedRisk</th>
                                     <th>Cause/Trigger</th>
@@ -154,6 +155,7 @@
             "order": [[1, 'asc']],
             "columns": [
                     { "name": "risk_title"},
+                    { "name": "reference_number"},
                     { "name": "RiskCategories_category_id" },
                     { "name": "cause_trigger",orderable: false },
                     { "name": "identified_hazard_risk",orderable: false },
@@ -202,6 +204,7 @@
                 "order": [[1, 'asc']],
                 "columns": [
                     { "name": "risk_title"},
+                    { "name": "reference_number"},
                     { "name": "RiskCategories_category_id" },
                     { "name": "cause_trigger",orderable: false },
                     { "name": "identified_hazard_risk",orderable: false },

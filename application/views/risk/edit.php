@@ -107,6 +107,13 @@
 
                         <div class="col-md-4">
                             <div class="form-group">
+                                <label for="reference_number">Reference Number</label>
+                                <input class="form-control" name="reference_number" type="text" value="<?php echo $risk->reference_number; ?>" required/>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <div class="form-group">
                                 <label for="status">Status</label>
                                 <?php 
                                     $select_status_attributes = 'class="form-control"';

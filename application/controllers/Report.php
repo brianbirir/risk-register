@@ -147,6 +147,7 @@ class Report extends RISK_Controller
 
         $columns_valid = array(
             "risk_title",
+            "reference_number",
             "RiskCategories_category_id",
             "cause_trigger",
             "identified_hazard_risk",
@@ -210,6 +211,7 @@ class Report extends RISK_Controller
             foreach ($risk_result as $data_row) {
                 $db_data[] = array(
                     $data_row->risk_title,
+                    $data_row->reference_number,
                     $this->report_model->getRiskCategoriesName($data_row->RiskCategories_category_id), 
                     $data_row->cause_trigger, 
                     $data_row->identified_hazard_risk, 
