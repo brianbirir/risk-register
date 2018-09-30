@@ -424,9 +424,11 @@ class Project extends RISK_Controller
 
         $columns_valid = array(
             "original_risk_id",
+            "reference_number",
             "risk_title",
             "RiskCategories_category_id",
-            "risk_rating"
+            "risk_rating",
+            "actions"
         );
 
         if(!isset($columns_valid[$col]))
@@ -462,7 +464,7 @@ class Project extends RISK_Controller
             $risk_result = $this->risk_model->getUserRisk(array('start'=>$start,'limit'=>$length,'user_id'=>$session_data['user_id'], 'register_id'=>$registerID,'order'=>$order_col,'sortType'=>$dir,'role_name'=> $session_data['role_name'] ));
 
             // get number of total rows by user ID
-            $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID, 'role_name'=> $session_data['role_name']));
+            $total_risks = $this->risk_model->getTotalRisks(array('user_id'=>$session_data['user_id'],'register_id'=>$registerID));
         }
 
         if ($risk_result)
@@ -475,6 +477,7 @@ class Project extends RISK_Controller
 
                 $db_data[] = array(
                     $data_row->original_risk_id,
+                    $data_row->reference_number,
                     $data_row->risk_title,
                     $this->risk_model->getRiskCategoryName($data_row->RiskCategories_category_id),
                     $data_row->risk_rating,

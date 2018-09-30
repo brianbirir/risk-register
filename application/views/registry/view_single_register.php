@@ -97,6 +97,7 @@
                             <thead>
                                 <tr>
                                     <th>Risk Harzard ID</th>
+                                    <th>Reference Number</th>
                                     <th>Risk Description</th>
                                     <th>Risk Category</th>
                                     <th>Risk Rating</th>
@@ -162,6 +163,7 @@
                         <table id="risk-table" class="table table-hover">
                             <thead>
                                 <th>Risk ID</th>
+                                <th>Reference Number</th>
                                 <th>Risk Description</th>
                                 <th>Risk Category</th>
                                 <th>Risk Rating</th>
@@ -200,6 +202,7 @@ $(document).ready(function() {
         "order": [[1, 'asc']],
         "columns": [
                 { "name": "original_risk_id"},
+                { "name": "reference_number", orderable:false},
                 { "name": "risk_title", orderable:false},
                 { "name": "RiskCategories_category_id"},
                 { "name": "risk_rating" },

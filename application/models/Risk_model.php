@@ -77,23 +77,45 @@
         {
             $this->db->select("COUNT(*) as num");
             $this->db->from('RiskRegistry');
-            // check if user id exists; it does not in the case of the SuperAdmin since this role
-            // can view all risk items
-
-            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
-            $this->db->join('Project_has_User','Project_has_User.Project_project_id = Subproject.Project_project_id');
-
-            if(array_key_exists("user_id",$params))
-            {
-                // $this->db->where('User_user_id', $params['user_id']);
-                $this->db->where('Project_has_User.User_user_id', $params['user_id']);
-            }
-            
-            $this->db->where('RiskRegistry.Subproject_subproject_id', $params['register_id']);
             $this->db->where('RiskRegistry.archived',false);
+            $this->db->join('Subproject','Subproject.subproject_id = RiskRegistry.Subproject_subproject_id');
+
+            // register filter
+            if(array_key_exists('register_id',$params))
+            {
+                if($params['register_id'] != 'none')
+                {
+                    $this->db->where('RiskRegistry.Subproject_subproject_id',$params['register_id']);
+                }
+            }
+
+            // date from and date to
+            if(array_key_exists('date_from',$params))
+            {
+                $post_at = "";
+                $post_at_to_date = "";
+                
+                if(!empty($params['date_from']))
+                {
+                    $post_at = $params['date_from'];
+                    $post_at_to_date = date('Y-m-d');
+
+                    if(array_key_exists('date_to',$params)) 
+                    {
+                        if(!empty($params['date_to'])) { $post_at_to_date = $params['date_to']; }
+                    }
+                    
+                    $this->db->where('RiskRegistry.effective_date >=', $post_at);
+                    $this->db->where('RiskRegistry.effective_date <=', $post_at_to_date);
+                }
+            }
+
             $query = $this->db->get();
+            
             $result = $query->row();
+            
             if(isset($result)) return $result->num;
+            
             return 0;
         }
 
