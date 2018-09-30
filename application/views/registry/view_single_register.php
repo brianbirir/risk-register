@@ -100,7 +100,8 @@
                                     <th>Reference Number</th>
                                     <th>Risk Description</th>
                                     <th>Risk Category</th>
-                                    <th>Risk Rating</th>
+                                    <th>Pre RR</th>
+                                    <th>Post RR</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -166,7 +167,8 @@
                                 <th>Reference Number</th>
                                 <th>Risk Description</th>
                                 <th>Risk Category</th>
-                                <th>Risk Rating</th>
+                                <th>Pre RR</th>
+                                <th>Post RR</th>
                                 <th>Actions</th>    
                             <thead>
                             <tbody></tbody>
@@ -206,10 +208,9 @@ $(document).ready(function() {
                 { "name": "risk_title", orderable:false},
                 { "name": "RiskCategories_category_id"},
                 { "name": "risk_rating" },
+                { "name": "risk_rating_target" },
                 { "name": "actions", orderable:false }
             ]
     });
-
 });
-
 </script>
