@@ -612,77 +612,58 @@
                                         </div>
                                     </div>
 
+                                    <?php foreach ($risk_response as $response_row) {?>
+
                                     <div class='row response-item'>
-                                        <?php 
-                                            foreach ($risk_response as $response_row)
-                                            {
-                                        ?>
-                                                <input type="hidden" name="risk_response[id][]" class="form-control" value="<?php echo $response_row->response_id;?>"/>
+                                        <input type="hidden" name="risk_response[id][]" class="form-control" value="<?php echo $response_row->response_id;?>"/>
 
-                                                <div class="col-md-2">
-                                                    <div class="form-group form-response-title">
-                                                        <?php
-                                                            $select_responsetitle_attr = 'class="form-control response response-title"';
-                                                            $response_title_id = $response_row->ResponseTitle_id;
-                                                            echo form_dropdown('risk_response[title][]',$select_response_name,$response_title_id,$select_responsetitle_attr);
-                                                        ?>
+                                        <div class="col-md-2">
+                                            <div class="form-group form-response-title">
+                                                <?php
+                                                    $select_responsetitle_attr = 'class="form-control response response-title"';
+                                                    $response_title_id = $response_row->ResponseTitle_id;
+                                                    echo form_dropdown('risk_response[title][]',$select_response_name,$response_title_id,$select_responsetitle_attr);
+                                                ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-1">
+                                            <!-- button for adding response title to drop down -->
+                                            <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <?php
+                                                    $select_responsestrategy_attr = 'class="form-control response response-strategy"';
+                                                    $response_strategy_id = $response_row->RiskStrategies_strategy_id;
+                                                    echo form_dropdown('risk_response[strategy][]',$select_strategy,$response_strategy_id,$select_responsestrategy_attr);
+                                                ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <div class="form-group">
+                                                <?php
+                                                    $select_response_user_attr = 'class="form-control response response-user"';
+                                                    $response_users = unserialize($response_row->user_id);
+                                                    echo form_multiselect('risk_response[user][]', $select_user,$response_users, $select_response_user_attr);
+                                                ?>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group date">
+                                                    <div class="input-group-addon">
+                                                        <i class="fa fa-calendar"></i>
                                                     </div>
+                                                    <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo $response_row->due_date; ?>" required/>
                                                 </div>
-
-                                                <div class="col-md-1">
-                                                    <!-- button for adding response title to drop down -->
-                                                    <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            $select_responsestrategy_attr = 'class="form-control response response-strategy"';
-                                                            $response_strategy_id = $response_row->RiskStrategies_strategy_id;
-                                                            echo form_dropdown('risk_response[strategy][]',$select_strategy,$response_strategy_id,$select_responsestrategy_attr);
-                                                        ?>
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <div class="form-group">
-                                                        <?php
-                                                            $select_response_user_attr = 'class="form-control response response-user"';
-                                                            $response_users = unserialize($response_row->user_id);
-                                                            echo form_multiselect('risk_response[user][]', $select_user,$response_users, $select_response_user_attr);
-                                                        ?>
-                                                    </div>
-                                                </div>
-                                                
-                                                <div class="col-md-3">
-                                                    <div class="form-group">
-                                                        <div class="input-group date">
-                                                            <div class="input-group-addon">
-                                                                <i class="fa fa-calendar"></i>
-                                                            </div>
-                                                            <input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" value="<?php echo $response_row->due_date; ?>" required/>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                        <?php
-
-                                            // echo "<tr>";
-                                            // echo "<td>".$CI->response_model->getResponseName($response_row->ResponseTitle_id)."</td>";
-                                            // echo "<td>".$CI->risk_model->getRiskStrategiesName($response_row->RiskStrategies_strategy_id)."</td>";
-                                            
-                                            // $users = unserialize($response_row->user_id);
-                                                            
-                                            // echo "<td>";
-                                            // foreach ($users as $value)
-                                            // {
-                                            //     echo "<li>".$CI->user_model->getUserNames($value)."</li>";
-                                            // }
-                                            // echo '</td>';
-                                            // echo "</tr>";
-                                            }
-
-                                        ?>
-                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <?php } ?>
                             </div>
                         </div>
                     </div>
@@ -734,5 +715,116 @@
 
             <?php echo form_close(); ?>
         </div>
+
+
+        <!-- modal for displaying form to add response title -->
+        <div class="modal fade" id="response-title-modal" tabindex="-1" role="dialog" aria-labelledby="ResponseModalLabel">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Add Response Title</h4>
+              </div>
+              <div class="modal-body">
+
+                <div style="display: none;" id="response-modal-alert-warning" class="alert alert-warning fade in" role="alert">
+                    <strong>Warning!</strong> Please fill the response title field!
+                </div>
+
+                <div style="display: none;" id="response-modal-alert-success" class="alert alert-success fade in" role="alert">
+                    <strong>Success!</strong> The response title has been registered successfully!
+                </div>
+
+                <div style="display: none;" id="response-modal-alert-danger" class="alert alert-danger fade in" role="alert">
+                </div>
+
+                <?php
+                    $attributes = array("class" => "ui form", "id" => "response-title-form", "name" => "response-title-form");
+                    echo form_open("", $attributes);
+                ?>
+
+                    <div class="form-group">
+                        <label for="response_title_modal">Response Title</label>
+                        <input id="response-modal-title" class="form-control" name="response_title_modal" type="text" value="<?php echo set_value('response_title_modal'); ?>" required/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="project_name">Select Project</label>
+                        <?php
+                            $select_project_attributes = 'class="form-control" disabled';
+                            echo form_dropdown('project_name',$select_project,$user_project_id,$select_project_attributes);
+                        ?>
+                    </div>
+
+                    <input type="hidden" name="project" id="response-modal-project-id" class="form-control" value="<?php echo $user_project_id; ?>"/>
+
+                <?php echo form_close(); ?>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button id="add-response-title" type="button" class="btn btn-primary btn-reg">Add Title</button>
+              </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
     </div>
 </div>
+
+
+<!-- JS code to register the response title asynchronously -->
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        // register the response title asynchronously
+        $('#add-response-title').click(function(event) {
+
+            event.preventDefault();
+
+            var response_title = $('#response-modal-title').val();
+            var response_project_id = $('#response-modal-project-id').val();
+
+            if(response_title == '')
+            {
+                $("#response-modal-alert-warning").show();
+            } 
+            else 
+            {
+                $.ajax({
+                    url:  "<?php echo base_url(); ?>" + "response/ajax_response",
+                    type: "POST",
+                    data: {response_name: response_title, project_name: response_project_id},
+                    dataType: "JSON"
+                })
+                .done(function(response) {
+                    $("#response-modal-alert-success").show(); // display success alert
+
+                    // create select field for response title
+                    var titleSelect = '<select name="risk_response[title][]" class="form-control response response-title"></select>';
+
+                    // remove options from response title select drop down
+                    // $('.response-title option').remove();
+
+                    // remove response title select field
+                    $('.form-response-title .response-title').remove();
+
+                    $('.form-response-title .response-title').remove();
+
+                    // recreate response title select field
+                    $('.form-response-title').html(titleSelect);
+
+                    // add new options from data
+                    $.each( response, function( key, value ) {
+                        $('.response-title').append('<option value="' + key + '">' + value + '</option>');
+                    });
+
+                    // initialize chosen library on response drop down to display newly added option
+                    $('.response-title').chosen();
+                })
+                .fail(function(xhr) {
+                    $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
+                });
+            }
+        });
+    });
+</script>

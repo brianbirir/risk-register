@@ -17,6 +17,9 @@ class Risk extends RISK_Controller
         $this->load->model('response_model');
         $this->load->model('user_model');
         $this->load->model('team_model');
+
+        // select drop down for project on the add and edit forms for adding a response title
+        $this->load->library('userproject');
     }
 
     // view all registered risks owned by a user
@@ -170,10 +173,7 @@ class Risk extends RISK_Controller
                     $data['select_user'] = $this->getRegisterUser($data['register_id']);
                     $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
 
-                    // select drop down for project on the form for adding a response title
-                    $this->load->library('userproject');
-
-                     // get project data based on role type
+                    // get project data based on role type
                     if($data['role_name'] == "Super Administrator") // super admin should see all projects
                     {
                         $data['select_project'] = $this->userproject->getProject(array());
@@ -260,7 +260,16 @@ class Risk extends RISK_Controller
             $data['select_user'] = $this->getRegisterUser($session_data['register_id']); // from session data
             $data['select_response_name'] = $this->getRiskResponseTitle($data['user_project_id']);
             
-            
+            // get project data based on role type
+            if($data['role_name'] == "Super Administrator") // super admin should see all projects
+            {
+                $data['select_project'] = $this->userproject->getProject(array());
+            }
+            else
+            {
+                $data['select_project'] = $this->userproject->getProject(array("user_id"=>$data['user_id'], "role_name"=>$data['role_name']));
+            }
+
             // load page to show all devices
             $this->template->load('dashboard', 'risk/edit', $data);
         }
