@@ -481,11 +481,11 @@ class Project extends RISK_Controller
 
                 // get label color of risk rating from risk matrix library
                 // and build html structure
-                $risk_rating_label = $this->riskmatrix->label_color($data_row->risk_rating);
+                $rr_label = $this->riskmatrix->label_color($data_row->risk_rating);
+                $rr_target_label = $this->riskmatrix->label_color($data_row->risk_rating_target);
 
-                $risk_rating = "<small class='label ".$risk_rating_label."'>".$data_row->risk_rating."</small>";
-
-                $risk_rating_target = "<small class='label ".$risk_rating_label."'>".$data_row->risk_rating_target."</small>";
+                $risk_rating = "<small class='label ".$rr_label."'>".$data_row->risk_rating."</small>";
+                $risk_rating_target = "<small class='label ".$rr_target_label."'>".$data_row->risk_rating_target."</small>";
 
                 $db_data[] = array(
                     $data_row->original_risk_id,
