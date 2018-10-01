@@ -523,7 +523,7 @@
                             <div class="box">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Risk Response</h3>
-                                    <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div>
+                                    <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Row</div>
                                 </div>
                                 <div class="box-body">
                                     <div id="response-table-body">
@@ -576,7 +576,7 @@
                                             </div>
                                             <div class="col-md-1">
                                                 <!-- button for adding response title to drop down -->
-                                                <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
+                                                <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Response</button>
                                             </div>
                                             <?php } ?>
                                             <div class="col-md-2">

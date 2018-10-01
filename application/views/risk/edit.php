@@ -629,7 +629,7 @@
 
                                         <div class="col-md-1">
                                             <!-- button for adding response title to drop down -->
-                                            <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Title</button>
+                                            <button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Response</button>
                                         </div>
 
                                         <div class="col-md-2">
