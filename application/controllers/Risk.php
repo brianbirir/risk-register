@@ -406,6 +406,43 @@ class Risk extends RISK_Controller
         }
     }
 
+    // function to add additional responses to existing risk item
+    function new_response()
+    {
+        // load UUID library for use in generating respone UUID
+        $this->load->library('uuid');
+
+        // date of posting value
+        $post_date = date('Y-m-d');
+
+        // pack the field up in an array for ease-of-use.
+        $field = array(
+            'risk_uuid'=> $this->input->post('risk_uuid'),
+            'response_uuid'=> $this->uuid->generate_uuid(),
+            'ResponseTitle_id' => $this->input->post('response_title'),
+            'RiskStrategies_strategy_id' => $this->input->post('response_strategy'),
+            'register_id' => $this->input->post('register_id'),
+            'user_id' => serialize($this->input->post('response_user')),
+            'created_at' => $post_date,
+            'updated_at' => $post_date,
+            'due_date' => $this->getResponseDueDate($this->input->post('response_date'))
+        );
+
+        $server_response = array();
+        
+        // insert risk response data first
+        if($this->risk_model->insertResponse($field))
+        {
+            $server_response['status'] = true;
+            echo json_encode($server_response);
+        }
+        else
+        {
+            $server_response['status'] = false;
+            echo json_encode($server_response);
+        }
+    }
+
     // delete a risk item
     function delete()
     {

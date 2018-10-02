@@ -260,7 +260,6 @@ $(document).ready(function() {
     $(".response-user").chosen();
     $(".response-strategy").chosen();
     $(".action-owner").chosen();
-
     
     $("#response-table-body").on('click', '.remove-row', function () {
         $(this).closest('.response-item').remove();
@@ -286,7 +285,7 @@ $(document).ready(function() {
         // initialize chosen select library
         $('.response').chosen();
     });
-    
+
 
     // add response rows
     function buildRow()
@@ -332,6 +331,5 @@ $(document).ready(function() {
         $("#response-modal-title").val("");
         $("#response-modal-alert-warning").hide();
         $("#response-modal-alert-success").hide();
-        console.log("Response modal title cleared!");
     });
 });

@@ -587,12 +587,13 @@
                         <div class="box">
                             <div class="box-header with-border">
                                 <h3 class="box-title">Risk Response</h3>
-                                <!-- <div id="add-response-btn" class="btn btn-sm btn-primary btn-add pull-right">Add Response</div> -->
+                                <button type="button" class="btn btn-default btn-xs btn-reg pull-right" data-toggle="modal" data-target="#response-modal">Add New Response Row</button>
                             </div>
 
                             <!-- existing responses -->
                             <div class="box-body">
-                                <h4 class="box-title">Existing Responses</h4>
+                                <div id="response-table-body">
+                                    <h4 class="box-title">Existing Responses</h4>
 
                                     <div class="row">
                                         <div class="col-md-2">
@@ -664,6 +665,7 @@
                                         </div>
                                     </div>
                                     <?php } ?>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -768,6 +770,10 @@
             </div><!-- /.modal-content -->
           </div><!-- /.modal-dialog -->
         </div><!-- /.modal -->
+
+        <!-- response modal -->
+        <?php $this->load->view('partials/response_modal'); ?>
+
     </div>
 </div>
 
@@ -823,6 +829,69 @@
                 })
                 .fail(function(xhr) {
                     $('#response-modal-alert-danger').html('<p>An error has occurred</p>').show();
+                });
+            }
+        });
+
+        // on showing responses modal
+        $('#response-modal').on('shown.bs.modal', function (e) {
+
+            // initialize chosen select library
+            $(".response-title-edit").chosen();
+            $(".response-user-edit").chosen();
+            $(".response-strategy-edit").chosen();
+        })
+
+        // on hiding response modal
+        $("#response-modal").on('hidden.bs.modal', function () {
+            $("#response-user-edit").val("");
+            $("#response-date-edit").val("");
+            $("#response-modal-alert-warning").hide();
+            $("#response-modal-alert-success").hide();
+        });
+
+
+        // register the response asynchronously
+        $('#add-response').click(function(event) {
+
+            event.preventDefault();
+
+            var response_title = $('#response-title-edit').val();
+            var response_strategy = $('#response-strategy-edit').val();
+            var response_user = $('#response-user-edit').val();
+            var response_date = $('#response-date-edit').val();
+            var risk_uuid = $('#risk_uuid').val();
+            var register_id = $('#register_id').val();
+
+            if(response_title == '')
+            {
+                $("#response-alert-warning").show();
+            } 
+            else 
+            {
+                $.ajax({
+                    url:  "<?php echo base_url(); ?>" + "risk/new_response",
+                    type: "POST",
+                    data: {response_title: response_title, response_strategy: response_strategy, response_user: response_user, response_date: response_date, risk_uuid: risk_uuid, register_id: register_id},
+                    dataType: "JSON"
+                })
+                .done(function(response) {
+
+                    if(response.status)
+                    {
+                        $("#response-alert-success").show(); // display success alert
+
+                        // delay by 2 seconds and reload current web page
+                        setTimeout(location.reload(), 2000);
+                    } 
+                    else
+                    {
+                        $('#response-alert-danger').html('<p>Unable to save data!</p>').show();
+                    }
+                    
+                })
+                .fail(function(xhr) {
+                    $('#response-alert-danger').html('<p>A server error has occurred</p>').show();
                 });
             }
         });
