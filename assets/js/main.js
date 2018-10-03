@@ -304,9 +304,10 @@ $(document).ready(function() {
         var createTitleButtonCell = '<div class="col-md-1"><button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-title-modal">Add Response</button></div></div>';
         var createSelectTwo = '<div class="col-md-2"><div class="form-group"><select name="risk_response[strategy][]" class="form-control response response-title-strategy"></select></div></div>';
         var createSelectThree = '<div class="col-md-2"><div class="form-group"><select multiple="multiple" name="risk_response[user][]" class="form-control response response-user-copy"></select></div></div>';
+         var createUserButtonCell = '<div class="col-md-1"><button type="button" class="btn btn-default btn-xs btn-reg" data-toggle="modal" data-target="#response-user-modal">Add User</button></div></div>';
         var createSelectFour = '<div class="col-md-3"><div class="form-group"><div class="input-group date"><div class="input-group-addon"><i class="fa fa-calendar"></i></div><input data-provide="datepicker" data-date-format="yyyy-mm-dd" class="form-control" name="risk_response[date][]" placeholder="Risk Response Date" type="text" required/></div></div>';
         
-        var responseRow = createSelectOne + createTitleButtonCell + createSelectTwo + createSelectThree + createSelectFour;
+        var responseRow = createSelectOne + createTitleButtonCell + createSelectTwo + createSelectThree + createUserButtonCell + createSelectFour;
         
         // add cells to new row
         createRow.innerHTML = responseRow;

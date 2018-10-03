@@ -187,5 +187,17 @@ class User_model extends CI_Model
         $query = $this->db->get();
         return ($query->num_rows() > 0) ? $query->result() : false;
     }
+
+    // get latest user ID
+    function getLastestUserID()
+    {
+        $this->db->select('*');
+        $this->db->from('User');
+        $this->db->order_by("user_id","desc");
+        $this->db->limit(1);
+        $query = $this->db->get();
+        $row = $query->row();
+        return $row->user_id;
+    }
 }
 ?>

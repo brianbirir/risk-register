@@ -58,6 +58,63 @@ class User extends RISK_Controller
         }
     }
 
+
+    // add new user via AJAX POST request
+    function new_user()
+    {
+        // get user role from devices session
+        $data = array();
+        $data = array_merge($data, $this->get_global_data());
+        $timestamp = date('Y-m-d G:i:s');
+        $server_response = array();
+        $default_password = 'password';
+        $general_role = 8;
+
+        // insert the user registration details into database
+        $data = array(
+            'first_name' => $this->input->post('first_name'),
+            'last_name' => $this->input->post('last_name'),
+            'username' => $this->input->post('user_name'),
+            'email' => $this->input->post('email_address'),
+            'password' => $default_password,
+            'Role_role_id' => $general_role,
+            'parent_user_id' => $data['user_id'],
+            'created_at' => $timestamp,
+            'updated_at' => $timestamp
+        );
+
+        // insert user data first
+        if($this->user_model->insertUser($data))
+        {
+            // get latest user after inserting user
+            $latest_user_id = $this->user_model->getLastestUserID();
+
+            $register_data = array(
+                'Subproject_subproject_id' => $this->input->post('register_id'),
+                'User_user_id' => $latest_user_id,
+                'created_at' => $timestamp,
+                'updated_at' => $timestamp
+            );
+
+            // assign user to register
+            if($this->team_model->insertTeamMember($register_data))
+            {
+                $server_response['status'] = true;
+                echo json_encode($server_response);
+            }
+            else
+            {
+                $server_response['status'] = false;
+                echo json_encode($server_response);
+            }
+        }
+        else
+        {
+            $server_response['status'] = false;
+            echo json_encode($server_response);
+        }
+    }
+
     // the view for adding a user
     function add()
     {
