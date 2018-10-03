@@ -608,6 +608,9 @@
                                         <div class="col-md-2">
                                             <strong>Response Users</strong>
                                         </div>
+                                        <div class="col-md-1">
+                                            
+                                        </div>
                                         <div class="col-md-3">
                                             <strong>Response Date</strong>
                                         </div>
