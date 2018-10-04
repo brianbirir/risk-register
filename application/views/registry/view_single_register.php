@@ -204,7 +204,7 @@ $(document).ready(function() {
         "order": [[1, 'asc']],
         "columns": [
                 { "name": "original_risk_id"},
-                { "name": "reference_number", orderable:false},
+                { "name": "reference_number"},
                 { "name": "risk_title", orderable:false},
                 { "name": "RiskCategories_category_id"},
                 { "name": "risk_rating" },
