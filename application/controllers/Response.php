@@ -292,7 +292,7 @@ class Response extends RISK_Controller
         $session_data['response_register_id'] = $this->input->post("register");
 
         // ordering configuration
-        $col = 0;
+        $col = 1;
         $dir = "";
 
         if(!empty($order)) 
@@ -335,7 +335,7 @@ class Response extends RISK_Controller
         $db_data = array();
 
         // get responses from database
-        $response = $this->response_model->getResponseByProject(array('project_id'=> $session_data['report_project_id'],'register'=>$register,'user'=>$user, 'order'=>$orderCol,'sortType'=>$dir));
+        $response = $this->response_model->getResponseByProject(array('start'=>$start,'limit'=>$length,'project_id'=> $session_data['report_project_id'],'register'=>$register,'user'=>$user, 'order'=>$orderCol,'sortType'=>$dir));
 
         // get number of total rows by project ID
         $total_risks = $this->response_model->getTotalResponsesByProject(array('project_id'=> $session_data['report_project_id'],'register'=>$register,'user'=>$user));
@@ -354,17 +354,18 @@ class Response extends RISK_Controller
                 
                 $response_users_html = '';
                                          
-                foreach ($response_assigned_users as $db_value)  
-                { 
-                    $response_users_html .= '<span class="label label-success">'.$this->user_model->getUserNames($db_value).'</span>'; 
-                }
+                // foreach ($response_assigned_users as $db_value)  
+                // { 
+                //     $response_users_html .= '<span class="label label-success">'.$this->user_model->getUserNames($db_value).'</span>'; 
+                // }
 
                 $db_data[] = array(
                     $data_row->response_id,
                     $this->risk_model->getRiskNameByUUID($data_row->risk_uuid),
                     $this->response_model->getResponseName($data_row->ResponseTitle_id),
                     $this->risk_model->getRiskStrategiesName($data_row->RiskStrategies_strategy_id),
-                    $response_users_html,
+                    // $response_users_html,
+                    $response_assigned_users,
                     $this->risk_model->getSubProjectName($data_row->register_id),
                     $data_row->due_date,
                     $view_button
