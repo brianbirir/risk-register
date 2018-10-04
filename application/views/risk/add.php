@@ -596,7 +596,7 @@
                                             </div>
                                             <div class="col-md-2">
                                                 <div class="form-group">
-                                                    <select multiple="multiple" name="risk_response[user][]" class="form-control response response-user">
+                                                    <select multiple="multiple" name="risk_response[users][user][]" class="form-control response response-user">
                                                         <?php
                                                             foreach ($select_user as $key => $value)
                                                             {

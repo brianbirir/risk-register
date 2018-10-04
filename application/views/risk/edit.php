@@ -651,7 +651,7 @@
                                                 <?php
                                                     $select_response_user_attr = 'class="form-control response response-user"';
                                                     $response_users = unserialize($response_row->user_id);
-                                                    echo form_multiselect('risk_response[user][]', $select_user,$response_users, $select_response_user_attr);
+                                                    echo form_multiselect('risk_response[users][]', $select_user,$response_users, $select_response_user_attr);
                                                 ?>
                                             </div>
                                         </div>

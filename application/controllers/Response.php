@@ -356,7 +356,7 @@ class Response extends RISK_Controller
                                          
                 // foreach ($response_assigned_users as $db_value)  
                 // { 
-                //     $response_users_html .= '<span class="label label-success">'.$this->user_model->getUserNames($db_value).'</span>'; 
+                $response_users_html .= '<span class="label label-success">'.$this->user_model->getUserNames(intval($response_assigned_users)).'</span>'; 
                 // }
 
                 $db_data[] = array(
@@ -364,8 +364,8 @@ class Response extends RISK_Controller
                     $this->risk_model->getRiskNameByUUID($data_row->risk_uuid),
                     $this->response_model->getResponseName($data_row->ResponseTitle_id),
                     $this->risk_model->getRiskStrategiesName($data_row->RiskStrategies_strategy_id),
-                    // $response_users_html,
-                    $response_assigned_users,
+                    $response_users_html,
+                    // $response_assigned_users,
                     $this->risk_model->getSubProjectName($data_row->register_id),
                     $data_row->due_date,
                     $view_button

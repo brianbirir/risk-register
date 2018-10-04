@@ -383,7 +383,7 @@ class Risk extends RISK_Controller
                 $field_data = array(
                     'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
                     'updated_at' => $post_date,
-                    'user_id' => serialize($_POST['risk_response']['user']),
+                    'user_id' => serialize($_POST['risk_response']['users'][$i]),
                     'due_date' => $this->getResponseDueDate($_POST['risk_response']['date'][$i]),
                     'ResponseTitle_id' => $_POST['risk_response']['title'][$i]
                 );
@@ -404,6 +404,49 @@ class Risk extends RISK_Controller
             $this->session->set_flashdata('msg','Oops! Error. Please try again later!');
             redirect('dashboard/risk/edit/'.$risk_id);
         }
+    }
+
+    // update function for a risk item
+    function update_test()
+    {   
+        
+        $data = array('title' => 'Edit Risk Item');
+
+        // get global data
+        $data = array_merge($data, $this->get_global_data());
+
+        $data['post_data'] = $_POST['risk_response'];
+
+        $this->breadcrumb->add($data['title']);
+        $data['breadcrumb'] = $this->breadcrumb->output();
+
+        $data['num_fields'] = count($_POST['risk_response']['users'][1]);
+
+        // // check first if there are any response fields that have been added
+        // if ( !empty($_POST['risk_response']['title']) && !empty($_POST['risk_response']['strategy']) )
+        // {
+        //     $num_fields = count($_POST['risk_response']['title']);
+        //     $post_date = date('Y-m-d');
+
+        //     for ($i = 0; $i < $num_fields; $i++) 
+        //     {
+        //         if(empty($_POST['risk_response']['title'][$i])) { break; }
+
+        //         // no response uuid generation when updating
+        //         $field_data = array(
+        //             'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
+        //             'updated_at' => $post_date,
+        //             'user_id' => serialize($_POST['risk_response']['users']['user'][$i]),
+        //             'due_date' => $this->getResponseDueDate($_POST['risk_response']['date'][$i]),
+        //             'ResponseTitle_id' => $_POST['risk_response']['title'][$i]
+        //         );
+
+        //         $this->risk_model->updateResponse($field_data,$_POST['risk_response']['id'][$i]);
+        //     }
+        // }
+
+        // load page to show all devices
+        $this->template->load('dashboard', 'tests/post_array', $data);
     }
 
     // function to add additional responses to existing risk item
@@ -726,7 +769,7 @@ class Risk extends RISK_Controller
                         'ResponseTitle_id' => $_POST['risk_response']['title'][$i],
                         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
                         'register_id' => $this->input->post('register_id'),
-                        'user_id' => serialize($_POST['risk_response']['user']),
+                        'user_id' => serialize($_POST['risk_response']['users']),
                         'created_at' => $post_date,
                         'updated_at' => $post_date,
                         'due_date' => $this->getResponseDueDate($_POST['risk_response']['date'][$i])
