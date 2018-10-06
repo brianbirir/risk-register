@@ -123,7 +123,7 @@
             {
                 if($params['user'] != 'none')
                 {
-                    $this->db->where('RiskResponse.user_id',$params['user']);
+                    $this->db->where('RiskResponse.user_id', serialize(strval($params['user'])));
                 }
             }
 
@@ -132,7 +132,7 @@
             {
                 if($params['register'] != 'none')
                 {
-                    $this->db->where('RiskResponse.register_id',$params['register']);
+                    $this->db->where('RiskResponse.register_id', $params['register']);
                 }
             }
 
