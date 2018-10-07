@@ -769,7 +769,7 @@ class Risk extends RISK_Controller
                         'ResponseTitle_id' => $_POST['risk_response']['title'][$i],
                         'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
                         'register_id' => $this->input->post('register_id'),
-                        'user_id' => serialize($_POST['risk_response']['users']),
+                        'user_id' => serialize($_POST['risk_response']['user'][$i]),
                         'created_at' => $post_date,
                         'updated_at' => $post_date,
                         'due_date' => $this->getResponseDueDate($_POST['risk_response']['date'][$i])

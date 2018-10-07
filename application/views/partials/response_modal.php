@@ -68,7 +68,7 @@
                         </div>
                     
                         <div class="form-group">
-                            <select id="response-user-edit" multiple="multiple" name="risk_response_user" class="form-control response-edit response-user-edit">
+                            <select id="response-user-edit" name="risk_response_user" class="form-control response-edit response-user-edit">
                                 <?php
                                     foreach ($select_user as $key => $value)
                                     {
