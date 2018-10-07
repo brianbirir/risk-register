@@ -383,7 +383,7 @@ class Risk extends RISK_Controller
                 $field_data = array(
                     'RiskStrategies_strategy_id' => $_POST['risk_response']['strategy'][$i],
                     'updated_at' => $post_date,
-                    'user_id' => serialize($_POST['risk_response']['users'][$i]),
+                    'user_id' => serialize($_POST['risk_response']['user'][$i]),
                     'due_date' => $this->getResponseDueDate($_POST['risk_response']['date'][$i]),
                     'ResponseTitle_id' => $_POST['risk_response']['title'][$i]
                 );
