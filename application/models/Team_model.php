@@ -86,4 +86,12 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+ 
+        // unassign user from register AKA delete record in Subproject_has_User table
+        function unassign_user($register_id, $user_id)
+        {
+            $this->db->delete('Subproject_has_User', array('Subproject_has_User.User_user_id' => $user_id, 'Subproject_has_User.Subproject_subproject_id' => $register_id));
+
+            return true;
+        }
     }   

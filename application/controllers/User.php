@@ -628,6 +628,29 @@ class User extends RISK_Controller
     }
 
 
+    // unassign user from risk regisrter
+    function unassign_user()
+    {
+        // get risk register from session data
+        $session_data = $this->session->userdata('logged_in');
+        $register_id = $session_data['register_id'];
+
+        // get id from fourth segment of uri
+        $user_id = $this->uri->segment(4);
+
+        if($this->team_model->unassign_user($register_id,$user_id))
+        {
+            $this->session->set_flashdata('positive_msg','User has been unassigned successfully!');
+            redirect('dashboard/riskregister/'.$register_id);
+        }
+        else
+        {
+            $this->session->set_flashdata('negative_msg','Unable to unassign user!');
+            redirect('dashboard/riskregister/'.$register_id);
+        }
+    }
+
+
     // change user password
     function change_password_view()
     {

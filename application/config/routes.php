@@ -73,6 +73,7 @@ $route['settings/user/add'] = 'user/add';
 $route['settings/user/(:num)'] = 'user/edit/$1';
 $route['settings/user/change-password/(:num)'] = 'user/change_password_view/$1';
 $route['settings/user/delete/(:num)'] = 'user/delete/$1';
+$route['settings/user/unassign/(:num)'] = 'user/unassign_user/$1';
 $route['settings/user/riskregister/(:num)'] = 'user/assign_register_view/$1';
 $route['settings/user/project/(:num)'] = 'user/assign_project_view/$1';
 
