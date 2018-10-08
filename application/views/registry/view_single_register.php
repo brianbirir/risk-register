@@ -38,7 +38,7 @@
                             echo "<ul class='list-group' style='margin-top:20px;'>";
                             foreach ($register_users as $user)
                             {           
-                                echo "<li class='list-group-item'>".$user->first_name." ".$user->last_name."</li>";
+                                echo "<li class='list-group-item'>".$user->first_name." ".$user->last_name."<a class='btn btn-default btn-reg btn-xs pull-right delete-action' data-title='Remove from this register?' data-toggle='confirmation' href='/'>Unassign</a></li>";
                             }
                             echo "</ul>";
                         }
