@@ -149,7 +149,7 @@
 
             echo "<tr>";
             echo "<td><label>Risk Materialization Phase:</label></td>";
-            echo "<td><p>".$risk_data->materialization_phase_materialization_id."</p></td>";
+            echo "<td><p>".$CI->risk_model->getRiskMaterializationName($risk_data->materialization_phase_materialization_id)."</p></td>";
             echo "</tr>";
             
             echo "<tr>";
