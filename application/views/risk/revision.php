@@ -36,17 +36,6 @@
             </div>
         </div>
     </div>
-
-    <div class="col-md-3 col-sm-6 col-xs-12">
-        <div class="info-box">
-            <span class="info-box-icon bg-yellow"><i class="fas fa-retweet"></i></span>
-            <div class="info-box-content">
-                <span class="info-box-text">Date of this version:</span>
-                <span class="info-box-number"><?php // echo $revision_num; ?></span>
-                <button class="btn btn-info btn-xs"  data-toggle="modal" data-target="#revisionsModal">View Revision Versions</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- revisions modal -->
