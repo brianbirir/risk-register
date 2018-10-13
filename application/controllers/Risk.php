@@ -1131,6 +1131,7 @@ class Risk extends RISK_Controller
 
             // get risk revision data
             $revision = $this->risk_model->getRiskRevisions( $uri_id );
+            $revision_num = $this->risk_model->getNumRiskRevisions( $uri_id ); // number of risk revisions
 
             $session_data = $this->session->userdata('logged_in');
             $data['user_project_id'] = $session_data['user_project_id'];
@@ -1142,6 +1143,7 @@ class Risk extends RISK_Controller
             {
                 $data['risk_data'] = $risk;
                 $data['revision_data'] = $revision;
+                $data['revision_num'] = $revision_num;
                 $data['title'] = $risk->original_risk_id; // assign risk title to page title
 
                 // single project
