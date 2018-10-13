@@ -47,6 +47,18 @@
             $query = $this->db->get();
             return ($query->num_rows() > 0) ? $query->result() : false;
         }
+        
+        // get number of risk revisions for specific risk
+        function getNumRiskRevisions( $risk_id )
+        {
+            $this->db->select( 'COUNT(*) as num' );
+            $this->db->from( 'RiskRevisions' );
+            $this->db->where( 'item_id', $risk_id );
+            $query = $this->db->get();    
+            $result = $query->row();
+            if(isset($result)) return $result->num;
+            return 0;
+        }
 
         function getSingleRevision( $revision_id )
         {
