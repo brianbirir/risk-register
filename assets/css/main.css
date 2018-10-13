@@ -226,7 +226,7 @@
 }
 
 .box-current-risks {
-    background-color: #B3D7E1;
+    background-color: #97e1f8;
 }
 
 .box-targeted-risks {
@@ -330,6 +330,17 @@
 #project-settings-tbl_wrapper
 {
     margin-top: 20px;
+}
+
+/* Info Box */
+.info-box-text 
+{
+    font-size: 12px;
+}
+
+.info-box-number 
+{
+    font-size: 14px;
 }
 
 /* Media Query */
