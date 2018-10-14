@@ -103,7 +103,8 @@
             <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
         </div>
     </div>
-  <div class="box-body">
+
+    <div class="box-body">
         <?php
             echo "<table class='table'>";
 
@@ -174,7 +175,7 @@
 
             echo "</table>";
     	?>
-  </div>
+    </div>
 </div>
 
 <div class="row">
@@ -238,12 +239,12 @@
 
                 echo "<tr>";
                 echo "<td><label>Risk Rating:</label></td>";
-                echo "<td><p>".$risk_data->risk_rating."</p></td>";
+                echo "<td><small class='label ".$rr_label."'>".$risk_data->risk_rating."</small></td>";
                 echo "</tr>";
 
                 echo "<tr>";
                 echo "<td><label>Risk Level:</label></td>";
-                echo "<td><p>".$risk_data->risk_level."</p></td>";
+                echo "<td><small class='label ".$rr_label."'>".$risk_data->risk_level."</small></td>";
                 echo "</tr>";
 
                 echo "</table>";
@@ -307,12 +308,12 @@
 
                 echo "<tr>";
                 echo "<td><label>Risk Rating:</label></td>";
-                echo "<td><p>".$risk_data->risk_rating_current."</p></td>";
+                echo "<td><small class='label ".$rr_current_label."'>".$risk_data->risk_rating_current."</small></td>";
                 echo "</tr>";
 
                 echo "<tr>";
                 echo "<td><label>Risk Level:</label></td>";
-                echo "<td><p>".$risk_data->risk_level_current."</p></td>";
+                echo "<td><small class='label ".$rr_current_label."'>".$risk_data->risk_level_current."</small></td>";
                 echo "</tr>";
 
                 echo "</table>";
@@ -375,12 +376,12 @@
 
                 echo "<tr>";
                 echo "<td><label>Risk Rating:</label></td>";
-                echo "<td><p>".$risk_data->risk_rating_target."</p></td>";
+                echo "<td><small class='label ".$rr_target_label."'>".$risk_data->risk_rating_target."</small></td>";
                 echo "</tr>";
 
                 echo "<tr>";
                 echo "<td><label>Risk Level:</label></td>";
-                echo "<td><p>".$risk_data->risk_level_target."</p></td>";
+                echo "<td><small class='label ".$rr_target_label."'>".$risk_data->risk_level_target."</small></td>";
                 echo "</tr>";
 
                 echo "</table>";

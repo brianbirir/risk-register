@@ -17,6 +17,8 @@ class Risk extends RISK_Controller
         $this->load->model('response_model');
         $this->load->model('user_model');
         $this->load->model('team_model');
+        // load risk matrix calculator library
+        $this->load->library('riskmatrix');
 
         // select drop down for project on the add and edit forms for adding a response title
         $this->load->library('userproject');
@@ -1145,6 +1147,11 @@ class Risk extends RISK_Controller
                 $data['revision_data'] = $revision;
                 $data['revision_num'] = $revision_num;
                 $data['title'] = $risk->original_risk_id; // assign risk title to page title
+
+                // get risk rating label color
+                $data['rr_label'] = $this->riskmatrix->label_color($risk->risk_rating);
+                $data['rr_current_label'] = $this->riskmatrix->label_color($risk->risk_rating_current);
+                $data['rr_target_label'] = $this->riskmatrix->label_color($risk->risk_rating_target);
 
                 // single project
                 $single_project = $this->project_model->getSingleProject($session_data['user_project_id']);
