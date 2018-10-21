@@ -126,9 +126,10 @@ class Csvgenerator extends CI_Controller
             'register_id' => $params['risk_register'],
             'date_to' => $params['date_to'],
             'date_from' => $params['date_from'],
-            'user_id' => $params['user_id'],
             'project_id' => $params['project_id']
         ));
+
+        // return json_encode($db_data, JSON_PRETTY_PRINT);
         
         if($db_data)
         {
@@ -172,12 +173,12 @@ class Csvgenerator extends CI_Controller
 
             fputcsv($f, $fields, $delimiter);
 
-            //  output each row of the data, format line as csv and write to file pointer
+            // output each row of the data, format line as csv and write to file pointer
             foreach ($db_data as $data_row) 
             {
                 $risk_response = $this->ci->responses->collectResponses($data_row->risk_uuid);
                 
-                foreach ($risk_response as  $value) {
+                foreach ($risk_response as $value) {
 
                     $lineData = array(
                         $data_row->item_id,
@@ -222,6 +223,10 @@ class Csvgenerator extends CI_Controller
             
             //  output all remaining data on a file pointer
             fpassthru($f);
+        }
+        else
+        {
+            return false;
         }
         exit;
     }

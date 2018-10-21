@@ -358,8 +358,6 @@ class Report extends RISK_Controller
         // get current session data 
         $session_data = $this->session->userdata('logged_in');
 
-        $project_id = $session_data['report_project_id'];
-
         // get filter criteria from post input
         $category_id = $this->input->post('risk_category'); // get category id
         $register_id = $this->input->post('risk_register'); // get register
@@ -371,10 +369,8 @@ class Report extends RISK_Controller
             'risk_register' => $register_id,
             'date_from' => $date_from,
             'date_to' => $date_to,
-            'user_id' => $session_data['user_id'],
-            'project_id' => $project_id
+            'project_id' =>  $session_data['report_project_id']
         );
-
 
         if ($session_data['role_id'] == 8)
         {
