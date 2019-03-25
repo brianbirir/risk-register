@@ -5,6 +5,8 @@ $script = <<-SCRIPT
 echo copying NGINX configuration file
 cp -ap /vagrant/server_config/nginx/server.conf /etc/nginx/conf.d
 cp -ap /vagrant/server_config/nginx/phpmyadmin.conf /etc/nginx/conf.d
+echo remove default NGINX config file
+sudo rm /etc/nginx/sites-enabled/default
 echo Restart NGINX
 systemctl restart nginx
 SCRIPT
