@@ -236,6 +236,9 @@ class User extends RISK_Controller
             // get managers
             $managers = $this->user_model->getManagerUsers(array('user_id'=>$data['user_id']));
 
+            // get all managers if user is super admin
+            $all_managers = $this->user_model->getManagers();
+
             // get project ID from uri segment
             $data['project_id'] = $this->uri->segment(4);
 
@@ -244,10 +247,10 @@ class User extends RISK_Controller
             // get project name
             $data['project_name'] = $single_project->project_name;
 
+            $options = array();
+            
             if($managers)
             {
-                $options = array();
-
                 foreach ($managers as $row)
                 {
                     $user_id = $row->user_id;
@@ -261,7 +264,16 @@ class User extends RISK_Controller
             }
             else
             {
-                $data['select_user'] = 'No Users!';
+                foreach ($all_managers as $row)
+                {
+                    $user_id = $row->user_id;
+                    $f_name = $row->first_name;
+                    $l_name = $row->last_name;
+                    $user_name = $f_name.' '.$l_name;
+                    $options[$user_id] = $user_name;
+                }
+                $data['select_user'] = $options;
+                // $data['select_user'] = 'No Users!';
             }
 
             // load page to show form
@@ -356,6 +368,9 @@ class User extends RISK_Controller
             // get users belonging to the parent user AKA project/programme manager
             $users = $this->user_model->getUsers(array('user_id'=>$data['user_id']));
 
+            // get managers if user is super admin
+            $all_managers = $this->user_model->getManagers();
+
             // get register ID from uri segment
             $data['register_id'] = $this->uri->segment(4);
 
@@ -364,10 +379,10 @@ class User extends RISK_Controller
             // get register name
             $data['register_name'] = $single_register->name;
 
+            $options = array();
+
             if($users)
             {
-                $options = array();
-
                 foreach ($users as $row)
                 {
                     $user_id = $row->user_id;
@@ -376,12 +391,19 @@ class User extends RISK_Controller
                     $user_name = $f_name.' '.$l_name;
                     $options[$user_id] = $user_name;
                 }
-
                 $data['select_user'] = $options;
             }
             else
             {
-                $data['select_user'] = 'No Users!';
+                foreach ($all_managers as $row)
+                {
+                    $user_id = $row->user_id;
+                    $f_name = $row->first_name;
+                    $l_name = $row->last_name;
+                    $user_name = $f_name.' '.$l_name;
+                    $options[$user_id] = $user_name;
+                }
+                $data['select_user'] = $options;
             }
 
             // load page to show form

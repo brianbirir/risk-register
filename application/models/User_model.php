@@ -58,6 +58,16 @@ class User_model extends CI_Model
         return ($query->num_rows() > 0) ? $query->result() : false;
     }
 
+    // get all managers
+    function getManagers()
+    {
+        $this->db->select('*');
+        $this->db->from('User');
+        $this->db->where('Role_role_id !=',1); 
+        $this->db->where('Role_role_id !=',8); 
+        $query = $this->db->get();
+        return ($query->num_rows() > 0) ? $query->result() : false;
+    }
 
     // get all general users per project
     function getProjectGeneralUsers($project_id)
