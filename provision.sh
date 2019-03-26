@@ -59,3 +59,16 @@ echo "phpmyadmin phpmyadmin/mysql/app-pass password $APP_DB_PASS" | sudo debconf
 # echo "phpmyadmin phpmyadmin/reconfigure-webserver multiselect apache2" | sudo debconf-set-selections
 
 apt-get install -y phpmyadmin
+
+
+# ---------------------------------------
+#          NodeJS Setup
+# ---------------------------------------
+apt-get install -y nodejs
+apt-get install -y npm
+
+# symlink
+sudo ln -s /usr/bin/nodejs /usr/bin/node
+
+echo "Install bower globally"
+sudo npm install -g bower
