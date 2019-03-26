@@ -39,12 +39,11 @@ if($results)
         $new_risk_id = str_replace('error', '0', $row["original_risk_id"]);
         update_query($row["original_risk_id"], $new_risk_id, $conn);
     }
-
-    // echo var_dump($store);
 }
 else
 {
     echo "No results";
 }
 
+// close connection to mysql
 mysqli_close($conn);
